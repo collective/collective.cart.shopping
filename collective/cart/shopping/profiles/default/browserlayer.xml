@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<layers>
+  <layer
+    interface="collective.cart.shopping.browser.interfaces.ICollectiveCartShoppingLayer"
+    name="collective.cart.shopping"
+    />
+</layers>

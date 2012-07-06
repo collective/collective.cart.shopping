@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<object
+  i18n:domain="collective.cart.core"
+  meta_type="Dexterity FTI"
+  name="collective.cart.core.Article"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  >
+
+  <!-- Schema, class and security -->
+  <property name="schema">collective.cart.shopping.interfaces.IArticle</property>
+
+  <!-- enabled behaviors -->
+  <property name="behaviors">
+      <element value="plone.app.content.interfaces.INameFromTitle" />
+      <element value="plone.app.dexterity.behaviors.metadata.IDublinCore" />
+      <element value="collective.behavior.salable.interfaces.ISalable" />
+      <element value="collective.behavior.discount.interfaces.IDiscount" />
+      <element value="collective.behavior.stock.interfaces.IStock" />
+      <element value="collective.behavior.vat.interfaces.IVAT" />
+  </property>
+
+</object>

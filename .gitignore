@@ -1,0 +1,7 @@
+*.backup
+*.egg-info
+*.mo
+*.pyc
+.long-description.html
+.svn
+dist

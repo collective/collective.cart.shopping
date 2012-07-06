@@ -1,0 +1,93 @@
+Log in as the portal owner::
+
+    >>> from plone.app.testing import TEST_USER_NAME, TEST_USER_PASSWORD
+    >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+
+Make Folder Shop into Shop::
+
+    >>> browser.open('/shop')
+    >>> browser.getLink('Make Shopping Site').click()
+
+Add Article::
+
+    >>> browser.open('/shop/++add++collective.cart.core.Article')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Description of Ärticle1'
+    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '12.30'
+    >>> browser.getControl(name="form.widgets.IStock.unlimited:list").value = True
+    >>> browser.getControl(name="form.buttons.save").click()
+
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 class="documentFirstHeading">&#196;rticle1</h1>
+
+    >>> print browser.bycss('.documentDescription')
+    --- 1 ---
+    <p class="documentDescription">Description of &#196;rticle1</p>
+
+    >>> print browser.bycss('#add-to-cart')
+    --- 1 ---
+    <div id="add-to-cart">
+    <form action="http://nohost/plone/shop/article1/view">
+    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="100" size="3"><datalist id="numbers"><option value="1">...</datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
+    </form>
+    </div>
+
+    >>> 'value="100"' in browser.contents
+    True
+    >>> 'value="101"' in browser.contents
+    False
+
+    >>> '12.30 €' in browser.contents
+    True
+
+    >>> article1 = portal['shop']['article1']
+    >>> article1.gross_money
+    12.30 EUR
+    >>> article1.vat_money
+    2.30 EUR
+    >>> article1.net_money
+    10.00 EUR
+
+Publish the Article::
+
+    >>> browser.getLink('Publish').click()
+
+Log out and log in as member1::
+
+    >>> browser.getLink('Log out').click()
+    >>> browser.login(member1, member1)
+
+Go to Article1 to add to cart::
+
+    >>> browser.open('shop/article1')
+
+    >>> query = {'quantity': '1', 'form.addtocart': 'form.addtocart'}
+    >>> browser.post(browser.url, query)
+
+Check Cart::
+
+    >>> cart1 = portal['shop']['cart-container']['1']
+    >>> cart1
+    <Container at /plone/shop/cart-container/1>
+
+Check Cart Article::
+
+    >>> carticle1 = portal['shop']['cart-container']['1']['1']
+    >>> carticle1
+    <Container at /plone/shop/cart-container/1/1>
+
+    >>> carticle1.id
+    '1'
+    >>> carticle1.title
+    u'\xc4rticle1'
+    >>> carticle1.description
+    u'Description of \xc4rticle1'
+    >>> carticle1.gross
+    12.30 EUR
+    >>> carticle1.vat
+    2.30 EUR
+    >>> carticle1.net
+    10.00 EUR
+    >>> carticle1.quantity
+    1

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<metadata>
+  <version>1</version>
+  <dependencies>
+    <dependency>profile-collective.cart.core:default</dependency>
+    <dependency>profile-collective.behavior.discount:default</dependency>
+    <dependency>profile-collective.behavior.stock:default</dependency>
+    <dependency>profile-collective.behavior.vat:default</dependency>
+  </dependencies>
+</metadata>
