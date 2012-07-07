@@ -13,3 +13,12 @@ class ArticleView(grok.View):
     grok.name('view')
     grok.require('zope2.View')
     grok.template('article')
+
+
+# class CartView(grok.View):
+
+#     grok.context(IShoppingSiteRoot)
+#     grok.layer(ICollectiveCartShoppingLayer)
+#     grok.name('view')
+#     grok.require('zope2.View')
+#     grok.template('cart')

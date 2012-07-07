@@ -46,6 +46,8 @@ def setUp(self):
     # Create shop folder
     shop = portal[portal.invokeFactory('Folder', 'shop', title='Shöp')]
     modified(shop)
+    workflow = getToolByName(portal, 'portal_workflow')
+    workflow.doActionFor(shop, 'publish')
 
     regtool = getToolByName(portal, 'portal_registration')
 

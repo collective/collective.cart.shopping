@@ -91,3 +91,61 @@ Check Cart Article::
     10.00 EUR
     >>> carticle1.quantity
     1
+
+Add to cart once again::
+
+    >>> query = {'quantity': '4', 'form.addtocart': 'form.addtocart'}
+    >>> browser.post(browser.url, query)
+
+    >>> carticle1.quantity
+    5
+
+Log out, log in as admin and update Article1 so that it limits addable amount::
+
+    >>> browser.getLink('Log out').click()
+    >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+
+    >>> browser.open('/shop/article1/edit')
+    >>> browser.getControl(name="form.widgets.IStock.unlimited:list").value = False
+    >>> browser.getControl(name="form.widgets.IStock.stock").value = '6'
+    >>> browser.getControl(name="form.widgets.IStock.reducible_quantity").value = '10'
+    >>> browser.getControl(name="form.buttons.save").click()
+
+    >>> print browser.bycss('#add-to-cart')
+    --- 1 ---
+    <div id="add-to-cart">
+    <form action="http://nohost/plone/shop/article1">
+    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="6" size="1"><datalist id="numbers"><option value="1">...<option value="6">6</option></datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
+    </form>
+    </div>
+
+Log out and log in as member1::
+
+    >>> browser.getLink('Log out').click()
+    >>> browser.login(member1, member1)
+
+Go to Article1 to add to cart::
+
+    >>> browser.open('shop/article1')
+
+    >>> query = {'quantity': '1', 'form.addtocart': 'form.addtocart'}
+    >>> browser.post(browser.url, query)
+
+    >>> browser.open('/shop/@@cart')
+    >>> print browser.bycss('.name')
+    --- 1 ---
+    <td class="name">
+    <a href="http://nohost/plone/shop/article1">&#196;rticle1</a>
+    </td>
+
+    >>> print browser.bycss('.price')
+    --- 1 ---
+    <td class="price">
+    12.30 &#8364;
+    </td>
+
+    >>> print browser.bycss('.quantity')
+    --- 1 ---
+    <td class="quantity">
+    6
+    </td>

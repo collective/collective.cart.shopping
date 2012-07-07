@@ -1,9 +1,12 @@
 from Products.statusmessages.interfaces import IStatusMessage
 from collective.cart.core.browser.viewlet import AddToCartViewlet
+from collective.cart.core.browser.viewlet import CartArticlesViewlet
+from collective.cart.core.interfaces import ICartArticleAdapter
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
 from collective.cart.shopping.interfaces import IArticleAdapter
 from five import grok
+from plone.app.contentlisting.interfaces import IContentListing
 
 
 grok.templatedir('viewlets')
@@ -40,7 +43,7 @@ class AddToCartViewlet(AddToCartViewlet):
     @property
     def quantity_max(self):
         """Max quantity."""
-        return self.context.reducible_quantity
+        return IArticleAdapter(self.context).quantity_max
 
     def quantity_size(self):
         """Size for quantity field."""
@@ -49,3 +52,24 @@ class AddToCartViewlet(AddToCartViewlet):
     def numbers(self):
         """Iterable all numbers."""
         return xrange(1, self.quantity_max + 1)
+
+
+class CartArticlesViewlet(CartArticlesViewlet):
+    """Cart Articles Viewlet Class."""
+    grok.layer(ICollectiveCartShoppingLayer)
+
+    @property
+    def articles(self):
+        """Returns list of articles to show in cart."""
+        results = []
+        for item in IContentListing(self.view.cart_articles):
+            obj = item.getObject()
+            items = self._items(item)
+            items['orig'] = None
+            items['gross'] = obj.gross
+            items['quantity'] = obj.quantity
+            orig_article = ICartArticleAdapter(obj).orig_article
+            if orig_article:
+                items['orig'] = orig_article
+            results.append(items)
+        return results

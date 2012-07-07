@@ -1,0 +1,74 @@
+<section
+  i18n:domain="collective.cart.core"
+  tal:condition="view/cart_articles"
+  >
+  <table class="listing">
+    <thead>
+      <tr>
+        <th i18n:translate="">
+          Image
+        </th>
+        <th i18n:translate="">
+          Name
+        </th>
+        <th i18n:translate="">
+          Price
+        </th>
+        <th i18n:translate="">
+          Quantity
+        </th>
+        <th i18n:translate="">
+          Delete
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <form
+        method="post"
+        tal:attributes="action context/@@plone_context_state/current_base_url"
+        tal:repeat="item viewlet/articles"
+        >
+        <tr
+          tal:define="oddrow repeat/item/odd"
+          tal:attributes="class python:oddrow and 'even' or 'odd'"
+          >
+          <td class="image">
+            <img
+              tal:replace="structure item/orig/@@images/image/thumb"
+              tal:on-error="nothing"
+              />
+          </td>
+          <td class="name">
+            <a
+              tal:condition="item/url"
+              tal:attributes="href item/url"
+              tal:content="item/title"
+              />
+            <span
+              tal:condition="not: item/url"
+              tal:replace="item/title"
+              />
+          </td>
+          <td class="price">
+            <span tal:replace="item/gross" />
+          </td>
+          <td class="quantity">
+            <span tal:replace="item/quantity" />
+          </td>
+          <td class="delete">
+            <button
+              class="standalone"
+              i18n:translate=""
+              name="form.delete.article"
+              type="submit"
+              tal:attributes="value item/id"
+              value="form.delete.article"
+              >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </form>
+    </tbody>
+  </table>
+</section>
