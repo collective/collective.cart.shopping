@@ -34,6 +34,7 @@ setup(
         'five.grok',
         'hexagonit.testing',
         'plone.browserlayer',
+        'plone.namedfile [blobs]',
         'setuptools',
         'zope.i18nmessageid',
     ],

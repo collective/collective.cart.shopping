@@ -1,4 +1,5 @@
 from Products.statusmessages.interfaces import IStatusMessage
+from collective.behavior.stock.interfaces import IStock
 from collective.cart.core.browser.viewlet import AddToCartViewlet
 from collective.cart.core.browser.viewlet import CartArticlesViewlet
 from collective.cart.core.interfaces import ICartArticleAdapter
@@ -7,6 +8,7 @@ from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingL
 from collective.cart.shopping.interfaces import IArticleAdapter
 from five import grok
 from plone.app.contentlisting.interfaces import IContentListing
+from zope.lifecycleevent import modified
 
 
 grok.templatedir('viewlets')
@@ -34,6 +36,9 @@ class AddToCartViewlet(AddToCartViewlet):
                         'quantity': quantity,
                     }
                     IArticleAdapter(self.context).add_to_cart(**kwargs)
+                    if not self.context.unlimited:
+                        IStock(self.context).stock -= quantity
+                        modified(self.context)
                     return self.render()
                 except ValueError:
                     message = _(u"Input integer value to add to cart.")

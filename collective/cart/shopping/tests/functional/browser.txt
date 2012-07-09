@@ -149,3 +149,35 @@ Go to Article1 to add to cart::
     <td class="quantity">
     6
     </td>
+
+Check the stok of Article1::
+
+    >>> browser.open('/shop/article1')
+    >>> print browser.bycss('#add-to-cart')
+    --- 1 ---
+    <div id="add-to-cart">
+    <form action="http://nohost/plone/shop/article1">
+    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="5" size="1"><datalist id="numbers"><option value="1">...<option value="5">5</option></datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
+    </form>
+    </div>
+
+Add more than available amount::
+
+    >>> browser.open('shop/article1')
+    >>> query = {'quantity': '6', 'form.addtocart': 'form.addtocart'}
+    >>> browser.post(browser.url, query)
+    >>> browser.open('/shop/@@cart')
+
+    >>> print browser.bycss('.quantity')
+    --- 1 ---
+    <td class="quantity">
+    6
+    </td>
+
+Log out, log in as admin and update Article1 to set stock to zero::
+
+    >>> browser.getLink('Log out').click()
+    >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+    >>> browser.open('/shop/article1/edit')
+    >>> browser.getControl(name="form.widgets.IStock.stock").value = '0'
+    >>> browser.getControl(name="form.buttons.save").click()
