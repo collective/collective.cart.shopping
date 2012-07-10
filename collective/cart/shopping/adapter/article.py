@@ -1,4 +1,5 @@
 from collective.behavior.discount.interfaces import IDiscount
+from collective.behavior.stock.interfaces import IStock
 from collective.cart.core.adapter.article import ArticleAdapter
 from collective.cart.shopping.interfaces import IArticleAdapter
 from datetime import date
@@ -53,3 +54,9 @@ class ArticleAdapter(ArticleAdapter):
     @property
     def _quantity_in_carts(self):
         return sum([brain.quantity for brain in self.cart_articles])
+
+    @property
+    def soldout(self):
+        """Returns True if soldout else False."""
+        if self.addable_to_cart and not IStock(self.context).unlimited:
+            return IStock(self.context).stock

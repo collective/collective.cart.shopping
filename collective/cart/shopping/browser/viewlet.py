@@ -58,6 +58,10 @@ class AddToCartViewlet(AddToCartViewlet):
         """Iterable all numbers."""
         return xrange(1, self.quantity_max + 1)
 
+    @property
+    def soldout(self):
+        return IArticleAdapter(self.context).soldout
+
 
 class CartArticlesViewlet(CartArticlesViewlet):
     """Cart Articles Viewlet Class."""

@@ -2,7 +2,10 @@
   id="add-to-cart"
   tal:condition="viewlet/available"
   >
-  <form tal:attributes="action context/@@plone_context_state/current_base_url">
+  <form
+    tal:attributes="action context/@@plone_context_state/current_base_url"
+    tal:condition="not: viewlet/soldout"
+    >
     <input
       id="quantity"
       list="numbers"
@@ -30,4 +33,10 @@
       i18n:translate=""
       >Add To Cart</button>
   </form>
+  <p
+    class="sold-out"
+    i18n:translate=""
+    tal:condition="viewlet/soldout">
+    Sold Out
+  </p>
 </div>

@@ -111,6 +111,8 @@ Log out, log in as admin and update Article1 so that it limits addable amount::
     >>> browser.getControl(name="form.widgets.IStock.reducible_quantity").value = '10'
     >>> browser.getControl(name="form.buttons.save").click()
 
+    >>> browser.openBrowser()
+
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
     <div id="add-to-cart">
@@ -181,3 +183,4 @@ Log out, log in as admin and update Article1 to set stock to zero::
     >>> browser.open('/shop/article1/edit')
     >>> browser.getControl(name="form.widgets.IStock.stock").value = '0'
     >>> browser.getControl(name="form.buttons.save").click()
+    >>> print browser.bycss('.sold-out')

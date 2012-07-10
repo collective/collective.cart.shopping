@@ -19,3 +19,4 @@ class IArticleAdapter(IArticleAdapter):
     gross = Attribute('Gross money for the article.')
     vat = Attribute('VAT money for the article.')
     net = Attribute('Net money for the article.')
+    soldout = Attribute('True or False for soldout.')
