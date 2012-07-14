@@ -13,10 +13,9 @@ class ArticleAdapter(ArticleAdapter):
     @property
     def quantity_max(self):
         """Max quantity which could be added to cart."""
-        if not self.context.unlimited:
-            if self.context.stock < self.context.reducible_quantity:
-                return self.context.stock
-        return self.context.reducible_quantity
+        if IStock(self.context).stock < IStock(self.context).reducible_quantity:
+            return IStock(self.context).stock
+        return IStock(self.context).reducible_quantity
 
     def _update_existing_cart_article(self, carticle, **kwargs):
         """Update cart article which already exists in current cart.
@@ -58,5 +57,4 @@ class ArticleAdapter(ArticleAdapter):
     @property
     def soldout(self):
         """Returns True if soldout else False."""
-        if self.addable_to_cart and not IStock(self.context).unlimited:
-            return IStock(self.context).stock
+        return not self.addable_to_cart or not IStock(self.context).stock
