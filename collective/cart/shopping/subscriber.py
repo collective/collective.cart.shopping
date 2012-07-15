@@ -1,8 +1,13 @@
 from collective.behavior.discount.interfaces import IDiscount
+from collective.behavior.stock.interfaces import IStock
 from collective.cart.shopping.interfaces import IArticle
+from collective.cart.core.interfaces import ICartArticle
+from collective.cart.core.interfaces import ICartArticleAdapter
 from five import grok
 from zope.lifecycleevent.interfaces import IObjectCreatedEvent
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
+from zope.lifecycleevent.interfaces import IObjectRemovedEvent
+from zope.lifecycleevent import modified
 
 
 def set_moneys(context):
@@ -35,3 +40,11 @@ def create_moneys(context, event):
 def update_moneys(context, event):
     assert context == event.object
     set_moneys(context)
+
+
+@grok.subscribe(ICartArticle, IObjectRemovedEvent)
+def set_quantity_back_to_orig_article(context, event):
+    assert context == event.object
+    article = ICartArticleAdapter(context).orig_article
+    IStock(article).add_stock(context.quantity)
+    modified(article)

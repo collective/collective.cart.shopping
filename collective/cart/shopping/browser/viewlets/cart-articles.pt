@@ -53,11 +53,40 @@
             <span tal:replace="item/gross" />
           </td>
           <td class="quantity">
-            <span tal:replace="item/quantity" />
+            <input
+              id="quantity"
+              list="numbers"
+              min="1"
+              name="quantity"
+              type="number"
+              tal:attributes="
+                max item/quantity_max;
+                value item/quantity;
+                size item/quantity_size"
+              />
+            <datalist
+              id="numbers"
+              >
+              <option
+                tal:repeat="number item/numbers"
+                tal:attributes="value number"
+                tal:content="number"
+                />
+            </datalist>
+            <button
+              class="standalone update"
+              i18n:translate=""
+              name="form.update.article"
+              type="submit"
+              tal:attributes="value item/id"
+              value="form.update.article"
+              >
+              Update
+            </button>
           </td>
           <td class="delete">
             <button
-              class="standalone"
+              class="standalone delete"
               i18n:translate=""
               name="form.delete.article"
               type="submit"

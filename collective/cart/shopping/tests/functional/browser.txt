@@ -16,6 +16,8 @@ Add Article::
     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '12.30'
     >>> browser.getControl(name="form.buttons.save").click()
 
+    >>> article1_url = browser.url
+
     >>> print browser.bycss('.documentFirstHeading')
     --- 1 ---
     <h1 class="documentFirstHeading">&#196;rticle1</h1>
@@ -33,173 +35,316 @@ Add Stock to Ärticle1::
     >>> browser.getLink('Stock').click()
     >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck1'
     >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Stöck1'
-    >>> browser.getControl(name="form.widgets.stock").value = '10'
+    >>> browser.getControl(name="form.widgets.stock").value = '100'
     >>> browser.getControl(name="form.buttons.save").click()
+
+    >>> stock1_url = browser.url
 
 Go to Ärticle1::
 
-    >>> browser.open('/shop/article1')
+    >>> browser.open(article1_url)
+
+    >>> print browser.bycss('#add-to-cart')
+    --- 1 ---
+    <div id="add-to-cart">
+    <form action="http://nohost/plone/shop/article1/view">
+    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="100" size="3"><datalist id="numbers"><option value="1">...<option value="100">100</option></datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
+    </form>
+    </div>
+
+    >>> '12.30 €' in browser.contents
+    True
+
+    >>> print browser.bycss('.sold-out')
+
+    >>> article1 = portal['shop']['article1']
+    >>> article1.gross_money
+    12.30 EUR
+    >>> article1.vat_money
+    2.30 EUR
+    >>> article1.net_money
+    10.00 EUR
+
+    >>> query = {'quantity': '1', 'form.addtocart': 'form.addtocart'}
+    >>> browser.post(browser.url, query)
+
+    >>> print browser.bycss('#add-to-cart')
+    --- 1 ---
+    <div id="add-to-cart">
+    <form action="http://nohost/plone/shop/article1/view">
+    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="99" size="2"><datalist id="numbers"><option value="1">...<option value="99">99</option></datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
+    </form>
+    </div>
+
+Check Stöck1::
+
+    >>> browser.open(stock1_url)
+    >>> print browser.bycss('#form-widgets-stock')
+    --- 1 ---
+    <span id="form-widgets-stock" class="text-widget required int-field">99</span>
 
 
+Check Cart::
 
-    # >>> print browser.bycss('#add-to-cart')
-    # --- 1 ---
-    # <div id="add-to-cart">
-    # <form action="http://nohost/plone/shop/article1/view">
-    # <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="100" size="3"><datalist id="numbers"><option value="1">...</datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
-    # </form>
-    # </div>
+    >>> browser.open('/shop/@@cart')
+    >>> print browser.bycss('#cart')
+    --- 1 ---
+    <section id="cart"><h1>Cart</h1>
+    <section><table class="listing"><thead><tr><th>Image</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Quantity</th>
+    <th>Delete</th>
+    </tr></thead><tbody><form method="post" action="http://nohost/plone/shop/@@cart">
+    <tr class="odd"><td class="image">
+    <img></td>
+    <td class="name">
+    <a href="http://nohost/plone/shop/article1">&#196;rticle1</a>
+    </td>
+    <td class="price">
+    12.30 &#8364;
+    </td>
+    <td class="quantity">
+    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="100" value="1" size="3"><datalist id="numbers"><option value="1">...<option value="100">100</option></datalist><button class="standalone update" name="form.update.article" type="submit" value="1">Update</button>
+    </td>
+    <td class="delete">
+    <button class="standalone delete" name="form.delete.article" type="submit" value="1">Delete</button>
+    </td>
+    </tr></form>
+    </tbody></table></section></section>
 
-#     >>> 'value="100"' in browser.contents
-#     True
-#     >>> 'value="101"' in browser.contents
-#     False
+Go to Ärticle1 and add more to cart::
 
-#     >>> '12.30 €' in browser.contents
-#     True
+    >>> browser.open(article1_url)
+    >>> query = {'quantity': '9', 'form.addtocart': 'form.addtocart'}
+    >>> browser.post(browser.url, query)
+    >>> print browser.bycss('#add-to-cart')
+    --- 1 ---
+    <div id="add-to-cart">
+    <form action="http://nohost/plone/shop/article1/view">
+    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="90" size="2"><datalist id="numbers"><option value="1">...<option value="90">90</option></datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
+    </form>
+    </div>
 
-#     >>> article1 = portal['shop']['article1']
-#     >>> article1.gross_money
-#     12.30 EUR
-#     >>> article1.vat_money
-#     2.30 EUR
-#     >>> article1.net_money
-#     10.00 EUR
+Check Stöck1::
 
-# Publish the Article::
+    >>> browser.open(stock1_url)
+    >>> print browser.bycss('#form-widgets-stock')
+    --- 1 ---
+    <span id="form-widgets-stock" class="text-widget required int-field">90</span>
 
-#     >>> browser.getLink('Publish').click()
+Check Cart::
 
-# Log out and log in as member1::
+    >>> browser.open('/shop/@@cart')
+    >>> print browser.bycss('.quantity')
+    --- 1 ---
+    <td class="quantity">
+    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="100" value="10" size="3"><datalist id="numbers"><option value="1">...<option value="100">100</option></datalist><button class="standalone update" name="form.update.article" type="submit" value="1">Update</button>
+    </td>
 
-#     >>> browser.getLink('Log out').click()
-#     >>> browser.login(member1, member1)
+Add another Article::
 
-# Go to Article1 to add to cart::
+    >>> browser.open('/shop/++add++collective.cart.core.Article')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle2'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Description of Ärticle2'
+    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '24.60'
+    >>> browser.getControl(name="form.buttons.save").click()
 
-#     >>> browser.open('shop/article1')
+    >>> article2_url = browser.url
 
-#     >>> query = {'quantity': '1', 'form.addtocart': 'form.addtocart'}
-#     >>> browser.post(browser.url, query)
+Add Stock to Ärticle2::
 
-# Check Cart::
+    >>> browser.getLink('Stock').click()
+    >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck2'
+    >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Stöck2'
+    >>> browser.getControl(name="form.widgets.stock").value = '20'
+    >>> browser.getControl(name="form.buttons.save").click()
 
-#     >>> cart1 = portal['shop']['cart-container']['1']
-#     >>> cart1
-#     <Container at /plone/shop/cart-container/1>
+    >>> stock2_url = browser.url
 
-# Check Cart Article::
+Add another stock to Ärticle2
 
-#     >>> carticle1 = portal['shop']['cart-container']['1']['1']
-#     >>> carticle1
-#     <Container at /plone/shop/cart-container/1/1>
+    >>> browser.open(article2_url)
+    >>> browser.getLink('Stock').click()
+    >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck3'
+    >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Stöck3'
+    >>> browser.getControl(name="form.widgets.stock").value = '10'
+    >>> browser.getControl(name="form.buttons.save").click()
 
-#     >>> carticle1.id
-#     '1'
-#     >>> carticle1.title
-#     u'\xc4rticle1'
-#     >>> carticle1.description
-#     u'Description of \xc4rticle1'
-#     >>> carticle1.gross
-#     12.30 EUR
-#     >>> carticle1.vat
-#     2.30 EUR
-#     >>> carticle1.net
-#     10.00 EUR
-#     >>> carticle1.quantity
-#     1
+    >>> stock3_url = browser.url
 
-# Add to cart once again::
+Go to Ärtile2:
 
-#     >>> query = {'quantity': '4', 'form.addtocart': 'form.addtocart'}
-#     >>> browser.post(browser.url, query)
+    >>> browser.open(article2_url)
+    >>> print browser.bycss('#add-to-cart')
+    --- 1 ---
+    <div id="add-to-cart">
+    <form action="http://nohost/plone/shop/article2/view">
+    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="30" size="2"><datalist id="numbers"><option value="1">...<option value="30">30</option></datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
+    </form>
+    </div>
 
-#     >>> carticle1.quantity
-#     5
+Add to Cart::
 
-# Log out, log in as admin and update Article1 so that it limits addable amount::
+    >>> query = {'quantity': '5', 'form.addtocart': 'form.addtocart'}
+    >>> browser.post(browser.url, query)
+    >>> print browser.bycss('#add-to-cart')
+    --- 1 ---
+    <div id="add-to-cart">
+    <form action="http://nohost/plone/shop/article2/view">
+    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="25" size="2"><datalist id="numbers"><option value="1">...<option value="25">25</option></datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
+    </form>
+    </div>
 
-#     >>> browser.getLink('Log out').click()
-#     >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+Check Stöck2::
 
-#     >>> browser.open('/shop/article1/edit')
-#     >>> browser.getControl(name="form.widgets.IStock.unlimited:list").value = False
-#     >>> browser.getControl(name="form.widgets.IStock.stock").value = '6'
-#     >>> browser.getControl(name="form.widgets.IStock.reducible_quantity").value = '10'
-#     >>> browser.getControl(name="form.buttons.save").click()
+    >>> browser.open(stock2_url)
+    >>> print browser.bycss('#form-widgets-stock')
+    --- 1 ---
+    <span id="form-widgets-stock" class="text-widget required int-field">15</span>
 
-#     >>> browser.openBrowser()
+Check Stöck3::
 
-#     >>> print browser.bycss('#add-to-cart')
-#     --- 1 ---
-#     <div id="add-to-cart">
-#     <form action="http://nohost/plone/shop/article1">
-#     <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="6" size="1"><datalist id="numbers"><option value="1">...<option value="6">6</option></datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
-#     </form>
-#     </div>
+    >>> browser.open(stock3_url)
+    >>> print browser.bycss('#form-widgets-stock')
+    --- 1 ---
+    <span id="form-widgets-stock" class="text-widget required int-field">10</span>
 
-# Log out and log in as member1::
+Check Cart::
 
-#     >>> browser.getLink('Log out').click()
-#     >>> browser.login(member1, member1)
+    >>> browser.open('/shop/@@cart')
+    >>> print browser.bycss('.name')
+    --- 1 ---
+    <td class="name">
+    <a href="http://nohost/plone/shop/article1">&#196;rticle1</a>
+    </td>
+    --- 2 ---
+    <td class="name">
+    <a href="http://nohost/plone/shop/article2">&#196;rticle2</a>
+    </td>
 
-# Go to Article1 to add to cart::
+    >>> print browser.bycss('.price')
+    --- 1 ---
+    <td class="price">
+    12.30 &#8364;
+    </td>
+    --- 2 ---
+    <td class="price">
+    24.60 &#8364;
+    </td>
 
-#     >>> browser.open('shop/article1')
+    >>> print browser.bycss('.quantity')
+    --- 1 ---
+    <td class="quantity">
+    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="100" value="10" size="3"><datalist id="numbers"><option value="1">...<option value="100">100</option></datalist><button class="standalone update" name="form.update.article" type="submit" value="1">Update</button>
+    </td>
+    --- 2 ---
+    <td class="quantity">
+    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="30" value="5" size="2"><datalist id="numbers"><option value="1">...<option value="30">30</option></datalist><button class="standalone update" name="form.update.article" type="submit" value="2">Update</button>
+    </td>
 
-#     >>> query = {'quantity': '1', 'form.addtocart': 'form.addtocart'}
-#     >>> browser.post(browser.url, query)
+Go to Ärticle2 and add more to cart::
 
-#     >>> browser.open('/shop/@@cart')
-#     >>> print browser.bycss('.name')
-#     --- 1 ---
-#     <td class="name">
-#     <a href="http://nohost/plone/shop/article1">&#196;rticle1</a>
-#     </td>
+    >>> browser.open(article2_url)
+    >>> query = {'quantity': '25', 'form.addtocart': 'form.addtocart'}
+    >>> browser.post(browser.url, query)
 
-#     >>> print browser.bycss('.price')
-#     --- 1 ---
-#     <td class="price">
-#     12.30 &#8364;
-#     </td>
+    >>> print browser.bycss('.sold-out')
+    --- 1 ---
+    <p class="sold-out">Sold Out</p>
 
-#     >>> print browser.bycss('.quantity')
-#     --- 1 ---
-#     <td class="quantity">
-#     6
-#     </td>
+Check Stöck2::
 
-# Check the stok of Article1::
+    >>> browser.open(stock2_url)
+    >>> print browser.bycss('#form-widgets-stock')
+    --- 1 ---
+    <span id="form-widgets-stock" class="text-widget required int-field">0</span>
 
-#     >>> browser.open('/shop/article1')
-#     >>> print browser.bycss('#add-to-cart')
-#     --- 1 ---
-#     <div id="add-to-cart">
-#     <form action="http://nohost/plone/shop/article1">
-#     <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="5" size="1"><datalist id="numbers"><option value="1">...<option value="5">5</option></datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
-#     </form>
-#     </div>
+Check Stöck3::
 
-# Add more than available amount::
+    >>> browser.open(stock3_url)
+    >>> print browser.bycss('#form-widgets-stock')
+    --- 1 ---
+    <span id="form-widgets-stock" class="text-widget required int-field">0</span>
 
-#     >>> browser.open('shop/article1')
-#     >>> query = {'quantity': '6', 'form.addtocart': 'form.addtocart'}
-#     >>> browser.post(browser.url, query)
-#     >>> browser.open('/shop/@@cart')
+Check Cart::
 
-#     >>> print browser.bycss('.quantity')
-#     --- 1 ---
-#     <td class="quantity">
-#     6
-#     </td>
+    >>> browser.open('/shop/@@cart')
+    >>> print browser.bycss('.quantity')
+    --- 1 ---
+    <td class="quantity">
+    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="100" value="10" size="3"><datalist id="numbers"><option value="1">...<option value="100">100</option></datalist><button class="standalone update" name="form.update.article" type="submit" value="1">Update</button>
+    </td>
+    --- 2 ---
+    <td class="quantity">
+    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="30" value="30" size="2"><datalist id="numbers"><option value="1">...<option value="30">30</option></datalist><button class="standalone update" name="form.update.article" type="submit" value="2">Update</button>
+    </td>
 
-# Log out, log in as admin and update Article1 to set stock to zero::
+Delete Ärticle1::
 
-#     >>> browser.getLink('Log out').click()
-#     >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
-#     >>> browser.open('/shop/article1/edit')
-#     >>> browser.getControl(name="form.widgets.IStock.stock").value = '0'
-#     >>> browser.getControl(name="form.buttons.save").click()
-#     >>> print browser.bycss('.sold-out')
+    >>> query = {'form.delete.article': '1'}
+    >>> browser.post(browser.url, query)
+    >>> print browser.bycss('.name')
+    --- 1 ---
+    <td class="name">
+    <a href="http://nohost/plone/shop/article2">&#196;rticle2</a>
+    </td>
 
-    # >>> browser.openBrowser()
+Check Stöck1::
+
+    >>> browser.open(stock1_url)
+    >>> print browser.bycss('#form-widgets-stock')
+    --- 1 ---
+    <span id="form-widgets-stock" class="text-widget required int-field">100</span>
+
+Go to Ärticle1::
+
+    >>> browser.open(article1_url)
+
+    >>> print browser.bycss('#add-to-cart')
+    --- 1 ---
+    <div id="add-to-cart">
+    <form action="http://nohost/plone/shop/article1/view">
+    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="100" size="3"><datalist id="numbers"><option value="1">...<option value="100">100</option></datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
+    </form>
+    </div>
+
+Go to Cart::
+
+    >>> browser.open('/shop/@@cart')
+
+Update Ärticle2 in Cart::
+
+    >>> query = {'form.update.article': '2'}
+    >>> browser.post(browser.url, query)
+    >>> print browser.bycss('.quantity')
+    --- 1 ---
+    <td class="quantity">
+    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="30" value="30" size="2"><datalist id="numbers"><option value="1">...<option value="30">30</option></datalist><button class="standalone update" name="form.update.article" type="submit" value="2">Update</button>
+    </td>
+
+    >>> query = {'quantity': '20', 'form.update.article': '2'}
+    >>> browser.post(browser.url, query)
+    >>> print browser.bycss('.quantity')
+    --- 1 ---
+    <td class="quantity">
+    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="30" value="20" size="2"><datalist id="numbers"><option value="1">...<option value="30">30</option></datalist><button class="standalone update" name="form.update.article" type="submit" value="2">Update</button>
+    </td>
+
+Check Stöck2::
+
+    >>> browser.open(stock2_url)
+    >>> print browser.bycss('#form-widgets-stock')
+    --- 1 ---
+    <span id="form-widgets-stock" class="text-widget required int-field">0</span>
+
+Check Stöck3::
+
+    >>> browser.open(stock3_url)
+    >>> print browser.bycss('#form-widgets-stock')
+    --- 1 ---
+    <span id="form-widgets-stock" class="text-widget required int-field">10</span>
+
+Go to Cart Container:
+
+    >>> browser.open('/shop/cart-container')
