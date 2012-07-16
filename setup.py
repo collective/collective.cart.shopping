@@ -15,8 +15,7 @@ setup(
         "Framework :: Plone :: 4.3",
         "License :: OSI Approved :: BSD License",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
-    ],
+        "Programming Language :: Python :: 2.7"],
     keywords='',
     author='Taito Horiuchi',
     author_email='taito.horiuchi@gmail.com',
@@ -33,14 +32,16 @@ setup(
         'collective.cart.core',
         'five.grok',
         'hexagonit.testing',
+        'plone.app.imaging',
+        'plone.app.textfield',
+        'plone.directives.form',
         'plone.browserlayer',
         'plone.namedfile [blobs]',
         'setuptools',
-        'zope.i18nmessageid',
-    ],
+        'zope.i18nmessageid'],
     entry_points="""
     # -*- Entry points: -*-
 
     [z3c.autoinclude.plugin]
     target = plone
-    """,)
+    """)

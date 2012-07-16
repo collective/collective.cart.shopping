@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from Products.CMFCore.utils import getToolByName
 from collective.cart.shopping.tests.base import FUNCTIONAL_TESTING
+from datetime import date
 from hexagonit.testing.browser import Browser
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
 from plone.testing import layered
 from zope.lifecycleevent import modified
@@ -31,6 +34,8 @@ def setUp(self):
         'portal': layer['portal'],
         'portal_url': layer['portal'].absolute_url(),
         'browser': Browser(layer['app']),
+        'TEST_USER_NAME': TEST_USER_NAME,
+        'TEST_USER_PASSWORD': TEST_USER_PASSWORD,
     })
 
     portal = self.globs['portal']
@@ -60,6 +65,8 @@ def setUp(self):
     regtool.addMember(member2, member2)
     setRoles(portal, member2, ['Member'])
     self.globs['member2'] = member2
+
+    self.globs['today'] = date.today()
 
     transaction.commit()
 
@@ -92,4 +99,5 @@ def DocFileSuite(testfile, flags=FLAGS, setUp=setUp, layer=FUNCTIONAL_TESTING):
 def test_suite():
     return unittest.TestSuite([
         DocFileSuite('functional/browser.txt'),
+        DocFileSuite('functional/manager-checkout.txt'),
         ])

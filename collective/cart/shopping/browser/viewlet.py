@@ -1,18 +1,31 @@
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from collective.behavior.stock.interfaces import IStock
 from collective.cart.core.browser.viewlet import AddToCartViewlet
 from collective.cart.core.browser.viewlet import CartArticlesViewlet
+from collective.cart.core.browser.viewlet import CartViewletManager
+from collective.cart.core.interfaces import IArticle
 from collective.cart.core.interfaces import ICartArticleAdapter
+from collective.cart.core.interfaces import IShoppingSite
+from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping import _
+from collective.cart.shopping.browser.form import InfoForm
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
 from collective.cart.shopping.interfaces import IArticleAdapter
-from collective.cart.core.interfaces import IShoppingSite
 from five import grok
 from plone.app.contentlisting.interfaces import IContentListing
+from plone.z3cform.layout import FormWrapper
 from zope.lifecycleevent import modified
 
 
 grok.templatedir('viewlets')
+
+
+class AddToCartViewletManager(grok.ViewletManager):
+    """Viewlet manager for add to cart."""
+    grok.context(IArticle)
+    grok.layer(ICollectiveCartShoppingLayer)
+    grok.name('collective.cart.shopping.add.to.cart.manager')
 
 
 class AddToCartViewlet(AddToCartViewlet):
@@ -20,7 +33,9 @@ class AddToCartViewlet(AddToCartViewlet):
 
     Can also add with certain number of quantity.
     """
+    grok.context(IArticle)
     grok.layer(ICollectiveCartShoppingLayer)
+    grok.viewletmanager(AddToCartViewletManager)
 
     def update(self):
         form = self.request.form
@@ -115,3 +130,55 @@ class CartArticlesViewlet(CartArticlesViewlet):
             items['numbers'] = xrange(1, quantity_max + 1)
             results.append(items)
         return results
+
+
+class CheckOutViewlet(grok.Viewlet):
+    grok.context(IShoppingSiteRoot)
+    grok.layer(ICollectiveCartShoppingLayer)
+    grok.name('collective.cart.shopping.checkout')
+    grok.require('zope2.View')
+    grok.template('cart-checkout')
+    grok.viewletmanager(CartViewletManager)
+
+    def update(self):
+        form = self.request.form
+        if form.get('form.checkout', None) is not None:
+            url = '{}/@@billing-and-shipping'.format(self.context.absolute_url())
+            return self.request.response.redirect(url)
+
+
+class BillingAndShippingViewletManager(grok.ViewletManager):
+    """Viewlet manager for billing and shipping."""
+    grok.context(IShoppingSiteRoot)
+    grok.layer(ICollectiveCartShoppingLayer)
+    grok.name('collective.cart.shopping.billing.shipping.manager')
+
+
+class BaseBillingAndShippingViewlet(grok.Viewlet):
+    grok.baseclass()
+    grok.context(IShoppingSiteRoot)
+    grok.layer(ICollectiveCartShoppingLayer)
+    grok.require('zope2.View')
+    grok.viewletmanager(BillingAndShippingViewletManager)
+
+
+class InfoFormWrapper(FormWrapper):
+
+    index = ViewPageTemplateFile('viewlets/formwrapper.pt')
+
+
+class BillingInfoViewlet(BaseBillingAndShippingViewlet):
+    grok.name('collective.cart.shopping.billing.info')
+    grok.template('info')
+
+    def createForm(self):
+        view = InfoFormWrapper(self.context, self.request)
+        view.form_instance = InfoForm(
+            self.context,
+            self.request,
+        )
+        return view()
+
+    def form(self):
+        """Default to IUserNotificationsTextLineData."""
+        return self.createForm()

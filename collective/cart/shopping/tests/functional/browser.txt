@@ -3,7 +3,7 @@ Log in as the portal owner::
     >>> from plone.app.testing import TEST_USER_NAME, TEST_USER_PASSWORD
     >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
 
-Make Folder Shop into Shop::
+Make Folder 'Shop' into Shop::
 
     >>> browser.open('/shop')
     >>> browser.getLink('Make Shopping Site').click()
@@ -48,7 +48,9 @@ Go to Ärticle1::
     --- 1 ---
     <div id="add-to-cart">
     <form action="http://nohost/plone/shop/article1/view">
-    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="100" size="3"><datalist id="numbers"><option value="1">...<option value="100">100</option></datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
+    <label>Quantity</label>
+    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="100" size="3"><datalist id="numbers"><option value="1">...<option value="100">100</option></datalist><span id="pcs">pcs</span>
+    <button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
     </form>
     </div>
 
@@ -72,7 +74,9 @@ Go to Ärticle1::
     --- 1 ---
     <div id="add-to-cart">
     <form action="http://nohost/plone/shop/article1/view">
-    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="99" size="2"><datalist id="numbers"><option value="1">...<option value="99">99</option></datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
+    <label>Quantity</label>
+    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="99" size="2"><datalist id="numbers"><option value="1">...<option value="99">99</option></datalist><span id="pcs">pcs</span>
+    <button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
     </form>
     </div>
 
@@ -82,7 +86,6 @@ Check Stöck1::
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
     <span id="form-widgets-stock" class="text-widget required int-field">99</span>
-
 
 Check Cart::
 
@@ -122,7 +125,9 @@ Go to Ärticle1 and add more to cart::
     --- 1 ---
     <div id="add-to-cart">
     <form action="http://nohost/plone/shop/article1/view">
-    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="90" size="2"><datalist id="numbers"><option value="1">...<option value="90">90</option></datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
+    <label>Quantity</label>
+    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="90" size="2"><datalist id="numbers"><option value="1">...<option value="90">90</option></datalist><span id="pcs">pcs</span>
+    <button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
     </form>
     </div>
 
@@ -180,7 +185,9 @@ Go to Ärtile2:
     --- 1 ---
     <div id="add-to-cart">
     <form action="http://nohost/plone/shop/article2/view">
-    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="30" size="2"><datalist id="numbers"><option value="1">...<option value="30">30</option></datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
+    <label>Quantity</label>
+    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="30" size="2"><datalist id="numbers"><option value="1">...<option value="30">30</option></datalist><span id="pcs">pcs</span>
+    <button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
     </form>
     </div>
 
@@ -192,7 +199,9 @@ Add to Cart::
     --- 1 ---
     <div id="add-to-cart">
     <form action="http://nohost/plone/shop/article2/view">
-    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="25" size="2"><datalist id="numbers"><option value="1">...<option value="25">25</option></datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
+    <label>Quantity</label>
+    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="25" size="2"><datalist id="numbers"><option value="1">...<option value="25">25</option></datalist><span id="pcs">pcs</span>
+    <button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
     </form>
     </div>
 
@@ -305,7 +314,9 @@ Go to Ärticle1::
     --- 1 ---
     <div id="add-to-cart">
     <form action="http://nohost/plone/shop/article1/view">
-    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="100" size="3"><datalist id="numbers"><option value="1">...<option value="100">100</option></datalist><button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
+    <label>Quantity</label>
+    <input id="quantity" list="numbers" min="1" name="quantity" placeholder="1" type="number" max="100" size="3"><datalist id="numbers"><option value="1">...<option value="100">100</option></datalist><span id="pcs">pcs</span>
+    <button type="submit" name="form.addtocart" value="form.addtocart">Add To Cart</button>
     </form>
     </div>
 
@@ -348,3 +359,78 @@ Check Stöck3::
 Go to Cart Container:
 
     >>> browser.open('/shop/cart-container')
+    >>> print browser.bycss('#cart-container')
+    --- 1 ---
+    <section id="cart-container"><h1>Cart Container</h1>
+    <p id="next-cart-id">The next cart ID: 2</p>
+    <table id="cart-list"><thead><tr><td>Cart ID</td>
+    <td>State</td>
+    <td>Last Modified</td>
+    </tr></thead><tbody><tr><td class="cart-id">
+    <a href="http://nohost/plone/shop/cart-container/1">1</a>
+    </td>
+    <td class="cart-state">created</td>
+    <td class="cart-modified">...</td>
+    </tr></tbody></table></section>
+
+    >>> browser.open('/shop/cart-container/1')
+    >>> print browser.bycss('#cart-content')
+    --- 1 ---
+    <section id="cart-content"><h1>Cart ID: 1</h1>
+    <table id="article-list"><thead><tr><td>ID</td>
+    <td>Name</td>
+    </tr></thead><tbody><tr><td class="article-id">2</td>
+    <td class="article-title">
+    <a href="http://nohost/plone/shop/article2">&#196;rticle2</a>
+    </td>
+    </tr></tbody></table></section>
+
+Go to Ärticle2 and update discount::
+
+    >>> browser.open('/shop/article2/edit')
+    >>> browser.getControl(name="form.widgets.IDiscount.discount_enabled:list").value = True
+    >>> browser.getControl(name="form.widgets.IDiscount.discount_price").value = '12.30'
+    >>> browser.getControl(name="form.widgets.IDiscount.discount_start-day").value = str(today.day)
+    >>> browser.getControl(name="form.widgets.IDiscount.discount_start-month").value = [str(today.month)]
+    >>> browser.getControl(name="form.widgets.IDiscount.discount_start-year").value = str(today.year)
+    >>> browser.getControl(name="form.buttons.save").click()
+
+    >>> print browser.bycss('#price')
+    --- 1 ---
+    <p id="price">12.30 &#8364;</p>
+
+Add to Cart::
+
+    >>> query = {'quantity': '5', 'form.addtocart': 'form.addtocart'}
+    >>> browser.post(browser.url, query)
+
+Check cart::
+
+    >>> browser.open('/shop/@@cart')
+    >>> print browser.bycss('.price')
+    --- 1 ---
+    <td class="price">
+    24.60 &#8364;
+    </td>
+
+Remove Ärticle2 from cart::
+
+    >>> query = {'form.delete.article': '2'}
+    >>> browser.post(browser.url, query)
+
+    >>> print browser.bycss('.price')
+
+Add Ärticle2 once again::
+
+    >>> browser.open('/shop/article2')
+    >>> query = {'quantity': '5', 'form.addtocart': 'form.addtocart'}
+    >>> browser.post(browser.url, query)
+
+Go to Cart::
+
+    >>> browser.open('/shop/@@cart')
+    >>> print browser.bycss('.price')
+    --- 1 ---
+    <td class="price">
+    12.30 &#8364;
+    </td>

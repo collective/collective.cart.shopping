@@ -1,11 +1,15 @@
 <div
   id="add-to-cart"
+  i18n:domain="collective.cart.core"
   tal:condition="viewlet/available"
   >
   <form
     tal:attributes="action context/@@plone_context_state/current_base_url"
     tal:condition="not: viewlet/soldout"
     >
+    <label
+      i18n:domain="collective.cart.shopping"
+      i18n:translate="">Quantity</label>
     <input
       id="quantity"
       list="numbers"
@@ -26,6 +30,10 @@
         tal:content="number"
         />
     </datalist>
+    <span
+      id="pcs"
+      i18n:domain="collective.cart.shopping"
+      i18n:translate="">pcs</span>
     <button
       type="submit"
       name="form.addtocart"

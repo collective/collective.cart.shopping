@@ -1,5 +1,5 @@
 <html
-  i18n:domain="sll.shopping"
+  i18n:domain="collective.cart.shopping"
   lang="en"
   metal:use-macro="context/main_template/macros/master"
   xmlns:i18n="http://xml.zope.org/namespaces/i18n"
@@ -8,16 +8,36 @@
   >
   <body>
     <metal:main fill-slot="main">
-      <div tal:replace="structure provider:plone.abovecontenttitle" />
-      <h1 class="documentFirstHeading" tal:content="context/title" />
-      <div tal:replace="structure provider:plone.belowcontenttitle" />
-      <p class="documentDescription" tal:content="context/description" />
-      <img tal:replace="structure context/@@images/image" tal:on-error="nothing"/>
-      <dl>
-        <dt i18n:translate="">Price</dt>
-        <dd tal:content="context/money" />
-      </dl>
-      <div tal:replace="structure provider:plone.belowcontentbody" />
+      <section id="collective-cart-shopping-article">
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <img
+                  tal:condition="view/image"
+                  tal:replace="structure view/image" />
+                <br />
+                <img
+                  tal:repeat="item view/images"
+                  tal:replace="structure item"
+                  />
+              </td>
+              <td>
+                <h1 class="documentFirstHeading" tal:content="context/title" />
+                <p id="price" tal:content="view/gross" />
+                <p id="vat" i18n:translate="">
+                  Including VAT: <span i18n:name="vat" tal:replace="context/vat" /> &#37;
+                </p>
+                <div tal:replace="structure provider:collective.cart.shopping.add.to.cart.manager" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="documentDescription" tal:content="context/description" />
+        <div
+          tal:condition="context/text"
+          tal:replace="structure context/text/output" />
+      </section>
     </metal:main>
   </body>
 </html>

@@ -1,0 +1,3 @@
+<div id="collective-cart-shopping">
+  <form tal:replace="structure view/contents" />
+</div>

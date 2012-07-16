@@ -1,0 +1,52 @@
+Log in as Manager::
+
+    >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+
+Make Folder 'Shop' into Shop::
+
+    >>> browser.open('/shop')
+    >>> browser.getLink('Make Shopping Site').click()
+
+Add Article::
+
+    >>> browser.open('/shop/++add++collective.cart.core.Article')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Description of Ärticle1'
+    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '12.30'
+    >>> browser.getControl(name="form.buttons.save").click()
+
+    >>> article1_url = browser.url
+
+Add Stock to Ärticle1::
+
+    >>> browser.getLink('Stock').click()
+    >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck1'
+    >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Stöck1'
+    >>> browser.getControl(name="form.widgets.stock").value = '100'
+    >>> browser.getControl(name="form.buttons.save").click()
+
+    >>> stock1_url = browser.url
+
+Add Ärticle1 to Cart::
+
+    >>> browser.open(article1_url)
+
+    >>> query = {'quantity': '1', 'form.addtocart': 'form.addtocart'}
+    >>> browser.post(browser.url, query)
+
+Go to Cart::
+
+    >>> browser.open('/shop/@@cart')
+    >>> print browser.bycss('#collective-cart-shopping-checkout')
+    --- 1 ---
+    <section id="collective-cart-shopping-checkout"><form method="post" action="http://nohost/plone/shop/@@cart">
+    <button class="standalone checkout" name="form.checkout" type="submit" value="form.checkout">Check Out</button>
+    </form>
+    </section>
+
+Check Out::
+
+    >>> query = {'form.checkout': 'form.checkout'}
+    >>> browser.post(browser.url, query)
+
+    >>> browser.openBrowser()

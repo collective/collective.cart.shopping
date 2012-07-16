@@ -30,7 +30,14 @@ class ArticleAdapter(ArticleAdapter):
         discount = IDiscount(self.context)
         if discount.discount_enabled:
             today = date.today()
-            return today > discount.discount_start and today < discount.discount_end
+            start = discount.discount_start
+            end = discount.discount_end
+            if start and end:
+                return today >= start and today <= end
+            elif start:
+                return today >= start
+            elif end:
+                return today <= end
 
     @property
     def gross(self):

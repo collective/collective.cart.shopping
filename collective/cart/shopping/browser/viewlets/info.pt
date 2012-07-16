@@ -1,0 +1,7 @@
+<div id="collective-cart-shopping-info">
+  <article>
+    <!-- <h1 tal:content="viewlet/title" />
+    <p tal:content="viewlet/description" /> -->
+    <form tal:replace="structure viewlet/form" />
+  </article>
+</div>
