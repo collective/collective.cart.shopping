@@ -9,11 +9,13 @@ from collective.cart.core.interfaces import ICartArticleAdapter
 from collective.cart.core.interfaces import IShoppingSite
 from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping import _
-from collective.cart.shopping.browser.form import InfoForm
+from collective.cart.shopping.browser.form import BillingInfoForm
+from collective.cart.shopping.browser.form import ShippingInfoForm
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
 from collective.cart.shopping.interfaces import IArticleAdapter
 from five import grok
 from plone.app.contentlisting.interfaces import IContentListing
+from plone.app.viewletmanager.manager import OrderedViewletManager
 from plone.z3cform.layout import FormWrapper
 from zope.lifecycleevent import modified
 
@@ -147,38 +149,47 @@ class CheckOutViewlet(grok.Viewlet):
             return self.request.response.redirect(url)
 
 
-class BillingAndShippingViewletManager(grok.ViewletManager):
+class BillingAndShippingViewletManager(OrderedViewletManager, grok.ViewletManager):
     """Viewlet manager for billing and shipping."""
     grok.context(IShoppingSiteRoot)
     grok.layer(ICollectiveCartShoppingLayer)
     grok.name('collective.cart.shopping.billing.shipping.manager')
 
 
-class BaseBillingAndShippingViewlet(grok.Viewlet):
+class BaseCustomerInfoViewlet(grok.Viewlet):
     grok.baseclass()
     grok.context(IShoppingSiteRoot)
     grok.layer(ICollectiveCartShoppingLayer)
     grok.require('zope2.View')
     grok.viewletmanager(BillingAndShippingViewletManager)
 
+    def create_form(self, form_class):
+        view = FormWrapper(self.context, self.request)
+        form = form_class(self.context, self.request)
+        view.form_instance = form
+        return view()
 
-class InfoFormWrapper(FormWrapper):
+
+class FormWrapper(FormWrapper):
 
     index = ViewPageTemplateFile('viewlets/formwrapper.pt')
 
 
-class BillingInfoViewlet(BaseBillingAndShippingViewlet):
+class BillingInfoViewlet(BaseCustomerInfoViewlet):
     grok.name('collective.cart.shopping.billing.info')
     grok.template('info')
 
-    def createForm(self):
-        view = InfoFormWrapper(self.context, self.request)
-        view.form_instance = InfoForm(
-            self.context,
-            self.request,
-        )
-        return view()
+    title = _('Billing Info')
 
     def form(self):
-        """Default to IUserNotificationsTextLineData."""
-        return self.createForm()
+        return self.create_form(BillingInfoForm)
+
+
+class ShippingInfoViewlet(BaseCustomerInfoViewlet):
+    grok.name('collective.cart.shopping.shipping.info')
+    grok.template('info')
+
+    title = _('Shipping Info')
+
+    def form(self):
+        return self.create_form(ShippingInfoForm)

@@ -114,7 +114,8 @@ Check Cart::
     <button class="standalone delete" name="form.delete.article" type="submit" value="1">Delete</button>
     </td>
     </tr></form>
-    </tbody></table></section></section>
+    ...
+
 
 Go to Ärticle1 and add more to cart::
 
@@ -383,7 +384,7 @@ Go to Cart Container:
     <td class="article-title">
     <a href="http://nohost/plone/shop/article2">&#196;rticle2</a>
     </td>
-    </tr></tbody></table></section>
+    </tr></tbody></table>...
 
 Go to Ärticle2 and update discount::
 

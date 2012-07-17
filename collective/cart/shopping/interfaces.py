@@ -1,5 +1,6 @@
 from collective.cart.core.interfaces import IArticle
 from collective.cart.core.interfaces import IArticleAdapter
+from collective.cart.core.interfaces import IShoppingSite
 from collective.cart.shopping import _
 from plone.app.textfield import RichText
 from plone.directives import form
@@ -7,7 +8,6 @@ from plone.namedfile.field import NamedBlobImage
 from plone.namedfile.interfaces import IImageScaleTraversable
 from zope.interface import Attribute
 from zope.schema import TextLine
-from zope.interface import Interface
 
 
 class IArticle(IArticle, IImageScaleTraversable):
@@ -22,6 +22,7 @@ class IArticle(IArticle, IImageScaleTraversable):
         description=_(u'Further detailed information comes here.'),
         required=False)
 
+
 class IArticleAdapter(IArticleAdapter):
 
     gross = Attribute('Gross money for the article.')
@@ -30,11 +31,114 @@ class IArticleAdapter(IArticleAdapter):
     soldout = Attribute('True or False for sold out.')
 
 
-# class IInfoSchema(form.Schema):
-class IInfoSchema(Interface):
-    """Billing and Shipping related schema."""
+class IBaseCustomerInfo(form.Schema):
+    """Base Schema for all customer info."""
 
-    name = TextLine(
-        title=_(u'Name'))
+    first_name = TextLine(
+        title=_(u'First Name'))
 
-    title = TextLine(title=u"Title")
+    last_name = TextLine(
+        title=_(u'Last Name'))
+
+    organization = TextLine(
+        title=_(u'Organization'))
+
+    vat = TextLine(
+        title=_('VAT Number'),
+        description=_(u'International VAT Number, for Finland it starts with FI.'),
+        default=u'FI')
+
+    email = TextLine(
+        title=_(u'E-mail'))
+
+    address = TextLine(
+        title=_(u'Street Address'))
+
+    post_code = TextLine(
+        title=_(u'Post Code'),
+        required=False)
+
+    city = TextLine(
+        title=_(u'City'))
+
+    phone = TextLine(
+        title=_(u'Phone Number'))
+
+
+@form.default_value(field=IBaseCustomerInfo['first_name'])
+def default_first_name(data):
+    cart = IShoppingSite(data.context).cart
+    info = cart.get(data.view.form_type)
+    if info:
+        return info.first_name
+
+
+@form.default_value(field=IBaseCustomerInfo['last_name'])
+def default_last_name(data):
+    cart = IShoppingSite(data.context).cart
+    info = cart.get(data.view.form_type)
+    if info:
+        return info.last_name
+
+
+@form.default_value(field=IBaseCustomerInfo['organization'])
+def default_organization(data):
+    cart = IShoppingSite(data.context).cart
+    info = cart.get(data.view.form_type)
+    if info:
+        return info.organization
+
+
+@form.default_value(field=IBaseCustomerInfo['vat'])
+def default_vat(data):
+    cart = IShoppingSite(data.context).cart
+    info = cart.get(data.view.form_type)
+    if info:
+        return info.vat
+
+
+@form.default_value(field=IBaseCustomerInfo['email'])
+def default_email(data):
+    cart = IShoppingSite(data.context).cart
+    info = cart.get(data.view.form_type)
+    if info:
+        return info.email
+
+
+@form.default_value(field=IBaseCustomerInfo['address'])
+def default_address(data):
+    cart = IShoppingSite(data.context).cart
+    info = cart.get(data.view.form_type)
+    if info:
+        return info.address
+
+
+@form.default_value(field=IBaseCustomerInfo['post_code'])
+def default_post_code(data):
+    cart = IShoppingSite(data.context).cart
+    info = cart.get(data.view.form_type)
+    if info:
+        return info.post_code
+
+
+@form.default_value(field=IBaseCustomerInfo['city'])
+def default_city(data):
+    cart = IShoppingSite(data.context).cart
+    info = cart.get(data.view.form_type)
+    if info:
+        return info.city
+
+
+@form.default_value(field=IBaseCustomerInfo['phone'])
+def default_phone(data):
+    cart = IShoppingSite(data.context).cart
+    info = cart.get(data.view.form_type)
+    if info:
+        return info.phone
+
+
+class ICustomerInfo(IBaseCustomerInfo):
+    """Schema for collective.cart.shipping.CustomerInfo dexterity type."""
+
+    info_type = TextLine(
+        title=_(u'Info Type'))

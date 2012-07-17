@@ -1,0 +1,18 @@
+Log in as Manager::
+
+    >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+
+Make Folder 'Shop' into Shop::
+
+    >>> browser.open('/shop')
+    >>> browser.getLink('Make Shopping Site').click()
+
+Log out::
+
+    >>> browser.getLink('Log out').click()
+
+Go to @@billing-and-shipping
+
+    >>> browser.open('/shop/@@billing-and-shipping')
+    >>> browser.url
+    'http://nohost/plone/shop/@@cart'

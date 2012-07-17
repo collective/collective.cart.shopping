@@ -1,0 +1,161 @@
+<html
+  i18n:domain="collective.cart.core"
+  lang="en"
+  metal:use-macro="here/main_template/macros/master"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+  >
+  <body>
+    <div metal:fill-slot="main">
+      <section id="cart-content">
+        <h1 i18n:translate="">
+          Cart ID: <span tal:replace="context/getId" />
+        </h1>
+        <p
+          i18n:translate=""
+          id="no-articles"
+          tal:condition="not: view/articles"
+          >
+          There are no articles within this cart.
+        </p>
+        <table id="article-list" tal:condition="view/articles">
+          <thead>
+            <tr>
+              <td i18n:translate="">ID</td>
+              <td i18n:translate="">Name</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr tal:repeat="item view/articles">
+              <td class="article-id" tal:content="item/id" />
+              <td class="article-title">
+               <span tal:condition="not: item/url" tal:replace="item/title" />
+               <a
+                tal:attributes="href item/url"
+                tal:condition="item/url"
+                tal:content="item/title" />
+             </td>
+            </tr>
+          </tbody>
+        </table>
+        <table
+          id="customer-info"
+          tal:define="
+            billing view/billing;
+            shipping view/shipping"
+          >
+          <thead>
+            <tr>
+              <th />
+              <th i18n:translate="">Billing Info</th>
+              <th i18n:translate="">Shipping Info</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td i18n:translate="">First Name</td>
+              <td
+                tal:condition="billing"
+                tal:content="billing/first_name"
+                />
+              <td
+                tal:condition="shipping"
+                tal:content="shipping/first_name"
+                />
+            </tr>
+            <tr>
+              <td i18n:translate="">Last Name</td>
+              <td
+                tal:condition="billing"
+                tal:content="billing/last_name"
+                />
+              <td
+                tal:condition="shipping"
+                tal:content="shipping/last_name"
+                />
+            </tr>
+            <tr>
+              <td i18n:translate="">Organization</td>
+              <td
+                tal:condition="billing"
+                tal:content="billing/organization"
+                />
+              <td
+                tal:condition="shipping"
+                tal:content="shipping/organization"
+                />
+            </tr>
+            <tr>
+              <td i18n:translate="">VAT Number</td>
+              <td
+                tal:condition="billing"
+                tal:content="billing/vat"
+                />
+              <td
+                tal:condition="shipping"
+                tal:content="shipping/vat"
+                />
+            </tr>
+            <tr>
+              <td i18n:translate="">E-mail</td>
+              <td
+                tal:condition="billing"
+                tal:content="billing/email"
+                />
+              <td
+                tal:condition="shipping"
+                tal:content="shipping/email"
+                />
+            </tr>
+            <tr>
+              <td i18n:translate="">Street Address</td>
+              <td
+                tal:condition="billing"
+                tal:content="billing/address"
+                />
+              <td
+                tal:condition="shipping"
+                tal:content="shipping/address"
+                />
+            </tr>
+            <tr>
+              <td i18n:translate="">Post Code</td>
+              <td
+                tal:condition="billing"
+                tal:content="billing/post_code"
+                />
+              <td
+                tal:condition="shipping"
+                tal:content="shipping/post_code"
+                />
+            </tr>
+            <tr>
+              <td i18n:translate="">City</td>
+              <td
+                tal:condition="billing"
+                tal:content="billing/city"
+                />
+              <td
+                tal:condition="shipping"
+                tal:content="shipping/city"
+                />
+            </tr>
+            <tr>
+              <td i18n:translate="">Phone Number</td>
+              <td
+                tal:condition="billing"
+                tal:content="billing/phone"
+                />
+              <td
+                tal:condition="shipping"
+                tal:content="shipping/phone"
+                />
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </body>
+</html>

@@ -49,4 +49,138 @@ Check Out::
     >>> query = {'form.checkout': 'form.checkout'}
     >>> browser.post(browser.url, query)
 
-    >>> browser.openBrowser()
+Fill Billing Info::
+
+    >>> browser.getControl(name="form.billing.widgets.first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="form.billing.widgets.last_name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="form.billing.widgets.organization").value = 'Billing Örganization'
+    >>> browser.getControl(name="form.billing.widgets.vat").value = 'FI1234567890'
+    >>> browser.getControl(name="form.billing.widgets.email").value = 'first.last@email.billing'
+    >>> browser.getControl(name="form.billing.widgets.address").value = 'Billing Street Äddress'
+    >>> browser.getControl(name="form.billing.widgets.post_code").value = 'Billing Pöst Cöde'
+    >>> browser.getControl(name="form.billing.widgets.city").value = 'Billing €ity'
+    >>> browser.getControl(name="form.billing.widgets.phone").value = 'Billing Phöne Number'
+    >>> browser.getControl(name="form.billing.buttons.submit").click()
+
+    >>> 'Billing First Näme' in browser.contents
+    True
+    >>> 'Billing Last Näme' in browser.contents
+    True
+    >>> 'Billing Örganization' in browser.contents
+    True
+    >>> 'FI1234567890' in browser.contents
+    True
+    >>> 'first.last@email.billing' in browser.contents
+    True
+    >>> 'Billing Street Äddress' in browser.contents
+    True
+    >>> 'Billing Pöst Cöde' in browser.contents
+    True
+    >>> 'Billing €ity' in browser.contents
+    True
+    >>> 'Billing Phöne Number' in browser.contents
+    True
+
+Update Billing Info::
+
+    >>> browser.getControl(name="form.billing.widgets.first_name").value = 'New Billing First Näme'
+    >>> browser.getControl(name="form.billing.widgets.last_name").value = 'New Billing Last Näme'
+    >>> browser.getControl(name="form.billing.widgets.organization").value = 'New Billing Örganization'
+    >>> browser.getControl(name="form.billing.widgets.vat").value = 'NEW1234567890'
+    >>> browser.getControl(name="form.billing.widgets.email").value = 'first.last@email.newbilling'
+    >>> browser.getControl(name="form.billing.widgets.address").value = 'New Billing Street Äddress'
+    >>> browser.getControl(name="form.billing.widgets.post_code").value = 'New Billing Pöst Cöde'
+    >>> browser.getControl(name="form.billing.widgets.city").value = 'New Billing €ity'
+    >>> browser.getControl(name="form.billing.widgets.phone").value = 'New Billing Phöne Number'
+    >>> browser.getControl(name="form.billing.buttons.submit").click()
+
+    >>> 'New Billing First Näme' in browser.contents
+    True
+    >>> 'New Billing Last Näme' in browser.contents
+    True
+    >>> 'New Billing Örganization' in browser.contents
+    True
+    >>> 'NEW1234567890' in browser.contents
+    True
+    >>> 'first.last@email.newbilling' in browser.contents
+    True
+    >>> 'New Billing Street Äddress' in browser.contents
+    True
+    >>> 'New Billing Pöst Cöde' in browser.contents
+    True
+    >>> 'New Billing €ity' in browser.contents
+    True
+    >>> 'New Billing Phöne Number' in browser.contents
+    True
+
+    >>> 'Billing First Näme' in browser.contents
+    True
+    >>> 'Billing Last Näme' in browser.contents
+    True
+    >>> 'Billing Örganization' in browser.contents
+    True
+    >>> 'FI1234567890' in browser.contents
+    True
+    >>> 'first.last@email.billing' in browser.contents
+    True
+    >>> 'Billing Street Äddress' in browser.contents
+    True
+    >>> 'Billing Pöst Cöde' in browser.contents
+    True
+    >>> 'Billing €ity' in browser.contents
+    True
+    >>> 'Billing Phöne Number' in browser.contents
+    True
+
+Update Shipping Info::
+
+    >>> browser.getControl(name="form.shipping.widgets.first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="form.shipping.widgets.last_name").value = 'Shipping Last Näme'
+    >>> browser.getControl(name="form.shipping.widgets.organization").value = 'Shipping Örganization'
+    >>> browser.getControl(name="form.shipping.widgets.vat").value = 'SHIPPING1234567890'
+    >>> browser.getControl(name="form.shipping.widgets.email").value = 'first.last@email.shipping'
+    >>> browser.getControl(name="form.shipping.widgets.address").value = 'Shipping Street Äddress'
+    >>> browser.getControl(name="form.shipping.widgets.post_code").value = 'Shipping Pöst Cöde'
+    >>> browser.getControl(name="form.shipping.widgets.city").value = 'Shipping €ity'
+    >>> browser.getControl(name="form.shipping.widgets.phone").value = 'Shipping Phöne Number'
+    >>> browser.getControl(name="form.shipping.buttons.submit").click()
+
+    >>> 'New Billing First Näme' in browser.contents
+    True
+    >>> 'New Billing Last Näme' in browser.contents
+    True
+    >>> 'New Billing Örganization' in browser.contents
+    True
+    >>> 'NEW1234567890' in browser.contents
+    True
+    >>> 'first.last@email.newbilling' in browser.contents
+    True
+    >>> 'New Billing Street Äddress' in browser.contents
+    True
+    >>> 'New Billing Pöst Cöde' in browser.contents
+    True
+    >>> 'New Billing €ity' in browser.contents
+    True
+    >>> 'New Billing Phöne Number' in browser.contents
+    True
+
+    >>> 'Shipping First Näme' in browser.contents
+    True
+    >>> 'Shipping Last Näme' in browser.contents
+    True
+    >>> 'Shipping Örganization' in browser.contents
+    True
+    >>> 'SHIPPING1234567890' in browser.contents
+    True
+    >>> 'first.last@email.shipping' in browser.contents
+    True
+    >>> 'Shipping Street Äddress' in browser.contents
+    True
+    >>> 'Shipping Pöst Cöde' in browser.contents
+    True
+    >>> 'Shipping €ity' in browser.contents
+    True
+    >>> 'Shipping Phöne Number' in browser.contents
+    True
+
+    # >>> browser.openBrowser()

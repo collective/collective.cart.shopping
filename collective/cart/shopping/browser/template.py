@@ -1,12 +1,13 @@
 from Products.ATContentTypes.interfaces.image import IATImage
 from Products.CMFCore.utils import getToolByName
+from collective.cart.core.browser.template import CartContentView
 from collective.cart.core.interfaces import IArticle
+from collective.cart.core.interfaces import IShoppingSite
 from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
 from collective.cart.shopping.interfaces import IArticleAdapter
 from five import grok
 from zope.component import getMultiAdapter
-
 
 grok.templatedir('templates')
 
@@ -48,6 +49,16 @@ class ArticleView(grok.View):
         return IArticleAdapter(self.context).gross
 
 
+class CartContentView(CartContentView):
+    grok.layer(ICollectiveCartShoppingLayer)
+
+    def billing(self):
+        return self.context.get('billing')
+
+    def shipping(self):
+        return self.context.get('shipping')
+
+
 class BillingAndShippingView(grok.View):
 
     grok.context(IShoppingSiteRoot)
@@ -55,3 +66,10 @@ class BillingAndShippingView(grok.View):
     grok.name('billing-and-shipping')
     grok.require('zope2.View')
     grok.template('billing-and-shipping')
+
+    def __call__(self):
+        if not IShoppingSite(self.context).cart_articles:
+            url = '{}/@@cart'.format(self.context.absolute_url())
+            return self.request.response.redirect(url)
+        else:
+            return super(BillingAndShippingView, self).__call__()

@@ -20,4 +20,9 @@
     title="collective.cart.shopping"
     />
 
+  <permission
+    id="collective.cart.shopping.AddCustomerInfo"
+    title="collective.cart.shopping: Add CustomerInfo"
+    />
+
 </configure>
