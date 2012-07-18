@@ -22,6 +22,7 @@
       <element value="collective.behavior.discount.interfaces.IDiscount" />
       <element value="collective.behavior.stock.interfaces.IStock" />
       <element value="collective.behavior.vat.interfaces.IVAT" />
+      <element value="collective.behavior.size.interfaces.ISize" />
   </property>
 
 </object>

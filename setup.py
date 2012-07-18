@@ -27,6 +27,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'collective.behavior.discount',
+        'collective.behavior.size',
         'collective.behavior.stock',
         'collective.behavior.vat',
         'collective.cart.core',
