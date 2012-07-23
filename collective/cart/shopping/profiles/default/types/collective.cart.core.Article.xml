@@ -16,12 +16,13 @@
 
   <!-- enabled behaviors -->
   <property name="behaviors">
-    <element value="plone.app.content.interfaces.INameFromTitle" />
-    <element value="plone.app.dexterity.behaviors.metadata.IDublinCore" />
-    <element value="collective.behavior.salable.interfaces.ISalable" />
-    <element value="collective.behavior.discount.interfaces.IDiscount" />
-    <element value="collective.behavior.stock.interfaces.IStock" />
-    <element value="collective.behavior.vat.interfaces.IVAT" />
+      <element value="plone.app.content.interfaces.INameFromTitle" />
+      <element value="plone.app.dexterity.behaviors.metadata.IDublinCore" />
+      <element value="collective.behavior.salable.interfaces.ISalable" />
+      <element value="collective.behavior.discount.interfaces.IDiscount" />
+      <element value="collective.behavior.stock.interfaces.IStock" />
+      <element value="collective.behavior.vat.interfaces.IVAT" />
+      <element value="collective.behavior.size.interfaces.ISize" />
   </property>
 
   <alias from="stock-list" to="@@stock-list"/>

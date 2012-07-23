@@ -20,6 +20,10 @@ class TestCase(IntegrationTestCase):
         installer = getToolByName(self.portal, 'portal_quickinstaller')
         self.failUnless(installer.isProductInstalled('collective.behavior.discount'))
 
+    def test_is_collective_behavior_size_installed(self):
+        installer = getToolByName(self.portal, 'portal_quickinstaller')
+        self.failUnless(installer.isProductInstalled('collective.behavior.size'))
+
     def test_is_collective_behavior_stock_installed(self):
         installer = getToolByName(self.portal, 'portal_quickinstaller')
         self.failUnless(installer.isProductInstalled('collective.behavior.stock'))
@@ -64,7 +68,8 @@ class TestCase(IntegrationTestCase):
                 'collective.behavior.salable.interfaces.ISalable',
                 'collective.behavior.discount.interfaces.IDiscount',
                 'collective.behavior.stock.interfaces.IStock',
-                'collective.behavior.vat.interfaces.IVAT'))
+                'collective.behavior.vat.interfaces.IVAT',
+                'collective.behavior.size.interfaces.ISize'))
 
     def test_uninstall__package(self):
         installer = getToolByName(self.portal, 'portal_quickinstaller')
