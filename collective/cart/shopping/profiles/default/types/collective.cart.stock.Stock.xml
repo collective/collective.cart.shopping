@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<object
+  i18n:domain="collective.cart.stock"
+  meta_type="Dexterity FTI"
+  name="collective.cart.stock.Stock"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  >
+
+  <property name="behaviors">
+    <element value="plone.app.content.interfaces.INameFromTitle" />
+    <element value="plone.app.dexterity.behaviors.metadata.IBasic" />
+    <element value="collective.behavior.price.interfaces.IPrice" />
+  </property>
+
+</object>

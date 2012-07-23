@@ -36,7 +36,7 @@ class TestCase(IntegrationTestCase):
     def test_types__collective_cart_core_Article__i18n_domain(self):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.core.Article')
-        self.assertEqual(ctype.i18n_domain, 'collective.cart.core')
+        self.assertEqual(ctype.i18n_domain, 'collective.cart.shopping')
 
     def test_types__collective_cart_core_Article__global_allow(self):
         types = getToolByName(self.portal, 'portal_types')

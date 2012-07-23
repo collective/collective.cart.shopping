@@ -25,6 +25,8 @@ class IArticle(IArticle, IImageScaleTraversable):
 
 class IArticleAdapter(IArticleAdapter):
 
+    discount_available = Attribute('True if discount is available, else False.')
+    discount_end = Attribute('End day of discount.')
     gross = Attribute('Gross money for the article.')
     vat = Attribute('VAT money for the article.')
     net = Attribute('Net money for the article.')

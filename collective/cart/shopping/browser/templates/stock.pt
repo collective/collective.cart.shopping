@@ -29,14 +29,6 @@
                 <p id="vat" i18n:translate="">
                   Including VAT: <span i18n:name="vat" tal:replace="context/vat" /> &#37;
                 </p>
-                <tal:block tal:condition="view/discount_end">
-                  <p id="discount-message" i18n:translate="">
-                    (Discount valid till <span i18n:name="discount_end" tal:replace="view/discount_end" />)
-                  </p>
-                  <p id="normal-price" i18n:translate="">
-                    Normal Price: <span i18n:name="normal-price" tal:replace="context/money" />
-                  </p>
-                </tal:block>
                 <div tal:replace="structure provider:collective.cart.shopping.add.to.cart.manager" />
               </td>
             </tr>

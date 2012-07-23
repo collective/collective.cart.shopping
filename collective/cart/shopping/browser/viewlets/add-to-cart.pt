@@ -4,6 +4,7 @@
   tal:condition="viewlet/available"
   >
   <form
+    method="post"
     tal:attributes="action context/@@plone_context_state/current_base_url"
     tal:condition="not: viewlet/soldout"
     >
@@ -15,7 +16,7 @@
       list="numbers"
       min="1"
       name="quantity"
-      placeholder="1"
+      value="1"
       type="number"
       tal:attributes="
         max viewlet/quantity_max;

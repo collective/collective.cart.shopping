@@ -1,0 +1,50 @@
+<html
+  i18n:domain="collective.cart.shopping"
+  lang="en"
+  metal:use-macro="context/main_template/macros/master"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  >
+  <body>
+    <metal:main fill-slot="main">
+      <section id="collective-cart-shopping-stock-list">
+        <table class="listing">
+          <thead>
+            <tr>
+              <th i18n:translate="">Name</th>
+              <th i18n:translate="">Created</th>
+              <th i18n:translate="">Initial Stock</th>
+              <th i18n:translate="">Current Stock</th>
+              <th i18n:translate="">Purchase Price VAT 0%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tal:block tal:repeat="item view/stocks">
+              <tr class="even" tal:define="oddrow repeat/item/odd">
+                <td>
+                  <a
+                    tal:attributes="href item/url"
+                    tal:content="item/title"
+                    />
+                </td>
+                <td>
+                  <span tal:replace="item/crated" />
+                </td>
+                <td>
+                  <span tal:replace="item/initial_stock" />
+                </td>
+                <td>
+                  <span tal:replace="item/current_stock" />
+                </td>
+                <td>
+                  <span tal:replace="item/money" />
+                </td>
+              </tr>
+            </tal:block>
+          </tbody>
+        </table>
+      </section>
+    </metal:main>
+  </body>
+</html>

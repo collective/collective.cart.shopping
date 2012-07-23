@@ -19,10 +19,11 @@ Add Article::
 
 Add Stock to Ärticle1::
 
-    >>> browser.getLink('Stock').click()
+    >>> browser.open('/shop/article1/++add++collective.cart.stock.Stock')
     >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck1'
     >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Stöck1'
     >>> browser.getControl(name="form.widgets.stock").value = '100'
+    >>> browser.getControl( name="form.widgets.IPrice.price").value = '0.0'
     >>> browser.getControl(name="form.buttons.save").click()
 
     >>> stock1_url = browser.url
@@ -182,5 +183,3 @@ Update Shipping Info::
     True
     >>> 'Shipping Phöne Number' in browser.contents
     True
-
-    # >>> browser.openBrowser()

@@ -17,6 +17,7 @@ from five import grok
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.viewletmanager.manager import OrderedViewletManager
 from plone.z3cform.layout import FormWrapper
+from zope.component import getMultiAdapter
 from zope.lifecycleevent import modified
 
 
@@ -44,6 +45,8 @@ class AddToCartViewlet(AddToCartViewlet):
         if form.get('form.addtocart', None) is not None:
             quantity = form.get('quantity', None)
             if quantity is not None and IArticleAdapter(self.context).addable_to_cart:
+                url = getMultiAdapter(
+                    (self.context, self.request), name='plone_context_state').current_base_url()
                 try:
                     quantity = int(quantity)
                     if quantity > IArticleAdapter(self.context).quantity_max:
@@ -57,11 +60,13 @@ class AddToCartViewlet(AddToCartViewlet):
                     }
                     IArticleAdapter(self.context).add_to_cart(**kwargs)
                     IStock(self.context).sub_stock(quantity)
-                    return self.render()
+                    return self.request.response.redirect(url)
+                    # return self.render()
                 except ValueError:
                     message = _(u"Input integer value to add to cart.")
                     IStatusMessage(self.request).addStatusMessage(message, type='warn')
-                    return self.render()
+                    # return self.render()
+                    return self.request.response.redirect(url)
 
     @property
     def quantity_max(self):

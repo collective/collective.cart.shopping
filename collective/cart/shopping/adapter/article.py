@@ -26,7 +26,7 @@ class ArticleAdapter(ArticleAdapter):
         carticle.quantity += kwargs['quantity']
 
     @property
-    def _discount_available(self):
+    def discount_available(self):
         discount = IDiscount(self.context)
         if discount.discount_enabled:
             today = date.today()
@@ -40,20 +40,25 @@ class ArticleAdapter(ArticleAdapter):
                 return today <= end
 
     @property
+    def discount_end(self):
+        if self.discount_available:
+            return IDiscount(self.context).discount_end
+
+    @property
     def gross(self):
-        if self._discount_available:
+        if self.discount_available:
             return self.context.discount_gross
         return self.context.gross_money
 
     @property
     def vat(self):
-        if self._discount_available:
+        if self.discount_available:
             return self.context.discount_vat
         return self.context.vat_money
 
     @property
     def net(self):
-        if self._discount_available:
+        if self.discount_available:
             return self.context.discount_net
         return self.context.net_money
 
