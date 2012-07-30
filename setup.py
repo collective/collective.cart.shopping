@@ -31,6 +31,7 @@ setup(
         'collective.behavior.stock',
         'collective.behavior.vat',
         'collective.cart.core',
+        'collective.cart.shipping',
         'five.grok',
         'hexagonit.testing',
         'plone.app.imaging',

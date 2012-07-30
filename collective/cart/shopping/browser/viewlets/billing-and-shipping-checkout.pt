@@ -1,0 +1,19 @@
+<section
+  class="collective-cart-shopping-checkout"
+  id="billing-and-shipping-checkout"
+  i18n:domain="collective.cart.shopping"
+  >
+  <form
+    method="post"
+    tal:attributes="action context/@@plone_context_state/current_base_url">
+    <button
+      class="standalone to-confirmation"
+      i18n:translate=""
+      name="form.to.confirmation"
+      type="submit"
+      value="form.to.confirmation"
+      >
+      Confirmation
+    </button>
+  </form>
+</section>

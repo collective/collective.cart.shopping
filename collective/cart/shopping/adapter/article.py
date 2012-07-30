@@ -4,6 +4,7 @@ from collective.cart.core.adapter.article import ArticleAdapter
 from collective.cart.shopping.interfaces import IArticleAdapter
 from datetime import date
 from five import grok
+from zope.lifecycleevent import modified
 
 
 class ArticleAdapter(ArticleAdapter):
@@ -24,6 +25,7 @@ class ArticleAdapter(ArticleAdapter):
         :type carticle: collective.cart.core.CartArticle
         """
         carticle.quantity += kwargs['quantity']
+        modified(carticle)
 
     @property
     def discount_available(self):

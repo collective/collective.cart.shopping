@@ -1,0 +1,6 @@
+<section
+  id="cart-total"
+  i18n:domain="collective.cart.shopping"
+  >
+  <span i18n:translate="">Total</span> <span tal:replace="viewlet/cart_total" />
+</section>

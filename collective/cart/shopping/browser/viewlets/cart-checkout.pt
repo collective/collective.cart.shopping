@@ -1,10 +1,20 @@
 <section
-  id="collective-cart-shopping-checkout"
+  class="collective-cart-shopping-checkout"
+  id="cart-checkout"
   i18n:domain="collective.cart.shopping"
   >
   <form
     method="post"
     tal:attributes="action context/@@plone_context_state/current_base_url">
+    <button
+      class="standalone clear"
+      i18n:translate=""
+      name="form.clear.cart"
+      type="submit"
+      value="form.clear.cart"
+      >
+      Clear Cart
+    </button>
     <button
       class="standalone checkout"
       i18n:translate=""

@@ -73,12 +73,13 @@ class BillingAndShippingView(grok.View):
     grok.require('zope2.View')
     grok.template('billing-and-shipping')
 
-    def __call__(self):
+    def update(self):
         if not IShoppingSite(self.context).cart_articles:
             url = '{}/@@cart'.format(self.context.absolute_url())
             return self.request.response.redirect(url)
         else:
-            return super(BillingAndShippingView, self).__call__()
+            self.request.set('disable_border', True)
+            super(BillingAndShippingView, self).update()
 
 
 class StockListView(grok.View):

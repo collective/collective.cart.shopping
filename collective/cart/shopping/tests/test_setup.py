@@ -16,6 +16,10 @@ class TestCase(IntegrationTestCase):
         installer = getToolByName(self.portal, 'portal_quickinstaller')
         self.failUnless(installer.isProductInstalled('collective.cart.core'))
 
+    def test_is_collective_cart_shipping_installed(self):
+        installer = getToolByName(self.portal, 'portal_quickinstaller')
+        self.failUnless(installer.isProductInstalled('collective.cart.shipping'))
+
     def test_is_collective_behavior_discount_installed(self):
         installer = getToolByName(self.portal, 'portal_quickinstaller')
         self.failUnless(installer.isProductInstalled('collective.behavior.discount'))

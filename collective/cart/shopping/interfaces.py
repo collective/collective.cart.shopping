@@ -1,6 +1,4 @@
-from collective.cart.core.interfaces import IArticle
-from collective.cart.core.interfaces import IArticleAdapter
-from collective.cart.core.interfaces import IShoppingSite
+from collective.cart.core import interfaces
 from collective.cart.shopping import _
 from plone.app.textfield import RichText
 from plone.directives import form
@@ -10,7 +8,13 @@ from zope.interface import Attribute
 from zope.schema import TextLine
 
 
-class IArticle(IArticle, IImageScaleTraversable):
+class IShoppingSite(interfaces.IShoppingSite):
+    """Adapter Interface for Shopping Site."""
+
+    shipping_methods = Attribute('List of shipping methods.')
+
+
+class IArticle(interfaces.IArticle, IImageScaleTraversable):
 
     image = NamedBlobImage(
         title=_(u'Representative Image'),
@@ -23,7 +27,7 @@ class IArticle(IArticle, IImageScaleTraversable):
         required=False)
 
 
-class IArticleAdapter(IArticleAdapter):
+class IArticleAdapter(interfaces.IArticleAdapter):
 
     discount_available = Attribute('True if discount is available, else False.')
     discount_end = Attribute('End day of discount.')
@@ -31,6 +35,20 @@ class IArticleAdapter(IArticleAdapter):
     vat = Attribute('VAT money for the article.')
     net = Attribute('Net money for the article.')
     soldout = Attribute('True or False for sold out.')
+
+
+class ICart(interfaces.ICart):
+
+    shipping_title = Attribute('Title for selected shipping method.')
+    shipping_uid = Attribute('UUID for selected shipping method.')
+    shipping_gross = Attribute('Gross price for selected shipping method.')
+    shipping_net = Attribute('Net price for selected shipping method.')
+    shipping_vat = Attribute('VAT price for selected shipping method.')
+    shipping_vat_rate = Attribute('VAT rate for selected shipping method.')
+
+
+class ICartArticle(interfaces.ICartArticle):
+    """"""
 
 
 class IBaseCustomerInfo(form.Schema):

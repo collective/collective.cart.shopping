@@ -16,6 +16,7 @@ class CollectiveCartShoppingLayer(PloneSandboxLayer):
 
         # Required by Products.CMFPlone:plone-content to setup defaul plone site.
         z2.installProduct(app, 'Products.PythonScripts')
+        z2.installProduct(app, 'Products.ATCountryWidget')
 
         # Load ZCML
         import collective.cart.shopping
@@ -37,6 +38,7 @@ class CollectiveCartShoppingLayer(PloneSandboxLayer):
     def tearDownZope(self, app):
         """Tear down Zope."""
         z2.uninstallProduct(app, 'collective.cart.shopping')
+        z2.uninstallProduct(app, 'ATCountryWidget')
         z2.uninstallProduct(app, 'Products.PythonScripts')
 
 

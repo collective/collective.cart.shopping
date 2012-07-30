@@ -38,9 +38,10 @@ Add Ärticle1 to Cart::
 Go to Cart::
 
     >>> browser.open('/shop/@@cart')
-    >>> print browser.bycss('#collective-cart-shopping-checkout')
+    >>> print browser.bycss('.collective-cart-shopping-checkout')
     --- 1 ---
-    <section id="collective-cart-shopping-checkout"><form method="post" action="http://nohost/plone/shop/@@cart">
+    <section class="collective-cart-shopping-checkout" id="cart-checkout"><form method="post" action="http://nohost/plone/shop/@@cart">
+    <button class="standalone clear" name="form.clear.cart" type="submit" value="form.clear.cart">Clear Cart</button>
     <button class="standalone checkout" name="form.checkout" type="submit" value="form.checkout">Check Out</button>
     </form>
     </section>

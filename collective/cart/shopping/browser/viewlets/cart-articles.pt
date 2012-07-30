@@ -3,54 +3,48 @@
   tal:condition="view/cart_articles"
   >
   <table class="listing">
-    <thead>
-      <tr>
-        <th i18n:translate="">
-          Image
-        </th>
-        <th i18n:translate="">
-          Name
-        </th>
-        <th i18n:translate="">
-          Price
-        </th>
-        <th i18n:translate="">
-          Quantity
-        </th>
-        <th i18n:translate="">
-          Delete
-        </th>
-      </tr>
-    </thead>
     <tbody>
       <form
         method="post"
         tal:attributes="action context/@@plone_context_state/current_base_url"
         tal:repeat="item viewlet/articles"
         >
-        <tr
-          tal:define="oddrow repeat/item/odd"
-          tal:attributes="class python:oddrow and 'even' or 'odd'"
-          >
+        <tr>
           <td class="image">
-            <img
-              tal:replace="structure item/orig/@@images/image/thumb"
-              tal:on-error="nothing"
-              />
-          </td>
-          <td class="name">
             <a
               tal:condition="item/url"
-              tal:attributes="href item/url"
-              tal:content="item/title"
-              />
-            <span
-              tal:condition="not: item/url"
-              tal:replace="item/title"
-              />
+              tal:attributes="
+                href item/url;
+                title item/title"
+              >
+              <img
+                tal:replace="structure item/image"
+                />
+            </a>
+            <img
+                tal:condition="not: item/url"
+                tal:replace="structure item/image"
+                />
+          </td>
+          <td class="name">
+            <h3>
+              <a
+                tal:condition="item/url"
+                tal:attributes="href item/url"
+                tal:content="item/title"
+                />
+              <span
+                tal:condition="not: item/url"
+                tal:replace="item/title"
+                />
+            </h3>
+            <p tal:content="item/description" />
           </td>
           <td class="price">
             <span tal:replace="item/gross" />
+            <span id="vat" i18n:translate="">
+              Including VAT: <span i18n:name="vat" tal:replace="item/vat_rate" /> &#37;
+            </span>
           </td>
           <td class="quantity">
             <input

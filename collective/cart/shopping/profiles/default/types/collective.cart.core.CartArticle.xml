@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<object
+  i18n:domain="collective.cart.core"
+  meta_type="Dexterity FTI"
+  name="collective.cart.core.CartArticle"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  >
+
+  <!-- Schema, class and security -->
+  <property name="schema">collective.cart.shopping.interfaces.ICartArticle</property>
+
+  <!-- enabled behaviors -->
+  <property name="behaviors">
+    <element value="collective.behavior.size.interfaces.ISize" />
+  </property>
+
+</object>
