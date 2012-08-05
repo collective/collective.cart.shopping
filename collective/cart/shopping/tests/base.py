@@ -22,6 +22,7 @@ class CollectiveCartShoppingLayer(PloneSandboxLayer):
         import collective.cart.shopping
         self.loadZCML(package=collective.cart.shopping)
         z2.installProduct(app, 'collective.cart.shopping')
+        z2.installProduct(app, 'collective.cart.shipping')
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
@@ -37,6 +38,7 @@ class CollectiveCartShoppingLayer(PloneSandboxLayer):
 
     def tearDownZope(self, app):
         """Tear down Zope."""
+        z2.uninstallProduct(app, 'collective.cart.shipping')
         z2.uninstallProduct(app, 'collective.cart.shopping')
         z2.uninstallProduct(app, 'ATCountryWidget')
         z2.uninstallProduct(app, 'Products.PythonScripts')

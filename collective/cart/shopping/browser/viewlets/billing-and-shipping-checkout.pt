@@ -5,7 +5,7 @@
   >
   <form
     method="post"
-    tal:attributes="action context/@@plone_context_state/current_base_url">
+    tal:attributes="action viewlet/action_url">
     <button
       class="standalone to-confirmation"
       i18n:translate=""

@@ -7,6 +7,17 @@ Make Folder 'Shop' into Shop::
     >>> browser.open('/shop')
     >>> browser.getLink('Make Shopping Site').click()
 
+Add Shipping Method::
+
+    >>> browser.open('/shop/createObject?type_name=ShippingMethod')
+    >>> browser.getControl(name="title").value = 'ShippingMethöd1'
+    >>> browser.getControl(name="description").value = 'Descriptiön of ShippingMethöd1'
+    >>> browser.getControl(name="min_delivery_days").value = '3'
+    >>> browser.getControl(name="max_delivery_days").value = '5'
+    >>> browser.getControl(name="form.button.save").click()
+    >>> 'Shipping fee for one kg' in browser.contents
+    True
+
 Add Article::
 
     >>> browser.open('/shop/++add++collective.cart.core.Article')
@@ -184,3 +195,8 @@ Update Shipping Info::
     True
     >>> 'Shipping Phöne Number' in browser.contents
     True
+
+Confirm::
+
+    >>> browser.getControl(name="form.to.confirmation").click()
+

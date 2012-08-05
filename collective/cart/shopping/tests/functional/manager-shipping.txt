@@ -1,0 +1,109 @@
+Log in as Manager::
+
+    >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+
+Make Folder 'Shop' into Shop::
+
+    >>> browser.open('/shop')
+    >>> browser.getLink('Make Shopping Site').click()
+
+Add some Shipping Methods::
+
+    >>> browser.open('/shop/createObject?type_name=ShippingMethod')
+    >>> browser.getControl(name="title").value = 'ShippingMethöd1'
+    >>> browser.getControl(name="description").value = 'Descriptiön of ShippingMethöd1'
+    >>> browser.getControl(name="min_delivery_days").value = '3'
+    >>> browser.getControl(name="max_delivery_days").value = '5'
+    >>> browser.getControl(name="form.button.save").click()
+    >>> 'Shipping fee for one kg' in browser.contents
+    True
+
+    >>> shippingmethod1_uuid = portal['shop']['shippingmethod1'].UID()
+
+    >>> browser.open('/shop/createObject?type_name=ShippingMethod')
+    >>> browser.getControl(name="title").value = 'ShippingMethöd2'
+    >>> browser.getControl(name="description").value = 'Descriptiön of ShippingMethöd2'
+    >>> browser.getControl(name="min_delivery_days").value = '5'
+    >>> browser.getControl(name="max_delivery_days").value = '10'
+    >>> browser.getControl(name="shipping_fee").value = 'def shipping_fee(weight):\n    return weight * 2\nreturn shipping_fee'
+
+    >>> browser.getControl(name="form.button.save").click()
+    >>> browser.getLink('Edit').click()
+
+    >>> shippingmethod2_uuid = portal['shop']['shippingmethod2'].UID()
+
+Add Article::
+
+    >>> browser.open('/shop/++add++collective.cart.core.Article')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Description of Ärticle1'
+    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '12.30'
+    >>> browser.getControl(name="form.widgets.ISize.weight").value = '100'
+    >>> browser.getControl(name="form.buttons.save").click()
+
+    >>> article1_url = browser.url
+
+Add Stock to Ärticle1::
+
+    >>> browser.open('/shop/article1/++add++collective.cart.stock.Stock')
+    >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck1'
+    >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Stöck1'
+    >>> browser.getControl(name="form.widgets.stock").value = '100'
+    >>> browser.getControl( name="form.widgets.IPrice.price").value = '0.0'
+    >>> browser.getControl(name="form.buttons.save").click()
+
+    >>> stock1_url = browser.url
+
+Add Ärticle1 to Cart::
+
+    >>> browser.open(article1_url)
+
+    >>> query = {'quantity': '1', 'form.addtocart': 'form.addtocart'}
+    >>> browser.post(browser.url, query)
+
+Go to Cart::
+
+    >>> browser.open('/shop/@@cart')
+
+Check Out::
+
+    >>> query = {'form.checkout': 'form.checkout'}
+    >>> browser.post(browser.url, query)
+
+Fill Billing Info::
+
+    >>> browser.getControl(name="form.billing.widgets.first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="form.billing.widgets.last_name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="form.billing.widgets.organization").value = 'Billing Örganization'
+    >>> browser.getControl(name="form.billing.widgets.vat").value = 'FI1234567890'
+    >>> browser.getControl(name="form.billing.widgets.email").value = 'first.last@email.billing'
+    >>> browser.getControl(name="form.billing.widgets.address").value = 'Billing Street Äddress'
+    >>> browser.getControl(name="form.billing.widgets.post_code").value = 'Billing Pöst Cöde'
+    >>> browser.getControl(name="form.billing.widgets.city").value = 'Billing €ity'
+    >>> browser.getControl(name="form.billing.widgets.phone").value = 'Billing Phöne Number'
+    >>> browser.getControl(name="form.billing.buttons.submit").click()
+
+    >>> print browser.bycss('#billing-and-shipping-shipping-method')
+    --- 1 ---
+    <section class="collective-cart-shopping-shipping-method" id="billing-and-shipping-shipping-method"><form method="post" action="http://nohost/plone/shop/@@billing-and-shipping">
+    <select id="shipping-method" name="shipping-method"><option selected value="...">ShippingMeth&#246;d1</option><option value="...">ShippingMeth&#246;d2</option></select><span id="shipping-gross">0.10 &#8364;</span>
+    <button class="standalone update-shipping-method" name="form.update.shipping.method" type="submit" value="form.update.shipping.method">Update Shipping Method</button>
+    </form>
+    </section>
+
+Update Shipping Method::
+
+    >>> browser.getControl(name="shipping-method").value = [shippingmethod2_uuid]
+    >>> browser.getControl(name="form.update.shipping.method").click()
+
+    >>> print browser.bycss('#billing-and-shipping-shipping-method')
+    --- 1 ---
+    <section class="collective-cart-shopping-shipping-method" id="billing-and-shipping-shipping-method"><form method="post" action="http://nohost/plone/shop/@@billing-and-shipping">
+    <select id="shipping-method" name="shipping-method"><option value="...">ShippingMeth&#246;d1</option><option selected value="...">ShippingMeth&#246;d2</option></select><span id="shipping-gross">0.20 &#8364;</span>
+    <button class="standalone update-shipping-method" name="form.update.shipping.method" type="submit" value="form.update.shipping.method">Update Shipping Method</button>
+    </form>
+    </section>
+
+# Confirm::
+
+#     >>> browser.getControl(name="form.to.confirmation").click()

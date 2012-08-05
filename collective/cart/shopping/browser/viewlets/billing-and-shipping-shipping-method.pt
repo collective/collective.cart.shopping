@@ -10,17 +10,18 @@
     <select
       id="shipping-method"
       name="shipping-method"
-      tal:repeat="item viewlet/shipping_methods"
       >
-      <option
-        tal:condition="python: item.UID != viewlet.shipping_uuid"
-        tal:attributes="value item/UID"
-        tal:content="item/Title" />
-      <option
-        tal:condition="python: item.UID == viewlet.shipping_uuid"
-        tal:attributes="value item/UID"
-        tal:content="item/Title"
-        selected="selected" />
+      <tal:block tal:repeat="item viewlet/shipping_methods">
+        <option
+          tal:condition="python: item.UID != viewlet.shipping_uuid"
+          tal:attributes="value item/UID"
+          tal:content="item/Title" />
+        <option
+          tal:condition="python: item.UID == viewlet.shipping_uuid"
+          tal:attributes="value item/UID"
+          tal:content="item/Title"
+          selected="selected" />
+      </tal:block>
     </select>
     <span id="shipping-gross" tal:content="viewlet/shipping_gross" />
     <button

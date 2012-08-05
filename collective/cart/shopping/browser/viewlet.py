@@ -3,7 +3,6 @@ from Products.statusmessages.interfaces import IStatusMessage
 from collective.behavior.price.interfaces import ICurrency
 from collective.behavior.size.interfaces import ISize
 from collective.behavior.stock.interfaces import IStock
-from collective.behavior.vat.interfaces import IVAT
 from collective.cart.core.browser.viewlet import AddToCartViewlet
 from collective.cart.core.browser.viewlet import CartArticlesViewlet
 from collective.cart.core.browser.viewlet import CartViewletManager
@@ -174,6 +173,7 @@ class CartTotalViewlet(grok.Viewlet):
             res += brain.gross * brain.quantity
         return res
 
+
 class CheckOutViewlet(grok.Viewlet):
     grok.context(IShoppingSiteRoot)
     grok.layer(ICollectiveCartShoppingLayer)
@@ -240,9 +240,16 @@ class ShippingInfoViewlet(BaseCustomerInfoViewlet):
     def form(self):
         return self.create_form(ShippingInfoForm)
 
+
 class BillingShippingShippingMethodViewlet(BaseCustomerInfoViewlet):
     grok.name('collective.cart.shopping.billing.shipping.method')
     grok.template('billing-and-shipping-shipping-method')
+
+    def update(self):
+        if self.request.form.get('form.update.shipping.method', None) is not None:
+            uuid = self.request.form.get('shipping-method', None)
+            if uuid:
+                setattr(IShoppingSite(self.context).cart, 'shipping_uid', uuid)
 
     @property
     def shipping_methods(self):
@@ -267,14 +274,13 @@ class BillingShippingShippingMethodViewlet(BaseCustomerInfoViewlet):
     def shipping_gross(self):
         registry = getUtility(IRegistry)
         currency = registry.forInterface(ICurrency).default_currency
-        res = Money(0.00, currency=currency)
         shipping_fee = self.shipping_method.getField('shipping_fee').get(self.shipping_method)
         weight = 0.0
-        for brain in self.view.cart_articles:
+        for brain in IShoppingSite(self.context).cart_articles:
             obj = brain.getObject()
             weight += ISize(obj).calculated_weight(
-                self.shipping_weight.weight_dimension_rate)
-        return shipping_fee(weight)
+                self.shipping_method.weight_dimension_rate) * obj.quantity
+        return Money(shipping_fee(weight), currency=currency)
 
     def cart_total(self):
         registry = getUtility(IRegistry)
@@ -288,3 +294,13 @@ class BillingShippingShippingMethodViewlet(BaseCustomerInfoViewlet):
 class BillingShippingCheckOutViewlet(BaseCustomerInfoViewlet):
     grok.name('collective.cart.shopping.billing.shipping.checkout')
     grok.template('billing-and-shipping-checkout')
+
+    def action_url(self):
+        return '{0}/@@order-confirmation'.format(self.context.absolute_url())
+
+
+class OrderConfirmationViewletManager(OrderedViewletManager, grok.ViewletManager):
+    """Viewlet manager for order confirmation."""
+    grok.context(IShoppingSiteRoot)
+    grok.layer(ICollectiveCartShoppingLayer)
+    grok.name('collective.cart.shopping.order.confirmation.manager')

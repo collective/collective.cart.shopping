@@ -82,6 +82,21 @@ class BillingAndShippingView(grok.View):
             super(BillingAndShippingView, self).update()
 
 
+class OrderConfirmationView(grok.View):
+
+    grok.context(IShoppingSiteRoot)
+    grok.layer(ICollectiveCartShoppingLayer)
+    grok.name('order-confirmation')
+    grok.require('zope2.View')
+    grok.template('order-confirmation')
+
+    def update(self):
+        base_url = self.context.absolute_url()
+        if not IShoppingSite(self.context).cart_articles:
+            url = '{}/@@cart'.format(base_url)
+            return self.request.response.redirect(url)
+
+
 class StockListView(grok.View):
     """View to show list of Article stock."""
     grok.context(IArticle)
