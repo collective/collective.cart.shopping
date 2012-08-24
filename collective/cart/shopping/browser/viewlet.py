@@ -27,7 +27,6 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.interface import Interface
 from zope.lifecycleevent import modified
-from plone.uuid.interfaces import IUUID
 
 
 grok.templatedir('viewlets')
@@ -244,54 +243,54 @@ class ShippingInfoViewlet(BaseCustomerInfoViewlet):
         return self.create_form(ShippingInfoForm)
 
 
-class BillingShippingShippingMethodViewlet(BaseCustomerInfoViewlet):
-    grok.name('collective.cart.shopping.billing.shipping.method')
-    grok.template('billing-and-shipping-shipping-method')
+# class BillingShippingShippingMethodViewlet(BaseCustomerInfoViewlet):
+#     grok.name('collective.cart.shopping.billing.shipping.method')
+#     grok.template('billing-and-shipping-shipping-method')
 
-    def update(self):
-        if self.request.form.get('form.update.shipping.method', None) is not None:
-            uuid = self.request.form.get('shipping-method', None)
-            if uuid:
-                setattr(IShoppingSite(self.context).cart, 'shipping_uid', uuid)
+#     def update(self):
+#         if self.request.form.get('form.update.shipping.method', None) is not None:
+#             uuid = self.request.form.get('shipping-method', None)
+#             if uuid:
+#                 setattr(IShoppingSite(self.context).cart, 'shipping_uid', uuid)
 
-    @property
-    def shipping_methods(self):
-        return IShoppingSite(self.context).shipping_methods
+#     @property
+#     def shipping_methods(self):
+#         return IShoppingSite(self.context).shipping_methods
 
-    @property
-    def shipping_method(self):
-        shipping_uid = getattr(IShoppingSite(self.context).cart, 'shipping_uid', None)
-        if shipping_uid:
-            methods = [brain for brain in self.shipping_methods if brain.UID == shipping_uid]
-            if methods:
-                brain = methods[0]
-        else:
-            brain = self.shipping_methods[0]
-        return brain.getObject()
+#     @property
+#     def shipping_method(self):
+#         shipping_uid = getattr(IShoppingSite(self.context).cart, 'shipping_uid', None)
+#         if shipping_uid:
+#             methods = [brain for brain in self.shipping_methods if brain.UID == shipping_uid]
+#             if methods:
+#                 brain = methods[0]
+#         else:
+#             brain = self.shipping_methods[0]
+#         return brain.getObject()
 
-    @property
-    def shipping_uuid(self):
-        return IUUID(self.shipping_method)
+#     @property
+#     def shipping_uuid(self):
+#         return IUUID(self.shipping_method)
 
-    @property
-    def shipping_gross(self):
-        registry = getUtility(IRegistry)
-        currency = registry.forInterface(ICurrency).default_currency
-        shipping_fee = self.shipping_method.getField('shipping_fee').get(self.shipping_method)
-        weight = 0.0
-        for brain in IShoppingSite(self.context).cart_articles:
-            obj = brain.getObject()
-            weight += ISize(obj).calculated_weight(
-                self.shipping_method.weight_dimension_rate) * obj.quantity
-        return Money(shipping_fee(weight), currency=currency)
+#     @property
+#     def shipping_gross(self):
+#         registry = getUtility(IRegistry)
+#         currency = registry.forInterface(ICurrency).default_currency
+#         shipping_fee = self.shipping_method.getField('shipping_fee').get(self.shipping_method)
+#         weight = 0.0
+#         for brain in IShoppingSite(self.context).cart_articles:
+#             obj = brain.getObject()
+#             weight += ISize(obj).calculated_weight(
+#                 self.shipping_method.weight_dimension_rate) * obj.quantity
+#         return Money(shipping_fee(weight), currency=currency)
 
-    def cart_total(self):
-        registry = getUtility(IRegistry)
-        currency = registry.forInterface(ICurrency).default_currency
-        res = Money(0.00, currency=currency)
-        for brain in self.view.cart_articles:
-            res += brain.gross * brain.quantity
-        return res
+#     def cart_total(self):
+#         registry = getUtility(IRegistry)
+#         currency = registry.forInterface(ICurrency).default_currency
+#         res = Money(0.00, currency=currency)
+#         for brain in self.view.cart_articles:
+#             res += brain.gross * brain.quantity
+#         return res
 
 
 class BillingShippingCheckOutViewlet(BaseCustomerInfoViewlet):

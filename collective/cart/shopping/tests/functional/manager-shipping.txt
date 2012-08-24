@@ -83,27 +83,31 @@ Fill Billing Info::
     >>> browser.getControl(name="form.billing.widgets.phone").value = 'Billing Phöne Number'
     >>> browser.getControl(name="form.billing.buttons.submit").click()
 
-    >>> print browser.bycss('#billing-and-shipping-shipping-method')
+    >>> print browser.bycss('#formfield-form-widgets-shipping_method')
     --- 1 ---
-    <section class="collective-cart-shopping-shipping-method" id="billing-and-shipping-shipping-method"><form method="post" action="http://nohost/plone/shop/@@billing-and-shipping">
-    <select id="shipping-method" name="shipping-method"><option selected value="...">ShippingMeth&#246;d1</option><option value="...">ShippingMeth&#246;d2</option></select><span id="shipping-gross">0.10 &#8364;</span>
-    <button class="standalone update-shipping-method" name="form.update.shipping.method" type="submit" value="form.update.shipping.method">Update Shipping Method</button>
-    </form>
-    </section>
+    <div class="field z3cformInlineValidation kssattr-fieldname-form.widgets.shipping_method" id="formfield-form-widgets-shipping_method">
+    <label for="form-widgets-shipping_method" class="horizontal">
+    Shipping Method
+    </label>
+    <span class="required horizontal" title="Required" style="color: red">
+    &#9632;
+    </span>
+    <div class="fieldErrorBox"></div>
+    <select id="form-widgets-shipping_method" name="form.widgets.shipping_method:list" class="select-widget required choice-field" size="1"><option id="form-widgets-shipping_method-0" value="...">ShippingMeth&#246;d1</option><option id="form-widgets-shipping_method-1" value="...">ShippingMeth&#246;d2</option></select><input name="form.widgets.shipping_method-empty-marker" type="hidden" value="1"></div>
 
 Update Shipping Method::
 
-    >>> browser.getControl(name="shipping-method").value = [shippingmethod2_uuid]
-    >>> browser.getControl(name="form.update.shipping.method").click()
+    >>> browser.getControl(name="form.widgets.shipping_method:list").value = [shippingmethod2_uuid]
+    >>> browser.getControl(name="form.buttons.update").click()
 
-    >>> print browser.bycss('#billing-and-shipping-shipping-method')
+    >>> print browser.bycss('#formfield-form-widgets-shipping_method')
     --- 1 ---
-    <section class="collective-cart-shopping-shipping-method" id="billing-and-shipping-shipping-method"><form method="post" action="http://nohost/plone/shop/@@billing-and-shipping">
-    <select id="shipping-method" name="shipping-method"><option value="...">ShippingMeth&#246;d1</option><option selected value="...">ShippingMeth&#246;d2</option></select><span id="shipping-gross">0.20 &#8364;</span>
-    <button class="standalone update-shipping-method" name="form.update.shipping.method" type="submit" value="form.update.shipping.method">Update Shipping Method</button>
-    </form>
-    </section>
-
-# Confirm::
-
-#     >>> browser.getControl(name="form.to.confirmation").click()
+    <div class="field z3cformInlineValidation kssattr-fieldname-form.widgets.shipping_method" id="formfield-form-widgets-shipping_method">
+    <label for="form-widgets-shipping_method" class="horizontal">
+    Shipping Method
+    </label>
+    <span class="required horizontal" title="Required" style="color: red">
+    &#9632;
+    </span>
+    <div class="fieldErrorBox"></div>
+    <select id="form-widgets-shipping_method" name="form.widgets.shipping_method:list" class="select-widget required choice-field" size="1"><option id="form-widgets-shipping_method-0" value="...">ShippingMeth&#246;d1</option><option id="form-widgets-shipping_method-1" value="..." selected>ShippingMeth&#246;d2</option></select><input name="form.widgets.shipping_method-empty-marker" type="hidden" value="1"></div>

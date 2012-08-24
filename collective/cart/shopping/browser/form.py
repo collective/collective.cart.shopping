@@ -72,7 +72,9 @@ class ShippingInfoForm(BaseCustomerInfoForm):
 def default_shipping_method(data):
     shipping_uid = getattr(IShoppingSite(data.context).cart, 'shipping_uid', None)
     if not shipping_uid:
-        shipping_uid = IShoppingSite(data.context).shipping_methods[0].UID
+        shipping_methods = getattr(IShoppingSite(data.context), 'shipping_methods', None)
+        if shipping_methods:
+            shipping_uid = shipping_methods[0].UID
     return shipping_uid
 
 
