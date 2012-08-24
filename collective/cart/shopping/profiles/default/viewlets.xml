@@ -6,4 +6,7 @@
     <viewlet name="collective.cart.shopping.billing.shipping.method" />
     <viewlet name="collective.cart.shopping.billing.shipping.checkout" />
   </order>
+  <hidden manager="plone.abovecontent" skinname="*">
+    <viewlet name="collective.cart.shipping.shipping-method" />
+  </hidden>
 </object>

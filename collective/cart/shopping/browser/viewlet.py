@@ -9,12 +9,14 @@ from collective.cart.core.browser.viewlet import CartViewletManager
 from collective.cart.core.interfaces import IArticle
 from collective.cart.core.interfaces import ICartArticleAdapter
 from collective.cart.core.interfaces import IShoppingSiteRoot
+from collective.cart import shipping
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.form import BillingInfoForm
 from collective.cart.shopping.browser.form import ShippingInfoForm
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
+from collective.cart.shopping.browser.wrapper import ShippingMethodFormWrapper
 from five import grok
 from moneyed import Money
 from plone.app.contentlisting.interfaces import IContentListing
@@ -23,6 +25,7 @@ from plone.registry.interfaces import IRegistry
 from plone.z3cform.layout import FormWrapper
 from zope.component import getMultiAdapter
 from zope.component import getUtility
+from zope.interface import Interface
 from zope.lifecycleevent import modified
 from plone.uuid.interfaces import IUUID
 
@@ -304,3 +307,12 @@ class OrderConfirmationViewletManager(OrderedViewletManager, grok.ViewletManager
     grok.context(IShoppingSiteRoot)
     grok.layer(ICollectiveCartShoppingLayer)
     grok.name('collective.cart.shopping.order.confirmation.manager')
+
+
+class ShippingMethodViewlet(shipping.browser.viewlet.ShippingMethodViewlet):
+    grok.context(IShoppingSiteRoot)
+    grok.layer(ICollectiveCartShoppingLayer)
+    grok.view(Interface)
+    grok.viewletmanager(BillingAndShippingViewletManager)
+
+    _form_wrapper = ShippingMethodFormWrapper
