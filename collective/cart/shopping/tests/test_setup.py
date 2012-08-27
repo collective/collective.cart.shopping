@@ -41,6 +41,38 @@ class TestCase(IntegrationTestCase):
         from plone.browserlayer import utils
         self.failUnless(ICollectiveCartShoppingLayer in utils.registered_layers())
 
+    def get_record(self, name):
+        """Get record by name.
+        :param name: Name of record.
+        :type name: basestring
+
+        :rtype: plone.registry.record.Record
+        """
+        from plone.registry.interfaces import IRegistry
+        from zope.component import getUtility
+        return getUtility(IRegistry).records.get(name)
+
+    def test_registry_record__collective_cart_shopping_number_of_images__field__instance(self):
+        from plone.registry.field import Int
+        record = self.get_record('collective.cart.shopping.number_of_images')
+        self.assertIsInstance(record.field, Int)
+
+    def test_registry_record__collective_cart_shopping_number_of_images__field__title(self):
+        record = self.get_record('collective.cart.shopping.number_of_images')
+        self.assertEqual(record.field.title, u'Number of Images')
+
+    def test_registry_record__collective_cart_shopping_number_of_images__field__description(self):
+        record = self.get_record('collective.cart.shopping.number_of_images')
+        self.assertEqual(record.field.description, u'No more than this number of images can be added to one article.')
+
+    def test_registry_record__collective_cart_shopping_number_of_images__field__min(self):
+        record = self.get_record('collective.cart.shopping.number_of_images')
+        self.assertEqual(record.field.min, 0)
+
+    def test_registry_record__collective_cart_shopping_number_of_images__value(self):
+        record = self.get_record('collective.cart.shopping.number_of_images')
+        self.assertEqual(record.value, 3)
+
     def test_types__collective_cart_core_Article__i18n_domain(self):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.core.Article')
@@ -86,3 +118,11 @@ class TestCase(IntegrationTestCase):
         from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
         from plone.browserlayer import utils
         self.failIf(ICollectiveCartShoppingLayer in utils.registered_layers())
+
+    def test_uninstall__registry(self):
+        installer = getToolByName(self.portal, 'portal_quickinstaller')
+        installer.uninstallProducts(['collective.cart.shopping'])
+        from plone.registry.interfaces import IRegistry
+        from zope.component import getUtility
+        with self.assertRaises(KeyError):
+            getUtility(IRegistry)['collective.cart.shopping.number_of_images']
