@@ -65,6 +65,15 @@ class CartContentView(CartContentView):
         return self.context.get('shipping')
 
 
+class ShoppingView(grok.View):
+
+    grok.context(IShoppingSite)
+    grok.layer(ICollectiveCartShoppingLayer)
+    grok.name('shop')
+    grok.require('zope2.View')
+    grok.template('shop')
+
+
 class BillingAndShippingView(grok.View):
 
     grok.context(IShoppingSiteRoot)

@@ -1,13 +1,21 @@
+from Acquisition import aq_chain
+from Acquisition import aq_inner
+from Products.ATContentTypes.interfaces import IATImage
+from Products.CMFCore.utils import getToolByName
+from Products.statusmessages.interfaces import IStatusMessage
 from collective.behavior.discount.interfaces import IDiscount
 from collective.behavior.stock.interfaces import IStock
-from collective.cart.shopping.interfaces import IArticle
 from collective.cart.core.interfaces import ICartArticle
 from collective.cart.core.interfaces import ICartArticleAdapter
+from collective.cart.shopping import _
+from collective.cart.shopping.interfaces import IArticle
 from five import grok
+from plone.registry.interfaces import IRegistry
+from zope.component import getUtility
+from zope.lifecycleevent import modified
 from zope.lifecycleevent.interfaces import IObjectCreatedEvent
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 from zope.lifecycleevent.interfaces import IObjectRemovedEvent
-from zope.lifecycleevent import modified
 
 
 def set_moneys(context):
@@ -48,3 +56,23 @@ def set_quantity_back_to_orig_article(context, event):
     article = ICartArticleAdapter(context).orig_article
     IStock(article).add_stock(context.quantity)
     modified(article)
+
+
+@grok.subscribe(IATImage, IObjectCreatedEvent)
+def warn_number_of_images(context, event):
+    assert context == event.object
+    container = aq_chain(aq_inner(context))[3]
+    if IArticle.providedBy(container):
+        catalog = getToolByName(context, 'portal_catalog')
+        query = {
+            'path': {
+                'depth': 1,
+                'query': '/'.join(container.getPhysicalPath()),
+            }
+        }
+        number_of_images = getUtility(IRegistry)['collective.cart.shopping.number_of_images']
+        if len(catalog(query)) >= number_of_images:
+            message = _(u"You need to first remove some images to add here one.")
+            IStatusMessage(container.REQUEST).addStatusMessage(message, type='warn')
+            url = '{}/@@folder_contents'.format(container.absolute_url())
+            return container.REQUEST.RESPONSE.redirect(url)

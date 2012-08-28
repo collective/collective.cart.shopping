@@ -1,0 +1,14 @@
+<html
+  i18n:domain="collective.cart.shopping"
+  lang="en"
+  metal:use-macro="context/main_template/macros/master"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal">
+  <body>
+    <metal:main fill-slot="main">
+      <section id="collective-cart-shopping-shop">
+      </section>
+    </metal:main>
+  </body>
+</html>
