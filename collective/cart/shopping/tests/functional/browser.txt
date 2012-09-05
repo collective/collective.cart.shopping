@@ -2,10 +2,25 @@ Log in as Manager::
 
     >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
 
+    >>> browser.open('/shop/cart-container')
+    Traceback (most recent call last):
+    ...
+    HTTPError: HTTP Error 404: Not Found
+
+    >>> browser.open('/shop/shipping-methods')
+    Traceback (most recent call last):
+    ...
+    HTTPError: HTTP Error 404: Not Found
+
 Make Folder 'Shop' into Shop::
 
     >>> browser.open('/shop')
+
     >>> browser.getLink('Make Shopping Site').click()
+
+    >>> browser.open('/shop/cart-container')
+
+    >>> browser.open('/shop/shipping-methods')
 
 Add Article::
 

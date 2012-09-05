@@ -3,8 +3,7 @@
   i18n:domain="collective.cart.shopping"
   meta_type="Dexterity FTI"
   name="collective.cart.core.Article"
-  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-  >
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n">
 
   <property name="allowed_content_types">
     <element value="Image"/>
@@ -16,13 +15,14 @@
 
   <!-- enabled behaviors -->
   <property name="behaviors">
-      <element value="plone.app.content.interfaces.INameFromTitle" />
-      <element value="plone.app.dexterity.behaviors.metadata.IDublinCore" />
-      <element value="collective.behavior.salable.interfaces.ISalable" />
-      <element value="collective.behavior.discount.interfaces.IDiscount" />
-      <element value="collective.behavior.stock.interfaces.IStock" />
-      <element value="collective.behavior.vat.interfaces.IVAT" />
-      <element value="collective.behavior.size.interfaces.ISize" />
+    <element value="plone.app.content.interfaces.INameFromTitle" />
+    <element value="plone.app.dexterity.behaviors.metadata.IDublinCore" />
+    <element value="collective.behavior.salable.interfaces.ISalable" />
+    <element value="collective.behavior.discount.interfaces.IDiscount" />
+    <element value="collective.behavior.stock.interfaces.IStock" />
+    <element value="collective.behavior.vat.interfaces.IVAT" />
+    <element value="collective.behavior.size.interfaces.ISize" />
+    <element value="plone.app.relationfield.behavior.IRelatedItems"/>
   </property>
 
   <alias from="stock-list" to="@@stock-list"/>

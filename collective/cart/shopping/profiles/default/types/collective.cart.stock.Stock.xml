@@ -3,8 +3,7 @@
   i18n:domain="collective.cart.stock"
   meta_type="Dexterity FTI"
   name="collective.cart.stock.Stock"
-  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-  >
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n">
 
   <property name="behaviors">
     <element value="plone.app.content.interfaces.INameFromTitle" />

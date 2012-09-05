@@ -105,7 +105,8 @@ class TestCase(IntegrationTestCase):
                 'collective.behavior.discount.interfaces.IDiscount',
                 'collective.behavior.stock.interfaces.IStock',
                 'collective.behavior.vat.interfaces.IVAT',
-                'collective.behavior.size.interfaces.ISize'))
+                'collective.behavior.size.interfaces.ISize',
+                'plone.app.relationfield.behavior.IRelatedItems'))
 
     def test_uninstall__package(self):
         installer = getToolByName(self.portal, 'portal_quickinstaller')

@@ -7,6 +7,7 @@ from collective.behavior.discount.interfaces import IDiscount
 from collective.behavior.stock.interfaces import IStock
 from collective.cart.core.interfaces import ICartArticle
 from collective.cart.core.interfaces import ICartArticleAdapter
+from collective.cart.core.interfaces import IMakeShoppingSiteEvent
 from collective.cart.shopping import _
 from collective.cart.shopping.interfaces import IArticle
 from five import grok
@@ -76,3 +77,12 @@ def warn_number_of_images(context, event):
             IStatusMessage(container.REQUEST).addStatusMessage(message, type='warn')
             url = '{}/@@folder_contents'.format(container.absolute_url())
             return container.REQUEST.RESPONSE.redirect(url)
+
+
+@grok.subscribe(IMakeShoppingSiteEvent)
+def add_shopping_methods(event):
+    context = event.context
+    if not context.get('shipping-methods'):
+        folder = context[context.invokeFactory('Folder', 'shipping-methods', title='Shipping Methods')]
+        folder.setExcludeFromNav(True)
+        folder.reindexObject()

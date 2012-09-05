@@ -35,6 +35,7 @@ setup(
         'five.grok',
         'hexagonit.testing',
         'plone.app.imaging',
+        'plone.app.relationfield',
         'plone.app.textfield',
         'plone.directives.form',
         'plone.browserlayer',

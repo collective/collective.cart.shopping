@@ -3,8 +3,7 @@
   i18n:domain="collective.cart.shopping"
   meta_type="Dexterity FTI"
   name="collective.cart.shopping.CustomerInfo"
-  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-  >
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n">
 
   <!-- Basic properties -->
   <property name="title" i18n:translate="">CustomerInfo</property>
