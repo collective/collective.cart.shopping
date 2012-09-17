@@ -3,8 +3,7 @@
   i18n:domain="collective.cart.core"
   meta_type="Dexterity FTI"
   name="collective.cart.core.Cart"
-  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-  >
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n">
 
   <!-- Schema, class and security -->
   <property name="schema">collective.cart.shopping.interfaces.ICart</property>
