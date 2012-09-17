@@ -1,3 +1,4 @@
 <object name="portal_types" meta_type="Plone Types Tool">
   <object name="collective.cart.shopping.CustomerInfo" meta_type="Dexterity FTI"/>
+  <object name="collective.cart.shopping.Shop" meta_type="Dexterity FTI"/>
 </object>

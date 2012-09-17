@@ -1,0 +1,11 @@
+Log in as Manager::
+
+    >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+
+Add Shop::
+
+    >>> browser.open('/')
+    >>> browser.open('++add++collective.cart.shopping.Shop')
+    >>> browser.getControl(name='form.widgets.IDublinCore.title').value = 'Shöp'
+    >>> browser.getControl(name='form.widgets.IDublinCore.description').value = 'Descriptiön of Shöp'
+    >>> browser.getControl(name="form.buttons.save").click()

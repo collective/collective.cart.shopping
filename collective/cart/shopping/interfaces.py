@@ -1,4 +1,5 @@
 from collective.cart.core import interfaces
+from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping import _
 from plone.app.textfield import RichText
 from plone.directives import form
@@ -162,3 +163,7 @@ class ICustomerInfo(IBaseCustomerInfo):
 
     info_type = TextLine(
         title=_(u'Info Type'))
+
+
+class IShop(form.Schema, IShoppingSiteRoot):
+    """Schema interface for shop."""

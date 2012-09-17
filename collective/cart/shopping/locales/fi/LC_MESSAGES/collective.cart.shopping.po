@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-08-17 06:33+0000\n"
+"POT-Creation-Date: 2012-09-16 09:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13,3 +13,157 @@ msgstr ""
 "Language-Name: Finnish\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.cart.shopping\n"
+
+#: ./browser/templates/article.pt:34
+msgid "(Discount valid till ${discount_end})"
+msgstr "Alennus voimassa ${discount_end} asti"
+
+#: ./browser/viewlet.py:230
+msgid "Billing Info"
+msgstr "Laskutustieto"
+
+#: ./browser/viewlets/cart-checkout.pt:18
+msgid "Check Out"
+msgstr "Seuraavaan"
+
+#: ./interfaces.py:83
+msgid "City"
+msgstr "Kaupunki"
+
+#: ./browser/viewlets/cart-checkout.pt:9
+msgid "Clear Cart"
+msgstr "Tyhjennä ostoskori"
+
+#: ./browser/viewlets/billing-and-shipping-checkout.pt:9
+msgid "Confirmation"
+msgstr "Varmista"
+
+#: ./browser/templates/stock-list.pt:16
+msgid "Created"
+msgstr "Luotu"
+
+#: ./browser/templates/stock-list.pt:18
+msgid "Current Stock"
+msgstr "Nykyvarasto"
+
+#: ./profiles/default/types/collective.cart.shopping.CustomerInfo.xml
+msgid "CustomerInfo"
+msgstr "Asiakastieto"
+
+#: ./interfaces.py:26
+msgid "Detailed information"
+msgstr "Tarkempi kuvaus tuotteesta"
+
+#: ./interfaces.py:73
+msgid "E-mail"
+msgstr "Sähköposti"
+
+#: ./interfaces.py:59
+msgid "First Name"
+msgstr "Etunimi"
+
+#: ./interfaces.py:27
+msgid "Further detailed information comes here."
+msgstr "Kirjoita tuotteen lisätiedot tähän."
+
+#: ./browser/templates/article.pt:30
+#: ./browser/templates/stock.pt:29
+msgid "Including VAT: ${vat} &#37;"
+msgstr "Sisältä ALV:n ${vat} &#37;"
+
+#: ./interfaces.py:165
+msgid "Info Type"
+msgstr "Tietotyyppi"
+
+#: ./browser/templates/stock-list.pt:17
+msgid "Initial Stock"
+msgstr "Alkuvarasto"
+
+#: ./browser/viewlet.py:78
+msgid "Input integer value to add to cart."
+msgstr "Syötä määrä lisätääkseen ostoskoriin."
+
+#: ./browser/viewlet.py:126
+msgid "Input integer value to update cart."
+msgstr "Muuta määrä päivittääkseen ostoskori."
+
+#: ./interfaces.py:69
+msgid "International VAT Number, for Finland it starts with FI."
+msgstr "Kansainvälinen VAT-numero. Suomessa alkaa 'FI' kirjaimella."
+
+#: ./interfaces.py:62
+msgid "Last Name"
+msgstr "Sukunimi"
+
+#: ./browser/templates/stock-list.pt:15
+msgid "Name"
+msgstr "Nimi"
+
+#: ./browser/templates/article.pt:37
+msgid "Normal Price: ${normal-price}"
+msgstr "Normaali hinta: ${normal-price}"
+
+#: ./interfaces.py:65
+msgid "Organization"
+msgstr "Organisaatio"
+
+#: ./interfaces.py:86
+msgid "Phone Number"
+msgstr "Puhelinnumero"
+
+#: ./interfaces.py:79
+msgid "Post Code"
+msgstr "Postinumero"
+
+#: ./browser/templates/stock-list.pt:19
+msgid "Purchase Price VAT 0%"
+msgstr "Ostohinta alv 0%"
+
+#: ./browser/viewlets/add-to-cart.pt:11
+msgid "Quantity"
+msgstr "Määrä"
+
+#: ./interfaces.py:21
+msgid "Representative Image"
+msgstr "Tuotekuva"
+
+#: ./browser/viewlet.py:240
+msgid "Shipping Info"
+msgstr "Toimitustieto"
+
+#: ./profiles/default/types/collective.cart.shopping.Shop.xml
+msgid "Shop"
+msgstr "Kauppa"
+
+#: ./interfaces.py:76
+msgid "Street Address"
+msgstr "Katuosoite"
+
+#: ./interfaces.py:22
+msgid "The representative image of this article."
+msgstr "Tämä tuotteen edustava kuva."
+
+#: ./browser/viewlets/cart-total.pt:5
+msgid "Total"
+msgstr "Yhteensä"
+
+#: ./browser/form.py:86
+msgid "Update"
+msgstr "Päivitä"
+
+#: ./browser/viewlets/billing-and-shipping-shipping-method.pt:27
+msgid "Update Shipping Method"
+msgstr "Päivitä toimitustapa"
+
+#: ./interfaces.py:68
+msgid "VAT Number"
+msgstr "VAT-numero"
+
+#: ./subscriber.py:76
+msgid "You need to first remove some images to add here one."
+msgstr "Lisätääkseen tähän uusi kuvaa, täytyy ensin poistaa tästä kuvia."
+
+#: ./browser/viewlets/add-to-cart.pt:34
+msgid "pcs"
+msgstr "kpl"
+

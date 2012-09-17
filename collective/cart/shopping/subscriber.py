@@ -10,7 +10,9 @@ from collective.cart.core.interfaces import ICartArticleAdapter
 from collective.cart.core.interfaces import IMakeShoppingSiteEvent
 from collective.cart.shopping import _
 from collective.cart.shopping.interfaces import IArticle
+from collective.cart.shopping.interfaces import IShop
 from five import grok
+from plone.dexterity.utils import createContent
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.lifecycleevent import modified
@@ -86,3 +88,13 @@ def add_shopping_methods(event):
         folder = context[context.invokeFactory('Folder', 'shipping-methods', title='Shipping Methods')]
         folder.setExcludeFromNav(True)
         folder.reindexObject()
+
+
+@grok.subscribe(IShop, IObjectCreatedEvent)
+def add_cart_container_to_shop(obj, event):
+    assert obj == event.object
+    container = createContent('collective.cart.core.CartContainer',
+        id="cart-container", title="Cart Container")
+    wrapped = container.__of__(obj)
+    modified(wrapped)
+    modified(container)

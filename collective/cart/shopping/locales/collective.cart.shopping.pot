@@ -1,7 +1,10 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-08-17 07:46+0000\n"
+"POT-Creation-Date: 2012-09-16 09:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13,3 +16,157 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.cart.shopping\n"
+
+#: ./browser/templates/article.pt:34
+msgid "(Discount valid till ${discount_end})"
+msgstr ""
+
+#: ./browser/viewlet.py:230
+msgid "Billing Info"
+msgstr ""
+
+#: ./browser/viewlets/cart-checkout.pt:18
+msgid "Check Out"
+msgstr ""
+
+#: ./interfaces.py:83
+msgid "City"
+msgstr ""
+
+#: ./browser/viewlets/cart-checkout.pt:9
+msgid "Clear Cart"
+msgstr ""
+
+#: ./browser/viewlets/billing-and-shipping-checkout.pt:9
+msgid "Confirmation"
+msgstr ""
+
+#: ./browser/templates/stock-list.pt:16
+msgid "Created"
+msgstr ""
+
+#: ./browser/templates/stock-list.pt:18
+msgid "Current Stock"
+msgstr ""
+
+#: ./profiles/default/types/collective.cart.shopping.CustomerInfo.xml
+msgid "CustomerInfo"
+msgstr ""
+
+#: ./interfaces.py:26
+msgid "Detailed information"
+msgstr ""
+
+#: ./interfaces.py:73
+msgid "E-mail"
+msgstr ""
+
+#: ./interfaces.py:59
+msgid "First Name"
+msgstr ""
+
+#: ./interfaces.py:27
+msgid "Further detailed information comes here."
+msgstr ""
+
+#: ./browser/templates/article.pt:30
+#: ./browser/templates/stock.pt:29
+msgid "Including VAT: ${vat} &#37;"
+msgstr ""
+
+#: ./interfaces.py:165
+msgid "Info Type"
+msgstr ""
+
+#: ./browser/templates/stock-list.pt:17
+msgid "Initial Stock"
+msgstr ""
+
+#: ./browser/viewlet.py:78
+msgid "Input integer value to add to cart."
+msgstr ""
+
+#: ./browser/viewlet.py:126
+msgid "Input integer value to update cart."
+msgstr ""
+
+#: ./interfaces.py:69
+msgid "International VAT Number, for Finland it starts with FI."
+msgstr ""
+
+#: ./interfaces.py:62
+msgid "Last Name"
+msgstr ""
+
+#: ./browser/templates/stock-list.pt:15
+msgid "Name"
+msgstr ""
+
+#: ./browser/templates/article.pt:37
+msgid "Normal Price: ${normal-price}"
+msgstr ""
+
+#: ./interfaces.py:65
+msgid "Organization"
+msgstr ""
+
+#: ./interfaces.py:86
+msgid "Phone Number"
+msgstr ""
+
+#: ./interfaces.py:79
+msgid "Post Code"
+msgstr ""
+
+#: ./browser/templates/stock-list.pt:19
+msgid "Purchase Price VAT 0%"
+msgstr ""
+
+#: ./browser/viewlets/add-to-cart.pt:11
+msgid "Quantity"
+msgstr ""
+
+#: ./interfaces.py:21
+msgid "Representative Image"
+msgstr ""
+
+#: ./browser/viewlet.py:240
+msgid "Shipping Info"
+msgstr ""
+
+#: ./profiles/default/types/collective.cart.shopping.Shop.xml
+msgid "Shop"
+msgstr ""
+
+#: ./interfaces.py:76
+msgid "Street Address"
+msgstr ""
+
+#: ./interfaces.py:22
+msgid "The representative image of this article."
+msgstr ""
+
+#: ./browser/viewlets/cart-total.pt:5
+msgid "Total"
+msgstr ""
+
+#: ./browser/form.py:86
+msgid "Update"
+msgstr ""
+
+#: ./browser/viewlets/billing-and-shipping-shipping-method.pt:27
+msgid "Update Shipping Method"
+msgstr ""
+
+#: ./interfaces.py:68
+msgid "VAT Number"
+msgstr ""
+
+#: ./subscriber.py:76
+msgid "You need to first remove some images to add here one."
+msgstr ""
+
+#: ./browser/viewlets/add-to-cart.pt:34
+msgid "pcs"
+msgstr ""
+
