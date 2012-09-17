@@ -7,7 +7,6 @@ from collective.behavior.discount.interfaces import IDiscount
 from collective.behavior.stock.interfaces import IStock
 from collective.cart.core.interfaces import ICartArticle
 from collective.cart.core.interfaces import ICartArticleAdapter
-from collective.cart.core.interfaces import IMakeShoppingSiteEvent
 from collective.cart.shopping import _
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IShop
