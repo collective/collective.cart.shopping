@@ -82,13 +82,13 @@ def warn_number_of_images(context, event):
             return container.REQUEST.RESPONSE.redirect(url)
 
 
-@grok.subscribe(IMakeShoppingSiteEvent)
-def add_shopping_methods(event):
-    context = event.context
-    if not context.get('shipping-methods'):
-        folder = context[context.invokeFactory('Folder', 'shipping-methods', title='Shipping Methods')]
-        folder.setExcludeFromNav(True)
-        folder.reindexObject()
+# @grok.subscribe(IMakeShoppingSiteEvent)
+# def add_shopping_methods(event):
+#     context = event.context
+#     if not context.get('shipping-methods'):
+#         folder = context[context.invokeFactory('Folder', 'shipping-methods', title='Shipping Methods')]
+#         folder.setExcludeFromNav(True)
+#         folder.reindexObject()
 
 
 @grok.subscribe(IShop, IObjectAddedEvent)
