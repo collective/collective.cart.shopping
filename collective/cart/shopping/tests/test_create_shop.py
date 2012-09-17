@@ -21,3 +21,8 @@ class TestCase(IntegrationTestCase):
         from collective.cart.core.interfaces import IShoppingSite
         shop = self.create_shop()
         self.assertIsNotNone(IShoppingSite(shop).cart_container)
+
+    def test_shipping_methods_created(self):
+        """Test that Shipping Methods is created within Shop when the Shop is created."""
+        shop = self.create_shop()
+        self.assertIsNotNone(shop['shipping-methods'])
