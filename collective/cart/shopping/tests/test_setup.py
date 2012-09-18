@@ -73,6 +73,21 @@ class TestCase(IntegrationTestCase):
         record = self.get_record('collective.cart.shopping.number_of_images')
         self.assertEqual(record.value, 3)
 
+    def test_rolemap__collective_cart_shipping_AddShop__rolesOfPermission(self):
+        permission = "collective.cart.shopping: Add Shop"
+        roles = [item['name'] for item in self.portal.rolesOfPermission(
+            permission) if item['selected'] == 'SELECTED']
+        roles.sort()
+        self.assertEqual(roles, [
+            'Manager',
+            'Site Administrator',
+            ])
+
+    def test_rolemap__collective_cart_shipping_AddShop__acquiredRolesAreUsedBy(self):
+        permission = "collective.cart.shopping: Add Shop"
+        self.assertEqual(
+            self.portal.acquiredRolesAreUsedBy(permission), '')
+
     def test_types__collective_cart_core_Article__i18n_domain(self):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.core.Article')
