@@ -88,6 +88,34 @@ class TestCase(IntegrationTestCase):
         self.assertEqual(
             self.portal.acquiredRolesAreUsedBy(permission), '')
 
+    def test_site_properties__types_not_searchable__collective_cart_shopping_CustomerInfo(self):
+        properties = getToolByName(self.portal, 'portal_properties')
+        site_properties = getattr(properties, 'site_properties')
+        self.assertIn(
+            'collective.cart.shopping.CustomerInfo',
+            site_properties.getProperty('types_not_searched'))
+
+    def test_site_properties__types_not_searchable__collective_cart_stock_Stock(self):
+        properties = getToolByName(self.portal, 'portal_properties')
+        site_properties = getattr(properties, 'site_properties')
+        self.assertIn(
+            'collective.cart.stock.Stock',
+            site_properties.getProperty('types_not_searched'))
+
+    def test_propertiestool__navtree_properties__metaTypesNotToList__collective_cart_shopping_CustomerInfo(self):
+        properties = getToolByName(self.portal, 'portal_properties')
+        navtree_properties = getattr(properties, 'navtree_properties')
+        self.assertIn(
+            'collective.cart.shopping.CustomerInfo',
+             navtree_properties.getProperty('metaTypesNotToList'))
+
+    def test_propertiestool__navtree_properties__metaTypesNotToList__collective_cart_stock_Stock(self):
+        properties = getToolByName(self.portal, 'portal_properties')
+        navtree_properties = getattr(properties, 'navtree_properties')
+        self.assertIn(
+            'collective.cart.stock.Stock',
+             navtree_properties.getProperty('metaTypesNotToList'))
+
     def test_types__collective_cart_core_Article__i18n_domain(self):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.core.Article')
