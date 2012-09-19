@@ -4,6 +4,10 @@ collective.cart.shopping
 
 collective.cart.shopping adds shop content type to Plone.
 
+.. ATTENTION::
+    This package is still under development.
+    **Do not user for production site.**
+
 Currently tested with
 ---------------------
 
