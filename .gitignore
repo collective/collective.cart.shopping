@@ -3,6 +3,7 @@
 *.mo
 *.pyc
 .long-description.html
-.svn
 build
+collective/cart/shopping/docs/_build/*
 dist
+
