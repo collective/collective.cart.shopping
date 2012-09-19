@@ -1,14 +1,20 @@
 from setuptools import find_packages
 from setuptools import setup
 
+import os
+
+
+long_description = (
+    open(os.path.join("collective", "cart", "shopping", "docs", "README.rst")).read() + "\n" +
+    open(os.path.join("collective", "cart", "shopping", "docs", "HISTORY.rst")).read() + "\n" +
+    open(os.path.join("collective", "cart", "shopping", "docs", "CONTRIBUTORS.rst")).read())
+
 
 setup(
     name='collective.cart.shopping',
     version='0.0',
     description="Make folderish plone object shopping site.",
-    long_description='',
-    # Get more strings from
-    # http://pypi.python.org/pypi?%3Aaction=list_classifiers
+    long_description=long_description,
     classifiers=[
         "Framework :: Plone",
         "Framework :: Plone :: 4.2",

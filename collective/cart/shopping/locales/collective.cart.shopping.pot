@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-09-17 12:14+0000\n"
+"POT-Creation-Date: 2012-09-19 17:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,7 +29,7 @@ msgstr ""
 msgid "Check Out"
 msgstr ""
 
-#: ./interfaces.py:83
+#: ./interfaces.py:82
 msgid "City"
 msgstr ""
 
@@ -53,19 +53,19 @@ msgstr ""
 msgid "CustomerInfo"
 msgstr ""
 
-#: ./interfaces.py:26
+#: ./interfaces.py:25
 msgid "Detailed information"
 msgstr ""
 
-#: ./interfaces.py:73
+#: ./interfaces.py:72
 msgid "E-mail"
 msgstr ""
 
-#: ./interfaces.py:59
+#: ./interfaces.py:58
 msgid "First Name"
 msgstr ""
 
-#: ./interfaces.py:27
+#: ./interfaces.py:26
 msgid "Further detailed information comes here."
 msgstr ""
 
@@ -74,7 +74,7 @@ msgstr ""
 msgid "Including VAT: ${vat} &#37;"
 msgstr ""
 
-#: ./interfaces.py:165
+#: ./interfaces.py:164
 msgid "Info Type"
 msgstr ""
 
@@ -90,11 +90,11 @@ msgstr ""
 msgid "Input integer value to update cart."
 msgstr ""
 
-#: ./interfaces.py:69
+#: ./interfaces.py:68
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr ""
 
-#: ./interfaces.py:62
+#: ./interfaces.py:61
 msgid "Last Name"
 msgstr ""
 
@@ -106,15 +106,15 @@ msgstr ""
 msgid "Normal Price: ${normal-price}"
 msgstr ""
 
-#: ./interfaces.py:65
+#: ./interfaces.py:64
 msgid "Organization"
 msgstr ""
 
-#: ./interfaces.py:86
+#: ./interfaces.py:85
 msgid "Phone Number"
 msgstr ""
 
-#: ./interfaces.py:79
+#: ./interfaces.py:78
 msgid "Post Code"
 msgstr ""
 
@@ -126,7 +126,7 @@ msgstr ""
 msgid "Quantity"
 msgstr ""
 
-#: ./interfaces.py:21
+#: ./interfaces.py:20
 msgid "Representative Image"
 msgstr ""
 
@@ -138,11 +138,11 @@ msgstr ""
 msgid "Shop"
 msgstr ""
 
-#: ./interfaces.py:76
+#: ./interfaces.py:75
 msgid "Street Address"
 msgstr ""
 
-#: ./interfaces.py:22
+#: ./interfaces.py:21
 msgid "The representative image of this article."
 msgstr ""
 
@@ -158,11 +158,11 @@ msgstr ""
 msgid "Update Shipping Method"
 msgstr ""
 
-#: ./interfaces.py:68
+#: ./interfaces.py:67
 msgid "VAT Number"
 msgstr ""
 
-#: ./subscriber.py:78
+#: ./subscriber.py:79
 msgid "You need to first remove some images to add here one."
 msgstr ""
 
