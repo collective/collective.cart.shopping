@@ -51,7 +51,7 @@ Addable contents are ArticleContainer and Folder::
     <dd class="actionMenuContent">
     <ul><li>
     <a href="http://nohost/plone/shop/++add++collective.cart.shopping.ArticleContainer" class="contenttype-collective-cart-shopping-articlecontainer" id="collective-cart-shopping-articlecontainer" title="">
-    <img width="16" height="16" alt="" src="http://nohost/plone/folder.gif" title=""><span class="subMenuTitle">Article Container</span>
+    <img width="16" height="16" alt="" src="http://nohost/plone/++resource++collective.cart.shopping/article-container.png" title=""><span class="subMenuTitle">Article Container</span>
     </a>
     </li>
     <li>
