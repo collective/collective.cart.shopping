@@ -18,6 +18,7 @@
     <element value="Folder"/>
     <element value="Image"/>
     <element value="collective.cart.core.Article"/>
+    <element value="collective.cart.shopping.ArticleContainer"/>
   </property>
 
   <!-- Schema, class and security -->
@@ -29,6 +30,7 @@
   <property name="behaviors">
     <element value="plone.app.content.interfaces.INameFromTitle" />
     <element value="plone.app.dexterity.behaviors.metadata.IDublinCore" />
+    <element value="plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation" />
   </property>
 
   <!-- Views and aliases -->

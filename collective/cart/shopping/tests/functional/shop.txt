@@ -65,8 +65,13 @@ Addable contents are ArticleContainer and Folder::
 Add Article Container::
 
     >>> browser.open('/shop/++add++collective.cart.shopping.ArticleContainer')
+
+    >>> 'Exclude from navigation' in browser.contents
+    True
+
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle Cöntäiner 1'
     >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Äarticle Cöntäiner 1.'
+
     >>> browser.getControl(name="form.buttons.save").click()
 
 Ärticle Cöntäiner 1 should appear in <h1 /> tag::
@@ -89,6 +94,11 @@ Addable contents are Article, Folder and Image::
     <ul><li>
     <a href="http://nohost/plone/shop/article-container-1/++add++collective.cart.core.Article" class="contenttype-collective-cart-core-article" id="collective-cart-core-article" title="">
     <img width="16" height="16" alt="" src="http://nohost/plone/++resource++collective.cart.core/article.png" title=""><span class="subMenuTitle">Article</span>
+    </a>
+    </li>
+    <li>
+    <a href="http://nohost/plone/shop/article-container-1/++add++collective.cart.shopping.ArticleContainer" class="contenttype-collective-cart-shopping-articlecontainer" id="collective-cart-shopping-articlecontainer" title="">
+    <img width="16" height="16" alt="" src="http://nohost/plone/++resource++collective.cart.shopping/article-container.png" title=""><span class="subMenuTitle">Article Container</span>
     </a>
     </li>
     <li>

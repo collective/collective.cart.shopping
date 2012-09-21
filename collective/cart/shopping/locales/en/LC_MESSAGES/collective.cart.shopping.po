@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-09-19 17:40+0000\n"
+"POT-Creation-Date: 2012-09-21 12:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,10 @@ msgstr ""
 msgid "(Discount valid till ${discount_end})"
 msgstr ""
 
+#: ./profiles/default/types/collective.cart.shopping.ArticleContainer.xml
+msgid "Article Container"
+msgstr ""
+
 #: ./browser/viewlet.py:230
 msgid "Billing Info"
 msgstr ""
@@ -26,7 +30,7 @@ msgstr ""
 msgid "Check Out"
 msgstr ""
 
-#: ./interfaces.py:82
+#: ./interfaces.py:86
 msgid "City"
 msgstr ""
 
@@ -50,19 +54,19 @@ msgstr ""
 msgid "CustomerInfo"
 msgstr ""
 
-#: ./interfaces.py:25
+#: ./interfaces.py:29
 msgid "Detailed information"
 msgstr ""
 
-#: ./interfaces.py:72
+#: ./interfaces.py:76
 msgid "E-mail"
 msgstr ""
 
-#: ./interfaces.py:58
+#: ./interfaces.py:62
 msgid "First Name"
 msgstr ""
 
-#: ./interfaces.py:26
+#: ./interfaces.py:30
 msgid "Further detailed information comes here."
 msgstr ""
 
@@ -71,7 +75,7 @@ msgstr ""
 msgid "Including VAT: ${vat} &#37;"
 msgstr ""
 
-#: ./interfaces.py:164
+#: ./interfaces.py:168
 msgid "Info Type"
 msgstr ""
 
@@ -87,11 +91,11 @@ msgstr ""
 msgid "Input integer value to update cart."
 msgstr ""
 
-#: ./interfaces.py:68
+#: ./interfaces.py:72
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr ""
 
-#: ./interfaces.py:61
+#: ./interfaces.py:65
 msgid "Last Name"
 msgstr ""
 
@@ -103,15 +107,15 @@ msgstr ""
 msgid "Normal Price: ${normal-price}"
 msgstr ""
 
-#: ./interfaces.py:64
+#: ./interfaces.py:68
 msgid "Organization"
 msgstr ""
 
-#: ./interfaces.py:85
+#: ./interfaces.py:89
 msgid "Phone Number"
 msgstr ""
 
-#: ./interfaces.py:78
+#: ./interfaces.py:82
 msgid "Post Code"
 msgstr ""
 
@@ -123,7 +127,7 @@ msgstr ""
 msgid "Quantity"
 msgstr ""
 
-#: ./interfaces.py:20
+#: ./interfaces.py:24
 msgid "Representative Image"
 msgstr ""
 
@@ -135,11 +139,11 @@ msgstr ""
 msgid "Shop"
 msgstr ""
 
-#: ./interfaces.py:75
+#: ./interfaces.py:79
 msgid "Street Address"
 msgstr ""
 
-#: ./interfaces.py:21
+#: ./interfaces.py:25
 msgid "The representative image of this article."
 msgstr ""
 
@@ -155,7 +159,7 @@ msgstr ""
 msgid "Update Shipping Method"
 msgstr ""
 
-#: ./interfaces.py:67
+#: ./interfaces.py:71
 msgid "VAT Number"
 msgstr ""
 

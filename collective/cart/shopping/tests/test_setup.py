@@ -352,7 +352,9 @@ class TestCase(IntegrationTestCase):
     def test_types__collective_cart_shopping_ArticleContainer__allowed_content_types(self):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
-        self.assertEqual(ctype.allowed_content_types, ('Folder', 'Image', 'collective.cart.core.Article'))
+        self.assertEqual(ctype.allowed_content_types, ('Folder', 'Image',
+            'collective.cart.core.Article',
+            'collective.cart.shopping.ArticleContainer'))
 
     def test_types__collective_cart_shopping_ArticleContainer__schema(self):
         types = getToolByName(self.portal, 'portal_types')
@@ -376,7 +378,8 @@ class TestCase(IntegrationTestCase):
             ctype.behaviors,
             (
                 'plone.app.content.interfaces.INameFromTitle',
-                'plone.app.dexterity.behaviors.metadata.IDublinCore'))
+                'plone.app.dexterity.behaviors.metadata.IDublinCore',
+                'plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation'))
 
     def test_types__collective_cart_shopping_ArticleContainer__default_view(self):
         types = getToolByName(self.portal, 'portal_types')
