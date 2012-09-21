@@ -31,9 +31,14 @@ There should be Shippig Methods folder created::
 Go to Shop::
 
     >>> browser.open('/shop')
+
+Shöp should appear in <h1 /> tag::
+
     >>> print browser.bycss('.documentFirstHeading')
     --- 1 ---
     <h1 class="documentFirstHeading">Sh&#246;p</h1>
+
+Addable contents are ArticleContainer and Folder::
 
     >>> print browser.bycss('#plone-contentmenu-factories')
     --- 1 ---
@@ -60,36 +65,80 @@ Go to Shop::
 Add Article Container::
 
     >>> browser.open('/shop/++add++collective.cart.shopping.ArticleContainer')
-    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
-    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Äarticle1.'
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle Cöntäiner 1'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Äarticle Cöntäiner 1.'
     >>> browser.getControl(name="form.buttons.save").click()
+
+Ärticle Cöntäiner 1 should appear in <h1 /> tag::
 
     >>> print browser.bycss('.documentFirstHeading')
     --- 1 ---
-    <h1 class="documentFirstHeading">&#196;rticle1</h1>
+    <h1 class="documentFirstHeading">&#196;rticle C&#246;nt&#228;iner 1</h1>
+
+Addable contents are Article, Folder and Image::
 
     >>> print browser.bycss('#plone-contentmenu-factories')
     --- 1 ---
     <dl class="actionMenu deactivated" id="plone-contentmenu-factories"><dt class="actionMenuHeader label-">
-    <a href="http://nohost/plone/shop/article1/folder_factories" title="Add new items inside this item">
+    <a href="http://nohost/plone/shop/article-container-1/folder_factories" title="Add new items inside this item">
     <span>Add new&#8230;</span>
     <span class="arrowDownAlternative">&#9660;</span>
     </a>
     </dt>
     <dd class="actionMenuContent">
     <ul><li>
-    <a href="http://nohost/plone/shop/article1/++add++collective.cart.core.Article" class="contenttype-collective-cart-core-article" id="collective-cart-core-article" title="">
+    <a href="http://nohost/plone/shop/article-container-1/++add++collective.cart.core.Article" class="contenttype-collective-cart-core-article" id="collective-cart-core-article" title="">
     <img width="16" height="16" alt="" src="http://nohost/plone/++resource++collective.cart.core/article.png" title=""><span class="subMenuTitle">Article</span>
     </a>
     </li>
     <li>
-    <a href="http://nohost/plone/shop/article1/createObject?type_name=Folder" class="contenttype-folder" id="folder" title="">
+    <a href="http://nohost/plone/shop/article-container-1/createObject?type_name=Folder" class="contenttype-folder" id="folder" title="">
     <span class="subMenuTitle">Folder</span>
     </a>
     </li>
     <li>
-    <a href="http://nohost/plone/shop/article1/createObject?type_name=Image" class="contenttype-image" id="image" title="Images can be referenced in pages or displayed in an album.">
+    <a href="http://nohost/plone/shop/article-container-1/createObject?type_name=Image" class="contenttype-image" id="image" title="Images can be referenced in pages or displayed in an album.">
     <span class="subMenuTitle">Image</span>
+    </a>
+    </li>
+    </ul></dd>
+    </dl>
+
+Add Article::
+
+    >>> browser.open('/shop/article-container-1/++add++collective.cart.core.Article')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Ärticle1'
+    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '12.30'
+    >>> browser.getControl(name="form.widgets.ISize.weight").value = '100.0'
+    >>> browser.getControl(name="form.buttons.save").click()
+
+Ärticle1 should appear in <h1 /> tag::
+
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 class="documentFirstHeading">&#196;rticle1</h1>
+
+
+Addable contents are Stock and Image::
+
+    >>> print browser.bycss('#plone-contentmenu-factories')
+    --- 1 ---
+    <dl class="actionMenu deactivated" id="plone-contentmenu-factories"><dt class="actionMenuHeader label-">
+    <a href="http://nohost/plone/shop/article-container-1/article1/folder_factories" title="Add new items inside this item">
+    <span>Add new&#8230;</span>
+    <span class="arrowDownAlternative">&#9660;</span>
+    </a>
+    </dt>
+    <dd class="actionMenuContent">
+    <ul><li>
+    <a href="http://nohost/plone/shop/article-container-1/article1/createObject?type_name=Image" class="contenttype-image" id="image" title="Images can be referenced in pages or displayed in an album.">
+    <span class="subMenuTitle">Image</span>
+    </a>
+    </li>
+    <li>
+    <a href="http://nohost/plone/shop/article-container-1/article1/++add++collective.cart.stock.Stock" class="contenttype-collective-cart-stock-stock" id="collective-cart-stock-stock" title="">
+    <img width="16" height="16" alt="" src="http://nohost/plone/++resource++collective.cart.stock/stock.png" title=""><span class="subMenuTitle">Stock</span>
     </a>
     </li>
     </ul></dd>

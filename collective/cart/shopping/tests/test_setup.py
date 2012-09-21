@@ -88,6 +88,22 @@ class TestCase(IntegrationTestCase):
         self.assertEqual(
             self.portal.acquiredRolesAreUsedBy(permission), '')
 
+    def test_rolemap__collective_cart_shipping_AddArticleContainer__rolesOfPermission(self):
+        permission = "collective.cart.shopping: Add Article Container"
+        roles = [item['name'] for item in self.portal.rolesOfPermission(
+            permission) if item['selected'] == 'SELECTED']
+        roles.sort()
+        self.assertEqual(roles, [
+            'Contributor',
+            'Manager',
+            'Site Administrator',
+            ])
+
+    def test_rolemap__collective_cart_shipping_AddArticleContainer__acquiredRolesAreUsedBy(self):
+        permission = "collective.cart.shopping: Add Article Container"
+        self.assertEqual(
+            self.portal.acquiredRolesAreUsedBy(permission), '')
+
     def test_site_properties__types_not_searchable__collective_cart_shopping_CustomerInfo(self):
         properties = getToolByName(self.portal, 'portal_properties')
         site_properties = getattr(properties, 'site_properties')

@@ -5,5 +5,10 @@
       <role name="Manager" />
       <role name="Site Administrator" />
     </permission>
+    <permission name="collective.cart.shopping: Add Article Container" acquire="False">
+      <role name="Contributor" />
+      <role name="Manager" />
+      <role name="Site Administrator" />
+    </permission>
   </permissions>
 </rolemap>
