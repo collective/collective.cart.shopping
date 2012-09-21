@@ -37,4 +37,9 @@
     title="collective.cart.shopping: Add Shop"
     />
 
+  <permission
+    id="collective.cart.shopping.AddArticleContainer"
+    title="collective.cart.shopping: Add Article Container"
+    />
+
 </configure>

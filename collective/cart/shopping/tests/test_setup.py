@@ -189,12 +189,12 @@ class TestCase(IntegrationTestCase):
     def test_types__collective_cart_shopping_Shop__filter_content_types(self):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.shopping.Shop')
-        self.assertFalse(ctype.filter_content_types)
+        self.assertTrue(ctype.filter_content_types)
 
     def test_types__collective_cart_shopping_Shop__allowed_content_types(self):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.shopping.Shop')
-        self.assertEqual(ctype.allowed_content_types, ())
+        self.assertEqual(ctype.allowed_content_types, ('Folder', 'collective.cart.shopping.ArticleContainer'))
 
     def test_types__collective_cart_shopping_Shop__schema(self):
         types = getToolByName(self.portal, 'portal_types')
@@ -299,6 +299,157 @@ class TestCase(IntegrationTestCase):
     def test_types__collective_cart_shopping_Shop__action__edit__permissions(self):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.shopping.Shop')
+        action = ctype.getActionObject('object/edit')
+        self.assertEqual(action.permissions, (u'Modify portal content',))
+
+    def test_types__collective_cart_shopping_ArticleContainer__i18n_domain(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        self.assertEqual(ctype.i18n_domain, 'collective.cart.shopping')
+
+    def test_types__collective_cart_shopping_ArticleContainer__meta_type(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        self.assertEqual(ctype.meta_type, 'Dexterity FTI')
+
+    def test_types__collective_cart_shopping_ArticleContainer__title(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        self.assertEqual(ctype.title, 'Article Container')
+
+    def test_types__collective_cart_shopping_ArticleContainer__description(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        self.assertEqual(ctype.description, '')
+
+    def test_types__collective_cart_shopping_ArticleContainer__content_icon(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        self.assertEqual(ctype.getIcon(), 'folder.gif')
+
+    def test_types__collective_cart_shopping_ArticleContainer__allow_discussion(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        self.assertFalse(ctype.allow_discussion)
+
+    def test_types__collective_cart_shopping_ArticleContainer__global_allow(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        self.assertFalse(ctype.global_allow)
+
+    def test_types__collective_cart_shopping_ArticleContainer__filter_content_types(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        self.assertTrue(ctype.filter_content_types)
+
+    def test_types__collective_cart_shopping_ArticleContainer__allowed_content_types(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        self.assertEqual(ctype.allowed_content_types, ('Folder', 'Image', 'collective.cart.core.Article'))
+
+    def test_types__collective_cart_shopping_ArticleContainer__schema(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        self.assertEqual(ctype.schema, 'collective.cart.shopping.interfaces.IArticleContainer')
+
+    def test_types__collective_cart_shopping_ArticleContainer__klass(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        self.assertEqual(ctype.klass, 'plone.dexterity.content.Container')
+
+    def test_types__collective_cart_shopping_ArticleContainer__add_permission(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        self.assertEqual(ctype.add_permission, 'collective.cart.shopping.AddArticleContainer')
+
+    def test_types__collective_cart_shopping_ArticleContainer__behaviors(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        self.assertEqual(
+            ctype.behaviors,
+            (
+                'plone.app.content.interfaces.INameFromTitle',
+                'plone.app.dexterity.behaviors.metadata.IDublinCore'))
+
+    def test_types__collective_cart_shopping_ArticleContainer__default_view(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        self.assertEqual(ctype.default_view, 'view')
+
+    def test_types__collective_cart_shopping_ArticleContainer__default_view_fallback(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        self.assertFalse(ctype.default_view_fallback)
+
+    def test_types__collective_cart_shopping_ArticleContainer__view_methods(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        self.assertEqual(ctype.view_methods, ('view',))
+
+    def test_types__collective_cart_shopping_ArticleContainer__default_aliases(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        self.assertEqual(
+            ctype.default_aliases,
+            {'edit': '@@edit', 'sharing': '@@sharing', '(Default)': '(dynamic view)', 'view': '(selected layout)'})
+
+    def test_types__collective_cart_shopping_ArticleContainer__action__view__title(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        action = ctype.getActionObject('object/view')
+        self.assertEqual(action.title, 'View')
+
+    def test_types__collective_cart_shopping_ArticleContainer__action__view__condition(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        action = ctype.getActionObject('object/view')
+        self.assertEqual(action.condition, '')
+
+    def test_types__collective_cart_shopping_ArticleContainer__action__view__url_expr(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        action = ctype.getActionObject('object/view')
+        self.assertEqual(action.getActionExpression(), 'string:${folder_url}/')
+
+    def test_types__collective_cart_shopping_ArticleContainer__action__view__visible(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        action = ctype.getActionObject('object/view')
+        self.assertTrue(action.visible)
+
+    def test_types__collective_cart_shopping_ArticleContainer__action__view__permissions(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        action = ctype.getActionObject('object/view')
+        self.assertEqual(action.permissions, (u'View',))
+
+    def test_types__collective_cart_shopping_ArticleContainer__action__edit__title(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        action = ctype.getActionObject('object/edit')
+        self.assertEqual(action.title, 'Edit')
+
+    def test_types__collective_cart_shopping_ArticleContainer__action__edit__condition(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        action = ctype.getActionObject('object/edit')
+        self.assertEqual(action.condition, '')
+
+    def test_types__collective_cart_shopping_ArticleContainer__action__edit__url_expr(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        action = ctype.getActionObject('object/edit')
+        self.assertEqual(action.getActionExpression(), 'string:${object_url}/edit')
+
+    def test_types__collective_cart_shopping_ArticleContainer__action__edit__visible(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
+        action = ctype.getActionObject('object/edit')
+        self.assertTrue(action.visible)
+
+    def test_types__collective_cart_shopping_ArticleContainer__action__edit__permissions(self):
+        types = getToolByName(self.portal, 'portal_types')
+        ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
         action = ctype.getActionObject('object/edit')
         self.assertEqual(action.permissions, (u'Modify portal content',))
 

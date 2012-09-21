@@ -14,6 +14,10 @@ class IShoppingSite(core.interfaces.IShoppingSite):
     shipping_methods = Attribute('List of shipping methods.')
 
 
+class IArticleContainer(form.Schema, IImageScaleTraversable):
+    """Container for Articles."""
+
+
 class IArticle(core.interfaces.IArticle, IImageScaleTraversable):
 
     image = NamedBlobImage(

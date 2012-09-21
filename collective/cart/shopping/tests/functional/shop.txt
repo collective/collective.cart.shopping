@@ -4,8 +4,93 @@ Log in as Manager::
 
 Add Shop::
 
-    >>> browser.open('/')
-    >>> browser.open('++add++collective.cart.shopping.Shop')
-    >>> browser.getControl(name='form.widgets.IDublinCore.title').value = 'Shöp'
-    >>> browser.getControl(name='form.widgets.IDublinCore.description').value = 'Descriptiön of Shöp'
+    >>> browser.open('/++add++collective.cart.shopping.Shop')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Shöp'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Shöp.'
     >>> browser.getControl(name="form.buttons.save").click()
+
+There should be Cart Container created::
+
+    >>> browser.open('/shop/cart-container')
+    >>> print browser.bycss('#cart-container')
+    --- 1 ---
+    <section id="cart-container"><h1>Cart Container</h1>
+    <p id="next-cart-id">The next cart ID: 1</p>
+    <p id="no-carts">There are no carts.</p>
+    </section>
+
+There should be Shippig Methods folder created::
+
+    >>> browser.open('/shop/shipping-methods')
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 ...
+    Shipping Methods
+    </h1>
+
+Go to Shop::
+
+    >>> browser.open('/shop')
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 class="documentFirstHeading">Sh&#246;p</h1>
+
+    >>> print browser.bycss('#plone-contentmenu-factories')
+    --- 1 ---
+    <dl class="actionMenu deactivated" id="plone-contentmenu-factories"><dt class="actionMenuHeader label-">
+    <a href="http://nohost/plone/shop/folder_factories" title="Add new items inside this item">
+    <span>Add new&#8230;</span>
+    <span class="arrowDownAlternative">&#9660;</span>
+    </a>
+    </dt>
+    <dd class="actionMenuContent">
+    <ul><li>
+    <a href="http://nohost/plone/shop/++add++collective.cart.shopping.ArticleContainer" class="contenttype-collective-cart-shopping-articlecontainer" id="collective-cart-shopping-articlecontainer" title="">
+    <img width="16" height="16" alt="" src="http://nohost/plone/folder.gif" title=""><span class="subMenuTitle">Article Container</span>
+    </a>
+    </li>
+    <li>
+    <a href="http://nohost/plone/shop/createObject?type_name=Folder" class="contenttype-folder" id="folder" title="">
+    <span class="subMenuTitle">Folder</span>
+    </a>
+    </li>
+    </ul></dd>
+    </dl>
+
+Add Article Container::
+
+    >>> browser.open('/shop/++add++collective.cart.shopping.ArticleContainer')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Äarticle1.'
+    >>> browser.getControl(name="form.buttons.save").click()
+
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 class="documentFirstHeading">&#196;rticle1</h1>
+
+    >>> print browser.bycss('#plone-contentmenu-factories')
+    --- 1 ---
+    <dl class="actionMenu deactivated" id="plone-contentmenu-factories"><dt class="actionMenuHeader label-">
+    <a href="http://nohost/plone/shop/article1/folder_factories" title="Add new items inside this item">
+    <span>Add new&#8230;</span>
+    <span class="arrowDownAlternative">&#9660;</span>
+    </a>
+    </dt>
+    <dd class="actionMenuContent">
+    <ul><li>
+    <a href="http://nohost/plone/shop/article1/++add++collective.cart.core.Article" class="contenttype-collective-cart-core-article" id="collective-cart-core-article" title="">
+    <img width="16" height="16" alt="" src="http://nohost/plone/++resource++collective.cart.core/article.png" title=""><span class="subMenuTitle">Article</span>
+    </a>
+    </li>
+    <li>
+    <a href="http://nohost/plone/shop/article1/createObject?type_name=Folder" class="contenttype-folder" id="folder" title="">
+    <span class="subMenuTitle">Folder</span>
+    </a>
+    </li>
+    <li>
+    <a href="http://nohost/plone/shop/article1/createObject?type_name=Image" class="contenttype-image" id="image" title="Images can be referenced in pages or displayed in an album.">
+    <span class="subMenuTitle">Image</span>
+    </a>
+    </li>
+    </ul></dd>
+    </dl>

@@ -2,27 +2,28 @@
 <object
   i18n:domain="collective.cart.shopping"
   meta_type="Dexterity FTI"
-  name="collective.cart.shopping.Shop"
+  name="collective.cart.shopping.ArticleContainer"
   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
 
   <!-- Basic properties -->
-  <property name="title" i18n:translate="">Shop</property>
+  <property name="title" i18n:translate="">Article Container</property>
   <property name="description" i18n:translate=""/>
-  <property name="content_icon">++resource++collective.cart.shopping/shop.png</property>
+  <property name="content_icon">folder.gif</property>
   <property name="allow_discussion">False</property>
 
   <!-- Hierarchy control -->
-  <property name="global_allow">True</property>
+  <property name="global_allow">False</property>
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
     <element value="Folder"/>
-    <element value="collective.cart.shopping.ArticleContainer"/>
+    <element value="Image"/>
+    <element value="collective.cart.core.Article"/>
   </property>
 
   <!-- Schema, class and security -->
-  <property name="schema">collective.cart.shopping.interfaces.IShop</property>
+  <property name="schema">collective.cart.shopping.interfaces.IArticleContainer</property>
   <property name="klass">plone.dexterity.content.Container</property>
-  <property name="add_permission">collective.cart.shopping.AddShop</property>
+  <property name="add_permission">collective.cart.shopping.AddArticleContainer</property>
 
   <!-- enabled behaviors -->
   <property name="behaviors">
