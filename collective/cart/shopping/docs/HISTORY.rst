@@ -1,7 +1,7 @@
 Change log
 ----------
 
-0.2 (2012-09-XX)
+0.2 (2012-09-24)
 ================
 
 - Added content type: Article Container. [taito]
