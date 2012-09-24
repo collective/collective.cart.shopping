@@ -4,6 +4,7 @@
   xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
   xmlns:grok="http://namespaces.zope.org/grok"
   xmlns:i18n="http://namespaces.zope.org/i18n"
+  xmlns:plone="http://namespaces.plone.org/plone"
   xmlns="http://namespaces.zope.org/zope">
 
   <includeDependencies package="." />
@@ -40,6 +41,13 @@
   <permission
     id="collective.cart.shopping.AddArticleContainer"
     title="collective.cart.shopping: Add Article Container"
+    />
+
+  <plone:behavior
+    description="Adds price field for stock."
+    factory="collective.behavior.price.behavior.Price"
+    provides=".interfaces.IStockPrice"
+    title="Stock Price"
     />
 
 </configure>

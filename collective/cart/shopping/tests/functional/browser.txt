@@ -51,7 +51,7 @@ Add Stock to Ärticle1::
     >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck1'
     >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Stöck1'
     >>> browser.getControl(name="form.widgets.stock").value = '100'
-    >>> browser.getControl( name="form.widgets.IPrice.price").value = '0.0'
+    >>> browser.getControl( name="form.widgets.IStockPrice.price").value = '0.0'
     >>> browser.getControl(name="form.buttons.save").click()
 
     >>> stock1_url = browser.url
@@ -181,7 +181,7 @@ Add Stock to Ärticle2::
     >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck2'
     >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Stöck2'
     >>> browser.getControl(name="form.widgets.stock").value = '20'
-    >>> browser.getControl( name="form.widgets.IPrice.price").value = '0.0'
+    >>> browser.getControl( name="form.widgets.IStockPrice.price").value = '0.0'
     >>> browser.getControl(name="form.buttons.save").click()
 
     >>> stock2_url = browser.url
@@ -193,7 +193,7 @@ Add another stock to Ärticle2
     >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck3'
     >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Stöck3'
     >>> browser.getControl(name="form.widgets.stock").value = '10'
-    >>> browser.getControl( name="form.widgets.IPrice.price").value = '0.0'
+    >>> browser.getControl( name="form.widgets.IStockPrice.price").value = '0.0'
     >>> browser.getControl(name="form.buttons.save").click()
 
     >>> stock3_url = browser.url

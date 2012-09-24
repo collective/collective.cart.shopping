@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-09-21 12:41+0000\n"
+"POT-Creation-Date: 2012-09-24 19:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgstr "Laskutustieto"
 msgid "Check Out"
 msgstr "Seuraavaan"
 
-#: ./interfaces.py:86
+#: ./interfaces.py:89
 msgid "City"
 msgstr "Kaupunki"
 
@@ -42,11 +42,11 @@ msgstr "Tyhjennä ostoskori"
 msgid "Confirmation"
 msgstr "Varmista"
 
-#: ./browser/templates/stock-list.pt:16
+#: ./browser/templates/stock-list.pt:27
 msgid "Created"
 msgstr "Luotu"
 
-#: ./browser/templates/stock-list.pt:18
+#: ./browser/templates/stock-list.pt:29
 msgid "Current Stock"
 msgstr "Nykyvarasto"
 
@@ -54,19 +54,19 @@ msgstr "Nykyvarasto"
 msgid "CustomerInfo"
 msgstr "Asiakastieto"
 
-#: ./interfaces.py:29
+#: ./interfaces.py:32
 msgid "Detailed information"
 msgstr "Tarkempi kuvaus tuotteesta"
 
-#: ./interfaces.py:76
+#: ./interfaces.py:79
 msgid "E-mail"
 msgstr "Sähköposti"
 
-#: ./interfaces.py:62
+#: ./interfaces.py:65
 msgid "First Name"
 msgstr "Etunimi"
 
-#: ./interfaces.py:30
+#: ./interfaces.py:33
 msgid "Further detailed information comes here."
 msgstr "Kirjoita tuotteen lisätiedot tähän."
 
@@ -75,11 +75,11 @@ msgstr "Kirjoita tuotteen lisätiedot tähän."
 msgid "Including VAT: ${vat} &#37;"
 msgstr "Sisältä ALV:n ${vat} &#37;"
 
-#: ./interfaces.py:168
+#: ./interfaces.py:171
 msgid "Info Type"
 msgstr "Tietotyyppi"
 
-#: ./browser/templates/stock-list.pt:17
+#: ./browser/templates/stock-list.pt:28
 msgid "Initial Stock"
 msgstr "Alkuvarasto"
 
@@ -91,15 +91,15 @@ msgstr "Syötä määrä lisätääkseen ostoskoriin."
 msgid "Input integer value to update cart."
 msgstr "Muuta määrä päivittääkseen ostoskori."
 
-#: ./interfaces.py:72
+#: ./interfaces.py:75
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr "Kansainvälinen VAT-numero. Suomessa alkaa 'FI' kirjaimella."
 
-#: ./interfaces.py:65
+#: ./interfaces.py:68
 msgid "Last Name"
 msgstr "Sukunimi"
 
-#: ./browser/templates/stock-list.pt:15
+#: ./browser/templates/stock-list.pt:26
 msgid "Name"
 msgstr "Nimi"
 
@@ -107,19 +107,23 @@ msgstr "Nimi"
 msgid "Normal Price: ${normal-price}"
 msgstr "Normaali hinta: ${normal-price}"
 
-#: ./interfaces.py:68
+#: ./interfaces.py:71
 msgid "Organization"
 msgstr "Organisaatio"
 
-#: ./interfaces.py:89
+#: ./interfaces.py:92
 msgid "Phone Number"
 msgstr "Puhelinnumero"
 
-#: ./interfaces.py:82
+#: ./interfaces.py:85
 msgid "Post Code"
 msgstr "Postinumero"
 
-#: ./browser/templates/stock-list.pt:19
+#: ./interfaces.py:181
+msgid "Price excluding VAT"
+msgstr "Hinta ALV 0%"
+
+#: ./browser/templates/stock-list.pt:30
 msgid "Purchase Price VAT 0%"
 msgstr "Ostohinta alv 0%"
 
@@ -127,7 +131,7 @@ msgstr "Ostohinta alv 0%"
 msgid "Quantity"
 msgstr "Määrä"
 
-#: ./interfaces.py:24
+#: ./interfaces.py:27
 msgid "Representative Image"
 msgstr "Tuotekuva"
 
@@ -139,11 +143,19 @@ msgstr "Toimitustieto"
 msgid "Shop"
 msgstr "Kauppa"
 
-#: ./interfaces.py:79
+#: ./profiles/default/types/collective.cart.core.Article.xml
+msgid "Stock List"
+msgstr "Varastolista"
+
+#: ./browser/templates/stock-list.pt:13
+msgid "Stock List of ${DYNAMIC_CONTENT}"
+msgstr "Varastolista: ${DYNAMIC_CONTENT}"
+
+#: ./interfaces.py:82
 msgid "Street Address"
 msgstr "Katuosoite"
 
-#: ./interfaces.py:25
+#: ./interfaces.py:28
 msgid "The representative image of this article."
 msgstr "Tämä tuotteen edustava kuva."
 
@@ -159,13 +171,18 @@ msgstr "Päivitä"
 msgid "Update Shipping Method"
 msgstr "Päivitä toimitustapa"
 
-#: ./interfaces.py:71
+#: ./interfaces.py:74
 msgid "VAT Number"
 msgstr "VAT-numero"
 
 #: ./subscriber.py:79
 msgid "You need to first remove some images to add here one."
 msgstr "Lisätääkseen tähän uusi kuvaa, täytyy ensin poistaa tästä kuvia."
+
+#. Default: "There are no stocks available for this article."
+#: ./browser/templates/stock-list.pt:14
+msgid "description_no_stocks_available"
+msgstr "Tällä tuotteella ei ole varastoa."
 
 #: ./browser/viewlets/add-to-cart.pt:34
 msgid "pcs"

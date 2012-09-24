@@ -8,7 +8,18 @@
   >
   <body>
     <metal:main fill-slot="main">
-      <section id="collective-cart-shopping-stock-list">
+      <h1
+        class="documentFirstHeading"
+        i18n:translate="">Stock List of <span tal:replace="context/title" /></h1>
+      <p
+        i18n:translate="description_no_stocks_available"
+        tal:condition="not: view/stocks">
+        There are no stocks available for this article.
+      </p>
+
+      <section
+        id="collective-cart-shopping-stock-list"
+        tal:condition="view/stocks">
         <table class="listing">
           <thead>
             <tr>

@@ -1,3 +1,4 @@
+from collective.behavior import price
 from collective.cart import core
 from collective.cart.shopping import _
 from plone.app.textfield import RichText
@@ -5,6 +6,8 @@ from plone.directives import form
 from plone.namedfile.field import NamedBlobImage
 from plone.namedfile.interfaces import IImageScaleTraversable
 from zope.interface import Attribute
+from zope.interface import alsoProvides
+from zope.schema import Decimal
 from zope.schema import TextLine
 
 
@@ -170,3 +173,13 @@ class ICustomerInfo(IBaseCustomerInfo):
 
 class IShop(core.interfaces.IShoppingSiteRoot):
     """Schema interface for shop."""
+
+
+class IStockPrice(price.interfaces.IPrice):
+
+    price = Decimal(
+            title=_(u"Price excluding VAT"),
+            required=True)
+
+
+alsoProvides(IStockPrice, form.IFormFieldProvider)

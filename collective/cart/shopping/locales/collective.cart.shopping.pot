@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-09-21 12:41+0000\n"
+"POT-Creation-Date: 2012-09-24 19:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,7 @@ msgstr ""
 msgid "Check Out"
 msgstr ""
 
-#: ./interfaces.py:86
+#: ./interfaces.py:89
 msgid "City"
 msgstr ""
 
@@ -45,11 +45,11 @@ msgstr ""
 msgid "Confirmation"
 msgstr ""
 
-#: ./browser/templates/stock-list.pt:16
+#: ./browser/templates/stock-list.pt:27
 msgid "Created"
 msgstr ""
 
-#: ./browser/templates/stock-list.pt:18
+#: ./browser/templates/stock-list.pt:29
 msgid "Current Stock"
 msgstr ""
 
@@ -57,19 +57,19 @@ msgstr ""
 msgid "CustomerInfo"
 msgstr ""
 
-#: ./interfaces.py:29
+#: ./interfaces.py:32
 msgid "Detailed information"
 msgstr ""
 
-#: ./interfaces.py:76
+#: ./interfaces.py:79
 msgid "E-mail"
 msgstr ""
 
-#: ./interfaces.py:62
+#: ./interfaces.py:65
 msgid "First Name"
 msgstr ""
 
-#: ./interfaces.py:30
+#: ./interfaces.py:33
 msgid "Further detailed information comes here."
 msgstr ""
 
@@ -78,11 +78,11 @@ msgstr ""
 msgid "Including VAT: ${vat} &#37;"
 msgstr ""
 
-#: ./interfaces.py:168
+#: ./interfaces.py:171
 msgid "Info Type"
 msgstr ""
 
-#: ./browser/templates/stock-list.pt:17
+#: ./browser/templates/stock-list.pt:28
 msgid "Initial Stock"
 msgstr ""
 
@@ -94,15 +94,15 @@ msgstr ""
 msgid "Input integer value to update cart."
 msgstr ""
 
-#: ./interfaces.py:72
+#: ./interfaces.py:75
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr ""
 
-#: ./interfaces.py:65
+#: ./interfaces.py:68
 msgid "Last Name"
 msgstr ""
 
-#: ./browser/templates/stock-list.pt:15
+#: ./browser/templates/stock-list.pt:26
 msgid "Name"
 msgstr ""
 
@@ -110,19 +110,23 @@ msgstr ""
 msgid "Normal Price: ${normal-price}"
 msgstr ""
 
-#: ./interfaces.py:68
+#: ./interfaces.py:71
 msgid "Organization"
 msgstr ""
 
-#: ./interfaces.py:89
+#: ./interfaces.py:92
 msgid "Phone Number"
 msgstr ""
 
-#: ./interfaces.py:82
+#: ./interfaces.py:85
 msgid "Post Code"
 msgstr ""
 
-#: ./browser/templates/stock-list.pt:19
+#: ./interfaces.py:181
+msgid "Price excluding VAT"
+msgstr ""
+
+#: ./browser/templates/stock-list.pt:30
 msgid "Purchase Price VAT 0%"
 msgstr ""
 
@@ -130,7 +134,7 @@ msgstr ""
 msgid "Quantity"
 msgstr ""
 
-#: ./interfaces.py:24
+#: ./interfaces.py:27
 msgid "Representative Image"
 msgstr ""
 
@@ -142,11 +146,19 @@ msgstr ""
 msgid "Shop"
 msgstr ""
 
-#: ./interfaces.py:79
+#: ./profiles/default/types/collective.cart.core.Article.xml
+msgid "Stock List"
+msgstr ""
+
+#: ./browser/templates/stock-list.pt:13
+msgid "Stock List of ${DYNAMIC_CONTENT}"
+msgstr ""
+
+#: ./interfaces.py:82
 msgid "Street Address"
 msgstr ""
 
-#: ./interfaces.py:25
+#: ./interfaces.py:28
 msgid "The representative image of this article."
 msgstr ""
 
@@ -162,12 +174,17 @@ msgstr ""
 msgid "Update Shipping Method"
 msgstr ""
 
-#: ./interfaces.py:71
+#: ./interfaces.py:74
 msgid "VAT Number"
 msgstr ""
 
 #: ./subscriber.py:79
 msgid "You need to first remove some images to add here one."
+msgstr ""
+
+#. Default: "There are no stocks available for this article."
+#: ./browser/templates/stock-list.pt:14
+msgid "description_no_stocks_available"
 msgstr ""
 
 #: ./browser/viewlets/add-to-cart.pt:34
