@@ -1,7 +1,7 @@
 Change log
 ----------
 
-0.2.1 (2012-09-XX)
+0.2.1 (2012-09-25)
 ==================
 
 - Updated for translations. [taito]
