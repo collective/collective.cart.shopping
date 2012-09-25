@@ -6,6 +6,7 @@ from collective.behavior.stock.interfaces import IStock
 from collective.cart.core.browser.viewlet import AddToCartViewlet
 from collective.cart.core.browser.viewlet import CartArticlesViewlet
 from collective.cart.core.browser.viewlet import CartViewletManager
+from collective.cart.core.browser.viewlet import CartContentViewletManager
 from collective.cart.core.interfaces import IArticle
 from collective.cart.core.interfaces import ICartArticleAdapter
 from collective.cart.core.interfaces import IShoppingSiteRoot
@@ -14,6 +15,7 @@ from collective.cart.shopping import _
 from collective.cart.shopping.browser.form import BillingInfoForm
 from collective.cart.shopping.browser.form import ShippingInfoForm
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
+from collective.cart.shopping.interfaces import ICart
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.shopping.browser.wrapper import ShippingMethodFormWrapper
@@ -265,3 +267,19 @@ class ShippingMethodViewlet(shipping.browser.viewlet.ShippingMethodViewlet):
     grok.viewletmanager(BillingAndShippingViewletManager)
 
     _form_wrapper = ShippingMethodFormWrapper
+
+
+class CustomerInfoViewlet(grok.Viewlet):
+    """Viewlet to show customer info in cart container."""
+    grok.context(ICart)
+    grok.layer(ICollectiveCartShoppingLayer)
+    grok.name('collective.cart.core.customer-info')
+    grok.require('zope2.View')
+    grok.template('customer-info')
+    grok.viewletmanager(CartContentViewletManager)
+
+    def billing(self):
+        return self.context.get('billing')
+
+    def shipping(self):
+        return self.context.get('shipping')

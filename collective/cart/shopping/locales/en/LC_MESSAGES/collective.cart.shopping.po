@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-09-24 19:10+0000\n"
+"POT-Creation-Date: 2012-09-25 09:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,6 +54,10 @@ msgstr ""
 msgid "CustomerInfo"
 msgstr ""
 
+#: ./browser/viewlets/cart-articles.pt:77
+msgid "Delete"
+msgstr ""
+
 #: ./interfaces.py:32
 msgid "Detailed information"
 msgstr ""
@@ -72,6 +76,7 @@ msgstr ""
 
 #: ./browser/templates/article.pt:30
 #: ./browser/templates/stock.pt:29
+#: ./browser/viewlets/cart-articles.pt:41
 msgid "Including VAT: ${vat} &#37;"
 msgstr ""
 
@@ -143,10 +148,6 @@ msgstr ""
 msgid "Shop"
 msgstr ""
 
-#: ./profiles/default/types/collective.cart.core.Article.xml
-msgid "Stock List"
-msgstr ""
-
 #: ./browser/templates/stock-list.pt:13
 msgid "Stock List of ${DYNAMIC_CONTENT}"
 msgstr ""
@@ -164,6 +165,7 @@ msgid "Total"
 msgstr ""
 
 #: ./browser/form.py:86
+#: ./browser/viewlets/cart-articles.pt:65
 msgid "Update"
 msgstr ""
 

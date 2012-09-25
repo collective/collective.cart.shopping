@@ -394,9 +394,9 @@ Go to Cart Container:
     --- 1 ---
     <section id="cart-container"><h1>Cart Container</h1>
     <p id="next-cart-id">The next cart ID: 2</p>
-    <table id="cart-list"><thead><tr><td>Cart ID</td>
-    <td>State</td>
-    <td>Last Modified</td>
+    <table class="listing" id="cart-list"><thead><tr><th>Cart ID</th>
+    <th>State</th>
+    <th>Last Modified</th>
     </tr></thead><tbody><tr><td class="cart-id">
     <a href="http://nohost/plone/shop/cart-container/1">1</a>
     </td>
@@ -407,9 +407,8 @@ Go to Cart Container:
     >>> browser.open('/shop/cart-container/1')
     >>> print browser.bycss('#cart-content')
     --- 1 ---
-    <section id="cart-content"><h1>Cart ID: 1</h1>
-    <table id="article-list"><thead><tr><td>ID</td>
-    <td>Name</td>
+    <section id="cart-content"><table class="listing" id="article-list"><thead><tr><th>ID</th>
+    <th>Name</th>
     </tr></thead><tbody><tr><td class="article-id">2</td>
     <td class="article-title">
     <a href="http://nohost/plone/shop/article2">&#196;rticle2</a>

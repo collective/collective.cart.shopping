@@ -1,25 +1,20 @@
 <section
-  i18n:domain="collective.cart.core"
-  tal:condition="view/cart_articles"
-  >
+  i18n:domain="collective.cart.shopping"
+  tal:condition="view/cart_articles">
   <table class="listing">
     <tbody>
       <form
         method="post"
         tal:attributes="action context/@@plone_context_state/current_base_url"
-        tal:repeat="item viewlet/articles"
-        >
+        tal:repeat="item viewlet/articles">
         <tr>
           <td class="image">
             <a
               tal:condition="item/url"
               tal:attributes="
                 href item/url;
-                title item/title"
-              >
-              <img
-                tal:replace="structure item/image"
-                />
+                title item/title">
+              <img tal:replace="structure item/image" />
             </a>
             <img
                 tal:condition="not: item/url"

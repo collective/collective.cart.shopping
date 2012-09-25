@@ -1,0 +1,115 @@
+<section id="customer-info" i18n:domain="collective.cart.shopping">
+  <table
+    tal:define="
+      billing viewlet/billing;
+      shipping viewlet/shipping">
+    <thead>
+      <tr>
+        <th />
+        <th i18n:translate="">Billing Info</th>
+        <th i18n:translate="">Shipping Info</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td i18n:translate="">First Name</td>
+        <td
+          tal:condition="billing"
+          tal:content="billing/first_name"
+          />
+        <td
+          tal:condition="shipping"
+          tal:content="shipping/first_name"
+          />
+      </tr>
+      <tr>
+        <td i18n:translate="">Last Name</td>
+        <td
+          tal:condition="billing"
+          tal:content="billing/last_name"
+          />
+        <td
+          tal:condition="shipping"
+          tal:content="shipping/last_name"
+          />
+      </tr>
+      <tr>
+        <td i18n:translate="">Organization</td>
+        <td
+          tal:condition="billing"
+          tal:content="billing/organization"
+          />
+        <td
+          tal:condition="shipping"
+          tal:content="shipping/organization"
+          />
+      </tr>
+      <tr>
+        <td i18n:translate="">VAT Number</td>
+        <td
+          tal:condition="billing"
+          tal:content="billing/vat"
+          />
+        <td
+          tal:condition="shipping"
+          tal:content="shipping/vat"
+          />
+      </tr>
+      <tr>
+        <td i18n:translate="">E-mail</td>
+        <td
+          tal:condition="billing"
+          tal:content="billing/email"
+          />
+        <td
+          tal:condition="shipping"
+          tal:content="shipping/email"
+          />
+      </tr>
+      <tr>
+        <td i18n:translate="">Street Address</td>
+        <td
+          tal:condition="billing"
+          tal:content="billing/address"
+          />
+        <td
+          tal:condition="shipping"
+          tal:content="shipping/address"
+          />
+      </tr>
+      <tr>
+        <td i18n:translate="">Post Code</td>
+        <td
+          tal:condition="billing"
+          tal:content="billing/post_code"
+          />
+        <td
+          tal:condition="shipping"
+          tal:content="shipping/post_code"
+          />
+      </tr>
+      <tr>
+        <td i18n:translate="">City</td>
+        <td
+          tal:condition="billing"
+          tal:content="billing/city"
+          />
+        <td
+          tal:condition="shipping"
+          tal:content="shipping/city"
+          />
+      </tr>
+      <tr>
+        <td i18n:translate="">Phone Number</td>
+        <td
+          tal:condition="billing"
+          tal:content="billing/phone"
+          />
+        <td
+          tal:condition="shipping"
+          tal:content="shipping/phone"
+          />
+      </tr>
+    </tbody>
+  </table>
+</section>
