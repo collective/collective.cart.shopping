@@ -122,6 +122,8 @@ def default_vat(data):
     info = cart.get(data.view.form_type)
     if info:
         return info.vat
+    else:
+        return u'FI'
 
 
 @form.default_value(field=IBaseCustomerInfo['email'])

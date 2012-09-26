@@ -1,5 +1,6 @@
 <section id="customer-info" i18n:domain="collective.cart.shopping">
   <table
+    class="listing"
     tal:define="
       billing viewlet/billing;
       shipping viewlet/shipping">
