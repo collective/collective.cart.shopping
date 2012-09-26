@@ -1,0 +1,21 @@
+<section
+  id="articles"
+  i18n:domain="collective.cart.shopping"
+  tal:condition="viewlet/articles">
+  <article tal:repeat="item viewlet/articles" tal:attributes="style item/style">
+    <div tal:replace="structure item/image" />
+    <h1>
+      <a
+        tal:attributes="href item/url"
+        tal:content="item/title" />
+    </h1>
+    <p>
+      <a
+        tal:attributes="href item/url"
+        tal:content="item/gross" />
+      <span
+        tal:condition="item/discount-available"
+        tal:content="item/money" />
+    </p>
+  </article>
+</section>

@@ -25,7 +25,7 @@ class BillingInfoForm(BaseCustomerInfoForm):
     form_type = 'billing'
     prefix = 'form.billing.'
 
-    @button.buttonAndHandler(u'Submit')
+    @button.buttonAndHandler(_(u'Submit'))
     def handleApply(self, action):
         data, errors = self.extractData()
         cart = IShoppingSite(self.context).cart
@@ -53,7 +53,7 @@ class ShippingInfoForm(BaseCustomerInfoForm):
     form_type = 'shipping'
     prefix = 'form.shipping.'
 
-    @button.buttonAndHandler(u'Submit')
+    @button.buttonAndHandler(_(u'Submit'))
     def handleApply(self, action):
         data, errors = self.extractData()
         cart = IShoppingSite(self.context).cart
@@ -91,49 +91,3 @@ class ShippingMethodForm(shipping.browser.form.ShippingMethodForm):
         uuid = data.get('shipping_method')
         if uuid:
             setattr(IShoppingSite(self.context).cart, 'shipping_uid', uuid)
-
-
-#     def update(self):
-#         if self.request.form.get('form.update.shipping.method', None) is not None:
-#             uuid = self.request.form.get('shipping-method', None)
-#             if uuid:
-#                 setattr(IShoppingSite(self.context).cart, 'shipping_uid', uuid)
-
-#     @property
-#     def shipping_methods(self):
-#         return IShoppingSite(self.context).shipping_methods
-
-#     @property
-#     def shipping_method(self):
-#         shipping_uid = getattr(IShoppingSite(self.context).cart, 'shipping_uid', None)
-#         if shipping_uid:
-#             methods = [brain for brain in self.shipping_methods if brain.UID == shipping_uid]
-#             if methods:
-#                 brain = methods[0]
-#         else:
-#             brain = self.shipping_methods[0]
-#         return brain.getObject()
-
-#     @property
-#     def shipping_uuid(self):
-#         return IUUID(self.shipping_method)
-
-#     @property
-#     def shipping_gross(self):
-#         registry = getUtility(IRegistry)
-#         currency = registry.forInterface(ICurrency).default_currency
-#         shipping_fee = self.shipping_method.getField('shipping_fee').get(self.shipping_method)
-#         weight = 0.0
-#         for brain in IShoppingSite(self.context).cart_articles:
-#             obj = brain.getObject()
-#             weight += ISize(obj).calculated_weight(
-#                 self.shipping_method.weight_dimension_rate) * obj.quantity
-#         return Money(shipping_fee(weight), currency=currency)
-
-#     def cart_total(self):
-#         registry = getUtility(IRegistry)
-#         currency = registry.forInterface(ICurrency).default_currency
-#         res = Money(0.00, currency=currency)
-#         for brain in self.view.cart_articles:
-#             res += brain.gross * brain.quantity
-#         return res

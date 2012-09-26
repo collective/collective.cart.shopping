@@ -5,6 +5,7 @@ from collective.cart.core.interfaces import IShoppingSite
 from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
 from collective.cart.shopping.interfaces import IArticleAdapter
+from collective.cart.shopping.interfaces import IArticleContainer
 from collective.cart.stock.interfaces import IStock
 from five import grok
 from plone.memoize.instance import memoize
@@ -15,7 +16,7 @@ grok.templatedir('templates')
 
 
 class ArticleView(grok.View):
-
+    """Default view for Article."""
     grok.context(IArticle)
     grok.layer(ICollectiveCartShoppingLayer)
     grok.name('view')
@@ -54,6 +55,15 @@ class ArticleView(grok.View):
         return IArticleAdapter(self.context).discount_end
 
 
+class ArticleContainerView(grok.View):
+    """Default view for ArticleContainer."""
+    grok.context(IArticleContainer)
+    grok.layer(ICollectiveCartShoppingLayer)
+    grok.name('view')
+    grok.require('zope2.View')
+    grok.template('article-container')
+
+
 class BillingAndShippingView(grok.View):
 
     grok.context(IShoppingSiteRoot)
@@ -84,6 +94,9 @@ class OrderConfirmationView(grok.View):
         if not IShoppingSite(self.context).cart_articles:
             url = '{}/@@cart'.format(base_url)
             return self.request.response.redirect(url)
+        else:
+            self.request.set('disable_border', True)
+            super(OrderConfirmationView, self).update()
 
 
 class StockListView(grok.View):

@@ -1,24 +1,27 @@
+from Acquisition import aq_inner
+from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from collective.behavior.price.interfaces import ICurrency
 from collective.behavior.size.interfaces import ISize
 from collective.behavior.stock.interfaces import IStock
+from collective.cart import shipping
 from collective.cart.core.browser.viewlet import AddToCartViewlet
 from collective.cart.core.browser.viewlet import CartArticlesViewlet
-from collective.cart.core.browser.viewlet import CartViewletManager
 from collective.cart.core.browser.viewlet import CartContentViewletManager
+from collective.cart.core.browser.viewlet import CartViewletManager
 from collective.cart.core.interfaces import IArticle
 from collective.cart.core.interfaces import ICartArticleAdapter
 from collective.cart.core.interfaces import IShoppingSiteRoot
-from collective.cart import shipping
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.form import BillingInfoForm
 from collective.cart.shopping.browser.form import ShippingInfoForm
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
-from collective.cart.shopping.interfaces import ICart
-from collective.cart.shopping.interfaces import IArticleAdapter
-from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.shopping.browser.wrapper import ShippingMethodFormWrapper
+from collective.cart.shopping.interfaces import IArticleAdapter
+from collective.cart.shopping.interfaces import IArticleContainer
+from collective.cart.shopping.interfaces import ICart
+from collective.cart.shopping.interfaces import IShoppingSite
 from five import grok
 from moneyed import Money
 from plone.app.contentlisting.interfaces import IContentListing
@@ -283,3 +286,46 @@ class CustomerInfoViewlet(grok.Viewlet):
 
     def shipping(self):
         return self.context.get('shipping')
+
+
+class ArticleContainerViewletManager(OrderedViewletManager, grok.ViewletManager):
+    """Viewlet manager for ArticleContainer."""
+    grok.context(IArticleContainer)
+    grok.layer(ICollectiveCartShoppingLayer)
+    grok.name('collective.cart.shopping.articlecontainer')
+
+
+class ArticlesInArticleContainerViewlet(grok.Viewlet):
+    """Viewlet to show Articles in ArticleContainer."""
+    grok.context(IArticleContainer)
+    grok.layer(ICollectiveCartShoppingLayer)
+    grok.name('collective.cart.core.articles-in-articlecontainer')
+    grok.require('zope2.View')
+    grok.template('articles-in-articlecontainer')
+    grok.viewletmanager(ArticleContainerViewletManager)
+
+    def articles(self):
+        context = aq_inner(self.context)
+        catalog = getToolByName(context, 'portal_catalog')
+        query = {
+            'path': {
+                'query': '/'.join(context.getPhysicalPath()),
+                'depth': 1,
+            },
+            'object_provides': IArticle.__identifier__,
+        }
+        return [{
+            'image': self._image(item),
+            'discount-available': IArticleAdapter(item.getObject()).discount_available,
+            'gross': IArticleAdapter(item.getObject()).gross,
+            'money': item.money,
+            'style': 'style',
+            'title': item.Title(),
+            'url': item.getURL(),
+        } for item in IContentListing(catalog(query))]
+
+    def _image(self, item):
+        """Returns scales image tag."""
+        scales = getMultiAdapter((item.getObject(), self.request), name='images')
+        scale = scales.scale('image', scale='thumb')
+        return scale.tag()

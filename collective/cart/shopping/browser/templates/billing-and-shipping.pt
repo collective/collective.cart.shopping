@@ -4,10 +4,18 @@
   metal:use-macro="context/main_template/macros/master"
   xmlns:i18n="http://xml.zope.org/namespaces/i18n"
   xmlns:metal="http://xml.zope.org/namespaces/metal"
-  xmlns:tal="http://xml.zope.org/namespaces/tal"
-  >
+  xmlns:tal="http://xml.zope.org/namespaces/tal">
   <body>
     <metal:main fill-slot="main">
+      <section id="order-flow">
+        <a
+          i18n:translate=""
+          tal:attributes="href string:${context/@@plone/navigationRootUrl}/@@cart">
+          1. Cart</a>&nbsp;&nbsp;&#45;&nbsp;&nbsp;<span id="current-step" i18n:translate="">
+          2. Customer Info and Shipping Method</span>&nbsp;&nbsp;&#45;&nbsp;&nbsp;<a i18n:translate=""
+          tal:attributes="href string:${context/@@plone/navigationRootUrl}/@@order-confirmation">
+          3. Confirmation</a>
+      </section>
       <section id="collective-cart-shopping-billing-and-shipping">
         <div tal:replace="structure provider:collective.cart.shopping.billing.shipping.manager" />
       </section>
