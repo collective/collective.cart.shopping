@@ -1,27 +1,24 @@
 <section
   class="collective-cart-shopping-checkout"
-  id="cart-checkout"
-  i18n:domain="collective.cart.shopping"
-  >
+  id="checkout"
+  i18n:domain="collective.cart.shopping">
   <form
     method="post"
     tal:attributes="action context/@@plone_context_state/current_base_url">
     <button
-      class="standalone clear"
+      class="shopping-button clear"
       i18n:translate=""
       name="form.clear.cart"
       type="submit"
-      value="form.clear.cart"
-      >
-      Clear Cart
+      value="form.clear.cart">
+      Clear
     </button>
     <button
-      class="standalone checkout"
+      class="shopping-button checkout"
       i18n:translate=""
       name="form.checkout"
       type="submit"
-      value="form.checkout"
-      >
+      value="form.checkout">
       Check Out
     </button>
   </form>

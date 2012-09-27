@@ -1,7 +1,8 @@
 <section
+  id="cart-articles"
   i18n:domain="collective.cart.shopping"
   tal:condition="view/cart_articles">
-  <table class="listing">
+  <table>
     <tbody>
       <form
         method="post"
@@ -35,13 +36,7 @@
             </h3>
             <p tal:content="item/description" />
           </td>
-          <td class="price">
-            <span tal:replace="item/gross" />
-            <span id="vat" i18n:translate="">
-              Including VAT: <span i18n:name="vat" tal:replace="item/vat_rate" /> &#37;
-            </span>
-          </td>
-          <td class="quantity">
+          <td class="price-and-quantity">
             <input
               id="quantity"
               list="numbers"
@@ -53,37 +48,40 @@
                 value item/quantity;
                 size item/quantity_size"
               />
-            <datalist
-              id="numbers"
-              >
+            <datalist id="numbers">
               <option
                 tal:repeat="number item/numbers"
                 tal:attributes="value number"
                 tal:content="number"
                 />
-            </datalist>
-            <button
-              class="standalone update"
-              i18n:translate=""
-              name="form.update.article"
-              type="submit"
-              tal:attributes="value item/id"
-              value="form.update.article"
-              >
-              Update
-            </button>
-          </td>
-          <td class="delete">
-            <button
-              class="standalone delete"
-              i18n:translate=""
-              name="form.delete.article"
-              type="submit"
-              tal:attributes="value item/id"
-              value="form.delete.article"
-              >
-              Delete
-            </button>
+            </datalist>&nbsp;&times;&nbsp;
+            <span class="gross" tal:content="item/gross" />
+            <br />
+            <span class="vat" i18n:translate="">
+              Including VAT: <span i18n:name="vat" tal:replace="item/vat_rate" /> &#37;
+            </span>
+            <section class="buttons">
+              <button
+                class="shopping-button update"
+                i18n:translate=""
+                name="form.update.article"
+                type="submit"
+                tal:attributes="value item/id"
+                value="form.update.article"
+                >
+                Update
+              </button>
+              <button
+                class="shopping-button delete"
+                i18n:translate=""
+                name="form.delete.article"
+                type="submit"
+                tal:attributes="value item/id"
+                value="form.delete.article"
+                >
+                Delete
+              </button>
+            </section>
           </td>
         </tr>
       </form>

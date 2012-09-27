@@ -51,9 +51,9 @@ Go to Cart::
     >>> browser.open('/shop/@@cart')
     >>> print browser.bycss('.collective-cart-shopping-checkout')
     --- 1 ---
-    <section class="collective-cart-shopping-checkout" id="cart-checkout"><form method="post" action="http://nohost/plone/shop/@@cart">
-    <button class="standalone clear" name="form.clear.cart" type="submit" value="form.clear.cart">Clear Cart</button>
-    <button class="standalone checkout" name="form.checkout" type="submit" value="form.checkout">Check Out</button>
+    <section class="collective-cart-shopping-checkout" id="checkout"><form method="post" action="http://nohost/plone/shop/@@cart">
+    <button class="shopping-button clear" name="form.clear.cart" type="submit" value="form.clear.cart">Clear</button>
+    <button class="shopping-button checkout" name="form.checkout" type="submit" value="form.checkout">Check Out</button>
     </form>
     </section>
 

@@ -1,5 +1,6 @@
 from Products.ATContentTypes.interfaces.image import IATImage
 from Products.CMFCore.utils import getToolByName
+from collective.cart.core.browser.template import CartView
 from collective.cart.core.interfaces import IArticle
 from collective.cart.core.interfaces import IShoppingSite
 from collective.cart.core.interfaces import IShoppingSiteRoot
@@ -62,6 +63,11 @@ class ArticleContainerView(grok.View):
     grok.name('view')
     grok.require('zope2.View')
     grok.template('article-container')
+
+
+class ShoppingCartView(CartView):
+    """Cart View"""
+    grok.layer(ICollectiveCartShoppingLayer)
 
 
 class BillingAndShippingView(grok.View):

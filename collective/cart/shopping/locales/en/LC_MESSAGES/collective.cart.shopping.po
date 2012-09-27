@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-09-26 19:59+0000\n"
+"POT-Creation-Date: 2012-09-27 19:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,16 +19,19 @@ msgid "(Discount valid till ${discount_end})"
 msgstr ""
 
 #: ./browser/templates/billing-and-shipping.pt:11
+#: ./browser/templates/cart.pt:12
 #: ./browser/templates/order-confirmation.pt:12
 msgid "1. Cart"
 msgstr ""
 
 #: ./browser/templates/billing-and-shipping.pt:14
+#: ./browser/templates/cart.pt:13
 #: ./browser/templates/order-confirmation.pt:15
 msgid "2. Customer Info and Shipping Method"
 msgstr ""
 
 #: ./browser/templates/billing-and-shipping.pt:15
+#: ./browser/templates/cart.pt:15
 #: ./browser/templates/order-confirmation.pt:17
 msgid "3. Confirmation"
 msgstr ""
@@ -42,7 +45,7 @@ msgstr ""
 msgid "Billing Info"
 msgstr ""
 
-#: ./browser/viewlets/cart-checkout.pt:18
+#: ./browser/viewlets/cart-checkout.pt:16
 msgid "Check Out"
 msgstr ""
 
@@ -51,8 +54,8 @@ msgstr ""
 msgid "City"
 msgstr ""
 
-#: ./browser/viewlets/cart-checkout.pt:9
-msgid "Clear Cart"
+#: ./browser/viewlets/cart-checkout.pt:8
+msgid "Clear"
 msgstr ""
 
 #: ./browser/viewlets/billing-and-shipping-checkout.pt:9
@@ -71,7 +74,7 @@ msgstr ""
 msgid "CustomerInfo"
 msgstr ""
 
-#: ./browser/viewlets/cart-articles.pt:77
+#: ./browser/viewlets/cart-articles.pt:74
 msgid "Delete"
 msgstr ""
 
@@ -95,7 +98,7 @@ msgstr ""
 
 #: ./browser/templates/article.pt:30
 #: ./browser/templates/stock.pt:29
-#: ./browser/viewlets/cart-articles.pt:41
+#: ./browser/viewlets/cart-articles.pt:61
 msgid "Including VAT: ${vat} &#37;"
 msgstr ""
 
@@ -189,12 +192,12 @@ msgstr ""
 msgid "The representative image of this article."
 msgstr ""
 
-#: ./browser/viewlets/cart-total.pt:5
+#: ./browser/viewlets/cart-total.pt:4
 msgid "Total"
 msgstr ""
 
 #: ./browser/form.py:86
-#: ./browser/viewlets/cart-articles.pt:65
+#: ./browser/viewlets/cart-articles.pt:64
 msgid "Update"
 msgstr ""
 

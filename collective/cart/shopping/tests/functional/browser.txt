@@ -108,8 +108,7 @@ Check Cart::
     >>> browser.open('/shop/@@cart')
     >>> print browser.bycss('#cart')
     --- 1 ---
-    <section id="cart"><h1>Cart</h1>
-    <section><table class="listing"><tbody><form method="post" action="http://nohost/plone/shop/@@cart">
+    <section id="cart"><section id="cart-articles"><table><tbody><form method="post" action="http://nohost/plone/shop/@@cart">
     <tr><td class="image">
     <a href="http://nohost/plone/shop/article1" title="&#196;rticle1">
     </a>
@@ -120,16 +119,13 @@ Check Cart::
     </h3>
     <p>Description of &#196;rticle1</p>
     </td>
-    <td class="price">
-    12.30 &#8364;
-    <span id="vat">Including VAT: 23.00 %</span>
-    </td>
-    <td class="quantity">
-    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="100" value="1" size="3"><datalist id="numbers"><option value="1">...<option value="100">100</option></datalist><button class="standalone update" name="form.update.article" type="submit" value="1">Update</button>
-    </td>
-    <td class="delete">
-    <button class="standalone delete" name="form.delete.article" type="submit" value="1">Delete</button>
-    </td>
+    <td class="price-and-quantity">
+    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="100" value="1" size="3"><datalist id="numbers"><option value="1">...<option value="100">100</option></datalist>&#160;&#215;&#160;
+    <span class="gross">12.30 &#8364;</span>
+    <br><span class="vat">Including VAT: 23.00 %</span>
+    <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="1">Update</button>
+    <button class="shopping-button delete" name="form.delete.article" type="submit" value="1">Delete</button>
+    </section></td>
     </tr></form>
     ...
 
@@ -158,11 +154,12 @@ Check Stöck1::
 Check Cart::
 
     >>> browser.open('/shop/@@cart')
-    >>> print browser.bycss('.quantity')
+    >>> print browser.bycss('#quantity')
     --- 1 ---
-    <td class="quantity">
-    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="100" value="10" size="3"><datalist id="numbers"><option value="1">...<option value="100">100</option></datalist><button class="standalone update" name="form.update.article" type="submit" value="1">Update</button>
-    </td>
+    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="100" value="10" size="3">
+    >>> print browser.bycss('#numbers')
+    --- 1 ---
+    <datalist id="numbers"><option value="1">...<option value="100">100</option></datalist>&#160;&#215;&#160;
 
 Add another Article::
 
@@ -258,27 +255,27 @@ Check Cart::
     <p>Description of &#196;rticle2</p>
     </td>
 
-    >>> print browser.bycss('.price')
+    >>> print browser.bycss('.gross')
     --- 1 ---
-    <td class="price">
-    12.30 &#8364;
-    <span id="vat">Including VAT: 23.00 %</span>
-    </td>
+    <span class="gross">12.30 &#8364;</span>
     --- 2 ---
-    <td class="price">
-    24.60 &#8364;
-    <span id="vat">Including VAT: 23.00 %</span>
-    </td>
+    <span class="gross">24.60 &#8364;</span>
+    >>> print browser.bycss('.vat')
+    --- 1 ---
+    <span class="vat">Including VAT: 23.00 %</span>
+    --- 2 ---
+    <span class="vat">Including VAT: 23.00 %</span>
 
-    >>> print browser.bycss('.quantity')
+    >>> print browser.bycss('#quantity')
     --- 1 ---
-    <td class="quantity">
-    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="100" value="10" size="3"><datalist id="numbers"><option value="1">...<option value="100">100</option></datalist><button class="standalone update" name="form.update.article" type="submit" value="1">Update</button>
-    </td>
+    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="100" value="10" size="3">
     --- 2 ---
-    <td class="quantity">
-    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="30" value="5" size="2"><datalist id="numbers"><option value="1">...<option value="30">30</option></datalist><button class="standalone update" name="form.update.article" type="submit" value="2">Update</button>
-    </td>
+    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="30" value="5" size="2">
+    >>> print browser.bycss('#numbers')
+    --- 1 ---
+    <datalist id="numbers"><option value="1">...<option value="100">100</option></datalist>&#160;&#215;&#160;
+    --- 2 ---
+    <datalist id="numbers"><option value="1">...<option value="30">30</option></datalist>&#160;&#215;&#160;
 
 Go to Ärticle2 and add more to cart::
 
@@ -307,15 +304,16 @@ Check Stöck3::
 Check Cart::
 
     >>> browser.open('/shop/@@cart')
-    >>> print browser.bycss('.quantity')
+    >>> print browser.bycss('#quantity')
     --- 1 ---
-    <td class="quantity">
-    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="100" value="10" size="3"><datalist id="numbers"><option value="1">...<option value="100">100</option></datalist><button class="standalone update" name="form.update.article" type="submit" value="1">Update</button>
-    </td>
+    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="100" value="10" size="3">
     --- 2 ---
-    <td class="quantity">
-    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="30" value="30" size="2"><datalist id="numbers"><option value="1">...<option value="30">30</option></datalist><button class="standalone update" name="form.update.article" type="submit" value="2">Update</button>
-    </td>
+    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="30" value="30" size="2">
+    >>> print browser.bycss('#numbers')
+    --- 1 ---
+    <datalist id="numbers"><option value="1">...<option value="100">100</option></datalist>&#160;&#215;&#160;
+    --- 2 ---
+    <datalist id="numbers"><option value="1">...<option value="30">30</option></datalist>&#160;&#215;&#160;
 
 Delete Ärticle1::
 
@@ -359,19 +357,21 @@ Update Ärticle2 in Cart::
 
     >>> query = {'form.update.article': '2'}
     >>> browser.post(browser.url, query)
-    >>> print browser.bycss('.quantity')
+    >>> print browser.bycss('#quantity')
     --- 1 ---
-    <td class="quantity">
-    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="30" value="30" size="2"><datalist id="numbers"><option value="1">...<option value="30">30</option></datalist><button class="standalone update" name="form.update.article" type="submit" value="2">Update</button>
-    </td>
+    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="30" value="30" size="2">
+    >>> print browser.bycss('#numbers')
+    --- 1 ---
+    <datalist id="numbers"><option value="1">...<option value="30">30</option></datalist>&#160;&#215;&#160;
 
     >>> query = {'quantity': '20', 'form.update.article': '2'}
     >>> browser.post(browser.url, query)
-    >>> print browser.bycss('.quantity')
+    >>> print browser.bycss('#quantity')
     --- 1 ---
-    <td class="quantity">
-    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="30" value="20" size="2"><datalist id="numbers"><option value="1">...<option value="30">30</option></datalist><button class="standalone update" name="form.update.article" type="submit" value="2">Update</button>
-    </td>
+    <input id="quantity" list="numbers" min="1" name="quantity" type="number" max="30" value="20" size="2">
+    >>> print browser.bycss('#numbers')
+    --- 1 ---
+    <datalist id="numbers"><option value="1">...<option value="30">30</option></datalist>&#160;&#215;&#160;
 
 Check Stöck2::
 
@@ -439,19 +439,16 @@ Add to Cart::
 Check cart::
 
     >>> browser.open('/shop/@@cart')
-    >>> print browser.bycss('.price')
+    >>> print browser.bycss('.gross')
     --- 1 ---
-    <td class="price">
-    24.60 &#8364;
-    <span id="vat">Including VAT: 23.00 %</span>
-    </td>
+    <span class="gross">24.60 &#8364;</span>
 
 Remove Ärticle2 from cart::
 
     >>> query = {'form.delete.article': '2'}
     >>> browser.post(browser.url, query)
 
-    >>> print browser.bycss('.price')
+    >>> print browser.bycss('.gross')
 
 Add Ärticle2 once again::
 
@@ -462,9 +459,6 @@ Add Ärticle2 once again::
 Go to Cart::
 
     >>> browser.open('/shop/@@cart')
-    >>> print browser.bycss('.price')
+    >>> print browser.bycss('.gross')
     --- 1 ---
-    <td class="price">
-    12.30 &#8364;
-    <span id="vat">Including VAT: 23.00 %</span>
-    </td>
+    <span class="gross">12.30 &#8364;</span>

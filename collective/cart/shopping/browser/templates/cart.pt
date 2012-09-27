@@ -1,0 +1,33 @@
+<html
+  i18n:domain="collective.cart.core"
+  lang="en"
+  metal:use-macro="here/main_template/macros/master"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <body>
+    <div metal:fill-slot="main">
+      <section id="order-flow" i18n:domain="collective.cart.shopping">
+        <span id="current-step" i18n:translate="">
+          1. Cart</span>&nbsp;&nbsp;&#45;&nbsp;&nbsp;<a i18n:translate=""
+          tal:attributes="href string:${context/@@plone/navigationRootUrl}/@@billing-and-shipping">
+          2. Customer Info and Shipping Method</a>&nbsp;&nbsp;&#45;&nbsp;&nbsp;<a i18n:translate=""
+          tal:attributes="href string:${context/@@plone/navigationRootUrl}/@@order-confirmation">
+          3. Confirmation</a>
+      </section>
+      <section id="cart">
+        <p
+          i18n:translate=""
+          id="cart-is-empty"
+          tal:condition="not: view/cart_articles"
+          >
+          Cart is empty.
+        </p>
+        <div
+          tal:condition="view/cart_articles"
+          tal:replace="structure provider:collective.cart.core.cartviewletmanager" />
+      </section>
+    </div>
+  </body>
+</html>
