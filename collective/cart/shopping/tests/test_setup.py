@@ -110,7 +110,8 @@ class TestCase(IntegrationTestCase):
         contents = (
                 'collective.cart.shopping.ArticleContainer',
                 'collective.cart.shopping.CustomerInfo',
-                'collective.cart.stock.Stock')
+                'collective.cart.stock.Stock',
+                'collective.cart.shipping.ShippingMethodContainer')
         for content in contents:
             self.assertIn(content, site_properties.getProperty('types_not_searched'))
 
@@ -119,7 +120,8 @@ class TestCase(IntegrationTestCase):
         navtree_properties = getattr(properties, 'navtree_properties')
         contents = (
                 'collective.cart.shopping.CustomerInfo',
-                'collective.cart.stock.Stock')
+                'collective.cart.stock.Stock',
+                'collective.cart.shipping.ShippingMethodContainer')
         for content in contents:
             self.assertIn(content, navtree_properties.getProperty('metaTypesNotToList'))
 
@@ -201,7 +203,9 @@ class TestCase(IntegrationTestCase):
     def test_types__collective_cart_shopping_Shop__allowed_content_types(self):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.shopping.Shop')
-        self.assertEqual(ctype.allowed_content_types, ('Folder', 'collective.cart.shopping.ArticleContainer'))
+        self.assertEqual(ctype.allowed_content_types, (
+            'Folder',
+            'collective.cart.shopping.ArticleContainer'))
 
     def test_types__collective_cart_shopping_Shop__schema(self):
         types = getToolByName(self.portal, 'portal_types')

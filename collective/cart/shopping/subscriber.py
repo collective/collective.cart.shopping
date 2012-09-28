@@ -102,6 +102,6 @@ def add_cart_container_to_shop(obj, event):
 @grok.subscribe(IShop, IObjectAddedEvent)
 def add_shopping_methods_to_shop(context, event):
     assert context == event.object
-    folder = context[context.invokeFactory('Folder', 'shipping-methods', title='Shipping Methods')]
-    folder.setExcludeFromNav(True)
-    folder.reindexObject()
+    container = createContentInContainer(context, 'collective.cart.shipping.ShippingMethodContainer',
+        id='shipping-methods', title='Shipping Methods', checkConstraints=False)
+    modified(container)

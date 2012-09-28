@@ -1,3 +1,4 @@
+from Products.CMFCore.utils import getToolByName
 from collective.cart import shipping
 from collective.cart.core.interfaces import IShoppingSite
 from collective.cart.core.interfaces import IShoppingSiteRoot
@@ -89,5 +90,10 @@ class ShippingMethodForm(shipping.browser.form.ShippingMethodForm):
         if errors:
             return
         uuid = data.get('shipping_method')
-        if uuid:
-            setattr(IShoppingSite(self.context).cart, 'shipping_uid', uuid)
+        catalog = getToolByName(self.context, 'portal_catalog')
+        brains = catalog(UID=uuid)
+        if brains:
+            shipping_method = brains[0]
+            cart = IShoppingSite(self.context).cart
+            setattr(cart, 'shipping_uid', uuid)
+            # setattr(cart, 'shipping_title', shipping_method.title)

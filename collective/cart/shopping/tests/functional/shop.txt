@@ -24,9 +24,7 @@ There should be Shippig Methods folder created::
     >>> browser.open('/shop/shipping-methods')
     >>> print browser.bycss('.documentFirstHeading')
     --- 1 ---
-    <h1 ...
-    Shipping Methods
-    </h1>
+    <h1 class="documentFirstHeading">Shipping Methods</h1>
 
 Go to Shop::
 

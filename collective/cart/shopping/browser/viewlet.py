@@ -5,13 +5,12 @@ from Products.statusmessages.interfaces import IStatusMessage
 from collective.behavior.price.interfaces import ICurrency
 from collective.behavior.size.interfaces import ISize
 from collective.behavior.stock.interfaces import IStock
+from collective.cart import core
 from collective.cart import shipping
 from collective.cart.core.browser.viewlet import AddToCartViewlet
-from collective.cart.core.browser.viewlet import CartArticlesViewlet
 from collective.cart.core.browser.viewlet import CartContentViewletManager
 from collective.cart.core.browser.viewlet import CartViewletManager
 from collective.cart.core.interfaces import IArticle
-from collective.cart.core.interfaces import ICartArticleAdapter
 from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.form import BillingInfoForm
@@ -21,6 +20,7 @@ from collective.cart.shopping.browser.wrapper import ShippingMethodFormWrapper
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
 from collective.cart.shopping.interfaces import ICart
+from collective.cart.shopping.interfaces import ICartArticleAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
 from five import grok
 from moneyed import Money
@@ -102,9 +102,20 @@ class AddToCartViewlet(AddToCartViewlet):
         return IArticleAdapter(self.context).soldout
 
 
-class CartArticlesViewlet(CartArticlesViewlet):
-    """Cart Articles Viewlet Class."""
+class BaseCartArticlesViewlet(core.browser.viewlet.CartArticlesViewlet):
+    """Base class for displaying articles in cart."""
+    grok.baseclass()
     grok.layer(ICollectiveCartShoppingLayer)
+
+    def _image(self, obj):
+        scales = getMultiAdapter((obj, self.request), name='images')
+        scale = scales.scale('image', scale='thumb')
+        if scale:
+            return scale.tag()
+
+
+class CartArticlesViewlet(BaseCartArticlesViewlet):
+    """Cart Articles Viewlet Class."""
 
     def update(self):
         super(CartArticlesViewlet, self).update()
@@ -131,12 +142,6 @@ class CartArticlesViewlet(CartArticlesViewlet):
                     message = _(u"Input integer value to update cart.")
                     IStatusMessage(self.request).addStatusMessage(message, type='warn')
                 return self.render()
-
-    def _image(self, context):
-        scales = getMultiAdapter((context, self.request), name='images')
-        scale = scales.scale('image', scale='thumb')
-        if scale:
-            return scale.tag()
 
     @property
     def articles(self):
@@ -249,7 +254,7 @@ class ShippingInfoViewlet(BaseCustomerInfoViewlet):
 
 
 class BillingShippingCheckOutViewlet(BaseCustomerInfoViewlet):
-    grok.name('collective.cart.shopping.billing.shipping.checkout')
+    grok.name('collective.cart.shopping.billing.shipping.method.checkout')
     grok.template('billing-and-shipping-checkout')
 
     def action_url(self):
@@ -261,6 +266,48 @@ class OrderConfirmationViewletManager(OrderedViewletManager, grok.ViewletManager
     grok.context(IShoppingSiteRoot)
     grok.layer(ICollectiveCartShoppingLayer)
     grok.name('collective.cart.shopping.order.confirmation.manager')
+
+
+class OrderConfirmationCartArticlesViewlet(BaseCartArticlesViewlet):
+    """Cart Articles Viewlet for OrderConfirmationViewletManager."""
+    grok.template('confirmation-cart-articles')
+    grok.viewletmanager(OrderConfirmationViewletManager)
+
+    @property
+    def cart_articles(self):
+        """List of CartArticles within cart."""
+        return IShoppingSite(self.context).cart_articles
+
+    @property
+    def articles(self):
+        """Returns list of articles to show in cart."""
+        results = []
+        for item in IContentListing(self.cart_articles):
+            obj = item.getObject()
+            items = self._items(item)
+            items['image'] = None
+            items['description'] = None
+            items['vat_rate'] = obj.vat_rate
+            items['gross_subtotal'] = ICartArticleAdapter(obj).gross_subtotal
+            orig_article = ICartArticleAdapter(obj).orig_article
+            if orig_article:
+                items['image'] = self._image(orig_article)
+                items['description'] = orig_article.Description()
+            results.append(items)
+        return results
+
+
+class OrderConfirmationShippingMethodViewlet(grok.Viewlet):
+    """Shipping Method Viewlet for OrderConfirmationViewletManager."""
+    grok.context(IShoppingSiteRoot)
+    grok.layer(ICollectiveCartShoppingLayer)
+    grok.name('collective.cart.shopping.confirmation-shipping-method')
+    grok.require('zope2.View')
+    grok.template('confirmation-shipping-method')
+    grok.viewletmanager(OrderConfirmationViewletManager)
+
+    def shipping_method(self):
+        return True
 
 
 class ShippingMethodViewlet(shipping.browser.viewlet.ShippingMethodViewlet):

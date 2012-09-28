@@ -72,7 +72,7 @@
                 Update
               </button>
               <button
-                class="shopping-button delete"
+                class="shopping-button remove"
                 i18n:translate=""
                 name="form.delete.article"
                 type="submit"

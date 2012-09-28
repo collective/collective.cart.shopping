@@ -58,6 +58,12 @@ class ICartArticle(core.interfaces.ICartArticle):
     """"""
 
 
+class ICartArticleAdapter(core.interfaces.ICartArticleAdapter):
+    """Adapter interface for CartArticle"""
+
+    gross_subtotal = Attribute('Gross subtotal')
+
+
 class IBaseCustomerInfo(form.Schema):
     """Base Schema for all customer info."""
 

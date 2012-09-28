@@ -8,7 +8,7 @@
   >
   <body>
     <metal:main fill-slot="main">
-      <section id="collective-cart-shopping-article">
+      <section id="collective-cart-shopping">
         <table>
           <tbody>
             <tr>
