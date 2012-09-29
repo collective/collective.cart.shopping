@@ -20,6 +20,7 @@ from collective.cart.shopping.browser.wrapper import ShippingMethodFormWrapper
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
 from collective.cart.shopping.interfaces import ICart
+from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.interfaces import ICartArticleAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
 from five import grok
@@ -197,6 +198,9 @@ class CheckOutViewlet(grok.Viewlet):
     def update(self):
         form = self.request.form
         if form.get('form.checkout', None) is not None:
+            cart = IShoppingSite(self.context).cart
+            # Update shipping method.
+            ICartAdapter(cart).update_shipping_method()
             url = '{}/@@billing-and-shipping'.format(self.context.absolute_url())
             return self.request.response.redirect(url)
         if form.get('form.clear.cart', None) is not None:
@@ -307,7 +311,7 @@ class OrderConfirmationShippingMethodViewlet(grok.Viewlet):
     grok.viewletmanager(OrderConfirmationViewletManager)
 
     def shipping_method(self):
-        return True
+        return IShoppingSite(self.context).shipping_method
 
 
 class ShippingMethodViewlet(shipping.browser.viewlet.ShippingMethodViewlet):

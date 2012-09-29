@@ -1,5 +1,6 @@
-from collective.behavior import price
+from collective.behavior.price.interfaces import IPrice
 from collective.cart import core
+from collective.cart.core.interfaces import IShoppingSite as IBaseShoppingSite
 from collective.cart.shopping import _
 from plone.app.textfield import RichText
 from plone.directives import form
@@ -11,10 +12,11 @@ from zope.schema import Decimal
 from zope.schema import TextLine
 
 
-class IShoppingSite(core.interfaces.IShoppingSite):
+class IShoppingSite(IBaseShoppingSite):
     """Adapter Interface for Shopping Site."""
 
-    shipping_methods = Attribute('List of shipping methods.')
+    shipping_methods = Attribute('List of shipping methods')
+    shipping_method = Attribute('Shipping method from cart')
 
 
 class IArticleContainer(form.Schema, IImageScaleTraversable):
@@ -45,17 +47,39 @@ class IArticleAdapter(core.interfaces.IArticleAdapter):
 
 
 class ICart(core.interfaces.ICart):
+    """Interface for Cart."""
 
-    shipping_title = Attribute('Title for selected shipping method.')
-    shipping_uid = Attribute('UUID for selected shipping method.')
-    shipping_gross = Attribute('Gross price for selected shipping method.')
-    shipping_net = Attribute('Net price for selected shipping method.')
-    shipping_vat = Attribute('VAT price for selected shipping method.')
-    shipping_vat_rate = Attribute('VAT rate for selected shipping method.')
+    # shipping_title = Attribute('Title for selected shipping method.')
+    # shipping_uid = Attribute('UUID for selected shipping method.')
+    # shipping_gross = Attribute('Gross price for selected shipping method.')
+    # shipping_net = Attribute('Net price for selected shipping method.')
+    # shipping_vat = Attribute('VAT price for selected shipping method.')
+    # shipping_vat_rate = Attribute('VAT rate for selected shipping method.')
+
+
+class ICartAdapter(core.interfaces.ICartAdapter):
+    """Adapter interface for Cart"""
+
+    shipping_method = Attribute('Brain of shipping method')
+    shipping_gross_money = Attribute('Gross money of shipping method')
+    shipping_net_money = Attribute('Net money of shipping method')
+    shipping_vat_money = Attribute('VAT money of shipping method')
+
+    def update_shipping_method(uuid=None):  # pragma: no cover
+        """Update shipping method based on uuid."""
 
 
 class ICartArticle(core.interfaces.ICartArticle):
-    """"""
+    """Interface for CartArticle"""
+
+    gross = Attribute('Gross money of CartArticle')
+    net = Attribute('Net money of CartArticle')
+    vat = Attribute('VAT money of CartArticle')
+    quantity = Attribute('Quantity of CartArticle')
+    weight = Attribute('Weight of CartArticle')
+    height = Attribute('Height of CartArticle')
+    width = Attribute('Width of CartArticle')
+    depth = Attribute('Depth of CartArticle')
 
 
 class ICartArticleAdapter(core.interfaces.ICartArticleAdapter):
@@ -183,7 +207,7 @@ class IShop(core.interfaces.IShoppingSiteRoot):
     """Schema interface for shop."""
 
 
-class IStockPrice(price.interfaces.IPrice):
+class IStockPrice(IPrice):
 
     price = Decimal(
             title=_(u"Price excluding VAT"),
