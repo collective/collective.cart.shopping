@@ -2,14 +2,15 @@ Log in as Manager::
 
     >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
 
-Make Folder 'Shop' into Shop::
+Create Shop::
 
-    >>> browser.open('/shop')
-    >>> browser.getLink('Make Shopping Site').click()
+    >>> browser.open('/++add++collective.cart.shopping.Shop')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Shöp'
+    >>> browser.getControl(name="form.buttons.save").click()
 
 Add Shipping Method::
 
-    >>> browser.open('/shop/createObject?type_name=ShippingMethod')
+    >>> browser.open('/shop/shipping-methods/createObject?type_name=ShippingMethod')
     >>> browser.getControl(name="title").value = 'ShippingMethöd1'
     >>> browser.getControl(name="description").value = 'Descriptiön of ShippingMethöd1'
     >>> browser.getControl(name="min_delivery_days").value = '3'
@@ -18,9 +19,15 @@ Add Shipping Method::
     >>> 'Shipping fee for one kg' in browser.contents
     True
 
+Add ArticleContainer::
+
+    >>> browser.open('/shop/++add++collective.cart.shopping.ArticleContainer')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Article Container'
+    >>> browser.getControl(name="form.buttons.save").click()
+
 Add Article::
 
-    >>> browser.open('/shop/++add++collective.cart.core.Article')
+    >>> browser.open('/shop/article-container/article-container/++add++collective.cart.core.Article')
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
     >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Description of Ärticle1'
     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '12.30'
@@ -30,7 +37,7 @@ Add Article::
 
 Add Stock to Ärticle1::
 
-    >>> browser.open('/shop/article1/++add++collective.cart.stock.Stock')
+    >>> browser.open('/shop/article-container/article1/++add++collective.cart.stock.Stock')
     >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck1'
     >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Stöck1'
     >>> browser.getControl(name="form.widgets.stock").value = '100'

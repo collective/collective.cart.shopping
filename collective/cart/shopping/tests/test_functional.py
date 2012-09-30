@@ -8,7 +8,6 @@ from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
 from plone.testing import layered
-from zope.lifecycleevent import modified
 from zope.testing import renormalizing
 
 import doctest
@@ -47,10 +46,10 @@ def setUp(self):
     setRoles(portal, TEST_USER_ID, ['Manager'])
 
     # Create shop folder
-    shop = portal[portal.invokeFactory('Folder', 'shop', title='Shöp')]
-    modified(shop)
-    workflow = getToolByName(portal, 'portal_workflow')
-    workflow.doActionFor(shop, 'publish')
+    # shop = portal[portal.invokeFactory('Folder', 'shop', title='Shöp')]
+    # modified(shop)
+    # workflow = getToolByName(portal, 'portal_workflow')
+    # workflow.doActionFor(shop, 'publish')
 
     regtool = getToolByName(portal, 'portal_registration')
 

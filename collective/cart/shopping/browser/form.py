@@ -1,10 +1,10 @@
-from Products.CMFCore.utils import getToolByName
 from collective.cart import shipping
-from collective.cart.core.interfaces import IShoppingSite
 from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
+from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.interfaces import IBaseCustomerInfo
+from collective.cart.shopping.interfaces import IShoppingSite
 from five import grok
 from plone.dexterity.utils import createContentInContainer
 from plone.directives import form
@@ -71,12 +71,11 @@ class ShippingInfoForm(BaseCustomerInfoForm):
 
 @form.default_value(field=shipping.schema.IShippingMethodSchema['shipping_method'])
 def default_shipping_method(data):
-    shipping_uid = getattr(IShoppingSite(data.context).cart, 'shipping_uid', None)
-    if not shipping_uid:
-        shipping_methods = getattr(IShoppingSite(data.context), 'shipping_methods', None)
-        if shipping_methods:
-            shipping_uid = shipping_methods[0].UID
-    return shipping_uid
+    if IShoppingSite(data.context).shipping_method:
+        shipping_uuid = IShoppingSite(data.context).shipping_method.orig_uuid
+    else:
+        shipping_uuid = IShoppingSite(data.context).shipping_methods[0].UID
+    return shipping_uuid
 
 
 class ShippingMethodForm(shipping.browser.form.ShippingMethodForm):
@@ -90,10 +89,5 @@ class ShippingMethodForm(shipping.browser.form.ShippingMethodForm):
         if errors:
             return
         uuid = data.get('shipping_method')
-        catalog = getToolByName(self.context, 'portal_catalog')
-        brains = catalog(UID=uuid)
-        if brains:
-            shipping_method = brains[0]
-            cart = IShoppingSite(self.context).cart
-            setattr(cart, 'shipping_uid', uuid)
-            # setattr(cart, 'shipping_title', shipping_method.title)
+        cart = IShoppingSite(self.context).cart
+        ICartAdapter(cart).update_shipping_method(uuid=uuid)

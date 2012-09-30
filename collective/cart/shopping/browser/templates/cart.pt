@@ -11,18 +11,15 @@
       <section id="collective-cart-shopping">
         <section id="order-flow" i18n:domain="collective.cart.shopping">
           <span id="current-step" i18n:translate="">
-            1. Cart</span>&nbsp;&nbsp;&#45;&nbsp;&nbsp;<a i18n:translate=""
-            tal:attributes="href string:${context/@@plone/navigationRootUrl}/@@billing-and-shipping">
-            2. Customer Info and Shipping Method</a>&nbsp;&nbsp;&#45;&nbsp;&nbsp;<a i18n:translate=""
-            tal:attributes="href string:${context/@@plone/navigationRootUrl}/@@order-confirmation">
-            3. Confirmation</a>
+            1. Cart</span>&nbsp;&nbsp;&#45;&nbsp;&nbsp;<span i18n:translate="">
+            2. Customer Info and Shipping Method</span>&nbsp;&nbsp;&#45;&nbsp;&nbsp;<span i18n:translate="">
+            3. Confirmation</span>
         </section>
         <section class="checkout-content cart">
           <p
             i18n:translate=""
             id="cart-is-empty"
-            tal:condition="not: view/cart_articles"
-            >
+            tal:condition="not: view/cart_articles">
             Cart is empty.
           </p>
           <div

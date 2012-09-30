@@ -60,6 +60,8 @@ class ICart(core.interfaces.ICart):
 class ICartAdapter(core.interfaces.ICartAdapter):
     """Adapter interface for Cart"""
 
+    # billing_info = Attribute('Billing info')
+    # shipping_info = Attribute('Shipping info')
     shipping_method = Attribute('Brain of shipping method')
     shipping_gross_money = Attribute('Gross money of shipping method')
     shipping_net_money = Attribute('Net money of shipping method')

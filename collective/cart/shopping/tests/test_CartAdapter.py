@@ -24,6 +24,14 @@ class ICartAdapterTestCase(unittest.TestCase):
         from collective.cart.shopping.interfaces import ICartAdapter
         return ICartAdapter.get(name)
 
+    # def test_billing_info(self):
+    #     self.assertEqual(self.get_field('billing_info').getDoc(),
+    #         'Billing info')
+
+    # def test_shipping_info(self):
+    #     self.assertEqual(self.get_field('shipping_info').getDoc(),
+    #         'Shipping info')
+
     def test_shipping_method(self):
         self.assertEqual(self.get_field('shipping_method').getDoc(),
             'Brain of shipping method')

@@ -2,14 +2,15 @@ Log in as Manager::
 
     >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
 
-Make Folder 'Shop' into Shop::
+Create Shop::
 
-    >>> browser.open('/shop')
-    >>> browser.getLink('Make Shopping Site').click()
+    >>> browser.open('/++add++collective.cart.shopping.Shop')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Shöp'
+    >>> browser.getControl(name="form.buttons.save").click()
 
 Add some Shipping Methods::
 
-    >>> browser.open('/shop/createObject?type_name=ShippingMethod')
+    >>> browser.open('/shop/shipping-methods/createObject?type_name=ShippingMethod')
     >>> browser.getControl(name="title").value = 'ShippingMethöd1'
     >>> browser.getControl(name="description").value = 'Descriptiön of ShippingMethöd1'
     >>> browser.getControl(name="min_delivery_days").value = '3'
@@ -17,24 +18,32 @@ Add some Shipping Methods::
     >>> browser.getControl(name="form.button.save").click()
     >>> 'Shipping fee for one kg' in browser.contents
     True
+    >>> '1.0' in browser.contents
+    True
 
-    >>> shippingmethod1_uuid = portal['shop']['shippingmethod1'].UID()
+    >>> shippingmethod1_uuid = portal['shop']['shipping-methods']['shippingmethod1'].UID()
 
-    >>> browser.open('/shop/createObject?type_name=ShippingMethod')
+    >>> browser.open('/shop/shipping-methods/createObject?type_name=ShippingMethod')
     >>> browser.getControl(name="title").value = 'ShippingMethöd2'
     >>> browser.getControl(name="description").value = 'Descriptiön of ShippingMethöd2'
     >>> browser.getControl(name="min_delivery_days").value = '5'
     >>> browser.getControl(name="max_delivery_days").value = '10'
     >>> browser.getControl(name="shipping_fee").value = 'def shipping_fee(weight):\n    return weight * 2\nreturn shipping_fee'
-
     >>> browser.getControl(name="form.button.save").click()
-    >>> browser.getLink('Edit').click()
+    >>> '2.0' in browser.contents
+    True
 
-    >>> shippingmethod2_uuid = portal['shop']['shippingmethod2'].UID()
+    >>> shippingmethod2_uuid = portal['shop']['shipping-methods']['shippingmethod2'].UID()
+
+Add ArticleContainer::
+
+    >>> browser.open('/shop/++add++collective.cart.shopping.ArticleContainer')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Article Container'
+    >>> browser.getControl(name="form.buttons.save").click()
 
 Add Article::
 
-    >>> browser.open('/shop/++add++collective.cart.core.Article')
+    >>> browser.open('/shop/article-container/++add++collective.cart.core.Article')
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
     >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Description of Ärticle1'
     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '12.30'
@@ -45,7 +54,7 @@ Add Article::
 
 Add Stock to Ärticle1::
 
-    >>> browser.open('/shop/article1/++add++collective.cart.stock.Stock')
+    >>> browser.open('/shop/article-container/article1/++add++collective.cart.stock.Stock')
     >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck1'
     >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Stöck1'
     >>> browser.getControl(name="form.widgets.stock").value = '100'
@@ -54,6 +63,24 @@ Add Stock to Ärticle1::
 
     >>> stock1_url = browser.url
 
+Should not be able to visit /@@billing-and-shipping::
+
+    >>> browser.open('/shop/@@billing-and-shipping')
+    >>> browser.url
+    'http://nohost/plone/shop/@@cart'
+    >>> print browser.bycss('#cart-is-empty')
+    --- 1 ---
+    <p id="cart-is-empty">Cart is empty.</p>
+
+Should not be able to visit /@@order-confirmation::
+
+    >>> browser.open('/shop/@@order-confirmation')
+    >>> browser.url
+    'http://nohost/plone/shop/@@cart'
+    >>> print browser.bycss('#cart-is-empty')
+    --- 1 ---
+    <p id="cart-is-empty">Cart is empty.</p>
+
 Add Ärticle1 to Cart::
 
     >>> browser.open(article1_url)
@@ -61,17 +88,35 @@ Add Ärticle1 to Cart::
     >>> query = {'quantity': '1', 'form.addtocart': 'form.addtocart'}
     >>> browser.post(browser.url, query)
 
-Go to Cart::
+Should not able to visit /@@billing-and-shipping::
 
-    >>> browser.open('/shop/@@cart')
+    >>> browser.open('/shop/@@billing-and-shipping')
+    >>> browser.url
+    'http://nohost/plone/shop/@@cart'
+    >>> print browser.bycss('#cart-is-empty')
+
+Should not be able to visit /@@order-confirmation::
+
+    >>> browser.open('/shop/@@order-confirmation')
+    >>> browser.url
+    'http://nohost/plone/shop/@@cart'
+    >>> print browser.bycss('#cart-is-empty')
 
 Check Out::
 
     >>> query = {'form.checkout': 'form.checkout'}
     >>> browser.post(browser.url, query)
 
-Fill Billing Info::
+Should not be able to visit /@@order-confirmation::
 
+    >>> browser.open('/shop/@@order-confirmation')
+    >>> browser.url
+    'http://nohost/plone/shop/@@cart'
+    >>> print browser.bycss('#cart-is-empty')
+
+Should be able to visit /@@billing-and-shipping and fill billing info::
+
+    >>> browser.open('/shop/@@billing-and-shipping')
     >>> browser.getControl(name="form.billing.widgets.first_name").value = 'Billing First Näme'
     >>> browser.getControl(name="form.billing.widgets.last_name").value = 'Billing Last Näme'
     >>> browser.getControl(name="form.billing.widgets.organization").value = 'Billing Örganization'
@@ -93,12 +138,14 @@ Fill Billing Info::
     &#9632;
     </span>
     <div class="fieldErrorBox"></div>
-    <select id="form-widgets-shipping_method" name="form.widgets.shipping_method:list" class="select-widget required choice-field" size="1"><option id="form-widgets-shipping_method-0" value="...">ShippingMeth&#246;d1</option><option id="form-widgets-shipping_method-1" value="...">ShippingMeth&#246;d2</option></select><input name="form.widgets.shipping_method-empty-marker" type="hidden" value="1"></div>
+    <select id="form-widgets-shipping_method" name="form.widgets.shipping_method:list" class="select-widget required choice-field" size="1"><option id="form-widgets-shipping_method-0" value="..." selected>ShippingMeth&#246;d1</option><option id="form-widgets-shipping_method-1" value="...">ShippingMeth&#246;d2</option></select><input name="form.widgets.shipping_method-empty-marker" type="hidden" value="1"></div>
 
-Update Shipping Method::
+Update Shipping Method to ShippingMethod2::
 
     >>> browser.getControl(name="form.widgets.shipping_method:list").value = [shippingmethod2_uuid]
     >>> browser.getControl(name="form.buttons.update").click()
+
+    >>> browser.reload()
 
     >>> print browser.bycss('#formfield-form-widgets-shipping_method')
     --- 1 ---
@@ -111,3 +158,7 @@ Update Shipping Method::
     </span>
     <div class="fieldErrorBox"></div>
     <select id="form-widgets-shipping_method" name="form.widgets.shipping_method:list" class="select-widget required choice-field" size="1"><option id="form-widgets-shipping_method-0" value="...">ShippingMeth&#246;d1</option><option id="form-widgets-shipping_method-1" value="..." selected>ShippingMeth&#246;d2</option></select><input name="form.widgets.shipping_method-empty-marker" type="hidden" value="1"></div>
+
+Confirm::
+
+    >>> browser.getControl(name="form.to.confirmation").click()

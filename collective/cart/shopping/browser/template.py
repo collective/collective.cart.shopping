@@ -2,11 +2,11 @@ from Products.ATContentTypes.interfaces.image import IATImage
 from Products.CMFCore.utils import getToolByName
 from collective.cart.core.browser.template import CartView
 from collective.cart.core.interfaces import IArticle
-from collective.cart.core.interfaces import IShoppingSite
 from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
+from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.stock.interfaces import IStock
 from five import grok
 from plone.memoize.instance import memoize
@@ -70,38 +70,40 @@ class ShoppingCartView(CartView):
     grok.layer(ICollectiveCartShoppingLayer)
 
 
-class BillingAndShippingView(grok.View):
-
+class BaseCheckoutView(grok.View):
+    grok.baseclass()
     grok.context(IShoppingSiteRoot)
     grok.layer(ICollectiveCartShoppingLayer)
-    grok.name('billing-and-shipping')
     grok.require('zope2.View')
-    grok.template('billing-and-shipping')
 
     def update(self):
-        if not IShoppingSite(self.context).cart_articles:
+        if not IShoppingSite(self.context).cart_articles or (
+            IShoppingSite(self.context).shipping_methods and not IShoppingSite(self.context).shipping_method):
             url = '{}/@@cart'.format(self.context.absolute_url())
             return self.request.response.redirect(url)
         else:
             self.request.set('disable_border', True)
-            super(BillingAndShippingView, self).update()
+            super(BaseCheckoutView, self).update()
 
 
-class OrderConfirmationView(grok.View):
+class BillingAndShippingView(BaseCheckoutView):
+    grok.name('billing-and-shipping')
+    grok.template('billing-and-shipping')
 
-    grok.context(IShoppingSiteRoot)
-    grok.layer(ICollectiveCartShoppingLayer)
+
+class OrderConfirmationView(BaseCheckoutView):
     grok.name('order-confirmation')
-    grok.require('zope2.View')
     grok.template('order-confirmation')
 
     def update(self):
-        base_url = self.context.absolute_url()
-        if not IShoppingSite(self.context).cart_articles:
-            url = '{}/@@cart'.format(base_url)
+        ids = []
+        cart = IShoppingSite(self.context).cart
+        if cart is not None:
+            ids = cart.objectIds()
+        if not 'billing' in ids or not 'shipping' in ids:
+            url = '{}/@@cart'.format(self.context.absolute_url())
             return self.request.response.redirect(url)
         else:
-            self.request.set('disable_border', True)
             super(OrderConfirmationView, self).update()
 
 

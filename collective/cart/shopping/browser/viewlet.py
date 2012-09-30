@@ -257,6 +257,15 @@ class ShippingInfoViewlet(BaseCustomerInfoViewlet):
         return self.create_form(ShippingInfoForm)
 
 
+class ShippingMethodViewlet(BaseCustomerInfoViewlet, shipping.browser.viewlet.ShippingMethodViewlet):
+    # grok.context(IShoppingSiteRoot)
+    # grok.layer(ICollectiveCartShoppingLayer)
+    grok.view(Interface)
+    # grok.viewletmanager(BillingAndShippingViewletManager)
+
+    _form_wrapper = ShippingMethodFormWrapper
+
+
 class BillingShippingCheckOutViewlet(BaseCustomerInfoViewlet):
     grok.name('collective.cart.shopping.billing.shipping.method.checkout')
     grok.template('billing-and-shipping-checkout')
@@ -312,15 +321,6 @@ class OrderConfirmationShippingMethodViewlet(grok.Viewlet):
 
     def shipping_method(self):
         return IShoppingSite(self.context).shipping_method
-
-
-class ShippingMethodViewlet(shipping.browser.viewlet.ShippingMethodViewlet):
-    grok.context(IShoppingSiteRoot)
-    grok.layer(ICollectiveCartShoppingLayer)
-    grok.view(Interface)
-    grok.viewletmanager(BillingAndShippingViewletManager)
-
-    _form_wrapper = ShippingMethodFormWrapper
 
 
 class CustomerInfoViewlet(grok.Viewlet):
