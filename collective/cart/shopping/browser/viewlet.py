@@ -2,12 +2,10 @@ from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
-from collective.behavior.price.interfaces import ICurrency
 from collective.behavior.size.interfaces import ISize
 from collective.behavior.stock.interfaces import IStock
 from collective.cart import core
 from collective.cart import shipping
-from collective.cart.core.browser.viewlet import AddToCartViewlet
 from collective.cart.core.browser.viewlet import CartContentViewletManager
 from collective.cart.core.browser.viewlet import CartViewletManager
 from collective.cart.core.interfaces import IArticle
@@ -24,13 +22,10 @@ from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.interfaces import ICartArticleAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
 from five import grok
-from moneyed import Money
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.viewletmanager.manager import OrderedViewletManager
-from plone.registry.interfaces import IRegistry
 from plone.z3cform.layout import FormWrapper
 from zope.component import getMultiAdapter
-from zope.component import getUtility
 from zope.interface import Interface
 from zope.lifecycleevent import modified
 
@@ -38,14 +33,28 @@ from zope.lifecycleevent import modified
 grok.templatedir('viewlets')
 
 
-class AddToCartViewletManager(grok.ViewletManager):
-    """Viewlet manager for add to cart."""
-    grok.context(IArticle)
+class BaseViewletManager(OrderedViewletManager, grok.ViewletManager):
+    """Base class for viewlet manager in collective.cart.shopping package."""
+    grok.baseclass()
+    grok.context(IShoppingSiteRoot)
     grok.layer(ICollectiveCartShoppingLayer)
+
+
+class BaseViewlet(grok.Viewlet):
+    """Base class for viewlet in collective.cart.shopping package."""
+    grok.baseclass()
+    grok.context(IShoppingSiteRoot)
+    grok.layer(ICollectiveCartShoppingLayer)
+    grok.require('zope2.View')
+
+
+class AddToCartViewletManager(BaseViewletManager):
+    """Viewlet manager for add to cart form in Article."""
+    grok.context(IArticle)
     grok.name('collective.cart.shopping.add.to.cart.manager')
 
 
-class AddToCartViewlet(AddToCartViewlet):
+class AddToCartViewlet(core.browser.viewlet.AddToCartViewlet):
     """Viewlet to show add to cart form for salable article.
 
     Can also add with certain number of quantity.
@@ -170,30 +179,25 @@ class CartArticlesViewlet(BaseCartArticlesViewlet):
         return results
 
 
-class CartTotalViewlet(grok.Viewlet):
-    grok.context(IShoppingSiteRoot)
-    grok.layer(ICollectiveCartShoppingLayer)
-    grok.name('collective.cart.shopping.cart-total')
-    grok.require('zope2.View')
-    grok.template('cart-total')
+class BaseCartViewlet(BaseViewlet):
+    """Base viewlet for cart view."""
+    grok.baseclass()
     grok.viewletmanager(CartViewletManager)
+
+
+class CartTotalViewlet(BaseCartViewlet):
+    """Viewlet to display total money of articles."""
+    grok.name('collective.cart.shopping.cart-total')
+    grok.template('cart-total')
 
     def cart_total(self):
-        registry = getUtility(IRegistry)
-        currency = registry.forInterface(ICurrency).default_currency
-        res = Money(0.00, currency=currency)
-        for brain in self.view.cart_articles:
-            res += brain.gross * brain.quantity
-        return res
+        return IShoppingSite(self.context).articles_total
 
 
-class CheckOutViewlet(grok.Viewlet):
-    grok.context(IShoppingSiteRoot)
-    grok.layer(ICollectiveCartShoppingLayer)
+class CheckOutViewlet(BaseCartViewlet):
+    """Viewlet to display check out buttons."""
     grok.name('collective.cart.shopping.checkout')
-    grok.require('zope2.View')
     grok.template('cart-checkout')
-    grok.viewletmanager(CartViewletManager)
 
     def update(self):
         form = self.request.form
@@ -211,18 +215,13 @@ class CheckOutViewlet(grok.Viewlet):
             return self.request.response.redirect(url)
 
 
-class BillingAndShippingViewletManager(OrderedViewletManager, grok.ViewletManager):
-    """Viewlet manager for billing and shipping."""
-    grok.context(IShoppingSiteRoot)
-    grok.layer(ICollectiveCartShoppingLayer)
+class BillingAndShippingViewletManager(BaseViewletManager):
+    """Viewlet manager for billing and shipping page."""
     grok.name('collective.cart.shopping.billing.shipping.manager')
 
 
-class BaseCustomerInfoViewlet(grok.Viewlet):
+class BaseCustomerInfoViewlet(BaseViewlet):
     grok.baseclass()
-    grok.context(IShoppingSiteRoot)
-    grok.layer(ICollectiveCartShoppingLayer)
-    grok.require('zope2.View')
     grok.viewletmanager(BillingAndShippingViewletManager)
 
     def create_form(self, form_class):
@@ -258,10 +257,7 @@ class ShippingInfoViewlet(BaseCustomerInfoViewlet):
 
 
 class ShippingMethodViewlet(BaseCustomerInfoViewlet, shipping.browser.viewlet.ShippingMethodViewlet):
-    # grok.context(IShoppingSiteRoot)
-    # grok.layer(ICollectiveCartShoppingLayer)
     grok.view(Interface)
-    # grok.viewletmanager(BillingAndShippingViewletManager)
 
     _form_wrapper = ShippingMethodFormWrapper
 
@@ -274,17 +270,20 @@ class BillingShippingCheckOutViewlet(BaseCustomerInfoViewlet):
         return '{}/@@order-confirmation'.format(self.context.absolute_url())
 
 
-class OrderConfirmationViewletManager(OrderedViewletManager, grok.ViewletManager):
+class OrderConfirmationViewletManager(BaseViewletManager):
     """Viewlet manager for order confirmation."""
-    grok.context(IShoppingSiteRoot)
-    grok.layer(ICollectiveCartShoppingLayer)
     grok.name('collective.cart.shopping.order.confirmation.manager')
 
 
-class OrderConfirmationCartArticlesViewlet(BaseCartArticlesViewlet):
+class BaseOrderConfirmationViewlet(BaseViewlet):
+    """Base class for viewlet in order-confirmation page."""
+    grok.baseclass()
+    grok.viewletmanager(OrderConfirmationViewletManager)
+
+
+class OrderConfirmationCartArticlesViewlet(BaseOrderConfirmationViewlet, BaseCartArticlesViewlet):
     """Cart Articles Viewlet for OrderConfirmationViewletManager."""
     grok.template('confirmation-cart-articles')
-    grok.viewletmanager(OrderConfirmationViewletManager)
 
     @property
     def cart_articles(self):
@@ -310,27 +309,54 @@ class OrderConfirmationCartArticlesViewlet(BaseCartArticlesViewlet):
         return results
 
 
-class OrderConfirmationShippingMethodViewlet(grok.Viewlet):
+class OrderConfirmationShippingMethodViewlet(BaseOrderConfirmationViewlet):
     """Shipping Method Viewlet for OrderConfirmationViewletManager."""
-    grok.context(IShoppingSiteRoot)
-    grok.layer(ICollectiveCartShoppingLayer)
     grok.name('collective.cart.shopping.confirmation-shipping-method')
-    grok.require('zope2.View')
     grok.template('confirmation-shipping-method')
-    grok.viewletmanager(OrderConfirmationViewletManager)
 
     def shipping_method(self):
         return IShoppingSite(self.context).shipping_method
 
 
-class CustomerInfoViewlet(grok.Viewlet):
-    """Viewlet to show customer info in cart container."""
+class OrderConfirmationTotalViewlet(BaseOrderConfirmationViewlet):
+    """Total Viewlet for OrderConfirmationViewletManager."""
+    grok.name('collective.cart.shopping.confirmation-total')
+    grok.template('confirmation-total')
+
+    def total(self):
+        return IShoppingSite(self.context).total
+
+
+class OrderConfirmationViewOrderViewlet(BaseOrderConfirmationViewlet):
+    """View Order Viewlet for OrderConfirmationViewletManager."""
+    grok.name('collective.cart.shopping.cofirmation-view-order')
+    grok.template('confirmation-view-order')
+
+    def update(self):
+        form = self.request.form
+        if form.get('form.buttons.view-order') is not None:
+            cart_id = form.get('form.buttons.view-order')
+            container = IShoppingSite(self.context).cart_container
+            if container:
+                cart = container.get(cart_id)
+                if cart:
+                    self.request.response.redirect(cart.absolute_url())
+
+    def cart_id(self):
+        return IShoppingSite(self.context).cart.id
+
+
+class BaseCartContentViewlet(BaseViewlet):
+    """Base class for viewlet within cart content."""
+    grok.baseclass()
     grok.context(ICart)
-    grok.layer(ICollectiveCartShoppingLayer)
-    grok.name('collective.cart.core.customer-info')
-    grok.require('zope2.View')
-    grok.template('customer-info')
     grok.viewletmanager(CartContentViewletManager)
+
+
+class CustomerInfoViewlet(BaseCartContentViewlet):
+    """Viewlet to show customer info in cart."""
+    grok.name('collective.cart.core.customer-info')
+    grok.template('customer-info')
 
     def billing(self):
         return self.context.get('billing')
@@ -339,19 +365,31 @@ class CustomerInfoViewlet(grok.Viewlet):
         return self.context.get('shipping')
 
 
-class ArticleContainerViewletManager(OrderedViewletManager, grok.ViewletManager):
+class DescriptionCartContentViewlet(BaseCartContentViewlet):
+    """Viewlet to show description of cart."""
+    grok.name('collective.cart.shopping.cart-content-description')
+    grok.template('cart-content-description')
+
+
+class ShippingMethodCartContentViewlet(BaseCartContentViewlet):
+    """Viewlet to show shipping method info in cart content."""
+    grok.name('collective.cart.shopping.cart-content-shipping-method')
+    grok.template('confirmation-shipping-method')
+
+    def shipping_method(self):
+        return ICartAdapter(self.context).shipping_method
+
+
+class ArticleContainerViewletManager(BaseViewletManager):
     """Viewlet manager for ArticleContainer."""
     grok.context(IArticleContainer)
-    grok.layer(ICollectiveCartShoppingLayer)
     grok.name('collective.cart.shopping.articlecontainer')
 
 
-class ArticlesInArticleContainerViewlet(grok.Viewlet):
+class ArticlesInArticleContainerViewlet(BaseViewlet):
     """Viewlet to show Articles in ArticleContainer."""
     grok.context(IArticleContainer)
-    grok.layer(ICollectiveCartShoppingLayer)
     grok.name('collective.cart.core.articles-in-articlecontainer')
-    grok.require('zope2.View')
     grok.template('articles-in-articlecontainer')
     grok.viewletmanager(ArticleContainerViewletManager)
 

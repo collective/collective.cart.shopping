@@ -1,0 +1,12 @@
+<section
+  id="confirmation-view-confirmation"
+  i18n:domain="collective.cart.shopping">
+  <form
+    method="post"
+    tal:attributes="action context/@@plone_context_state/current_base_url">
+    <button
+      i18n:translate=""
+      name="form.buttons.view-order"
+      tal:attributes="value viewlet/cart_id"
+      type="submit">View Order</button>
+</section>

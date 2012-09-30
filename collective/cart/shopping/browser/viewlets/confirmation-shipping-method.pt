@@ -6,10 +6,10 @@
   <table>
     <tbody>
       <tr>
-        <td i18n:translate="">
+        <td class="shipping-method-title" i18n:translate="">
           Shipping Method:
         </td>
-        <td tal:content="item/Title">
+        <td tal:content="item/Title" />
         <td class="price-and-quantity">
           <span class="gross" tal:content="item/gross" />
           <br />

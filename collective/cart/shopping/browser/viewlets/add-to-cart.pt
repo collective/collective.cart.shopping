@@ -6,8 +6,7 @@
   <form
     method="post"
     tal:attributes="action context/@@plone_context_state/current_base_url"
-    tal:condition="not: viewlet/soldout"
-    >
+    tal:condition="not: viewlet/soldout">
     <label
       i18n:domain="collective.cart.shopping"
       i18n:translate="">Quantity</label>

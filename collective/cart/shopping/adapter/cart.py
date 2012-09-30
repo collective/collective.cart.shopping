@@ -23,6 +23,23 @@ class CartAdapter(core.adapter.cart.CartAdapter):
     grok.provides(ICartAdapter)
 
     @property
+    def articles_total(self):
+        """Total money of articles"""
+        registry = getUtility(IRegistry)
+        currency = registry.forInterface(ICurrency).default_currency
+        res = Money(0.00, currency=currency)
+        for brain in self.articles:
+            res += brain.gross * brain.quantity
+        return res
+
+    @property
+    def total(self):
+        total = self.articles_total
+        if self.shipping_gross_money:
+            total += self.shipping_gross_money
+        return total
+
+    @property
     def shipping_method(self):
         """Brain of shipping method of the cart."""
         context = aq_inner(self.context)

@@ -1,0 +1,8 @@
+<section
+  tal:condition="context/description"
+  id="cart-content-description">
+  <fieldset>
+    <legend i18n:translate="">Description</legend>
+    <span tal:replace="context/description" />
+  </fieldset>
+</section>

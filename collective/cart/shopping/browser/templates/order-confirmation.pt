@@ -16,6 +16,7 @@
             3. Confirmation</span>
         </section>
         <section class="checkout-content order-confirmation">
+          <h1 i18n:translate="head_order_confirmation">The order is confirmed.</h1>
           <div tal:replace="structure provider:collective.cart.shopping.order.confirmation.manager" />
         </section>
       </section>

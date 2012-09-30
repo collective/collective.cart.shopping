@@ -17,6 +17,7 @@ class IShoppingSite(IBaseShoppingSite):
 
     shipping_methods = Attribute('List of shipping methods')
     shipping_method = Attribute('Shipping method from cart')
+    total = Attribute('Total money')
 
 
 class IArticleContainer(form.Schema, IImageScaleTraversable):
@@ -49,19 +50,13 @@ class IArticleAdapter(core.interfaces.IArticleAdapter):
 class ICart(core.interfaces.ICart):
     """Interface for Cart."""
 
-    # shipping_title = Attribute('Title for selected shipping method.')
-    # shipping_uid = Attribute('UUID for selected shipping method.')
-    # shipping_gross = Attribute('Gross price for selected shipping method.')
-    # shipping_net = Attribute('Net price for selected shipping method.')
-    # shipping_vat = Attribute('VAT price for selected shipping method.')
-    # shipping_vat_rate = Attribute('VAT rate for selected shipping method.')
-
 
 class ICartAdapter(core.interfaces.ICartAdapter):
     """Adapter interface for Cart"""
 
     # billing_info = Attribute('Billing info')
     # shipping_info = Attribute('Shipping info')
+    articles_total = Attribute('Total money of articles')
     shipping_method = Attribute('Brain of shipping method')
     shipping_gross_money = Attribute('Gross money of shipping method')
     shipping_net_money = Attribute('Net money of shipping method')

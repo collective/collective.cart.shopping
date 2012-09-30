@@ -12,6 +12,14 @@ class ShoppingSite(interface.ShoppingSite):
     grok.provides(interfaces.IShoppingSite)
 
     @property
+    def articles_total(self):
+        return ICartAdapter(self.cart).articles_total
+
+    @property
+    def total(self):
+        return ICartAdapter(self.cart).total
+
+    @property
     def shipping_methods(self):
         context = aq_inner(self.context)
         catalog = getToolByName(context, 'portal_catalog')
