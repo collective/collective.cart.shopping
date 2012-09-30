@@ -9,4 +9,5 @@
       name="form.buttons.view-order"
       tal:attributes="value viewlet/cart_id"
       type="submit">View Order</button>
+  </form>
 </section>
