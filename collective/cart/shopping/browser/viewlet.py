@@ -420,4 +420,13 @@ class ArticlesInArticleContainerViewlet(BaseViewlet):
         """Returns scales image tag."""
         scales = getMultiAdapter((item.getObject(), self.request), name='images')
         scale = scales.scale('image', scale='thumb')
-        return scale.tag()
+        if scale:
+            return scale.tag()
+        else:
+            portal_state = getMultiAdapter(
+                (self.context, self.request), name=u'plone_portal_state')
+            image_url = '{0}/++theme++sll.theme/images/feed-fallback.png'.format(
+                portal_state.portal_url())
+            return u'<img src="{0}" alt="{1}" title="{1}" width="128" />'.format(
+                image_url,
+                item.Title())
