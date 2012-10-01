@@ -269,6 +269,9 @@ class BillingShippingCheckOutViewlet(BaseCustomerInfoViewlet):
     def action_url(self):
         return '{}/@@order-confirmation'.format(self.context.absolute_url())
 
+    def cart_id(self):
+        return IShoppingSite(self.context).cart.id
+
 
 class OrderConfirmationViewletManager(BaseViewletManager):
     """Viewlet manager for order confirmation."""

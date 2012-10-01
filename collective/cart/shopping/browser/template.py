@@ -105,6 +105,9 @@ class OrderConfirmationView(BaseCheckoutView):
             return self.request.response.redirect(url)
         else:
             super(OrderConfirmationView, self).update()
+            self.cart_id = cart.id
+            workflow = getToolByName(self.context, 'portal_workflow')
+            workflow.doActionFor(cart, 'charge')
 
 
 class StockListView(grok.View):

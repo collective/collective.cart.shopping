@@ -1,8 +1,7 @@
 <section
   class="collective-cart-shopping-checkout"
-  id="billing-and-shipping-checkout"
   i18n:domain="collective.cart.shopping"
-  >
+  id="billing-and-shipping-checkout">
   <form
     method="post"
     tal:attributes="action viewlet/action_url">
@@ -10,9 +9,8 @@
       class="standalone to-confirmation"
       i18n:translate=""
       name="form.to.confirmation"
-      type="submit"
       value="form.to.confirmation"
-      >
+      type="submit">
       Confirmation
     </button>
   </form>
