@@ -283,6 +283,13 @@ class BaseOrderConfirmationViewlet(BaseViewlet):
     grok.baseclass()
     grok.viewletmanager(OrderConfirmationViewletManager)
 
+    def cart(self, cid=None):
+        """Cart object."""
+        container = IShoppingSite(self.context).cart_container
+        if container and cid is None:
+            cid = self.view.cart_id
+        return container.get(cid)
+
 
 class OrderConfirmationCartArticlesViewlet(BaseOrderConfirmationViewlet, BaseCartArticlesViewlet):
     """Cart Articles Viewlet for OrderConfirmationViewletManager."""
@@ -291,7 +298,9 @@ class OrderConfirmationCartArticlesViewlet(BaseOrderConfirmationViewlet, BaseCar
     @property
     def cart_articles(self):
         """List of CartArticles within cart."""
-        return IShoppingSite(self.context).cart_articles
+        cart = self.cart()
+        if cart:
+            return ICartAdapter(cart).articles
 
     @property
     def articles(self):
@@ -318,7 +327,9 @@ class OrderConfirmationShippingMethodViewlet(BaseOrderConfirmationViewlet):
     grok.template('confirmation-shipping-method')
 
     def shipping_method(self):
-        return IShoppingSite(self.context).shipping_method
+        cart = self.cart()
+        if cart:
+            return ICartAdapter(cart).shipping_method
 
 
 class OrderConfirmationTotalViewlet(BaseOrderConfirmationViewlet):
@@ -327,7 +338,9 @@ class OrderConfirmationTotalViewlet(BaseOrderConfirmationViewlet):
     grok.template('confirmation-total')
 
     def total(self):
-        return IShoppingSite(self.context).total
+        cart = self.cart()
+        if cart:
+            return ICartAdapter(cart).total
 
 
 class OrderConfirmationViewOrderViewlet(BaseOrderConfirmationViewlet):
@@ -335,18 +348,10 @@ class OrderConfirmationViewOrderViewlet(BaseOrderConfirmationViewlet):
     grok.name('collective.cart.shopping.cofirmation-view-order')
     grok.template('confirmation-view-order')
 
-    def update(self):
-        form = self.request.form
-        if form.get('form.buttons.view-order') is not None:
-            cart_id = form.get('form.buttons.view-order')
-            container = IShoppingSite(self.context).cart_container
-            if container:
-                cart = container.get(cart_id)
-                if cart:
-                    self.request.response.redirect(cart.absolute_url())
-
-    def cart_id(self):
-        return IShoppingSite(self.context).cart.id
+    def cart_url(self):
+        cart = self.cart()
+        if cart:
+            return cart.absolute_url()
 
 
 class BaseCartContentViewlet(BaseViewlet):

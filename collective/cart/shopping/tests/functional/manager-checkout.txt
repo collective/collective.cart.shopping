@@ -212,7 +212,8 @@ Confirm::
 
 View Order::
 
-    >>> browser.getControl(name="form.buttons.view-order").click()
+    >>> browser.getLink('View Order').click()
+
     >>> browser.url
     'http://nohost/plone/shop/cart-container/1'
 
