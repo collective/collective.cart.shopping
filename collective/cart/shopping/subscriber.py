@@ -56,10 +56,10 @@ def update_moneys(context, event):
 
 @grok.subscribe(ICartArticle, IObjectRemovedEvent)
 def set_quantity_back_to_orig_article(context, event):
-    assert context == event.object
     article = ICartArticleAdapter(context).orig_article
-    IStock(article).add_stock(context.quantity)
-    modified(article)
+    if article:
+        IStock(article).add_stock(context.quantity)
+        modified(article)
 
 
 @grok.subscribe(IATImage, IObjectCreatedEvent)
