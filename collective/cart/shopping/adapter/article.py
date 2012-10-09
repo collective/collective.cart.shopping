@@ -1,9 +1,13 @@
+from Products.CMFCore.utils import getToolByName
 from collective.behavior.discount.interfaces import IDiscount
 from collective.behavior.stock.interfaces import IStock
 from collective.cart.core.adapter.article import ArticleAdapter
 from collective.cart.shopping.interfaces import IArticleAdapter
 from datetime import date
+from datetime import datetime
+from datetime import time
 from five import grok
+from plone.memoize.instance import memoize
 from zope.lifecycleevent import modified
 
 
@@ -27,6 +31,15 @@ class ArticleAdapter(ArticleAdapter):
         carticle.quantity += kwargs['quantity']
         modified(carticle)
 
+    @memoize
+    def _ulocalized_time(self):
+        """Return ulocalized_time method.
+
+        :rtype: method
+        """
+        translation_service = getToolByName(self.context, 'translation_service')
+        return translation_service.ulocalized_time
+
     @property
     def discount_available(self):
         discount = IDiscount(self.context)
@@ -44,7 +57,10 @@ class ArticleAdapter(ArticleAdapter):
     @property
     def discount_end(self):
         if self.discount_available:
-            return IDiscount(self.context).discount_end
+            if IDiscount(self.context).discount_end:
+                ulocalized_time = self._ulocalized_time()
+                dt = datetime.combine(IDiscount(self.context).discount_end, time())
+                return ulocalized_time(dt, context=self.context)
 
     @property
     def gross(self):

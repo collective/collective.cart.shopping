@@ -410,9 +410,10 @@ class ArticlesInArticleContainerViewlet(BaseViewlet):
                 'depth': 1,
             },
             'object_provides': IArticle.__identifier__,
+            'sort_on': 'getObjPositionInParent',
         }
         return [{
-            'image': self._image(item),
+            # 'image': self._image(item),
             'discount-available': IArticleAdapter(item.getObject()).discount_available,
             'gross': IArticleAdapter(item.getObject()).gross,
             'money': item.money,
@@ -421,17 +422,17 @@ class ArticlesInArticleContainerViewlet(BaseViewlet):
             'url': item.getURL(),
         } for item in IContentListing(catalog(query))]
 
-    def _image(self, item):
-        """Returns scales image tag."""
-        scales = getMultiAdapter((item.getObject(), self.request), name='images')
-        scale = scales.scale('image', scale='thumb')
-        if scale:
-            return scale.tag()
-        else:
-            portal_state = getMultiAdapter(
-                (self.context, self.request), name=u'plone_portal_state')
-            image_url = '{0}/++theme++sll.theme/images/feed-fallback.png'.format(
-                portal_state.portal_url())
-            return u'<img src="{0}" alt="{1}" title="{1}" width="128" />'.format(
-                image_url,
-                item.Title())
+    # def _image(self, item):
+    #     """Returns scales image tag."""
+    #     scales = getMultiAdapter((item.getObject(), self.request), name='images')
+    #     scale = scales.scale('image', scale='thumb')
+    #     if scale:
+    #         return scale.tag()
+    #     else:
+    #         portal_state = getMultiAdapter(
+    #             (self.context, self.request), name=u'plone_portal_state')
+    #         image_url = '{0}/++theme++sll.theme/images/feed-fallback.png'.format(
+    #             portal_state.portal_url())
+    #         return u'<img src="{0}" alt="{1}" title="{1}" width="128" />'.format(
+    #             image_url,
+    #             item.Title())

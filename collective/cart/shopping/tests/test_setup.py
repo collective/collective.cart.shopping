@@ -346,7 +346,7 @@ class TestCase(IntegrationTestCase):
     def test_types__collective_cart_shopping_ArticleContainer__global_allow(self):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
-        self.assertFalse(ctype.global_allow)
+        self.assertTrue(ctype.global_allow)
 
     def test_types__collective_cart_shopping_ArticleContainer__filter_content_types(self):
         types = getToolByName(self.portal, 'portal_types')

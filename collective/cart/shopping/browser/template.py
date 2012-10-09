@@ -10,7 +10,6 @@ from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.stock.interfaces import IStock
 from five import grok
 from plone.memoize.instance import memoize
-from zope.component import getMultiAdapter
 
 
 grok.templatedir('templates')
@@ -24,12 +23,6 @@ class ArticleView(grok.View):
     grok.require('zope2.View')
     grok.template('article')
 
-    def image(self):
-        scales = getMultiAdapter((self.context, self.request), name='images')
-        scale = scales.scale('image', scale='preview')
-        if scale:
-            return scale.tag()
-
     def images(self):
         catalog = getToolByName(self.context, 'portal_catalog')
         query = {
@@ -38,15 +31,17 @@ class ArticleView(grok.View):
                 'depth': 1,
             },
             'object_provides': IATImage.__identifier__,
+            'sort_on': 'getObjPositionInParent',
         }
         results = []
         brains = catalog(query)
         if brains:
-            for brain in catalog(query):
-                obj = brain.getObject()
-                scales = getMultiAdapter((obj, self.request), name='images')
-                scale = scales.scale('image', scale='thumb')
-                results.append(scale.tag())
+            for brain in brains:
+                results.append({
+                    'description': brain.Description,
+                    'title': brain.Title,
+                    'url': brain.getURL(),
+                })
         return results
 
     def gross(self):

@@ -4,44 +4,89 @@
   metal:use-macro="context/main_template/macros/master"
   xmlns:i18n="http://xml.zope.org/namespaces/i18n"
   xmlns:metal="http://xml.zope.org/namespaces/metal"
-  xmlns:tal="http://xml.zope.org/namespaces/tal"
-  >
+  xmlns:tal="http://xml.zope.org/namespaces/tal">
   <body>
     <metal:main fill-slot="main">
-      <section id="collective-cart-shopping">
+      <section id="collective-cart-shopping-article">
         <table>
           <tbody>
             <tr>
-              <td>
-                <img
-                  tal:condition="view/image"
-                  tal:replace="structure view/image" />
-                <br />
-                <img
-                  tal:repeat="item view/images"
-                  tal:replace="structure item"
-                  />
+              <td id="article-images">
+                <section id="image_wrap">
+                  <img tal:attributes="src string: ${context/@@plone_portal_state/portal_url}/++theme++slt.theme/images/transparent.gif">
+                </section>
+                <section id="scrollable" class="scrollable">
+                  <div class="items">
+                    <div>
+                      <img tal:attributes="
+                        alt context/Description;
+                        src string:${context/absolute_url}/@@images/image;
+                        title context/Title" />
+                      <img
+                        tal:repeat="item view/images"
+                        tal:attributes="
+                          alt item/description;
+                          src string:${item/url}/@@images/image;
+                          title item/title" />
+                    </div>
+                  </div>
+                </section>
               </td>
-              <td>
+              <td id="information">
                 <h1 class="documentFirstHeading" tal:content="context/title" />
                 <p class="documentDescription" tal:content="context/description" />
-                <p id="price" tal:content="view/gross" />
-                <p id="vat" i18n:translate="">
-                  Including VAT: <span i18n:name="vat" tal:replace="context/vat" /> &#37;
-                </p>
-                <tal:block tal:condition="view/discount_end">
+                <section id="money">
+                  <p id="price" class="gross" tal:content="view/gross" />
+                  <p id="vat" i18n:translate="">
+                    Including VAT: <span i18n:name="vat" tal:replace="context/vat" /> &#37;
+                  </p>
+                </section>
+                <section id="discount" tal:condition="view/discount_end">
                   <p id="discount-message" i18n:translate="">
                     (Discount valid till <span i18n:name="discount_end" tal:replace="view/discount_end" />)
                   </p>
                   <p id="normal-price" i18n:translate="">
                     Normal Price: <span i18n:name="normal-price" tal:replace="context/money" />
                   </p>
-                </tal:block>
+                </section>
                 <div tal:replace="structure provider:collective.cart.shopping.add.to.cart.manager" />
               </td>
             </tr>
           </tbody>
         </table>
+
+
+
+<script>
+jq(function() {
+jq(".scrollable").scrollable();
+jq(".items img").click(function() {
+// see if same thumb is being clicked
+if (jq(this).hasClass("active")) { return; }
+// calclulate large image's URL based on the thumbnail URL (flickr specific)
+var url = jq(this).attr("src").replace("_t", "");
+// get handle to element that wraps the image and make it semi-transparent
+var wrap = jq("#image_wrap").fadeTo("medium", 0.5);
+// the large image from www.flickr.com
+var img = new Image();
+// call this function after it's loaded
+img.onload = function() {
+// make wrapper fully visible
+wrap.fadeTo("fast", 1);
+// change the image
+wrap.find("img").attr("src", url);
+};
+// begin loading the image from www.flickr.com
+img.src = url;
+// activate item
+jq(".items img").removeClass("active");
+jq(this).addClass("active");
+// when page loads simulate a "click" on the first image
+}).filter(":first").click();
+});
+</script>
+
+
         <div
           tal:condition="context/text"
           tal:replace="structure context/text/output" />

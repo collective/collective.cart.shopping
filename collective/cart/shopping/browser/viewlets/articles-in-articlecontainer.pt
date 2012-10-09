@@ -1,21 +1,27 @@
 <section
-  id="articles"
+  id="collective-cart-shopping-article-container-articles"
   i18n:domain="collective.cart.shopping"
   tal:condition="viewlet/articles">
   <article tal:repeat="item viewlet/articles" tal:attributes="style item/style">
-    <div tal:replace="structure item/image" />
-    <h1>
-      <a
-        tal:attributes="href item/url"
-        tal:content="item/title" />
-    </h1>
-    <p>
-      <a
-        tal:attributes="href item/url"
-        tal:content="item/gross" />
-      <span
-        tal:condition="item/discount-available"
-        tal:content="item/money" />
-    </p>
+    <a tal:attributes="href item/url">
+      <img tal:attributes="
+        src string:${item/url}/@@images/image;
+        title item/title" />
+    </a>
+    <div class="text">
+      <h1>
+        <a
+          tal:attributes="href item/url"
+          tal:content="item/title" />
+      </h1>
+      <p>
+        <a
+          tal:attributes="href item/url"
+          tal:content="item/gross" />
+        <span class="original-money"
+          tal:condition="item/discount-available"
+          tal:content="item/money" />
+      </p>
+    </div>
   </article>
 </section>

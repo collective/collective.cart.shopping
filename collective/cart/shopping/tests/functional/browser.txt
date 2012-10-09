@@ -435,7 +435,7 @@ Go to Ärticle2 and update discount::
 
     >>> print browser.bycss('#price')
     --- 1 ---
-    <p id="price">12.30 &#8364;</p>
+    <p id="price" class="gross">12.30 &#8364;</p>
 
 Add to Cart::
 
