@@ -13,7 +13,7 @@ long_description = (
 setup(
     name='collective.cart.shopping',
     version='0.2.1',
-    description="Make folderish plone object shopping site.",
+    description="Shopping site suit for Plone.",
     long_description=long_description,
     classifiers=[
         "Framework :: Plone",

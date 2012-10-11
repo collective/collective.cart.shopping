@@ -6,6 +6,8 @@
       <element value="collective.cart.shopping.ArticleContainer"/>
       <element value="collective.cart.shopping.CustomerInfo"/>
       <element value="collective.cart.stock.Stock"/>
+      <element value="collective.cart.shopping.Variable"/>
+      <element value="collective.cart.shopping.VariableContainer"/>
     </property>
   </object>
 
@@ -13,6 +15,8 @@
     <property name="metaTypesNotToList" type="lines" purge="False">
       <element value="collective.cart.shopping.CustomerInfo"/>
       <element value="collective.cart.stock.Stock"/>
+      <element value="collective.cart.shopping.Variable"/>
+      <element value="collective.cart.shopping.VariableContainer"/>
     </property>
   </object>
 

@@ -43,6 +43,16 @@
     title="collective.cart.shopping: Add Article Container"
     />
 
+  <permission
+    id="collective.cart.shopping.AddVariable"
+    title="collective.cart.shopping: Add Variable"
+    />
+
+  <permission
+    id="collective.cart.shopping.AddVariableContainer"
+    title="collective.cart.shopping: Add Variable Container"
+    />
+
   <plone:behavior
     description="Adds price field for stock."
     factory="collective.behavior.price.behavior.Price"

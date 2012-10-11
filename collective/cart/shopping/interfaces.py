@@ -212,3 +212,11 @@ class IStockPrice(IPrice):
 
 
 alsoProvides(IStockPrice, form.IFormFieldProvider)
+
+
+class IVariableContainer(form.Schema):
+    """Schema interface for variable container."""
+
+
+class IVariable(form.Schema):
+    """Schema interface for variable."""

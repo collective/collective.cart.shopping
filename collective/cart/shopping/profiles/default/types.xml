@@ -2,4 +2,6 @@
   <object name="collective.cart.shopping.ArticleContainer" meta_type="Dexterity FTI"/>
   <object name="collective.cart.shopping.CustomerInfo" meta_type="Dexterity FTI"/>
   <object name="collective.cart.shopping.Shop" meta_type="Dexterity FTI"/>
+  <object name="collective.cart.shopping.Variable" meta_type="Dexterity FTI"/>
+  <object name="collective.cart.shopping.VariableContainer" meta_type="Dexterity FTI"/>
 </object>
