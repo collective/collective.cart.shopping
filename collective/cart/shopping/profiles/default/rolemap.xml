@@ -10,7 +10,7 @@
       <role name="Manager" />
       <role name="Site Administrator" />
     </permission>
-    <permission name="collective.cart.shopping: Add Variable" acquire="True">
+    <permission name="collective.cart.shopping: Add Article Subtype" acquire="True">
       <role name="Contributor" />
       <role name="Manager" />
       <role name="Site Administrator" />

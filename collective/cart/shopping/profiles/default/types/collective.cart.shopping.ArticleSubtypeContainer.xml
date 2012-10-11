@@ -2,30 +2,30 @@
 <object
   i18n:domain="collective.cart.shopping"
   meta_type="Dexterity FTI"
-  name="collective.cart.shopping.Variable"
+  name="collective.cart.shopping.ArticleSubtypeContainer"
   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
 
   <!-- Basic properties -->
-  <property name="title" i18n:translate="">Variable</property>
+  <property name="title" i18n:translate="">Article Subtype Container</property>
   <property name="description" i18n:translate=""/>
-  <property name="content_icon">page.png</property>
+  <property name="content_icon">folder.png</property>
   <property name="allow_discussion">False</property>
 
   <!-- Hierarchy control -->
-  <property name="global_allow">False</property>
+  <property name="global_allow">True</property>
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
+    <element value="collective.cart.shopping.ArticleSubtype"/>
   </property>
 
   <!-- Schema, class and security -->
-  <property name="schema">collective.cart.shopping.interfaces.IVariable</property>
+  <property name="schema">collective.cart.shopping.interfaces.IArticleSubtypeContainer</property>
   <property name="klass">plone.dexterity.content.Container</property>
-  <property name="add_permission">collective.cart.shopping.AddVariable</property>
+  <property name="add_permission">collective.cart.shopping.AddArticleSubtypeContainer</property>
 
   <!-- enabled behaviors -->
   <property name="behaviors">
     <element value="plone.app.content.interfaces.INameFromTitle" />
-    <element value="plone.app.dexterity.behaviors.metadata.IDublinCore" />
   </property>
 
   <!-- Views and aliases -->

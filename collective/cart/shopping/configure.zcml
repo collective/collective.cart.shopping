@@ -44,13 +44,13 @@
     />
 
   <permission
-    id="collective.cart.shopping.AddVariable"
-    title="collective.cart.shopping: Add Variable"
+    id="collective.cart.shopping.AddArticleSubtype"
+    title="collective.cart.shopping: Add Article Subtype"
     />
 
   <permission
-    id="collective.cart.shopping.AddVariableContainer"
-    title="collective.cart.shopping: Add Variable Container"
+    id="collective.cart.shopping.AddArticleSubtypeContainer"
+    title="collective.cart.shopping: Add Article Subtype Container"
     />
 
   <plone:behavior

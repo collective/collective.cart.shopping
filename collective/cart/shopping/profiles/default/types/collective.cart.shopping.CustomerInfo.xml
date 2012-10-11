@@ -6,7 +6,7 @@
   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
 
   <!-- Basic properties -->
-  <property name="title" i18n:translate="">CustomerInfo</property>
+  <property name="title" i18n:translate="">Customer Info</property>
   <property name="description" i18n:translate=""/>
   <property name="content_icon"></property>
   <property name="allow_discussion">False</property>
