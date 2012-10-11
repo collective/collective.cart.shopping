@@ -1,11 +1,12 @@
 Change log
 ----------
 
-0.2.2 (2012-09-XX)
+0.2.2 (2012-10-XX)
 ==================
 
 - Added Finnish translations. [taito]
 - Added view for ArticleContainer. [taito]
+- Added content types: Variable Container and Variable. [taito]
 
 0.2.1 (2012-09-25)
 ==================
