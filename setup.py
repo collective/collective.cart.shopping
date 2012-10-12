@@ -34,6 +34,7 @@ setup(
     install_requires=[
         'collective.behavior.discount',
         'collective.behavior.size',
+        'collective.behavior.sku',
         'collective.behavior.stock',
         'collective.behavior.vat',
         'collective.cart.core',

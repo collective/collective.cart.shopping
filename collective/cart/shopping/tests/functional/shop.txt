@@ -117,6 +117,7 @@ Add Article::
     >>> browser.open('/shop/article-container-1/++add++collective.cart.core.Article')
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
     >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Ärticle1'
+    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU1'
     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '12.30'
     >>> browser.getControl(name="form.widgets.ISize.weight").value = '100.0'
     >>> browser.getControl(name="form.buttons.save").click()
@@ -147,6 +148,11 @@ Addable contents are Stock and Image::
     <li>
     <a href="http://nohost/plone/shop/article-container-1/article1/++add++collective.cart.stock.Stock" class="contenttype-collective-cart-stock-stock" id="collective-cart-stock-stock" title="">
     <img width="16" height="16" alt="" src="http://nohost/plone/++resource++collective.cart.stock/stock.png" title=""><span class="subMenuTitle">Stock</span>
+    </a>
+    </li>
+    <li>
+    <a href="http://nohost/plone/shop/article-container-1/article1/++add++collective.cart.shopping.SubArticle" class="contenttype-collective-cart-shopping-subarticle" id="collective-cart-shopping-subarticle" title="">
+    <img width="16" height="16" alt="" src="http://nohost/plone/document_icon.png" title=""><span class="subMenuTitle">Subarticle</span>
     </a>
     </li>
     </ul></dd>

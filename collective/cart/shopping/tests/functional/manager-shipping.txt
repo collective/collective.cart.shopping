@@ -46,6 +46,7 @@ Add Article::
     >>> browser.open('/shop/article-container/++add++collective.cart.core.Article')
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
     >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Description of Ärticle1'
+    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU1'
     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '12.30'
     >>> browser.getControl(name="form.widgets.ISize.weight").value = '100'
     >>> browser.getControl(name="form.buttons.save").click()

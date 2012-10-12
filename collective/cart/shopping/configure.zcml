@@ -44,13 +44,8 @@
     />
 
   <permission
-    id="collective.cart.shopping.AddArticleSubtype"
-    title="collective.cart.shopping: Add Article Subtype"
-    />
-
-  <permission
-    id="collective.cart.shopping.AddArticleSubtypeContainer"
-    title="collective.cart.shopping: Add Article Subtype Container"
+    id="collective.cart.shopping.AddSubArticle"
+    title="collective.cart.shopping: Add Subarticle"
     />
 
   <plone:behavior

@@ -8,6 +8,7 @@ from plone.namedfile.field import NamedBlobImage
 from plone.namedfile.interfaces import IImageScaleTraversable
 from zope.interface import Attribute
 from zope.interface import alsoProvides
+from zope.schema import Bool
 from zope.schema import Decimal
 from zope.schema import TextLine
 
@@ -25,6 +26,11 @@ class IArticleContainer(form.Schema, IImageScaleTraversable):
 
 
 class IArticle(core.interfaces.IArticle, IImageScaleTraversable):
+
+    use_subarticle = Bool(
+        title=_(u'Use Subarticle'),
+        description=_(u'Check if this article has options such as sizes and colors.'),
+        required=False)
 
     image = NamedBlobImage(
         title=_(u'Representative Image'),
@@ -214,9 +220,5 @@ class IStockPrice(IPrice):
 alsoProvides(IStockPrice, form.IFormFieldProvider)
 
 
-class IArticleSubtypeContainer(form.Schema):
-    """Schema interface for variable container."""
-
-
-class IArticleSubtype(form.Schema):
+class ISubArticle(core.interfaces.IArticle):
     """Schema interface for variable."""

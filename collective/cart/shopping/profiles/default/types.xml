@@ -2,6 +2,5 @@
   <object name="collective.cart.shopping.ArticleContainer" meta_type="Dexterity FTI"/>
   <object name="collective.cart.shopping.CustomerInfo" meta_type="Dexterity FTI"/>
   <object name="collective.cart.shopping.Shop" meta_type="Dexterity FTI"/>
-  <object name="collective.cart.shopping.ArticleSubtype" meta_type="Dexterity FTI"/>
-  <object name="collective.cart.shopping.ArticleSubtypeContainer" meta_type="Dexterity FTI"/>
+  <object name="collective.cart.shopping.SubArticle" meta_type="Dexterity FTI"/>
 </object>

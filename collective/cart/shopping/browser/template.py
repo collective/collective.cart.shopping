@@ -1,9 +1,10 @@
 from Products.ATContentTypes.interfaces.image import IATImage
 from Products.CMFCore.utils import getToolByName
+from collective.cart import core
 from collective.cart.core.browser.template import CartView
-from collective.cart.core.interfaces import IArticle
 from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
+from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
 from collective.cart.shopping.interfaces import IShoppingSite
@@ -107,7 +108,7 @@ class OrderConfirmationView(BaseCheckoutView):
 
 class StockListView(grok.View):
     """View to show list of Article stock."""
-    grok.context(IArticle)
+    grok.context(core.interfaces.IArticle)
     grok.layer(ICollectiveCartShoppingLayer)
     grok.name('stock-list')
     grok.require('cmf.ModifyPortalContent')
