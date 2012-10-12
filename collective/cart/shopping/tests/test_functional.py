@@ -92,4 +92,5 @@ def test_suite():
         DocFileSuite('functional/browser.txt'),
         DocFileSuite('functional/manager-checkout.txt'),
         DocFileSuite('functional/manager-shipping.txt'),
+        DocFileSuite('functional/manager-subarticle.txt'),
         ])
