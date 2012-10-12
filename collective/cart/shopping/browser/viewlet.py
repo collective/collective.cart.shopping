@@ -111,6 +111,9 @@ class AddToCartViewlet(core.browser.viewlet.AddToCartViewlet):
     def soldout(self):
         return IArticleAdapter(self.context).soldout
 
+    def available(self):
+        return IArticleAdapter(self.context).addable_to_cart
+
 
 class BaseCartArticlesViewlet(core.browser.viewlet.CartArticlesViewlet):
     """Base class for displaying articles in cart."""

@@ -1,8 +1,7 @@
 <div
   id="add-to-cart"
   i18n:domain="collective.cart.core"
-  tal:condition="viewlet/available"
-  >
+  tal:condition="viewlet/available">
   <form
     method="post"
     tal:attributes="action context/@@plone_context_state/current_base_url"

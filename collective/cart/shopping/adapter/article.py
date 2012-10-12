@@ -1,8 +1,10 @@
 from Products.CMFCore.utils import getToolByName
 from collective.behavior.discount.interfaces import IDiscount
 from collective.behavior.stock.interfaces import IStock
-from collective.cart.core.adapter.article import ArticleAdapter
+from collective.behavior.salable.interfaces import ISalable
+from collective.cart import core
 from collective.cart.shopping.interfaces import IArticleAdapter
+from collective.cart.shopping.interfaces import IShoppingSite
 from datetime import date
 from datetime import datetime
 from datetime import time
@@ -11,9 +13,15 @@ from plone.memoize.instance import memoize
 from zope.lifecycleevent import modified
 
 
-class ArticleAdapter(ArticleAdapter):
+class ArticleAdapter(core.adapter.article.ArticleAdapter):
 
     grok.provides(IArticleAdapter)
+
+    @property
+    def addable_to_cart(self):
+        """True if the Article is addable to cart."""
+        return IShoppingSite(self.context).shop and ISalable(
+            self.context).salable and not self.context.use_subarticle
 
     @property
     def quantity_max(self):
