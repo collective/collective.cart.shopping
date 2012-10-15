@@ -1,0 +1,53 @@
+<section
+  id="add-subarticle-to-cart"
+  i18n:domain="collective.cart.core"
+  tal:condition="viewlet/available">
+  <form
+    method="post"
+    tal:attributes="action context/@@plone_context_state/current_base_url"
+    tal:condition="not: viewlet/soldout">
+    <select id="subarticle">
+      <option
+        tal:attributes="value item/UID"
+        tal:content="item/Title"
+        tal:repeat="item viewlet/subarticles" />
+    </select>
+    <label
+      i18n:domain="collective.cart.shopping"
+      i18n:translate="">Quantity</label>
+    <input
+      id="quantity"
+      list="numbers"
+      min="1"
+      name="quantity"
+      value="1"
+      type="number"
+      tal:attributes="
+        max viewlet/quantity_max;
+        size viewlet/quantity_size"
+      />
+    <datalist id="numbers">
+      <option
+        tal:repeat="number viewlet/numbers"
+        tal:attributes="value number"
+        tal:content="number"
+        />
+    </datalist>
+    <span
+      id="pcs"
+      i18n:domain="collective.cart.shopping"
+      i18n:translate="">pcs</span>
+    <button
+      type="submit"
+      name="form.buttons.AddSubArticleToCart"
+      value="form.buttons.AddSubArticleToCart"
+      i18n:translate=""
+      >Add To Cart</button>
+  </form>
+  <p
+    class="sold-out"
+    i18n:translate=""
+    tal:condition="viewlet/soldout">
+    Sold Out
+  </p>
+</section>

@@ -1,3 +1,4 @@
+from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from collective.behavior.discount.interfaces import IDiscount
 from collective.behavior.stock.interfaces import IStock
@@ -5,6 +6,7 @@ from collective.behavior.salable.interfaces import ISalable
 from collective.cart import core
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
+from collective.cart.shopping.interfaces import ISubArticle
 from datetime import date
 from datetime import datetime
 from datetime import time
@@ -22,6 +24,42 @@ class ArticleAdapter(core.adapter.article.ArticleAdapter):
         """True if the Article is addable to cart."""
         return IShoppingSite(self.context).shop and ISalable(
             self.context).salable and not self.context.use_subarticle
+
+    @property
+    def subarticles(self):
+        context = aq_inner(self.context)
+        catalog = getToolByName(context, 'portal_catalog')
+        return catalog({
+            'object_provides': ISubArticle.__identifier__,
+            'path': {
+                'query': '/'.join(context.getPhysicalPath()),
+                'depth': 1,
+            },
+        })
+
+    @property
+    def subarticle_addable_to_cart(self):
+        """True if the SubArticle is addable to cart."""
+        return IShoppingSite(
+            self.context).shop and self.context.use_subarticle and self.subarticles
+
+    @property
+    def subarticle_soldout(self):
+        """True or False for subarticle sold out."""
+        if self.subarticles:
+            stocks = [
+                IStock(subarticle.getObject()).stock for subarticle in self.subarticles]
+            if sum(stocks):
+                return False
+        return True
+
+    @property
+    def subarticle_quantity_max(self):
+        """Minimum max quantity for all the subarticles."""
+        quantities = [
+            IArticleAdapter(subarticle.getObject()).quantity_max for subarticle in self.subarticles]
+        if quantities:
+            return min(quantities)
 
     @property
     def quantity_max(self):

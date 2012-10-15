@@ -8,13 +8,13 @@ from collective.cart import core
 from collective.cart import shipping
 from collective.cart.core.browser.viewlet import CartContentViewletManager
 from collective.cart.core.browser.viewlet import CartViewletManager
-from collective.cart.core.interfaces import IArticle
 from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.form import BillingInfoForm
 from collective.cart.shopping.browser.form import ShippingInfoForm
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
 from collective.cart.shopping.browser.wrapper import ShippingMethodFormWrapper
+from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
 from collective.cart.shopping.interfaces import ICart
@@ -54,14 +54,19 @@ class AddToCartViewletManager(BaseViewletManager):
     grok.name('collective.cart.shopping.add.to.cart.manager')
 
 
-class AddToCartViewlet(core.browser.viewlet.AddToCartViewlet):
+class BaseAddToCartViewlet(core.browser.viewlet.AddToCartViewlet):
+    """Base class for add to cart viewlet."""
+    grok.baseclass()
+    grok.context(IArticle)
+    grok.layer(ICollectiveCartShoppingLayer)
+    grok.viewletmanager(AddToCartViewletManager)
+
+
+class AddToCartViewlet(BaseAddToCartViewlet):
     """Viewlet to show add to cart form for salable article.
 
     Can also add with certain number of quantity.
     """
-    grok.context(IArticle)
-    grok.layer(ICollectiveCartShoppingLayer)
-    grok.viewletmanager(AddToCartViewletManager)
 
     def update(self):
         form = self.request.form
@@ -113,6 +118,30 @@ class AddToCartViewlet(core.browser.viewlet.AddToCartViewlet):
 
     def available(self):
         return IArticleAdapter(self.context).addable_to_cart
+
+
+class AddSubArticleToCartViewlet(AddToCartViewlet):
+    """Viewlet to show add to cart form for subarticles."""
+    grok.name('collective.cart.core.add-subarticle-to-cart')
+    grok.template('add-subarticle-to-cart')
+
+    def update(self):
+        form = self.request.form
+
+    def available(self):
+        return IArticleAdapter(self.context).subarticle_addable_to_cart
+
+    @property
+    def soldout(self):
+        return IArticleAdapter(self.context).subarticle_soldout
+
+    @property
+    def quantity_max(self):
+        """Max quantity."""
+        return IArticleAdapter(self.context).subarticle_quantity_max
+
+    def subarticles(self):
+        return IArticleAdapter(self.context).subarticles
 
 
 class BaseCartArticlesViewlet(core.browser.viewlet.CartArticlesViewlet):

@@ -48,9 +48,13 @@ class IArticleAdapter(core.interfaces.IArticleAdapter):
     discount_available = Attribute('True if discount is available, else False.')
     discount_end = Attribute('End day of discount.')
     gross = Attribute('Gross money for the article.')
-    vat = Attribute('VAT money for the article.')
     net = Attribute('Net money for the article.')
     soldout = Attribute('True or False for sold out.')
+    subarticle_addable_to_cart = Attribute('True if subarticles are addable to cart.')
+    subarticle_quantity_max = Attribute('Minimum max quantity for all the subarticles.')
+    subarticle_soldout = Attribute('True or False for subarticle sold out.')
+    subarticles = Attribute('Subarticles of the article.')
+    vat = Attribute('VAT money for the article.')
 
 
 class ICart(core.interfaces.ICart):
