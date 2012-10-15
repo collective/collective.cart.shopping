@@ -75,6 +75,8 @@ Add Subärticle1::
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Subärticle1'
     >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Subärticle1.'
     >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU11'
+    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '12.30'
+    >>> browser.getControl(name="form.widgets.ISize.weight").value = '100.0'
     >>> browser.getControl(name="form.buttons.save").click()
 
 Go to Ärticle1::

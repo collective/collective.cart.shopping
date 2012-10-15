@@ -560,7 +560,10 @@ class TestCase(IntegrationTestCase):
             'plone.app.dexterity.behaviors.metadata.IDublinCore',
             'collective.behavior.sku.interfaces.ISKU',
             'collective.behavior.salable.interfaces.ISalable',
-            'collective.behavior.stock.interfaces.IStock'))
+            'collective.behavior.discount.interfaces.IDiscount',
+            'collective.behavior.stock.interfaces.IStock',
+            'collective.behavior.vat.interfaces.IVAT',
+            'collective.behavior.size.interfaces.ISize'))
 
     def test_types__collective_cart_shopping_SubArticle__default_view(self):
         types = getToolByName(self.portal, 'portal_types')
