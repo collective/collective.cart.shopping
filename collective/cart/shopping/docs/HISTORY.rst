@@ -1,13 +1,14 @@
 Change log
 ----------
 
-0.2.1.1 (2012-10-15)
+0.2.1.2 (2012-10-15)
 ====================
 
 - Added Finnish translations. [taito]
 - Added view for ArticleContainer. [taito]
 - Added content types: Variable Container and Variable. [taito]
 - Added dependency to collective.behavior.sku. [taito]
+- Added behaviors to Subarticle. [taito]
 
 0.2.1 (2012-09-25)
 ==================
