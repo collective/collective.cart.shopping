@@ -1,13 +1,13 @@
 from Acquisition import aq_inner
-from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 from collective.behavior.discount.interfaces import IDiscount
-from collective.behavior.stock.interfaces import IStock
 from collective.behavior.salable.interfaces import ISalable
+from collective.behavior.stock.interfaces import IStock
 from collective.cart import core
+from collective.cart.shopping import _
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
-# from collective.cart.shopping.interfaces import IArticle
 from datetime import date
 from datetime import datetime
 from datetime import time
@@ -24,15 +24,8 @@ class ArticleAdapter(core.adapter.article.ArticleAdapter):
     def addable_to_cart(self):
         """True if the Article is addable to cart."""
         context = aq_inner(self.context)
-        # parent = aq_parent(context)
-        # if not core.interfaces.IArticle.providedBy(parent):
-        #     return IShoppingSite(context).shop and ISalable(
-        #         context).salable and not context.use_subarticle
-        # else:
-        #     return IShoppingSite(context).shop and ISalable(
-        #         context).salable and not parent.use_subarticle
         return IShoppingSite(context).shop and ISalable(
-                context).salable and not context.use_subarticle
+                context).salable and not context.use_subarticle and not self.subarticles
 
     @property
     def subarticles(self):
@@ -49,6 +42,34 @@ class ArticleAdapter(core.adapter.article.ArticleAdapter):
         return brains
 
     @property
+    def subarticles_option(self):
+        """Subarticles for form select option."""
+        res = []
+        for brain in self.subarticles:
+            obj = brain.getObject()
+            article = IArticleAdapter(obj)
+            base_text = u'${title}  ${gross} ${currency}  VAT ${vat_rate} %'
+            base_mapping = {
+                'title': safe_unicode(brain.Title),
+                'gross': article.gross.amount,
+                'currency': article.gross.currency,
+                'vat_rate': brain.vat,
+            }
+            option = _(u'subarticle_option', base_text, mapping=base_mapping)
+            discount_text = base_text + u'  Discount valid till ${discount_end}  Normal Price: ${money} ${currency}'
+            discount_mapping = base_mapping.copy()
+            discount_mapping['discount_end'] = article.discount_end
+            discount_mapping['money'] = brain.money.amount
+            discount_option = _(u'subarticle_option_discount', discount_text, mapping=discount_mapping)
+            if article.discount_available:
+                option = discount_option
+            res.append({
+                'option': option,
+                'uuid': brain.UID,
+            })
+        return res
+
+    @property
     def articles_in_article(self):
         """Articles in Article which is not optional subarticle."""
         return not self.context.use_subarticle and self.subarticles or []
@@ -56,8 +77,6 @@ class ArticleAdapter(core.adapter.article.ArticleAdapter):
     @property
     def subarticle_addable_to_cart(self):
         """True if the SubArticle is addable to cart."""
-        # return IShoppingSite(
-        #     self.context).shop and self.context.use_subarticle and self.subarticles
         return IShoppingSite(
             self.context).shop and self.context.use_subarticle
 

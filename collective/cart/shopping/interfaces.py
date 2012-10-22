@@ -55,6 +55,7 @@ class IArticleAdapter(core.interfaces.IArticleAdapter):
     subarticle_quantity_max = Attribute('Minimum max quantity for all the subarticles.')
     subarticle_soldout = Attribute('True or False for subarticle sold out.')
     subarticles = Attribute('Subarticles of the article.')
+    subarticles_option = Attribute('Subarticles for form select option.')
     vat = Attribute('VAT money for the article.')
 
 

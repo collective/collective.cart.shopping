@@ -72,6 +72,55 @@
               Sold Out
             </p>
           </section>
+          <section
+            id="add-subarticle-to-cart"
+            tal:condition="item/subarticle_addable_to_cart">
+            <form
+              method="post"
+              tal:attributes="action context/@@plone_context_state/current_base_url"
+              tal:condition="not: item/soldout">
+              <select id="subarticle">
+                <option
+                  tal:attributes="value sub/uuid"
+                  tal:content="sub/option"
+                  tal:repeat="sub item/subarticles" />
+              </select>
+              <label i18n:translate="">Quantity</label>
+              <input
+                id="quantity"
+                list="numbers"
+                min="1"
+                name="quantity"
+                value="1"
+                type="number"
+                tal:attributes="
+                  max item/quantity_max;
+                  size item/quantity_size"
+                />
+              <datalist id="numbers">
+                <option
+                  tal:repeat="number item/numbers"
+                  tal:attributes="value number"
+                  tal:content="number"
+                  />
+              </datalist>
+              <span
+                id="pcs"
+                i18n:translate="">pcs</span>
+              <button
+                type="submit"
+                name="form.buttons.AddSubArticleToCart"
+                value="form.buttons.AddSubArticleToCart"
+                i18n:translate=""
+                >Add To Cart</button>
+            </form>
+            <p
+              class="sold-out"
+              i18n:translate=""
+              tal:condition="item/soldout">
+              Sold Out
+            </p>
+          </section>
         </td>
       </tr>
     </tbody>

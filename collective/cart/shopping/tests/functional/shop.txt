@@ -141,6 +141,11 @@ Addable contents are Stock and Image::
     </dt>
     <dd class="actionMenuContent">
     <ul><li>
+    <a href="http://nohost/plone/shop/article-container-1/article1/++add++collective.cart.core.Article" class="contenttype-collective-cart-core-article" id="collective-cart-core-article" title="">
+    <img width="16" height="16" alt="" src="http://nohost/plone/++resource++collective.cart.core/article.png" title=""><span class="subMenuTitle">Article</span>
+    </a>
+    </li>
+    <li>
     <a href="http://nohost/plone/shop/article-container-1/article1/createObject?type_name=Image" class="contenttype-image" id="image" title="Images can be referenced in pages or displayed in an album.">
     <span class="subMenuTitle">Image</span>
     </a>
@@ -148,11 +153,6 @@ Addable contents are Stock and Image::
     <li>
     <a href="http://nohost/plone/shop/article-container-1/article1/++add++collective.cart.stock.Stock" class="contenttype-collective-cart-stock-stock" id="collective-cart-stock-stock" title="">
     <img width="16" height="16" alt="" src="http://nohost/plone/++resource++collective.cart.stock/stock.png" title=""><span class="subMenuTitle">Stock</span>
-    </a>
-    </li>
-    <li>
-    <a href="http://nohost/plone/shop/article-container-1/article1/++add++collective.cart.shopping.SubArticle" class="contenttype-collective-cart-shopping-subarticle" id="collective-cart-shopping-subarticle" title="">
-    <img width="16" height="16" alt="" src="http://nohost/plone/document_icon.png" title=""><span class="subMenuTitle">Subarticle</span>
     </a>
     </li>
     </ul></dd>

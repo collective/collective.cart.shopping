@@ -1,7 +1,7 @@
-from Products.CMFCore.utils import getToolByName
 from collective.cart.shopping.tests.base import IntegrationTestCase
 from plone.dexterity.utils import createContentInContainer
 from zope.lifecycleevent import modified
+
 
 class TestCase(IntegrationTestCase):
     """TestCase for ArticleAdapter."""
@@ -24,26 +24,13 @@ class TestCase(IntegrationTestCase):
         return subarticle
 
     def create_stock(self, parent, stock):
-        import pdb; pdb.set_trace()
         item = createContentInContainer(
             parent, 'collective.cart.stock.Stock', id='stock',
             checkConstraints=False, title='Stock', stock=stock)
         modified(item)
         return item
 
-
     def test_subarticles__zero(self):
         from collective.cart.shopping.interfaces import IArticleAdapter
         article = self.create_article()
-        self.assertEqual(len(IArticleAdapter(article).subarticles), 0)
-
-    def test_subarticles(self):
-        from collective.cart.shopping.interfaces import IArticleAdapter
-        article = self.create_article()
-        subarticle = self.create_subarticle(article)
-        self.assertEqual(len(IArticleAdapter(article).subarticles), 0)
-
-        # Turn use_subarticle on.
-        article.use_subarticle = True
-        modified(article)
         self.assertEqual(len(IArticleAdapter(article).subarticles), 0)

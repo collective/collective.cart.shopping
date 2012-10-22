@@ -161,8 +161,7 @@ class TestCase(IntegrationTestCase):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.core.Article')
         self.assertEqual(ctype.allowed_content_types, (
-            'Image', 'collective.cart.stock.Stock',
-            'collective.cart.shopping.SubArticle'))
+            'Image', 'collective.cart.core.Article', 'collective.cart.stock.Stock'))
 
     def test_types__collective_cart_core_Article__schema(self):
         types = getToolByName(self.portal, 'portal_types')

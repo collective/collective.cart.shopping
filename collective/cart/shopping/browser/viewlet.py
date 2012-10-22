@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from collective.behavior.size.interfaces import ISize
@@ -26,6 +25,7 @@ from collective.cart.shopping.interfaces import IShoppingSite
 from five import grok
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.viewletmanager.manager import OrderedViewletManager
+from plone.uuid.interfaces import IUUID
 from plone.z3cform.layout import FormWrapper
 from zope.component import getMultiAdapter
 from zope.interface import Interface
@@ -72,7 +72,7 @@ class AddToCartViewlet(BaseAddToCartViewlet):
 
     def update(self):
         form = self.request.form
-        if form.get('form.addtocart', None) is not None:
+        if form.get('form.buttons.AddToCart', None) is not None:
             quantity = form.get('quantity', None)
             if quantity is not None and IArticleAdapter(self.context).addable_to_cart:
                 url = getMultiAdapter(
@@ -121,6 +121,9 @@ class AddToCartViewlet(BaseAddToCartViewlet):
     def available(self):
         return IArticleAdapter(self.context).addable_to_cart
 
+    def uuid(self):
+        return IUUID(self.context)
+
 
 class AddSubArticleToCartViewlet(AddToCartViewlet):
     """Viewlet to show add to cart form for subarticles."""
@@ -143,30 +146,7 @@ class AddSubArticleToCartViewlet(AddToCartViewlet):
         return IArticleAdapter(self.context).subarticle_quantity_max
 
     def subarticles(self):
-        res = []
-        for brain in IArticleAdapter(self.context).subarticles:
-            obj = brain.getObject()
-            article = IArticleAdapter(obj)
-            base_text = u'${title}  ${gross} ${currency}  VAT ${vat_rate} %'
-            base_mapping = {
-                'title': safe_unicode(brain.Title),
-                'gross': article.gross.amount,
-                'currency': article.gross.currency,
-                'vat_rate': brain.vat,
-            }
-            option = _(u'subarticle_option', base_text, mapping=base_mapping)
-            discount_text = base_text + u'  Discount valid till ${discount_end}  Normal Price: ${money} ${currency}'
-            discount_mapping = base_mapping.copy()
-            discount_mapping['discount_end'] = article.discount_end
-            discount_mapping['money'] = brain.money.amount
-            discount_option = _(u'subarticle_option_discount', discount_text, mapping=discount_mapping)
-            if article.discount_available:
-                option = discount_option
-            res.append({
-                'option': option,
-                'uuid': brain.UID,
-            })
-        return res
+        return IArticleAdapter(self.context).subarticles_option
 
 
 class BelowArticleViewletManager(BaseViewletManager):
@@ -186,13 +166,20 @@ class ArticlesInArticleViewlet(BaseViewlet):
             obj = item.getObject()
             article = IArticleAdapter(obj)
             addable_to_cart = article.addable_to_cart
+            soldout = None
+            quantity_max = 0
             if addable_to_cart:
                 soldout = article.soldout
-            quantity_max = article.quantity_max
+                quantity_max = article.quantity_max
+            subarticle_addable_to_cart = article.subarticle_addable_to_cart
+            if subarticle_addable_to_cart:
+                soldout = article.subarticle_soldout
+                quantity_max = article.subarticle_quantity_max
             numbers = xrange(1, quantity_max + 1)
             quantity_size = len(str(quantity_max))
             yield {
                 'addable_to_cart': addable_to_cart,
+                'subarticle_addable_to_cart': subarticle_addable_to_cart,
                 'description': item.Description(),
                 'discount_end': article.discount_end,
                 'gross': article.gross,
@@ -202,6 +189,7 @@ class ArticlesInArticleViewlet(BaseViewlet):
                 'quantity_max': quantity_max,
                 'quantity_size': quantity_size,
                 'soldout': soldout,
+                'subarticles': article.subarticles_option,
                 'title': item.Title(),
                 'url': item.getURL(),
                 'uuid': item.uuid(),

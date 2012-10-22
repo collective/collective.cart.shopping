@@ -54,7 +54,7 @@ Add Ärticle1 to Cart::
 
     >>> browser.open(article1_url)
 
-    >>> query = {'quantity': '1', 'form.addtocart': 'form.addtocart'}
+    >>> query = {'quantity': '1', 'form.buttons.AddToCart': 'form.buttons.AddToCart'}
     >>> browser.post(browser.url, query)
 
 Go to Cart::

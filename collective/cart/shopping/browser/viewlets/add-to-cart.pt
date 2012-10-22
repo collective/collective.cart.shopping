@@ -50,8 +50,8 @@
       i18n:translate="">pcs</span>
     <button
       type="submit"
-      name="form.addtocart"
-      value="form.addtocart"
+      name="form.buttons.AddToCart"
+      tal:attributes="value viewlet/uuid"
       i18n:translate=""
       >Add To Cart</button>
   </form>
