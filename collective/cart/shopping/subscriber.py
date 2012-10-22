@@ -5,11 +5,11 @@ from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
 from collective.behavior.discount.interfaces import IDiscount
 from collective.behavior.stock.interfaces import IStock
+from collective.cart.core.interfaces import IArticle
 from collective.cart.core.interfaces import ICartArticle
 from collective.cart.core.interfaces import ICartArticleAdapter
 from collective.cart.core.interfaces import IMakeShoppingSiteEvent
 from collective.cart.shopping import _
-from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IShop
 from five import grok
 from plone.dexterity.utils import createContentInContainer
@@ -42,7 +42,7 @@ def set_moneys(context):
             setattr(context, 'discount_net', discount_net)
 
 
-@grok.subscribe(IArticle, IObjectCreatedEvent)
+@grok.subscribe(IArticle, IObjectAddedEvent)
 def create_moneys(context, event):
     assert context == event.object
     set_moneys(context)

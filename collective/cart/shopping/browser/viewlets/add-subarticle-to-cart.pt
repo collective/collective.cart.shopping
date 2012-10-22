@@ -8,8 +8,8 @@
     tal:condition="not: viewlet/soldout">
     <select id="subarticle">
       <option
-        tal:attributes="value item/UID"
-        tal:content="item/Title"
+        tal:attributes="value item/uuid"
+        tal:content="item/option"
         tal:repeat="item viewlet/subarticles" />
     </select>
     <label
@@ -46,6 +46,7 @@
   </form>
   <p
     class="sold-out"
+    i18n:domain="collective.cart.shopping"
     i18n:translate=""
     tal:condition="viewlet/soldout">
     Sold Out

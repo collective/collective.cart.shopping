@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-10-15 03:37+0000\n"
+"POT-Creation-Date: 2012-10-16 19:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -183,6 +183,11 @@ msgstr "Toimitustapa:"
 #: ./profiles/default/types/collective.cart.shopping.Shop.xml
 msgid "Shop"
 msgstr "Kauppa"
+
+#: ./browser/viewlets/add-subarticle-to-cart.pt:47
+#: ./browser/viewlets/add-to-cart.pt:43
+msgid "Sold Out"
+msgstr "Loppuun myyty"
 
 #: ./profiles/default/types/collective.cart.shopping.SubArticle.xml
 msgid "Stock List"

@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from collective.behavior.size.interfaces import ISize
@@ -141,7 +143,70 @@ class AddSubArticleToCartViewlet(AddToCartViewlet):
         return IArticleAdapter(self.context).subarticle_quantity_max
 
     def subarticles(self):
-        return IArticleAdapter(self.context).subarticles
+        res = []
+        for brain in IArticleAdapter(self.context).subarticles:
+            obj = brain.getObject()
+            article = IArticleAdapter(obj)
+            base_text = u'${title}  ${gross} ${currency}  VAT ${vat_rate} %'
+            base_mapping = {
+                'title': safe_unicode(brain.Title),
+                'gross': article.gross.amount,
+                'currency': article.gross.currency,
+                'vat_rate': brain.vat,
+            }
+            option = _(u'subarticle_option', base_text, mapping=base_mapping)
+            discount_text = base_text + u'  Discount valid till ${discount_end}  Normal Price: ${money} ${currency}'
+            discount_mapping = base_mapping.copy()
+            discount_mapping['discount_end'] = article.discount_end
+            discount_mapping['money'] = brain.money.amount
+            discount_option = _(u'subarticle_option_discount', discount_text, mapping=discount_mapping)
+            if article.discount_available:
+                option = discount_option
+            res.append({
+                'option': option,
+                'uuid': brain.UID,
+            })
+        return res
+
+
+class BelowArticleViewletManager(BaseViewletManager):
+    """Viewlet manager which comes below article."""
+    grok.context(IArticle)
+    grok.name('collective.cart.shopping.below.article')
+
+
+class ArticlesInArticleViewlet(BaseViewlet):
+    grok.context(IArticle)
+    grok.name('collective.cart.shopping.articles.in.article')
+    grok.template('articles-in-article')
+    grok.viewletmanager(BelowArticleViewletManager)
+
+    def articles(self):
+        for item in IContentListing(IArticleAdapter(self.context).articles_in_article):
+            obj = item.getObject()
+            article = IArticleAdapter(obj)
+            addable_to_cart = article.addable_to_cart
+            if addable_to_cart:
+                soldout = article.soldout
+            quantity_max = article.quantity_max
+            numbers = xrange(1, quantity_max + 1)
+            quantity_size = len(str(quantity_max))
+            yield {
+                'addable_to_cart': addable_to_cart,
+                'description': item.Description(),
+                'discount_end': article.discount_end,
+                'gross': article.gross,
+                'id': item.getId(),
+                'money': item.money,
+                'numbers': numbers,
+                'quantity_max': quantity_max,
+                'quantity_size': quantity_size,
+                'soldout': soldout,
+                'title': item.Title(),
+                'url': item.getURL(),
+                'uuid': item.uuid(),
+                'vat': item.vat,
+            }
 
 
 class BaseCartArticlesViewlet(core.browser.viewlet.CartArticlesViewlet):

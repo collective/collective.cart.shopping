@@ -35,27 +35,11 @@
               <td id="information">
                 <h1 class="documentFirstHeading" tal:content="context/title" />
                 <p class="documentDescription" tal:content="context/description" />
-                <section id="money">
-                  <p id="price" class="gross" tal:content="view/gross" />
-                  <p id="vat" i18n:translate="">
-                    Including VAT: <span i18n:name="vat" tal:replace="context/vat" /> &#37;
-                  </p>
-                </section>
-                <section id="discount" tal:condition="view/discount_end">
-                  <p id="discount-message" i18n:translate="">
-                    (Discount valid till <span i18n:name="discount_end" tal:replace="view/discount_end" />)
-                  </p>
-                  <p id="normal-price" i18n:translate="">
-                    Normal Price: <span i18n:name="normal-price" tal:replace="context/money" />
-                  </p>
-                </section>
                 <div tal:replace="structure provider:collective.cart.shopping.add.to.cart.manager" />
               </td>
             </tr>
           </tbody>
         </table>
-
-
 
 <script>
 jq(function() {
@@ -86,10 +70,10 @@ jq(this).addClass("active");
 });
 </script>
 
-
         <div
           tal:condition="context/text"
           tal:replace="structure context/text/output" />
+        <div tal:replace="structure provider:collective.cart.shopping.below.article" />
       </section>
     </metal:main>
   </body>

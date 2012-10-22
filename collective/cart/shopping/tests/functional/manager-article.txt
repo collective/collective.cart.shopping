@@ -1,0 +1,196 @@
+Log in as Manager::
+
+    >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+
+Add Shop::
+
+    >>> browser.open('/++add++collective.cart.shopping.Shop')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Shöp'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Shöp.'
+    >>> browser.getControl(name="form.buttons.save").click()
+
+Add Article Container::
+
+    >>> browser.open('/shop/++add++collective.cart.shopping.ArticleContainer')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle Cöntäiner'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Äarticle Cöntäiner.'
+    >>> browser.getControl(name="form.buttons.save").click()
+
+Add Article1::
+
+    >>> browser.open('/shop/article-container/++add++collective.cart.core.Article')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Ärticle1'
+    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU1'
+    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '12.30'
+    >>> browser.getControl(name="form.widgets.ISize.weight").value = '100.0'
+    >>> browser.getControl(name="form.buttons.save").click()
+    >>> print browser.bycss('#add-to-cart')
+    --- 1 ---
+    <div id="add-to-cart">
+    <p class="sold-out">Sold Out</p>
+    </div>
+    >>> print browser.bycss('#add-subarticle-to-cart')
+
+Add Stock to Ärticle1::
+
+    >>> browser.open('/shop/article-container/article1/++add++collective.cart.stock.Stock')
+    >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck1'
+    >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Descriptiön of Stöck1'
+    >>> browser.getControl(name="form.widgets.stock").value = '100'
+    >>> browser.getControl( name="form.widgets.IStockPrice.price").value = '4.00'
+    >>> browser.getControl(name="form.buttons.save").click()
+
+Go to Ärticle1::
+
+    >>> browser.open('/shop/article-container/article1')
+    >>> print browser.bycss('#add-to-cart')
+    --- 1 ---
+    <div id="add-to-cart">
+    <form method="post" action="http://nohost/plone/shop/article-container/article1">
+    ...
+    >>> print browser.bycss('#add-subarticle-to-cart')
+
+Edit Ärticle1 to use subarticle::
+
+    >>> browser.open('/shop/article-container/article1/edit')
+    >>> browser.getControl(name="form.widgets.use_subarticle:list").value = ['on']
+    >>> browser.getControl(name="form.buttons.save").click()
+    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('#add-subarticle-to-cart')
+    --- 1 ---
+    <section id="add-subarticle-to-cart"><p class="sold-out">Sold Out</p>
+    </section>
+
+Add Ärticle11 under Ärticle1::
+
+    >>> browser.open('/shop/article-container/article1/++add++collective.cart.core.Article')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle11'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Ärticle11.'
+    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU11'
+    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '24.60'
+    >>> browser.getControl(name="form.widgets.ISize.weight").value = '200.0'
+    >>> browser.getControl(name="form.buttons.save").click()
+    >>> print browser.bycss('#add-to-cart')
+    --- 1 ---
+    <div id="add-to-cart">
+    <p class="sold-out">Sold Out</p>
+    </div>
+    >>> print browser.bycss('#add-subarticle-to-cart')
+
+# Edit Ärticle1 to use subarticle::
+
+#     >>> browser.open('/shop/article-container/article1/edit')
+#     >>> browser.getControl(name="form.widgets.use_subarticle:list").value = []
+#     >>> browser.getControl(name="form.buttons.save").click()
+#     >>> print browser.bycss('#add-to-cart')
+#     --- 1 ---
+#     <div id="add-to-cart">
+#     <p class="sold-out">Sold Out</p>
+#     </div>
+#     >>> print browser.bycss('#add-subarticle-to-cart')
+
+# Go to Ärticle1::
+
+#     >>> browser.open('/shop/article-container/article1')
+#     >>> print browser.bycss('#add-subarticle-to-cart')
+#     --- 1 ---
+#     <section id="add-subarticle-to-cart"><p class="sold-out">Sold Out</p>
+#     </section>
+
+# Add Stöck1 to Ärticle11::
+
+#     >>> browser.open('/shop/article-container/article1/article11/++add++collective.cart.stock.Stock')
+#     >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck1'
+#     >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Stöck1'
+#     >>> browser.getControl(name="form.widgets.stock").value = '100'
+#     >>> browser.getControl( name="form.widgets.IStockPrice.price").value = '0.0'
+#     >>> browser.getControl(name="form.buttons.save").click()
+
+# Go to Ärticle1::
+
+#     >>> browser.open('/shop/article-container/article1')
+#     >>> print browser.bycss('#add-subarticle-to-cart')
+#     --- 1 ---
+#     <section id="add-subarticle-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article1">
+#     <select id="subarticle"><option value="...">&#196;rticle11  24.60 EUR  VAT 23.00 %</option></select><label>Quantity</label>
+#     <input id="quantity" list="numbers" min="1" name="quantity" value="1" type="number" max="100" size="3"><datalist id="numbers"><option value="1">1</option>...<option value="100">100</option></datalist><span id="pcs">pcs</span>
+#     <button type="submit" name="form.buttons.AddSubArticleToCart" value="form.buttons.AddSubArticleToCart">Add To Cart</button>
+#     </form>
+#     </section>
+
+# Go to Ärticle11 and enable discount::
+
+#     >>> browser.open('/shop/article-container/article1/article11/edit')
+#     >>> browser.getControl(name="form.widgets.IDiscount.discount_enabled:list").value = True
+#     >>> browser.getControl(name="form.widgets.IDiscount.discount_price").value = '6.15'
+#     >>> browser.getControl(name="form.widgets.IDiscount.discount_end-day").value = str(today.day)
+#     >>> browser.getControl(name="form.widgets.IDiscount.discount_end-month").value = [str(today.month)]
+#     >>> browser.getControl(name="form.widgets.IDiscount.discount_end-year").value = str(today.year)
+#     >>> browser.getControl(name="form.buttons.save").click()
+
+# Go to Ärticle1::
+
+#     >>> browser.open('/shop/article-container/article1')
+#     >>> print browser.bycss('#add-subarticle-to-cart')
+#     --- 1 ---
+#     <section id="add-subarticle-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article1">
+#     <select id="subarticle"><option value="...">&#196;rticle11  6.15 EUR  VAT 23.00 %  Discount valid till Oct 19, 2012  Normal Price: 24.60 EUR</option></select><label>Quantity</label>
+#     <input id="quantity" list="numbers" min="1" name="quantity" value="1" type="number" max="100" size="3"><datalist id="numbers"><option value="1">1</option>...<option value="100">100</option></datalist><span id="pcs">pcs</span>
+#     <button type="submit" name="form.buttons.AddSubArticleToCart" value="form.buttons.AddSubArticleToCart">Add To Cart</button>
+#     </form>
+#     </section>
+
+# Edit Ärticle1 not to use subarticle::
+
+#     >>> browser.open('/shop/article-container/article1/edit')
+#     >>> browser.getControl(name="form.widgets.use_subarticle:list").value = []
+#     >>> browser.getControl(name="form.buttons.save").click()
+#     >>> print browser.bycss('#article11')
+#     --- 1 ---
+#     <tr id="article11"><td id="representative-image">
+#     <img src="http://nohost/plone/shop/article-container/article1/article11/@@images/image" alt="Descripti&#246;n of &#196;rticle11." title="&#196;rticle11"></td>
+#     <td id="information">
+#     <h1 class="documentFirstHeading">&#196;rticle11</h1>
+#     <p class="documentDescription">Descripti&#246;n of &#196;rticle11.</p>
+#     <section id="add-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article1">
+#     <section id="money"><p id="price" class="gross">6.15 &#8364;</p>
+#     <p id="vat">Including VAT: 23.00 %</p>
+#     </section><section id="discount"><p id="discount-message">(Discount valid till ...)</p>
+#     <p id="normal-price">Normal Price: 24.60 &#8364;</p>
+#     </section><label>Quantity</label>
+#     <input id="quantity" list="numbers" min="1" name="quantity" value="1" type="number" max="100" size="3"><datalist id="numbers"><option value="1">1</option>...<option value="100">100</option></datalist><span id="pcs">pcs</span>
+#     <button name="form.buttons.AddArticleToCart" type="submit" value="...">Add To Cart</button>
+#     </form>
+#     </section></td>
+#     </tr>
+
+# Edit Ärticle11 not to use subarticle::
+
+#     >>> browser.open('/shop/article-container/article1/article11/edit')
+#     >>> browser.getControl(name="form.widgets.use_subarticle:list").value = []
+#     >>> browser.getControl(name="form.buttons.save").click()
+#     >>> print browser.bycss('#add-to-cart')
+#     --- 1 ---
+#     <div id="add-to-cart">
+#     <form method="post" action="http://nohost/plone/shop/article-container/article1/article11">
+#     ...
+#     >>> print browser.bycss('#add-subarticle-to-cart')
+
+# Go to Ärticle1::
+
+#     >>> browser.open('/shop/article-container/article1')
+
+
+# Go to Ärticle11 to disable salable::
+
+#     >>> browser.open('/shop/article-container/article1/article11/edit')
+#     >>> browser.getControl(name="form.widgets.ISalable.salable:list").value = []
+#     >>> browser.getControl(name="form.buttons.save").click()
+
+# Go to Ärticle1::
+
+#     >>> browser.open('/shop/article-container/article1')
+#     >>> print browser.bycss('#add-subarticle-to-cart')
+
+    >>> browser.openBrowser()

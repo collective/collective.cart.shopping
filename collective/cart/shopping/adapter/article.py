@@ -1,4 +1,5 @@
 from Acquisition import aq_inner
+from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
 from collective.behavior.discount.interfaces import IDiscount
 from collective.behavior.stock.interfaces import IStock
@@ -6,7 +7,7 @@ from collective.behavior.salable.interfaces import ISalable
 from collective.cart import core
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
-from collective.cart.shopping.interfaces import ISubArticle
+# from collective.cart.shopping.interfaces import IArticle
 from datetime import date
 from datetime import datetime
 from datetime import time
@@ -22,26 +23,43 @@ class ArticleAdapter(core.adapter.article.ArticleAdapter):
     @property
     def addable_to_cart(self):
         """True if the Article is addable to cart."""
-        return IShoppingSite(self.context).shop and ISalable(
-            self.context).salable and not self.context.use_subarticle
+        context = aq_inner(self.context)
+        # parent = aq_parent(context)
+        # if not core.interfaces.IArticle.providedBy(parent):
+        #     return IShoppingSite(context).shop and ISalable(
+        #         context).salable and not context.use_subarticle
+        # else:
+        #     return IShoppingSite(context).shop and ISalable(
+        #         context).salable and not parent.use_subarticle
+        return IShoppingSite(context).shop and ISalable(
+                context).salable and not context.use_subarticle
 
     @property
     def subarticles(self):
         context = aq_inner(self.context)
         catalog = getToolByName(context, 'portal_catalog')
-        return catalog({
-            'object_provides': ISubArticle.__identifier__,
+        brains = catalog({
+            'object_provides': core.interfaces.IArticle.__identifier__,
             'path': {
                 'query': '/'.join(context.getPhysicalPath()),
                 'depth': 1,
             },
+            'salable': True,
         })
+        return brains
+
+    @property
+    def articles_in_article(self):
+        """Articles in Article which is not optional subarticle."""
+        return not self.context.use_subarticle and self.subarticles or []
 
     @property
     def subarticle_addable_to_cart(self):
         """True if the SubArticle is addable to cart."""
+        # return IShoppingSite(
+        #     self.context).shop and self.context.use_subarticle and self.subarticles
         return IShoppingSite(
-            self.context).shop and self.context.use_subarticle and self.subarticles
+            self.context).shop and self.context.use_subarticle
 
     @property
     def subarticle_soldout(self):

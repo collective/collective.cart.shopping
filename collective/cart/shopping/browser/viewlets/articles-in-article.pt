@@ -1,0 +1,79 @@
+<section i18n:domain="collective.cart.shopping" id="articles" tal:condition="viewlet/articles">
+  <table>
+    <tbody>
+      <tr tal:attributes="id item/id" tal:repeat="item viewlet/articles">
+        <td id="representative-image">
+          <img tal:attributes="
+            alt item/description;
+            src string:${item/url}/@@images/image;
+            title item/title" />
+        </td>
+        <td id="information">
+          <h1 class="documentFirstHeading" tal:content="item/title" />
+          <p class="documentDescription" tal:content="item/description" />
+          <section
+            id="add-to-cart"
+            tal:condition="item/addable_to_cart">
+            <form
+              method="post"
+              tal:attributes="action context/@@plone_context_state/current_base_url"
+              tal:condition="not: item/soldout">
+              <section id="money">
+                <p id="price" class="gross" tal:content="item/gross" />
+                <p id="vat" i18n:translate="">
+                  Including VAT: <span i18n:name="vat" tal:replace="item/vat" /> &#37;
+                </p>
+              </section>
+              <section
+                id="discount"
+                tal:condition="item/discount_end">
+                <p id="discount-message" i18n:translate="">
+                  (Discount valid till <span i18n:name="discount_end" tal:replace="item/discount_end" />)
+                </p>
+                <p id="normal-price" i18n:translate="">
+                  Normal Price: <span i18n:name="normal-price" tal:replace="item/money" />
+                </p>
+              </section>
+              <label
+                i18n:translate="">Quantity</label>
+              <input
+                id="quantity"
+                list="numbers"
+                min="1"
+                name="quantity"
+                value="1"
+                type="number"
+                tal:attributes="
+                  max item/quantity_max;
+                  size item/quantity_size"
+                />
+              <datalist id="numbers">
+                <option
+                  tal:repeat="number item/numbers"
+                  tal:attributes="value number"
+                  tal:content="number"
+                  />
+              </datalist>
+              <span
+                id="pcs"
+                i18n:translate="">pcs</span>
+              <button
+                i18n:domain="collective.cart.core"
+                i18n:translate=""
+                name="form.buttons.AddArticleToCart"
+                tal:attributes="value item/uuid"
+                type="submit"
+                >Add To Cart</button>
+            </form>
+            <p
+              class="sold-out"
+              i18n:translate=""
+              tal:condition="item/soldout">
+              Sold Out
+            </p>
+          </section>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>

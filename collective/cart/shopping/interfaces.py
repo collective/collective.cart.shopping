@@ -45,6 +45,7 @@ class IArticle(core.interfaces.IArticle, IImageScaleTraversable):
 
 class IArticleAdapter(core.interfaces.IArticleAdapter):
 
+    articles_in_article = Attribute('Articles in Article which is not optional subarticle.')
     discount_available = Attribute('True if discount is available, else False.')
     discount_end = Attribute('End day of discount.')
     gross = Attribute('Gross money for the article.')
