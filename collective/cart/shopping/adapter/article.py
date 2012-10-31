@@ -97,6 +97,8 @@ class ArticleAdapter(core.adapter.article.ArticleAdapter):
             IArticleAdapter(subarticle.getObject()).quantity_max for subarticle in self.subarticles]
         if quantities:
             return min(quantities)
+        else:
+            return 0
 
     @property
     def quantity_max(self):

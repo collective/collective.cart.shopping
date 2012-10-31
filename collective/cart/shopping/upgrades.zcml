@@ -1,0 +1,26 @@
+<configure
+  i18n_domain="collective.cart.shopping"
+  xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+  xmlns="http://namespaces.zope.org/zope">
+
+  <genericsetup:upgradeStep
+    description=""
+    destination="1"
+    handler="collective.cart.shopping.upgrades.update_typeinfo"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="0"
+    title="Update typeinfo for Article to add Article to allowed_content_types."
+    />
+
+  <genericsetup:upgradeStep
+    description=""
+    destination="2"
+    handler="collective.cart.shopping.upgrades.update_typeinfo"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="1"
+    title="Update typeinfo for Article to add Article to allowed_content_types."
+    />
+
+</configure>

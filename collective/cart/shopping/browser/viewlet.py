@@ -162,6 +162,7 @@ class ArticlesInArticleViewlet(BaseViewlet):
     grok.viewletmanager(BelowArticleViewletManager)
 
     def articles(self):
+        res = []
         for item in IContentListing(IArticleAdapter(self.context).articles_in_article):
             obj = item.getObject()
             article = IArticleAdapter(obj)
@@ -177,7 +178,7 @@ class ArticlesInArticleViewlet(BaseViewlet):
                 quantity_max = article.subarticle_quantity_max
             numbers = xrange(1, quantity_max + 1)
             quantity_size = len(str(quantity_max))
-            yield {
+            res.append({
                 'addable_to_cart': addable_to_cart,
                 'subarticle_addable_to_cart': subarticle_addable_to_cart,
                 'description': item.Description(),
@@ -194,7 +195,8 @@ class ArticlesInArticleViewlet(BaseViewlet):
                 'url': item.getURL(),
                 'uuid': item.uuid(),
                 'vat': item.vat,
-            }
+            })
+        return res
 
 
 class BaseCartArticlesViewlet(core.browser.viewlet.CartArticlesViewlet):
