@@ -26,24 +26,13 @@
       i18n:translate="">Quantity</label>
     <input
       id="quantity"
-      list="numbers"
-      min="1"
       name="quantity"
-      value="1"
-      type="number"
       tal:attributes="
-        max viewlet/quantity_max;
+        maxlength viewlet/quantity_size;
         size viewlet/quantity_size"
+      type="text"
+      value="1"
       />
-    <datalist
-      id="numbers"
-      >
-      <option
-        tal:repeat="number viewlet/numbers"
-        tal:attributes="value number"
-        tal:content="number"
-        />
-    </datalist>
     <span
       id="pcs"
       i18n:domain="collective.cart.shopping"
