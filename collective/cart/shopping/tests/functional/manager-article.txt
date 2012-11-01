@@ -51,7 +51,7 @@ Go to Ärticle1::
     <section id="money"><p id="price" class="gross">24.60 &#8364;</p>
     <p id="vat">Including VAT: 23.00 %</p>
     </section><label>Quantity</label>
-    <input id="quantity" list="numbers" min="1" name="quantity" value="1" type="number" max="100" size="3"><datalist id="numbers"><option value="1">1</option>...<option value="100">100</option></datalist><span id="pcs">pcs</span>
+    <input id="quantity" name="quantity" type="text" value="1" size="3" maxlength="3"><span id="pcs">pcs</span>
     <button type="submit" name="form.buttons.AddToCart" value="...">Add To Cart</button>
     </form>
     </div>
@@ -75,7 +75,7 @@ Edit Ärtilce1 and enable discount::
     </section><section id="discount"><p id="discount-message">(Discount valid till ...)</p>
     <p id="normal-price">Normal Price: 24.60 &#8364;</p>
     </section><label>Quantity</label>
-    <input id="quantity" list="numbers" min="1" name="quantity" value="1" type="number" max="100" size="3"><datalist id="numbers"><option value="1">1</option>...<option value="100">100</option></datalist><span id="pcs">pcs</span>
+    <input id="quantity" name="quantity" type="text" value="1" size="3" maxlength="3"><span id="pcs">pcs</span>
     <button type="submit" name="form.buttons.AddToCart" value="...">Add To Cart</button>
     </form>
     </div>
