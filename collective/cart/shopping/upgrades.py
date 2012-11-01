@@ -68,8 +68,11 @@ def upgrade_1_to_2(context, logger=None):
             'depth': size.depth,
         }
 
+        path = '/'.join(obj.getPhysicalPath())
+        logger.info('Deleting SubArticle at path: {}'.format(path))
         del parent[oid]
 
+        logger.info('Creating Article to path: {}'.format(path))
         article = createContentInContainer(
             parent, 'collective.cart.core.Article',
             checkConstraints=False, **items)

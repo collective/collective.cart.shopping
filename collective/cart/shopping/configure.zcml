@@ -55,4 +55,6 @@
     title="Stock Price"
     />
 
+  <include file="upgrades.zcml"/>
+
 </configure>

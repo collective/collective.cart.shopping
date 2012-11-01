@@ -16,11 +16,11 @@
   <genericsetup:upgradeStep
     description=""
     destination="2"
-    handler="collective.cart.shopping.upgrades.update_typeinfo"
+    handler="collective.cart.shopping.upgrades.upgrade_1_to_2"
     profile="collective.cart.shopping:default"
     sortkey="1"
     source="1"
-    title="Update typeinfo for Article to add Article to allowed_content_types."
+    title="Migrate SubArticle into Article"
     />
 
 </configure>
