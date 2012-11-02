@@ -7,6 +7,7 @@ from plone.directives import form
 from plone.namedfile.field import NamedBlobImage
 from plone.namedfile.interfaces import IImageScaleTraversable
 from zope.interface import Attribute
+from zope.interface import Interface
 from zope.interface import alsoProvides
 from zope.schema import Bool
 from zope.schema import Decimal
@@ -19,6 +20,16 @@ class IShoppingSite(IBaseShoppingSite):
     shipping_methods = Attribute('List of shipping methods')
     shipping_method = Attribute('Shipping method from cart')
     total = Attribute('Total money')
+
+
+class IUpdateCart(Interface):
+    """Multi adapter interface for updating cart."""
+
+    def add_to_cart(uuid):
+        """Add to cart."""
+
+    def update_cart(uuid):
+        """Update cart."""
 
 
 class IArticleContainer(form.Schema, IImageScaleTraversable):

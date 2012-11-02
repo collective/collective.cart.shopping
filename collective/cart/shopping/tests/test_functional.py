@@ -91,6 +91,7 @@ def test_suite():
     return unittest.TestSuite([
         DocFileSuite('functional/browser.txt'),
         DocFileSuite('functional/manager-article.txt'),
+        DocFileSuite('functional/manager-cart.txt'),
         DocFileSuite('functional/manager-checkout.txt'),
         DocFileSuite('functional/manager-shipping.txt'),
         ])

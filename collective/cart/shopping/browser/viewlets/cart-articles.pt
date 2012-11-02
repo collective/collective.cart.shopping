@@ -39,22 +39,14 @@
           <td class="price-and-quantity">
             <input
               id="quantity"
-              list="numbers"
-              min="1"
               name="quantity"
-              type="number"
+              type="text"
               tal:attributes="
-                max item/quantity_max;
-                value item/quantity;
-                size item/quantity_size"
+                maxlength item/quantity_size;
+                size item/quantity_size;
+                value item/quantity"
               />
-            <datalist id="numbers">
-              <option
-                tal:repeat="number item/numbers"
-                tal:attributes="value number"
-                tal:content="number"
-                />
-            </datalist>&nbsp;&times;&nbsp;
+              &nbsp;&times;&nbsp;
             <span class="gross" tal:content="item/gross" />
             <br />
             <span class="vat" i18n:translate="">

@@ -1,7 +1,7 @@
 
 <div
   id="add-to-cart"
-  i18n:domain="collective.cart.core"
+  i18n:domain="collective.cart.shopping"
   tal:condition="viewlet/available">
   <form
     method="post"
@@ -21,9 +21,7 @@
         Normal Price: <span i18n:name="normal-price" tal:replace="context/money" />
       </p>
     </section>
-    <label
-      i18n:domain="collective.cart.shopping"
-      i18n:translate="">Quantity</label>
+    <label i18n:translate="">Quantity</label>
     <input
       id="quantity"
       name="quantity"
@@ -35,18 +33,17 @@
       />
     <span
       id="pcs"
-      i18n:domain="collective.cart.shopping"
       i18n:translate="">pcs</span>
     <button
-      type="submit"
+      i18n:domain="collective.cart.core"
+      i18n:translate=""
       name="form.buttons.AddToCart"
       tal:attributes="value viewlet/uuid"
-      i18n:translate=""
+      type="submit"
       >Add To Cart</button>
   </form>
   <p
     class="sold-out"
-    i18n:domain="collective.cart.shopping"
     i18n:translate=""
     tal:condition="viewlet/soldout">
     Sold Out

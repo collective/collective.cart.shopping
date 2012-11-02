@@ -74,8 +74,8 @@ Go to Ärticle1::
     <section id="money"><p id="price" class="gross">12.30 &#8364;</p>
     <p id="vat">Including VAT: 23.00 %</p>
     </section><label>Quantity</label>
-    <input id="quantity" list="numbers" min="1" name="quantity" value="1" type="number" max="100" size="3"><datalist id="numbers"><option value="1">...<option value="100">100</option></datalist><span id="pcs">pcs</span>
-    <button type="submit" name="form.buttons.AddToCart" value="...">Add To Cart</button>
+    <input id="quantity" name="quantity" type="text" value="1" maxlength="3" size="3"><span id="pcs">pcs</span>
+    <button name="form.buttons.AddToCart" type="submit" value="<UUID>">Add To Cart</button>
     </form>
     </div>
 
@@ -99,8 +99,8 @@ Go to Ärticle1::
     <section id="money"><p id="price" class="gross">12.30 &#8364;</p>
     <p id="vat">Including VAT: 23.00 %</p>
     </section><label>Quantity</label>
-    <input id="quantity" list="numbers" min="1" name="quantity" value="1" type="number" max="99" size="2"><datalist id="numbers"><option value="1">...<option value="99">99</option></datalist><span id="pcs">pcs</span>
-    <button type="submit" name="form.buttons.AddToCart" value="...">Add To Cart</button>
+    <input id="quantity" name="quantity" type="text" value="1" maxlength="3" size="3"><span id="pcs">pcs</span>
+    <button name="form.buttons.AddToCart" type="submit" value="<UUID>">Add To Cart</button>
     </form>
     </div>
 

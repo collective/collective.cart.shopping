@@ -38,29 +38,20 @@
                 i18n:translate="">Quantity</label>
               <input
                 id="quantity"
-                list="numbers"
-                min="1"
                 name="quantity"
                 value="1"
-                type="number"
+                type="text"
                 tal:attributes="
-                  max item/quantity_max;
+                  maxlength item/quantity_size;
                   size item/quantity_size"
                 />
-              <datalist id="numbers">
-                <option
-                  tal:repeat="number item/numbers"
-                  tal:attributes="value number"
-                  tal:content="number"
-                  />
-              </datalist>
               <span
                 id="pcs"
                 i18n:translate="">pcs</span>
               <button
                 i18n:domain="collective.cart.core"
                 i18n:translate=""
-                name="form.buttons.AddArticleToCart"
+                name="form.buttons.AddToCart"
                 tal:attributes="value item/uuid"
                 type="submit"
                 >Add To Cart</button>
@@ -79,7 +70,7 @@
               method="post"
               tal:attributes="action context/@@plone_context_state/current_base_url"
               tal:condition="not: item/soldout">
-              <select id="subarticle">
+              <select id="subarticle" name="subarticle">
                 <option
                   tal:attributes="value sub/uuid"
                   tal:content="sub/option"
@@ -88,29 +79,21 @@
               <label i18n:translate="">Quantity</label>
               <input
                 id="quantity"
-                list="numbers"
                 min="1"
                 name="quantity"
                 value="1"
-                type="number"
+                type="text"
                 tal:attributes="
-                  max item/quantity_max;
+                  maxlength item/quantity_size;
                   size item/quantity_size"
                 />
-              <datalist id="numbers">
-                <option
-                  tal:repeat="number item/numbers"
-                  tal:attributes="value number"
-                  tal:content="number"
-                  />
-              </datalist>
               <span
                 id="pcs"
                 i18n:translate="">pcs</span>
               <button
                 type="submit"
-                name="form.buttons.AddSubArticleToCart"
-                value="form.buttons.AddSubArticleToCart"
+                name="form.buttons.AddToCart"
+                value="form.buttons.AddToCart"
                 i18n:translate=""
                 >Add To Cart</button>
             </form>

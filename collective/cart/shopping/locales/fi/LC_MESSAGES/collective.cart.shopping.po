@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-11-01 22:10+0000\n"
+"POT-Creation-Date: 2012-11-02 18:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,6 +89,10 @@ msgstr "Poista"
 #: ./interfaces.py:41
 msgid "Detailed information"
 msgstr "Tarkempi kuvaus tuotteesta"
+
+#: ./browser/viewlets/articles-in-articlecontainer.pt:11
+msgid "Discount"
+msgstr "Tarjous"
 
 #: ./browser/viewlets/customer-info.pt:60
 #: ./interfaces.py:118

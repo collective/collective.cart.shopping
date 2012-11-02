@@ -22,6 +22,7 @@ from collective.cart.shopping.interfaces import ICart
 from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.interfaces import ICartArticleAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
+from collective.cart.shopping.interfaces import IUpdateCart
 from five import grok
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.viewletmanager.manager import OrderedViewletManager
@@ -71,35 +72,7 @@ class AddToCartViewlet(BaseAddToCartViewlet):
     """
 
     def update(self):
-        form = self.request.form
-        if form.get('form.buttons.AddToCart', None) is not None:
-            quantity = form.get('quantity', None)
-            if quantity is not None and IArticleAdapter(self.context).addable_to_cart:
-                url = getMultiAdapter(
-                    (self.context, self.request), name='plone_context_state').current_base_url()
-                try:
-                    quantity = int(quantity)
-                    if quantity > IArticleAdapter(self.context).quantity_max:
-                        quantity = IArticleAdapter(self.context).quantity_max
-                    item = IArticleAdapter(self.context)
-                    kwargs = {
-                        'gross': item.gross,
-                        'net': item.net,
-                        'vat': item.vat,
-                        'vat_rate': item.context.vat,
-                        'quantity': quantity,
-                        'weight': ISize(self.context).weight,
-                        'width': ISize(self.context).width,
-                        'height': ISize(self.context).height,
-                        'depth': ISize(self.context).depth,
-                    }
-                    IArticleAdapter(self.context).add_to_cart(**kwargs)
-                    IStock(self.context).sub_stock(quantity)
-                    return self.request.response.redirect(url)
-                except ValueError:
-                    message = _(u"Input integer value to add to cart.")
-                    IStatusMessage(self.request).addStatusMessage(message, type='warn')
-                    return self.request.response.redirect(url)
+        getMultiAdapter((self.context, self.request), IUpdateCart).add_to_cart()
 
     @property
     def quantity_max(self):
@@ -109,10 +82,6 @@ class AddToCartViewlet(BaseAddToCartViewlet):
     def quantity_size(self):
         """Size for quantity field."""
         return len(str(self.quantity_max))
-
-    def numbers(self):
-        """Iterable all numbers."""
-        return xrange(1, self.quantity_max + 1)
 
     @property
     def soldout(self):
@@ -261,7 +230,6 @@ class CartArticlesViewlet(BaseCartArticlesViewlet):
                 quantity_max += IStock(orig_article).stock
             items['quantity_max'] = quantity_max
             items['quantity_size'] = len(str(quantity_max))
-            items['numbers'] = xrange(1, quantity_max + 1)
             results.append(items)
         return results
 
@@ -499,27 +467,18 @@ class ArticlesInArticleContainerViewlet(BaseViewlet):
             'object_provides': IArticle.__identifier__,
             'sort_on': 'getObjPositionInParent',
         }
-        return [{
-            # 'image': self._image(item),
-            'discount-available': IArticleAdapter(item.getObject()).discount_available,
-            'gross': IArticleAdapter(item.getObject()).gross,
-            'money': item.money,
-            'style': 'style',
-            'title': item.Title(),
-            'url': item.getURL(),
-        } for item in IContentListing(catalog(query))]
-
-    # def _image(self, item):
-    #     """Returns scales image tag."""
-    #     scales = getMultiAdapter((item.getObject(), self.request), name='images')
-    #     scale = scales.scale('image', scale='thumb')
-    #     if scale:
-    #         return scale.tag()
-    #     else:
-    #         portal_state = getMultiAdapter(
-    #             (self.context, self.request), name=u'plone_portal_state')
-    #         image_url = '{0}/++theme++sll.theme/images/feed-fallback.png'.format(
-    #             portal_state.portal_url())
-    #         return u'<img src="{0}" alt="{1}" title="{1}" width="128" />'.format(
-    #             image_url,
-    #             item.Title())
+        res = []
+        for item in IContentListing(catalog(query)):
+            style_class = 'normal'
+            discount_available = IArticleAdapter(item.getObject()).discount_available
+            if discount_available:
+                style_class = 'discount'
+            res.append({
+                'discount-available': discount_available,
+                'gross': IArticleAdapter(item.getObject()).gross,
+                'money': item.money,
+                'class': style_class,
+                'title': item.Title(),
+                'url': item.getURL(),
+            })
+        return res
