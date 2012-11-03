@@ -20,7 +20,7 @@
                     <div>
                       <img tal:attributes="
                         alt context/Description;
-                        src string:${context/absolute_url}/@@images/image;
+                        src view/image_url;
                         title context/Title" />
                       <img
                         tal:repeat="item view/images"
@@ -33,7 +33,7 @@
                 </section>
               </td>
               <td id="information">
-                <h1 class="documentFirstHeading" tal:content="context/title" />
+                <h1 class="documentFirstHeading" tal:content="view/title" />
                 <p class="documentDescription" tal:content="context/description" />
                 <div tal:replace="structure provider:collective.cart.shopping.add.to.cart.manager" />
               </td>

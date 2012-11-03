@@ -1,16 +1,31 @@
-<section i18n:domain="collective.cart.shopping" id="articles" tal:condition="viewlet/articles">
+<section i18n:domain="collective.cart.shopping" id="articles-in-article" tal:condition="viewlet/articles">
   <table>
     <tbody>
       <tr tal:attributes="id item/id" tal:repeat="item viewlet/articles">
-        <td id="representative-image">
-          <img tal:attributes="
-            alt item/description;
-            src string:${item/url}/@@images/image;
-            title item/title" />
+        <td class="image">
+          <a
+            tal:condition="item/url"
+            tal:attributes="
+              href item/url;
+              title item/title">
+              <img tal:attributes="
+                alt item/description;
+                src item/image_url;
+                title item/title" />
+          </a>
         </td>
-        <td id="information">
-          <h1 class="documentFirstHeading" tal:content="item/title" />
-          <p class="documentDescription" tal:content="item/description" />
+        <td class="name">
+          <h3>
+            <a
+              tal:condition="item/url"
+              tal:attributes="href item/url"
+              tal:content="item/title"
+              />
+          </h3>
+          <p tal:content="item/description" />
+        </td>
+
+        <td class="price-and-quantity">
           <section
             id="add-to-cart"
             tal:condition="item/addable_to_cart">
@@ -18,12 +33,21 @@
               method="post"
               tal:attributes="action context/@@plone_context_state/current_base_url"
               tal:condition="not: item/soldout">
-              <section id="money">
-                <p id="price" class="gross" tal:content="item/gross" />
-                <p id="vat" i18n:translate="">
-                  Including VAT: <span i18n:name="vat" tal:replace="item/vat" /> &#37;
-                </p>
-              </section>
+              <input
+                id="quantity"
+                name="quantity"
+                value="1"
+                type="text"
+                tal:attributes="
+                  maxlength item/quantity_size;
+                  size item/quantity_size"
+                />
+                &nbsp;&times;&nbsp;
+              <span class="gross" tal:content="item/gross" />
+              <br />
+              <span class="vat" i18n:translate="">
+                Including VAT: <span i18n:name="vat" tal:replace="item/vat" /> &#37;
+              </span>
               <section
                 id="discount"
                 tal:condition="item/discount_end">
@@ -34,27 +58,19 @@
                   Normal Price: <span i18n:name="normal-price" tal:replace="item/money" />
                 </p>
               </section>
-              <label
-                i18n:translate="">Quantity</label>
-              <input
-                id="quantity"
-                name="quantity"
-                value="1"
-                type="text"
-                tal:attributes="
-                  maxlength item/quantity_size;
-                  size item/quantity_size"
-                />
-              <span
-                id="pcs"
-                i18n:translate="">pcs</span>
-              <button
-                i18n:domain="collective.cart.core"
-                i18n:translate=""
-                name="form.buttons.AddToCart"
-                tal:attributes="value item/uuid"
-                type="submit"
-                >Add To Cart</button>
+              <section class="stock" i18n:translate="">
+                Stock: <span i18n:name="stock" tal:replace="item/quantity_max" /> pcs
+              </section>
+              <section class="buttons">
+                <button
+                  class="shopping-button update"
+                  i18n:domain="collective.cart.core"
+                  i18n:translate=""
+                  name="form.buttons.AddToCart"
+                  tal:attributes="value item/uuid"
+                  type="submit"
+                  >Add To Cart</button>
+              </section>
             </form>
             <p
               class="sold-out"
@@ -73,10 +89,14 @@
               <select id="subarticle" name="subarticle">
                 <option
                   tal:attributes="value sub/uuid"
-                  tal:content="sub/option"
-                  tal:repeat="sub item/subarticles" />
-              </select>
-              <label i18n:translate="">Quantity</label>
+                  tal:repeat="sub item/subarticles">
+                  <span tal:replace="sub/title" />
+                  <span tal:replace="sub/gross" />
+                </option>
+              </select><br />
+              <span class="vat" i18n:translate="">
+                Including VAT: <span i18n:name="vat" tal:replace="item/vat" /> &#37;
+              </span><br />
               <input
                 id="quantity"
                 min="1"
@@ -91,6 +111,8 @@
                 id="pcs"
                 i18n:translate="">pcs</span>
               <button
+                class="shopping-button update"
+                i18n:domain="collective.cart.core"
                 type="submit"
                 name="form.buttons.AddToCart"
                 value="form.buttons.AddToCart"

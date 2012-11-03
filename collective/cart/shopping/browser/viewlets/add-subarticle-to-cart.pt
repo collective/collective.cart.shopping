@@ -9,8 +9,10 @@
     <select id="subarticle" name="subarticle">
       <option
         tal:attributes="value item/uuid"
-        tal:content="item/option"
-        tal:repeat="item viewlet/subarticles" />
+        tal:repeat="item viewlet/subarticles">
+        <span tal:replace="item/title" />
+        <span tal:replace="item/gross" />
+      </option>
     </select>
     <label
       i18n:translate="">Quantity</label>
@@ -27,6 +29,7 @@
       id="pcs"
       i18n:translate="">pcs</span>
     <button
+      class="shopping-button update"
       type="submit"
       name="form.buttons.AddToCart"
       value="form.buttons.AddToCart"

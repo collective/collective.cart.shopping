@@ -15,11 +15,11 @@
               tal:attributes="
                 href item/url;
                 title item/title">
-              <img tal:replace="structure item/image" />
+              <img tal:attributes="src item/image_url" />
             </a>
             <img
                 tal:condition="not: item/url"
-                tal:replace="structure item/image"
+                tal:attributes="src item/image_url"
                 />
           </td>
           <td class="name">

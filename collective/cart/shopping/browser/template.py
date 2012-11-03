@@ -1,3 +1,5 @@
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from Products.ATContentTypes.interfaces.image import IATImage
 from Products.CMFCore.utils import getToolByName
 from collective.cart import core
@@ -11,6 +13,7 @@ from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.stock.interfaces import IStock
 from five import grok
 from plone.memoize.instance import memoize
+from zope.component import getMultiAdapter
 
 
 grok.templatedir('templates')
@@ -50,6 +53,12 @@ class ArticleView(grok.View):
 
     def discount_end(self):
         return IArticleAdapter(self.context).discount_end
+
+    def image_url(self):
+        return IArticleAdapter(self.context).image_url
+
+    def title(self):
+        return IArticleAdapter(self.context).title
 
 
 class ArticleContainerView(grok.View):

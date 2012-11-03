@@ -34,7 +34,11 @@
     <span
       id="pcs"
       i18n:translate="">pcs</span>
+    <span class="stock" i18n:translate="">
+      Stock: <span i18n:name="stock" tal:replace="viewlet/quantity_max" /> pcs
+    </span>
     <button
+      class="shopping-button update"
       i18n:domain="collective.cart.core"
       i18n:translate=""
       name="form.buttons.AddToCart"

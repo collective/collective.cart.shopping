@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-11-02 18:11+0000\n"
+"POT-Creation-Date: 2012-11-03 21:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,8 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.cart.shopping\n"
 
-#: ./browser/viewlets/articles-in-article.pt:31
+#: ./browser/viewlets/add-to-cart.pt:18
+#: ./browser/viewlets/articles-in-article.pt:55
 msgid "(Discount valid till ${discount_end})"
 msgstr ""
 
@@ -39,15 +40,11 @@ msgstr ""
 msgid "3. Confirmation"
 msgstr ""
 
-#: ./browser/viewlets/articles-in-article.pt:110
-msgid "Add To Cart"
-msgstr ""
-
 #: ./profiles/default/types/collective.cart.shopping.ArticleContainer.xml
 msgid "Article Container"
 msgstr ""
 
-#: ./browser/viewlet.py:330
+#: ./browser/viewlet.py:300
 #: ./browser/viewlets/customer-info.pt:10
 msgid "Billing Info"
 msgstr ""
@@ -56,12 +53,12 @@ msgstr ""
 msgid "Check Out"
 msgstr ""
 
-#: ./interfaces.py:32
+#: ./interfaces.py:43
 msgid "Check if this article has options such as sizes and colors."
 msgstr ""
 
 #: ./browser/viewlets/customer-info.pt:93
-#: ./interfaces.py:128
+#: ./interfaces.py:141
 msgid "City"
 msgstr ""
 
@@ -85,11 +82,11 @@ msgstr ""
 msgid "Customer Info"
 msgstr ""
 
-#: ./browser/viewlets/cart-articles.pt:74
+#: ./browser/viewlets/cart-articles.pt:66
 msgid "Delete"
 msgstr ""
 
-#: ./interfaces.py:41
+#: ./interfaces.py:52
 msgid "Detailed information"
 msgstr ""
 
@@ -98,26 +95,26 @@ msgid "Discount"
 msgstr ""
 
 #: ./browser/viewlets/customer-info.pt:60
-#: ./interfaces.py:118
+#: ./interfaces.py:131
 msgid "E-mail"
 msgstr ""
 
 #: ./browser/viewlets/customer-info.pt:16
-#: ./interfaces.py:104
+#: ./interfaces.py:117
 msgid "First Name"
 msgstr ""
 
-#: ./interfaces.py:42
+#: ./interfaces.py:53
 msgid "Further detailed information comes here."
 msgstr ""
 
 #: ./browser/templates/stock.pt:29
-#: ./browser/viewlets/articles-in-article.pt:24
-#: ./browser/viewlets/cart-articles.pt:61
+#: ./browser/viewlets/add-to-cart.pt:13
+#: ./browser/viewlets/articles-in-article.pt:49
 msgid "Including VAT: ${vat} &#37;"
 msgstr ""
 
-#: ./interfaces.py:212
+#: ./interfaces.py:225
 msgid "Info Type"
 msgstr ""
 
@@ -125,20 +122,20 @@ msgstr ""
 msgid "Initial Stock"
 msgstr ""
 
-#: ./browser/viewlet.py:100
+#: ./adapter/interface.py:87
 msgid "Input integer value to add to cart."
 msgstr ""
 
-#: ./browser/viewlet.py:239
+#: ./browser/viewlet.py:209
 msgid "Input integer value to update cart."
 msgstr ""
 
-#: ./interfaces.py:114
+#: ./interfaces.py:127
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr ""
 
 #: ./browser/viewlets/customer-info.pt:27
-#: ./interfaces.py:107
+#: ./interfaces.py:120
 msgid "Last Name"
 msgstr ""
 
@@ -146,26 +143,27 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: ./browser/viewlets/articles-in-article.pt:34
+#: ./browser/viewlets/add-to-cart.pt:21
+#: ./browser/viewlets/articles-in-article.pt:58
 msgid "Normal Price: ${normal-price}"
 msgstr ""
 
 #: ./browser/viewlets/customer-info.pt:38
-#: ./interfaces.py:110
+#: ./interfaces.py:123
 msgid "Organization"
 msgstr ""
 
 #: ./browser/viewlets/customer-info.pt:104
-#: ./interfaces.py:131
+#: ./interfaces.py:144
 msgid "Phone Number"
 msgstr ""
 
 #: ./browser/viewlets/customer-info.pt:82
-#: ./interfaces.py:124
+#: ./interfaces.py:137
 msgid "Post Code"
 msgstr ""
 
-#: ./interfaces.py:222
+#: ./interfaces.py:235
 msgid "Price excluding VAT"
 msgstr ""
 
@@ -173,17 +171,16 @@ msgstr ""
 msgid "Purchase Price VAT 0%"
 msgstr ""
 
-#: ./browser/viewlets/add-subarticle-to-cart.pt:15
+#: ./browser/viewlets/add-subarticle-to-cart.pt:17
 #: ./browser/viewlets/add-to-cart.pt:24
-#: ./browser/viewlets/articles-in-article.pt:37
 msgid "Quantity"
 msgstr ""
 
-#: ./interfaces.py:36
+#: ./interfaces.py:47
 msgid "Representative Image"
 msgstr ""
 
-#: ./browser/viewlet.py:340
+#: ./browser/viewlet.py:310
 #: ./browser/viewlets/customer-info.pt:11
 msgid "Shipping Info"
 msgstr ""
@@ -196,9 +193,9 @@ msgstr ""
 msgid "Shop"
 msgstr ""
 
-#: ./browser/viewlets/add-subarticle-to-cart.pt:47
-#: ./browser/viewlets/add-to-cart.pt:47
-#: ./browser/viewlets/articles-in-article.pt:68
+#: ./browser/viewlets/add-subarticle-to-cart.pt:40
+#: ./browser/viewlets/add-to-cart.pt:49
+#: ./browser/viewlets/articles-in-article.pt:75
 msgid "Sold Out"
 msgstr ""
 
@@ -210,8 +207,13 @@ msgstr ""
 msgid "Stock List of ${DYNAMIC_CONTENT}"
 msgstr ""
 
+#: ./browser/viewlets/add-to-cart.pt:38
+#: ./browser/viewlets/articles-in-article.pt:62
+msgid "Stock: ${stock} pcs"
+msgstr ""
+
 #: ./browser/viewlets/customer-info.pt:71
-#: ./interfaces.py:121
+#: ./interfaces.py:134
 msgid "Street Address"
 msgstr ""
 
@@ -223,7 +225,7 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: ./interfaces.py:37
+#: ./interfaces.py:48
 msgid "The representative image of this article."
 msgstr ""
 
@@ -233,7 +235,7 @@ msgid "Total"
 msgstr ""
 
 #: ./browser/form.py:86
-#: ./browser/viewlets/cart-articles.pt:64
+#: ./browser/viewlets/cart-articles.pt:56
 msgid "Update"
 msgstr ""
 
@@ -241,12 +243,12 @@ msgstr ""
 msgid "Update Shipping Method"
 msgstr ""
 
-#: ./interfaces.py:31
+#: ./interfaces.py:42
 msgid "Use Subarticle"
 msgstr ""
 
 #: ./browser/viewlets/customer-info.pt:49
-#: ./interfaces.py:113
+#: ./interfaces.py:126
 msgid "VAT Number"
 msgstr ""
 
@@ -268,17 +270,9 @@ msgstr ""
 msgid "head_order_confirmation"
 msgstr ""
 
-#: ./browser/viewlets/add-subarticle-to-cart.pt:36
-#: ./browser/viewlets/add-to-cart.pt:36
-#: ./browser/viewlets/articles-in-article.pt:57
+#: ./browser/viewlets/add-subarticle-to-cart.pt:28
+#: ./browser/viewlets/add-to-cart.pt:34
+#: ./browser/viewlets/articles-in-article.pt:110
 msgid "pcs"
-msgstr ""
-
-#: ./adapter/article.py:58
-msgid "subarticle_option"
-msgstr ""
-
-#: ./adapter/article.py:63
-msgid "subarticle_option_discount"
 msgstr ""
 

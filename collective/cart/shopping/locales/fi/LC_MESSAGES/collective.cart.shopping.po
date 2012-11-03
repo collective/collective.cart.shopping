@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-11-02 18:11+0000\n"
+"POT-Creation-Date: 2012-11-03 21:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,9 +14,10 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.cart.shopping\n"
 
-#: ./browser/viewlets/articles-in-article.pt:31
+#: ./browser/viewlets/add-to-cart.pt:18
+#: ./browser/viewlets/articles-in-article.pt:55
 msgid "(Discount valid till ${discount_end})"
-msgstr "Alennus voimassa ${discount_end} asti"
+msgstr "Tarjous voimassa ${discount_end} asti"
 
 #: ./browser/templates/billing-and-shipping.pt:12
 #: ./browser/templates/cart.pt:13
@@ -36,15 +37,11 @@ msgstr "2. Toimitusosoite ja toimitustapa"
 msgid "3. Confirmation"
 msgstr "3. Vahvistus"
 
-#: ./browser/viewlets/articles-in-article.pt:110
-msgid "Add To Cart"
-msgstr "Lisää ostoskoriin"
-
 #: ./profiles/default/types/collective.cart.shopping.ArticleContainer.xml
 msgid "Article Container"
 msgstr "Tuotekansio"
 
-#: ./browser/viewlet.py:330
+#: ./browser/viewlet.py:300
 #: ./browser/viewlets/customer-info.pt:10
 msgid "Billing Info"
 msgstr "Laskutustieto"
@@ -53,12 +50,12 @@ msgstr "Laskutustieto"
 msgid "Check Out"
 msgstr "Seuraavaan"
 
-#: ./interfaces.py:32
+#: ./interfaces.py:43
 msgid "Check if this article has options such as sizes and colors."
 msgstr "Ruksaa, jos on alatuote kuten koko ja/tai väri."
 
 #: ./browser/viewlets/customer-info.pt:93
-#: ./interfaces.py:128
+#: ./interfaces.py:141
 msgid "City"
 msgstr "Kaupunki"
 
@@ -82,11 +79,11 @@ msgstr "Nykyvarasto"
 msgid "Customer Info"
 msgstr "Asiakastieto"
 
-#: ./browser/viewlets/cart-articles.pt:74
+#: ./browser/viewlets/cart-articles.pt:66
 msgid "Delete"
 msgstr "Poista"
 
-#: ./interfaces.py:41
+#: ./interfaces.py:52
 msgid "Detailed information"
 msgstr "Tarkempi kuvaus tuotteesta"
 
@@ -95,26 +92,26 @@ msgid "Discount"
 msgstr "Tarjous"
 
 #: ./browser/viewlets/customer-info.pt:60
-#: ./interfaces.py:118
+#: ./interfaces.py:131
 msgid "E-mail"
 msgstr "Sähköposti"
 
 #: ./browser/viewlets/customer-info.pt:16
-#: ./interfaces.py:104
+#: ./interfaces.py:117
 msgid "First Name"
 msgstr "Etunimi"
 
-#: ./interfaces.py:42
+#: ./interfaces.py:53
 msgid "Further detailed information comes here."
 msgstr "Kirjoita tuotteen lisätiedot tähän."
 
 #: ./browser/templates/stock.pt:29
-#: ./browser/viewlets/articles-in-article.pt:24
-#: ./browser/viewlets/cart-articles.pt:61
+#: ./browser/viewlets/add-to-cart.pt:13
+#: ./browser/viewlets/articles-in-article.pt:49
 msgid "Including VAT: ${vat} &#37;"
 msgstr "sis alv. ${vat} &#37;"
 
-#: ./interfaces.py:212
+#: ./interfaces.py:225
 msgid "Info Type"
 msgstr "Tietotyyppi"
 
@@ -122,20 +119,20 @@ msgstr "Tietotyyppi"
 msgid "Initial Stock"
 msgstr "Alkuvarasto"
 
-#: ./browser/viewlet.py:100
+#: ./adapter/interface.py:87
 msgid "Input integer value to add to cart."
 msgstr "Syötä määrä lisätääkseen ostoskoriin."
 
-#: ./browser/viewlet.py:239
+#: ./browser/viewlet.py:209
 msgid "Input integer value to update cart."
 msgstr "Muuta määrä päivittääkseen ostoskori."
 
-#: ./interfaces.py:114
+#: ./interfaces.py:127
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr "Kansainvälinen VAT-numero. Suomessa alkaa 'FI' kirjaimella."
 
 #: ./browser/viewlets/customer-info.pt:27
-#: ./interfaces.py:107
+#: ./interfaces.py:120
 msgid "Last Name"
 msgstr "Sukunimi"
 
@@ -143,26 +140,27 @@ msgstr "Sukunimi"
 msgid "Name"
 msgstr "Nimi"
 
-#: ./browser/viewlets/articles-in-article.pt:34
+#: ./browser/viewlets/add-to-cart.pt:21
+#: ./browser/viewlets/articles-in-article.pt:58
 msgid "Normal Price: ${normal-price}"
 msgstr "Normaali hinta: ${normal-price}"
 
 #: ./browser/viewlets/customer-info.pt:38
-#: ./interfaces.py:110
+#: ./interfaces.py:123
 msgid "Organization"
 msgstr "Organisaatio"
 
 #: ./browser/viewlets/customer-info.pt:104
-#: ./interfaces.py:131
+#: ./interfaces.py:144
 msgid "Phone Number"
 msgstr "Puhelinnumero"
 
 #: ./browser/viewlets/customer-info.pt:82
-#: ./interfaces.py:124
+#: ./interfaces.py:137
 msgid "Post Code"
 msgstr "Postinumero"
 
-#: ./interfaces.py:222
+#: ./interfaces.py:235
 msgid "Price excluding VAT"
 msgstr "Hinta ALV 0%"
 
@@ -170,17 +168,16 @@ msgstr "Hinta ALV 0%"
 msgid "Purchase Price VAT 0%"
 msgstr "Ostohinta alv 0%"
 
-#: ./browser/viewlets/add-subarticle-to-cart.pt:15
+#: ./browser/viewlets/add-subarticle-to-cart.pt:17
 #: ./browser/viewlets/add-to-cart.pt:24
-#: ./browser/viewlets/articles-in-article.pt:37
 msgid "Quantity"
 msgstr "Määrä"
 
-#: ./interfaces.py:36
+#: ./interfaces.py:47
 msgid "Representative Image"
 msgstr "Tuotekuva"
 
-#: ./browser/viewlet.py:340
+#: ./browser/viewlet.py:310
 #: ./browser/viewlets/customer-info.pt:11
 msgid "Shipping Info"
 msgstr "Toimitustieto"
@@ -193,9 +190,9 @@ msgstr "Toimitustapa:"
 msgid "Shop"
 msgstr "Kauppa"
 
-#: ./browser/viewlets/add-subarticle-to-cart.pt:47
-#: ./browser/viewlets/add-to-cart.pt:47
-#: ./browser/viewlets/articles-in-article.pt:68
+#: ./browser/viewlets/add-subarticle-to-cart.pt:40
+#: ./browser/viewlets/add-to-cart.pt:49
+#: ./browser/viewlets/articles-in-article.pt:75
 msgid "Sold Out"
 msgstr "Loppuun myyty"
 
@@ -207,8 +204,13 @@ msgstr "Varastolista"
 msgid "Stock List of ${DYNAMIC_CONTENT}"
 msgstr "Varastolista: ${DYNAMIC_CONTENT}"
 
+#: ./browser/viewlets/add-to-cart.pt:38
+#: ./browser/viewlets/articles-in-article.pt:62
+msgid "Stock: ${stock} pcs"
+msgstr "Varastossa: ${stock} kpl"
+
 #: ./browser/viewlets/customer-info.pt:71
-#: ./interfaces.py:121
+#: ./interfaces.py:134
 msgid "Street Address"
 msgstr "Katuosoite"
 
@@ -220,7 +222,7 @@ msgstr "Alatuote"
 msgid "Submit"
 msgstr "Päivitä"
 
-#: ./interfaces.py:37
+#: ./interfaces.py:48
 msgid "The representative image of this article."
 msgstr "Tämä tuotteen edustava kuva."
 
@@ -230,7 +232,7 @@ msgid "Total"
 msgstr "Yhteensä"
 
 #: ./browser/form.py:86
-#: ./browser/viewlets/cart-articles.pt:64
+#: ./browser/viewlets/cart-articles.pt:56
 msgid "Update"
 msgstr "Päivitä"
 
@@ -238,12 +240,12 @@ msgstr "Päivitä"
 msgid "Update Shipping Method"
 msgstr "Päivitä toimitustapa"
 
-#: ./interfaces.py:31
+#: ./interfaces.py:42
 msgid "Use Subarticle"
 msgstr "Käytä alatuote"
 
 #: ./browser/viewlets/customer-info.pt:49
-#: ./interfaces.py:113
+#: ./interfaces.py:126
 msgid "VAT Number"
 msgstr "VAT-numero"
 
@@ -265,17 +267,9 @@ msgstr "Tällä tuotteella ei ole varastoa."
 msgid "head_order_confirmation"
 msgstr "Tilaus on vahvistettu alla olevan listan mukaisesti"
 
-#: ./browser/viewlets/add-subarticle-to-cart.pt:36
-#: ./browser/viewlets/add-to-cart.pt:36
-#: ./browser/viewlets/articles-in-article.pt:57
+#: ./browser/viewlets/add-subarticle-to-cart.pt:28
+#: ./browser/viewlets/add-to-cart.pt:34
+#: ./browser/viewlets/articles-in-article.pt:110
 msgid "pcs"
 msgstr "kpl"
-
-#: ./adapter/article.py:58
-msgid "subarticle_option"
-msgstr ""
-
-#: ./adapter/article.py:63
-msgid "subarticle_option_discount"
-msgstr ""
 

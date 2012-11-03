@@ -154,6 +154,7 @@ class ArticlesInArticleViewlet(BaseViewlet):
                 'discount_end': article.discount_end,
                 'gross': article.gross,
                 'id': item.getId(),
+                'image_url': article.image_url,
                 'money': item.money,
                 'numbers': numbers,
                 'quantity_max': quantity_max,
@@ -228,6 +229,7 @@ class CartArticlesViewlet(BaseCartArticlesViewlet):
                 items['image'] = self._image(orig_article)
                 items['description'] = orig_article.Description()
                 quantity_max += IStock(orig_article).stock
+            items['image_url'] = IArticleAdapter(orig_article).image_url
             items['quantity_max'] = quantity_max
             items['quantity_size'] = len(str(quantity_max))
             results.append(items)

@@ -53,6 +53,8 @@ class IArticle(core.interfaces.IArticle, IImageScaleTraversable):
         description=_(u'Further detailed information comes here.'),
         required=False)
 
+    image_url = Attribute('URL of Image.')
+    title = Attribute('Title of article could be inherited from parent...')
 
 class IArticleAdapter(core.interfaces.IArticleAdapter):
 
