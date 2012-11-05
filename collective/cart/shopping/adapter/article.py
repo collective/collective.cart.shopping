@@ -6,7 +6,6 @@ from collective.behavior.discount.interfaces import IDiscount
 from collective.behavior.salable.interfaces import ISalable
 from collective.behavior.stock.interfaces import IStock
 from collective.cart import core
-from collective.cart.shopping import _
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
@@ -28,7 +27,7 @@ class ArticleAdapter(core.adapter.article.ArticleAdapter):
         """True if the Article is addable to cart."""
         context = aq_inner(self.context)
         return IShoppingSite(context).shop and ISalable(
-                context).salable and not context.use_subarticle and not self.subarticles
+            context).salable and not context.use_subarticle and not self.subarticles
 
     @property
     def subarticles(self):

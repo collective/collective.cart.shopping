@@ -56,6 +56,7 @@ class IArticle(core.interfaces.IArticle, IImageScaleTraversable):
     image_url = Attribute('URL of Image.')
     title = Attribute('Title of article could be inherited from parent...')
 
+
 class IArticleAdapter(core.interfaces.IArticleAdapter):
 
     articles_in_article = Attribute('Articles in Article which is not optional subarticle.')
@@ -232,8 +233,8 @@ class IShop(core.interfaces.IShoppingSiteRoot):
 class IStockPrice(IPrice):
 
     price = Decimal(
-            title=_(u"Price excluding VAT"),
-            required=True)
+        title=_(u"Price excluding VAT"),
+        required=True)
 
 
 alsoProvides(IStockPrice, form.IFormFieldProvider)

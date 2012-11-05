@@ -85,9 +85,9 @@ Should not be able to visit /@@order-confirmation::
 Add Ärticle1 to Cart::
 
     >>> browser.open(article1_url)
-
-    >>> query = {'quantity': '1', 'form.buttons.AddToCart': 'form.buttons.AddToCart'}
-    >>> browser.post(browser.url, query)
+    >>> browser.getControl(name="form.buttons.AddToCart").click()
+    >>> browser.open('/shop/@@cart')
+    >>> print browser.bycss('#cart-is-empty')
 
 Should not able to visit /@@billing-and-shipping::
 
@@ -134,10 +134,8 @@ Should be able to visit /@@billing-and-shipping and fill billing info::
     <div class="field z3cformInlineValidation kssattr-fieldname-form.widgets.shipping_method" id="formfield-form-widgets-shipping_method">
     <label for="form-widgets-shipping_method" class="horizontal">
     Shipping Method
+    <span class="required horizontal" title="Required">&#160;</span>
     </label>
-    <span class="required horizontal" title="Required" style="color: red">
-    &#9632;
-    </span>
     <div class="fieldErrorBox"></div>
     <select id="form-widgets-shipping_method" name="form.widgets.shipping_method:list" class="select-widget required choice-field" size="1"><option id="form-widgets-shipping_method-0" value="..." selected>ShippingMeth&#246;d1</option><option id="form-widgets-shipping_method-1" value="...">ShippingMeth&#246;d2</option></select><input name="form.widgets.shipping_method-empty-marker" type="hidden" value="1"></div>
 
@@ -153,10 +151,8 @@ Update Shipping Method to ShippingMethod2::
     <div class="field z3cformInlineValidation kssattr-fieldname-form.widgets.shipping_method" id="formfield-form-widgets-shipping_method">
     <label for="form-widgets-shipping_method" class="horizontal">
     Shipping Method
+    <span class="required horizontal" title="Required">&#160;</span>
     </label>
-    <span class="required horizontal" title="Required" style="color: red">
-    &#9632;
-    </span>
     <div class="fieldErrorBox"></div>
     <select id="form-widgets-shipping_method" name="form.widgets.shipping_method:list" class="select-widget required choice-field" size="1"><option id="form-widgets-shipping_method-0" value="...">ShippingMeth&#246;d1</option><option id="form-widgets-shipping_method-1" value="..." selected>ShippingMeth&#246;d2</option></select><input name="form.widgets.shipping_method-empty-marker" type="hidden" value="1"></div>
 

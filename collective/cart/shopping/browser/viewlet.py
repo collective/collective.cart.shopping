@@ -3,7 +3,6 @@ from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
-from collective.behavior.size.interfaces import ISize
 from collective.behavior.stock.interfaces import IStock
 from collective.cart import core
 from collective.cart import shipping

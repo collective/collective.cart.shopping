@@ -32,9 +32,9 @@ class ShoppingSite(interface.ShoppingSite):
         context = aq_inner(self.context)
         catalog = getToolByName(context, 'portal_catalog')
         query = {
-                'path': '/'.join(self.shop.getPhysicalPath()),
-                'object_provides': IShippingMethod.__identifier__,
-            }
+            'path': '/'.join(self.shop.getPhysicalPath()),
+            'object_provides': IShippingMethod.__identifier__,
+        }
         return catalog(query)
 
     @property

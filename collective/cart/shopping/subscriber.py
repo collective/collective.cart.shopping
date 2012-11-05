@@ -72,7 +72,8 @@ def warn_number_of_images(context, event):
             'path': {
                 'depth': 1,
                 'query': '/'.join(container.getPhysicalPath()),
-            }
+            },
+            'object_provides': IATImage.__identifier__,
         }
         number_of_images = getUtility(IRegistry)['collective.cart.shopping.number_of_images']
         if len(catalog(query)) >= number_of_images:
@@ -83,7 +84,7 @@ def warn_number_of_images(context, event):
 
 
 @grok.subscribe(IMakeShoppingSiteEvent)
-def add_shopping_methods(event):
+def add_shipping_methods(event):
     context = event.context
     if not context.get('shipping-methods'):
         folder = context[context.invokeFactory('Folder', 'shipping-methods', title='Shipping Methods')]

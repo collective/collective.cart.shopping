@@ -80,7 +80,7 @@ class TestCase(IntegrationTestCase):
             'discount_money': Money(discount2, currency=u'EUR'),
             'discount_start': today,
             'discount_end': tomorrow,
-            'reducible_quantity':150,
+            'reducible_quantity': 150,
             'weight': 50.0,
             'width': 1.0,
             'height': 2.0,

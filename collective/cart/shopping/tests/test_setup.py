@@ -84,8 +84,7 @@ class TestCase(IntegrationTestCase):
         roles.sort()
         self.assertEqual(roles, [
             'Manager',
-            'Site Administrator',
-            ])
+            'Site Administrator'])
 
     def test_rolemap__collective_cart_shipping_AddShop__acquiredRolesAreUsedBy(self):
         permission = "collective.cart.shopping: Add Shop"
@@ -100,8 +99,7 @@ class TestCase(IntegrationTestCase):
         self.assertEqual(roles, [
             'Contributor',
             'Manager',
-            'Site Administrator',
-            ])
+            'Site Administrator'])
 
     def test_rolemap__collective_cart_shipping_AddArticleContainer__acquiredRolesAreUsedBy(self):
         permission = "collective.cart.shopping: Add Article Container"
@@ -116,8 +114,7 @@ class TestCase(IntegrationTestCase):
         self.assertEqual(roles, [
             'Contributor',
             'Manager',
-            'Site Administrator',
-            ])
+            'Site Administrator'])
 
     def test_rolemap__collective_cart_shipping_AddSubArticle__acquiredRolesAreUsedBy(self):
         permission = "collective.cart.shopping: Add Subarticle"
@@ -128,11 +125,11 @@ class TestCase(IntegrationTestCase):
         properties = getToolByName(self.portal, 'portal_properties')
         site_properties = getattr(properties, 'site_properties')
         contents = (
-                'collective.cart.shopping.ArticleContainer',
-                'collective.cart.shopping.CustomerInfo',
-                'collective.cart.stock.Stock',
-                'collective.cart.shipping.ShippingMethodContainer',
-                'collective.cart.shopping.SubArticle')
+            'collective.cart.shopping.ArticleContainer',
+            'collective.cart.shopping.CustomerInfo',
+            'collective.cart.stock.Stock',
+            'collective.cart.shipping.ShippingMethodContainer',
+            'collective.cart.shopping.SubArticle')
         for content in contents:
             self.assertIn(content, site_properties.getProperty('types_not_searched'))
 
@@ -140,10 +137,10 @@ class TestCase(IntegrationTestCase):
         properties = getToolByName(self.portal, 'portal_properties')
         navtree_properties = getattr(properties, 'navtree_properties')
         contents = (
-                'collective.cart.shopping.CustomerInfo',
-                'collective.cart.stock.Stock',
-                'collective.cart.shipping.ShippingMethodContainer',
-                'collective.cart.shopping.SubArticle')
+            'collective.cart.shopping.CustomerInfo',
+            'collective.cart.stock.Stock',
+            'collective.cart.shipping.ShippingMethodContainer',
+            'collective.cart.shopping.SubArticle')
         for content in contents:
             self.assertIn(content, navtree_properties.getProperty('metaTypesNotToList'))
 

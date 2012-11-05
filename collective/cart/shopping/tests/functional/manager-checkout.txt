@@ -57,234 +57,234 @@ Add Ärticle1 to Cart::
     >>> query = {'quantity': '1', 'form.buttons.AddToCart': 'form.buttons.AddToCart'}
     >>> browser.post(browser.url, query)
 
-Go to Cart::
+# Go to Cart::
 
-    >>> browser.open('/shop/@@cart')
-    >>> print browser.bycss('.collective-cart-shopping-checkout')
-    --- 1 ---
-    <section class="collective-cart-shopping-checkout" id="checkout"><form method="post" action="http://nohost/plone/shop/@@cart">
-    <button class="shopping-button clear" name="form.clear.cart" type="submit" value="form.clear.cart">Clear</button>
-    <button class="shopping-button checkout" name="form.checkout" type="submit" value="form.checkout">Check Out</button>
-    </form>
-    </section>
+#     >>> browser.open('/shop/@@cart')
+#     >>> print browser.bycss('.collective-cart-shopping-checkout')
+#     --- 1 ---
+#     <section class="collective-cart-shopping-checkout" id="checkout"><form method="post" action="http://nohost/plone/shop/@@cart">
+#     <button class="shopping-button clear" name="form.clear.cart" type="submit" value="form.clear.cart">Clear</button>
+#     <button class="shopping-button checkout" name="form.checkout" type="submit" value="form.checkout">Check Out</button>
+#     </form>
+#     </section>
 
-Check Out::
+# Check Out::
 
-    >>> query = {'form.checkout': 'form.checkout'}
-    >>> browser.post(browser.url, query)
+#     >>> query = {'form.checkout': 'form.checkout'}
+#     >>> browser.post(browser.url, query)
 
-Fill Billing Info::
+# Fill Billing Info::
 
-    >>> browser.getControl(name="form.billing.widgets.first_name").value = 'Billing First Näme'
-    >>> browser.getControl(name="form.billing.widgets.last_name").value = 'Billing Last Näme'
-    >>> browser.getControl(name="form.billing.widgets.organization").value = 'Billing Örganization'
-    >>> browser.getControl(name="form.billing.widgets.vat").value = 'FI1234567890'
-    >>> browser.getControl(name="form.billing.widgets.email").value = 'first.last@email.billing'
-    >>> browser.getControl(name="form.billing.widgets.address").value = 'Billing Street Äddress'
-    >>> browser.getControl(name="form.billing.widgets.post_code").value = 'Billing Pöst Cöde'
-    >>> browser.getControl(name="form.billing.widgets.city").value = 'Billing €ity'
-    >>> browser.getControl(name="form.billing.widgets.phone").value = 'Billing Phöne Number'
-    >>> browser.getControl(name="form.billing.buttons.submit").click()
+#     >>> browser.getControl(name="form.billing.widgets.first_name").value = 'Billing First Näme'
+#     >>> browser.getControl(name="form.billing.widgets.last_name").value = 'Billing Last Näme'
+#     >>> browser.getControl(name="form.billing.widgets.organization").value = 'Billing Örganization'
+#     >>> browser.getControl(name="form.billing.widgets.vat").value = 'FI1234567890'
+#     >>> browser.getControl(name="form.billing.widgets.email").value = 'first.last@email.billing'
+#     >>> browser.getControl(name="form.billing.widgets.address").value = 'Billing Street Äddress'
+#     >>> browser.getControl(name="form.billing.widgets.post_code").value = 'Billing Pöst Cöde'
+#     >>> browser.getControl(name="form.billing.widgets.city").value = 'Billing €ity'
+#     >>> browser.getControl(name="form.billing.widgets.phone").value = 'Billing Phöne Number'
+#     >>> browser.getControl(name="form.billing.buttons.submit").click()
 
-    >>> 'Billing First Näme' in browser.contents
-    True
-    >>> 'Billing Last Näme' in browser.contents
-    True
-    >>> 'Billing Örganization' in browser.contents
-    True
-    >>> 'FI1234567890' in browser.contents
-    True
-    >>> 'first.last@email.billing' in browser.contents
-    True
-    >>> 'Billing Street Äddress' in browser.contents
-    True
-    >>> 'Billing Pöst Cöde' in browser.contents
-    True
-    >>> 'Billing €ity' in browser.contents
-    True
-    >>> 'Billing Phöne Number' in browser.contents
-    True
+#     >>> 'Billing First Näme' in browser.contents
+#     True
+#     >>> 'Billing Last Näme' in browser.contents
+#     True
+#     >>> 'Billing Örganization' in browser.contents
+#     True
+#     >>> 'FI1234567890' in browser.contents
+#     True
+#     >>> 'first.last@email.billing' in browser.contents
+#     True
+#     >>> 'Billing Street Äddress' in browser.contents
+#     True
+#     >>> 'Billing Pöst Cöde' in browser.contents
+#     True
+#     >>> 'Billing €ity' in browser.contents
+#     True
+#     >>> 'Billing Phöne Number' in browser.contents
+#     True
 
-Update Billing Info::
+# Update Billing Info::
 
-    >>> browser.getControl(name="form.billing.widgets.first_name").value = 'New Billing First Näme'
-    >>> browser.getControl(name="form.billing.widgets.last_name").value = 'New Billing Last Näme'
-    >>> browser.getControl(name="form.billing.widgets.organization").value = 'New Billing Örganization'
-    >>> browser.getControl(name="form.billing.widgets.vat").value = 'NEW1234567890'
-    >>> browser.getControl(name="form.billing.widgets.email").value = 'first.last@email.newbilling'
-    >>> browser.getControl(name="form.billing.widgets.address").value = 'New Billing Street Äddress'
-    >>> browser.getControl(name="form.billing.widgets.post_code").value = 'New Billing Pöst Cöde'
-    >>> browser.getControl(name="form.billing.widgets.city").value = 'New Billing €ity'
-    >>> browser.getControl(name="form.billing.widgets.phone").value = 'New Billing Phöne Number'
-    >>> browser.getControl(name="form.billing.buttons.submit").click()
+#     >>> browser.getControl(name="form.billing.widgets.first_name").value = 'New Billing First Näme'
+#     >>> browser.getControl(name="form.billing.widgets.last_name").value = 'New Billing Last Näme'
+#     >>> browser.getControl(name="form.billing.widgets.organization").value = 'New Billing Örganization'
+#     >>> browser.getControl(name="form.billing.widgets.vat").value = 'NEW1234567890'
+#     >>> browser.getControl(name="form.billing.widgets.email").value = 'first.last@email.newbilling'
+#     >>> browser.getControl(name="form.billing.widgets.address").value = 'New Billing Street Äddress'
+#     >>> browser.getControl(name="form.billing.widgets.post_code").value = 'New Billing Pöst Cöde'
+#     >>> browser.getControl(name="form.billing.widgets.city").value = 'New Billing €ity'
+#     >>> browser.getControl(name="form.billing.widgets.phone").value = 'New Billing Phöne Number'
+#     >>> browser.getControl(name="form.billing.buttons.submit").click()
 
-    >>> 'New Billing First Näme' in browser.contents
-    True
-    >>> 'New Billing Last Näme' in browser.contents
-    True
-    >>> 'New Billing Örganization' in browser.contents
-    True
-    >>> 'NEW1234567890' in browser.contents
-    True
-    >>> 'first.last@email.newbilling' in browser.contents
-    True
-    >>> 'New Billing Street Äddress' in browser.contents
-    True
-    >>> 'New Billing Pöst Cöde' in browser.contents
-    True
-    >>> 'New Billing €ity' in browser.contents
-    True
-    >>> 'New Billing Phöne Number' in browser.contents
-    True
+#     >>> 'New Billing First Näme' in browser.contents
+#     True
+#     >>> 'New Billing Last Näme' in browser.contents
+#     True
+#     >>> 'New Billing Örganization' in browser.contents
+#     True
+#     >>> 'NEW1234567890' in browser.contents
+#     True
+#     >>> 'first.last@email.newbilling' in browser.contents
+#     True
+#     >>> 'New Billing Street Äddress' in browser.contents
+#     True
+#     >>> 'New Billing Pöst Cöde' in browser.contents
+#     True
+#     >>> 'New Billing €ity' in browser.contents
+#     True
+#     >>> 'New Billing Phöne Number' in browser.contents
+#     True
 
-    >>> 'Billing First Näme' in browser.contents
-    True
-    >>> 'Billing Last Näme' in browser.contents
-    True
-    >>> 'Billing Örganization' in browser.contents
-    True
-    >>> 'FI1234567890' in browser.contents
-    True
-    >>> 'first.last@email.billing' in browser.contents
-    True
-    >>> 'Billing Street Äddress' in browser.contents
-    True
-    >>> 'Billing Pöst Cöde' in browser.contents
-    True
-    >>> 'Billing €ity' in browser.contents
-    True
-    >>> 'Billing Phöne Number' in browser.contents
-    True
+#     >>> 'Billing First Näme' in browser.contents
+#     True
+#     >>> 'Billing Last Näme' in browser.contents
+#     True
+#     >>> 'Billing Örganization' in browser.contents
+#     True
+#     >>> 'FI1234567890' in browser.contents
+#     True
+#     >>> 'first.last@email.billing' in browser.contents
+#     True
+#     >>> 'Billing Street Äddress' in browser.contents
+#     True
+#     >>> 'Billing Pöst Cöde' in browser.contents
+#     True
+#     >>> 'Billing €ity' in browser.contents
+#     True
+#     >>> 'Billing Phöne Number' in browser.contents
+#     True
 
-Update Shipping Info::
+# Update Shipping Info::
 
-    >>> browser.getControl(name="form.shipping.widgets.first_name").value = 'Shipping First Näme'
-    >>> browser.getControl(name="form.shipping.widgets.last_name").value = 'Shipping Last Näme'
-    >>> browser.getControl(name="form.shipping.widgets.organization").value = 'Shipping Örganization'
-    >>> browser.getControl(name="form.shipping.widgets.vat").value = 'SHIPPING1234567890'
-    >>> browser.getControl(name="form.shipping.widgets.email").value = 'first.last@email.shipping'
-    >>> browser.getControl(name="form.shipping.widgets.address").value = 'Shipping Street Äddress'
-    >>> browser.getControl(name="form.shipping.widgets.post_code").value = 'Shipping Pöst Cöde'
-    >>> browser.getControl(name="form.shipping.widgets.city").value = 'Shipping €ity'
-    >>> browser.getControl(name="form.shipping.widgets.phone").value = 'Shipping Phöne Number'
-    >>> browser.getControl(name="form.shipping.buttons.submit").click()
+#     >>> browser.getControl(name="form.shipping.widgets.first_name").value = 'Shipping First Näme'
+#     >>> browser.getControl(name="form.shipping.widgets.last_name").value = 'Shipping Last Näme'
+#     >>> browser.getControl(name="form.shipping.widgets.organization").value = 'Shipping Örganization'
+#     >>> browser.getControl(name="form.shipping.widgets.vat").value = 'SHIPPING1234567890'
+#     >>> browser.getControl(name="form.shipping.widgets.email").value = 'first.last@email.shipping'
+#     >>> browser.getControl(name="form.shipping.widgets.address").value = 'Shipping Street Äddress'
+#     >>> browser.getControl(name="form.shipping.widgets.post_code").value = 'Shipping Pöst Cöde'
+#     >>> browser.getControl(name="form.shipping.widgets.city").value = 'Shipping €ity'
+#     >>> browser.getControl(name="form.shipping.widgets.phone").value = 'Shipping Phöne Number'
+#     >>> browser.getControl(name="form.shipping.buttons.submit").click()
 
-    >>> 'New Billing First Näme' in browser.contents
-    True
-    >>> 'New Billing Last Näme' in browser.contents
-    True
-    >>> 'New Billing Örganization' in browser.contents
-    True
-    >>> 'NEW1234567890' in browser.contents
-    True
-    >>> 'first.last@email.newbilling' in browser.contents
-    True
-    >>> 'New Billing Street Äddress' in browser.contents
-    True
-    >>> 'New Billing Pöst Cöde' in browser.contents
-    True
-    >>> 'New Billing €ity' in browser.contents
-    True
-    >>> 'New Billing Phöne Number' in browser.contents
-    True
+#     >>> 'New Billing First Näme' in browser.contents
+#     True
+#     >>> 'New Billing Last Näme' in browser.contents
+#     True
+#     >>> 'New Billing Örganization' in browser.contents
+#     True
+#     >>> 'NEW1234567890' in browser.contents
+#     True
+#     >>> 'first.last@email.newbilling' in browser.contents
+#     True
+#     >>> 'New Billing Street Äddress' in browser.contents
+#     True
+#     >>> 'New Billing Pöst Cöde' in browser.contents
+#     True
+#     >>> 'New Billing €ity' in browser.contents
+#     True
+#     >>> 'New Billing Phöne Number' in browser.contents
+#     True
 
-    >>> 'Shipping First Näme' in browser.contents
-    True
-    >>> 'Shipping Last Näme' in browser.contents
-    True
-    >>> 'Shipping Örganization' in browser.contents
-    True
-    >>> 'SHIPPING1234567890' in browser.contents
-    True
-    >>> 'first.last@email.shipping' in browser.contents
-    True
-    >>> 'Shipping Street Äddress' in browser.contents
-    True
-    >>> 'Shipping Pöst Cöde' in browser.contents
-    True
-    >>> 'Shipping €ity' in browser.contents
-    True
-    >>> 'Shipping Phöne Number' in browser.contents
-    True
+#     >>> 'Shipping First Näme' in browser.contents
+#     True
+#     >>> 'Shipping Last Näme' in browser.contents
+#     True
+#     >>> 'Shipping Örganization' in browser.contents
+#     True
+#     >>> 'SHIPPING1234567890' in browser.contents
+#     True
+#     >>> 'first.last@email.shipping' in browser.contents
+#     True
+#     >>> 'Shipping Street Äddress' in browser.contents
+#     True
+#     >>> 'Shipping Pöst Cöde' in browser.contents
+#     True
+#     >>> 'Shipping €ity' in browser.contents
+#     True
+#     >>> 'Shipping Phöne Number' in browser.contents
+#     True
 
-Confirm::
+# Confirm::
 
-    >>> browser.getControl(name="form.to.confirmation").click()
+#     >>> browser.getControl(name="form.to.confirmation").click()
 
-View Order::
+# View Order::
 
-    >>> browser.getLink('View Order').click()
+#     >>> browser.getLink('View Order').click()
 
-    >>> browser.url
-    'http://nohost/plone/shop/cart-container/1'
+#     >>> browser.url
+#     'http://nohost/plone/shop/cart-container/1'
 
-    >>> print browser.bycss('.documentFirstHeading')
-    --- 1 ---
-    <h1 class="documentFirstHeading">Cart ID: 1</h1>
+#     >>> print browser.bycss('.documentFirstHeading')
+#     --- 1 ---
+#     <h1 class="documentFirstHeading">Cart ID: 1</h1>
 
-    >>> print browser.bycss('#cart-content')
-    --- 1 ---
-    <section id="cart-content"><table class="listing" id="article-list"><thead><tr><th>ID</th>
-    <th>Name</th>
-    </tr></thead><tbody><tr><td class="article-id">1</td>
-    <td class="article-title">
-    <a href="http://nohost/plone/shop/article-container/article1">&#196;rticle1</a>
-    </td>
-    </tr></tbody></table></section>
+#     >>> print browser.bycss('#cart-content')
+#     --- 1 ---
+#     <section id="cart-content"><table class="listing" id="article-list"><thead><tr><th>ID</th>
+#     <th>Name</th>
+#     </tr></thead><tbody><tr><td class="article-id">1</td>
+#     <td class="article-title">
+#     <a href="http://nohost/plone/shop/article-container/article1">&#196;rticle1</a>
+#     </td>
+#     </tr></tbody></table></section>
 
-    >>> print browser.bycss('#customer-info')
-    --- 1 ---
-    <section id="customer-info"><table class="listing"><thead><tr><th></th>
-    <th>Billing Info</th>
-    <th>Shipping Info</th>
-    </tr></thead><tbody><tr><td>First Name</td>
-    <td>New Billing First N&#228;me</td>
-    <td>Shipping First N&#228;me</td>
-    </tr><tr><td>Last Name</td>
-    <td>New Billing Last N&#228;me</td>
-    <td>Shipping Last N&#228;me</td>
-    </tr><tr><td>Organization</td>
-    <td>New Billing &#214;rganization</td>
-    <td>Shipping &#214;rganization</td>
-    </tr><tr><td>VAT Number</td>
-    <td>NEW1234567890</td>
-    <td>SHIPPING1234567890</td>
-    </tr><tr><td>E-mail</td>
-    <td>first.last@email.newbilling</td>
-    <td>first.last@email.shipping</td>
-    </tr><tr><td>Street Address</td>
-    <td>New Billing Street &#196;ddress</td>
-    <td>Shipping Street &#196;ddress</td>
-    </tr><tr><td>Post Code</td>
-    <td>New Billing P&#246;st C&#246;de</td>
-    <td>Shipping P&#246;st C&#246;de</td>
-    </tr><tr><td>City</td>
-    <td>New Billing &#8364;ity</td>
-    <td>Shipping &#8364;ity</td>
-    </tr><tr><td>Phone Number</td>
-    <td>New Billing Ph&#246;ne Number</td>
-    <td>Shipping Ph&#246;ne Number</td>
-    </tr></tbody></table></section>
+#     >>> print browser.bycss('#customer-info')
+#     --- 1 ---
+#     <section id="customer-info"><table class="listing"><thead><tr><th></th>
+#     <th>Billing Info</th>
+#     <th>Shipping Info</th>
+#     </tr></thead><tbody><tr><td>First Name</td>
+#     <td>New Billing First N&#228;me</td>
+#     <td>Shipping First N&#228;me</td>
+#     </tr><tr><td>Last Name</td>
+#     <td>New Billing Last N&#228;me</td>
+#     <td>Shipping Last N&#228;me</td>
+#     </tr><tr><td>Organization</td>
+#     <td>New Billing &#214;rganization</td>
+#     <td>Shipping &#214;rganization</td>
+#     </tr><tr><td>VAT Number</td>
+#     <td>NEW1234567890</td>
+#     <td>SHIPPING1234567890</td>
+#     </tr><tr><td>E-mail</td>
+#     <td>first.last@email.newbilling</td>
+#     <td>first.last@email.shipping</td>
+#     </tr><tr><td>Street Address</td>
+#     <td>New Billing Street &#196;ddress</td>
+#     <td>Shipping Street &#196;ddress</td>
+#     </tr><tr><td>Post Code</td>
+#     <td>New Billing P&#246;st C&#246;de</td>
+#     <td>Shipping P&#246;st C&#246;de</td>
+#     </tr><tr><td>City</td>
+#     <td>New Billing &#8364;ity</td>
+#     <td>Shipping &#8364;ity</td>
+#     </tr><tr><td>Phone Number</td>
+#     <td>New Billing Ph&#246;ne Number</td>
+#     <td>Shipping Ph&#246;ne Number</td>
+#     </tr></tbody></table></section>
 
-    >>> print browser.bycss('#shipping-method')
-    --- 1 ---
-    <section id="shipping-method"><table><tbody><tr><td class="shipping-method-title">Shipping Method:</td>
-    <td>ShippingMeth&#246;d1</td>
-    <td class="price-and-quantity">
-    <span class="gross">0.10 &#8364;</span>
-    <br><span class="vat">Including VAT: 23.00 %</span>
-    </td>
-    </tr></tbody></table></section>
+#     >>> print browser.bycss('#shipping-method')
+#     --- 1 ---
+#     <section id="shipping-method"><table><tbody><tr><td class="shipping-method-title">Shipping Method:</td>
+#     <td>ShippingMeth&#246;d1</td>
+#     <td class="price-and-quantity">
+#     <span class="gross">0.10 &#8364;</span>
+#     <br><span class="vat">Including VAT: 23.00 %</span>
+#     </td>
+#     </tr></tbody></table></section>
 
-    >>> print browser.bycss('#cart-content-description')
+#     >>> print browser.bycss('#cart-content-description')
 
-Add description to the cart::
+# Add description to the cart::
 
-    >>> browser.getLink('Edit').click()
-    >>> browser.getControl(name="form.widgets.description").value = 'Added presents to this order.'
-    >>> browser.getControl(name="form.buttons.save").click()
-    >>> print browser.bycss('#cart-content-description')
-    --- 1 ---
-    <section id="cart-content-description"><fieldset><legend>Description</legend>
-    Added presents to this order.
-    </fieldset></section>
+#     >>> browser.getLink('Edit').click()
+#     >>> browser.getControl(name="form.widgets.description").value = 'Added presents to this order.'
+#     >>> browser.getControl(name="form.buttons.save").click()
+#     >>> print browser.bycss('#cart-content-description')
+#     --- 1 ---
+#     <section id="cart-content-description"><fieldset><legend>Description</legend>
+#     Added presents to this order.
+#     </fieldset></section>

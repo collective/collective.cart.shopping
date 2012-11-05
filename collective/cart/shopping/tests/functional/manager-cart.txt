@@ -71,7 +71,7 @@ There should be one article in cart::
     <section id="cart-articles"><table><tbody><form method="post" action="http://nohost/plone/shop/@@cart">
     <tr><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
-    </a>
+    <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png"></a>
     </td>
     <td class="name">
     <h3>
@@ -117,7 +117,7 @@ Go to cart::
     <section id="cart-articles"><table><tbody><form method="post" action="http://nohost/plone/shop/@@cart">
     <tr><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
-    </a>
+    <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png"></a>
     </td>
     <td class="name">
     <h3>
@@ -178,7 +178,7 @@ Adding more articles uses price which is already in cart::
     <section id="cart-articles"><table><tbody><form method="post" action="http://nohost/plone/shop/@@cart">
     <tr><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
-    </a>
+    <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png"></a>
     </td>
     <td class="name">
     <h3>
@@ -226,7 +226,7 @@ Go to Article1::
     >>> browser.open('/shop/article-container/article1')
     >>> print browser.bycss('.stock')
     --- 1 ---
-    <span class="stock">Stock: 100 pcs</span>
+    <section class="stock">Stock: 100 pcs</section>
 
     >>> browser.getControl(name="quantity").value = '10'
     >>> browser.getControl(name="form.buttons.AddToCart").click()
@@ -240,7 +240,7 @@ Go to cart::
     <section id="cart-articles"><table><tbody><form method="post" action="http://nohost/plone/shop/@@cart">
     <tr><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
-    </a>
+    <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png"></a>
     </td>
     <td class="name">
     <h3>
@@ -260,7 +260,7 @@ Go to cart::
     <form method="post" action="http://nohost/plone/shop/@@cart">
     <tr><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1/article11" title="&#196;rticle11">
-    </a>
+    <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png"></a>
     </td>
     <td class="name">
     <h3>
@@ -461,6 +461,3 @@ Edit Ärticle1 to use subarticle::
 #     <section id="cart-total"><span>Total</span>&#160;&#160;
 #     <span id="total">3,225.00 &#8364;</span>
 #     </section>
-
-
-    >>> browser.openBrowser()
