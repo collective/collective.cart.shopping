@@ -202,6 +202,46 @@ Adding more articles uses price which is already in cart::
     <span id="total">2,706.00 &#8364;</span>
     </section>
 
+Update quantity which is not integer::
+
+    >>> browser.getControl(name="quantity").value = 'AAA'
+    >>> browser.getControl(name="form.update.article").click()
+    >>> print browser.bycss('.warn')
+    --- 1 ---
+    <dl class="portalMessage warn"><dt>Warn</dt>
+    <dd>Invalid quantity.</dd>
+    </dl>
+    >>> print browser.bycss('#quantity')
+    --- 1 ---
+    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="110">
+    &#160;&#215;&#160;
+
+Update quantity with integer::
+
+    >>> browser.getControl(name="quantity").value = '90'
+    >>> browser.getControl(name="form.update.article").click()
+    >>> print browser.bycss('#quantity')
+    --- 1 ---
+    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="90">
+    &#160;&#215;&#160;
+    >>> print browser.bycss('#cart-total')
+    --- 1 ---
+    <section id="cart-total"><span>Total</span>&#160;&#160;
+    <span id="total">2,214.00 &#8364;</span>
+    </section>
+
+Go to Article1 and check stock::
+
+    >>> browser.open('/shop/article-container/article1')
+    >>> print browser.bycss('.stock')
+    --- 1 ---
+    <span class="stock">Stock: 60 pcs</span>
+
+Add 20 Article1::
+
+    >>> browser.getControl(name="quantity").value = '20'
+    >>> browser.getControl(name="form.buttons.AddToCart").click()
+
 Add Ärticle11 under Ärticle1::
 
     >>> browser.open('/shop/article-container/article1/++add++collective.cart.core.Article')
@@ -284,180 +324,195 @@ Go to cart::
     <span id="total">2,806.00 &#8364;</span>
     </section>
 
+Go to Article1::
+
+    >>> browser.open('/shop/article-container/article1')
+    >>> print browser.bycss('.stock')
+    --- 1 ---
+    <section class="stock">Stock: 90 pcs</section>
+
+    >>> browser.getControl(name="quantity").value = '20'
+    >>> browser.getControl(name="form.buttons.AddToCart").click()
+
+Go to Article11::
+
+    >>> browser.open('/shop/article-container/article1/article11')
+    >>> print browser.bycss('.stock')
+    --- 1 ---
+    <span class="stock">Stock: 70 pcs</span>
+
+Go to cart::
+
+    >>> browser.open('/shop/@@cart')
+    >>> print browser.bycss('#quantity')
+    --- 1 ---
+    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="110">
+    &#160;&#215;&#160;
+    --- 2 ---
+    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="30">
+    &#160;&#215;&#160;
+
+    >>> print browser.bycss('#cart-total')
+    --- 1 ---
+    <section id="cart-total"><span>Total</span>&#160;&#160;
+    <span id="total">3,006.00 &#8364;</span>
+    </section>
+
 Edit Ärticle1 to use subarticle::
 
     >>> browser.open('/shop/article-container/article1/edit')
     >>> browser.getControl(name="form.widgets.use_subarticle:list").value = ['on']
     >>> browser.getControl(name="form.buttons.save").click()
 
-# Add to cart::
+Add to cart::
 
-#     >>> browser.getControl(name="quantity").value = '5'
-#     >>> browser.getControl(name="form.buttons.AddToCart").click()
+    >>> browser.getControl(name="quantity").value = '10'
+    >>> browser.getControl(name="form.buttons.AddToCart").click()
 
-# Go to cart::
+Go to cart::
 
-#     >>> browser.open('/shop/@@cart')
-#     >>> print browser.bycss('#cart-is-empty')
-#     >>> print browser.bycss('#cart-articles')
-#     --- 1 ---
-#     <section id="cart-articles"><table><tbody><form method="post" action="http://nohost/plone/shop/@@cart">
-#     <tr><td class="image">
-#     <a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
-#     </a>
-#     </td>
-#     <td class="name">
-#     <h3>
-#     <a href="http://nohost/plone/shop/article-container/article1">&#196;rticle1</a>
-#     </h3>
-#     <p>Descripti&#246;n of &#196;rticle1</p>
-#     </td>
-#     <td class="price-and-quantity">
-#     <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="110">
-#     &#160;&#215;&#160;
-#     <span class="gross">24.60 &#8364;</span>
-#     <br><span class="vat">Including VAT: 23.00 %</span>
-#     <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="1">Update</button>
-#     <button class="shopping-button remove" name="form.delete.article" type="submit" value="1">Delete</button>
-#     </section></td>
-#     </tr></form>
-#     <form method="post" action="http://nohost/plone/shop/@@cart">
-#     <tr><td class="image">
-#     <a href="http://nohost/plone/shop/article-container/article1/article11" title="&#196;rticle11">
-#     </a>
-#     </td>
-#     <td class="name">
-#     <h3>
-#     <a href="http://nohost/plone/shop/article-container/article1/article11">&#196;rticle11</a>
-#     </h3>
-#     <p>Descripti&#246;n of &#196;rticle11.</p>
-#     </td>
-#     <td class="price-and-quantity">
-#     <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="15">
-#     &#160;&#215;&#160;
-#     <span class="gross">10.00 &#8364;</span>
-#     <br><span class="vat">Including VAT: 23.00 %</span>
-#     <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="2">Update</button>
-#     <button class="shopping-button remove" name="form.delete.article" type="submit" value="2">Delete</button>
-#     </section></td>
-#     </tr></form>
-#     </tbody></table></section>
-#     >>> print browser.bycss('#cart-total')
-#     --- 1 ---
-#     <section id="cart-total"><span>Total</span>&#160;&#160;
-#     <span id="total">2,856.00 &#8364;</span>
-#     </section>
+    >>> browser.open('/shop/@@cart')
+    >>> print browser.bycss('#quantity')
+    --- 1 ---
+    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="110">
+    &#160;&#215;&#160;
+    --- 2 ---
+    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="40">
+    &#160;&#215;&#160;
 
-# Edit Ärticle1 not to use subarticle::
+    >>> print browser.bycss('#cart-total')
+    --- 1 ---
+    <section id="cart-total"><span>Total</span>&#160;&#160;
+    <span id="total">3,106.00 &#8364;</span>
+    </section>
 
-#     >>> browser.open('/shop/article-container/article1/edit')
-#     >>> browser.getControl(name="form.widgets.use_subarticle:list").value = []
-#     >>> browser.getControl(name="form.buttons.save").click()
+Go to Article11::
 
-# Edit Ärticle11 not to use subarticle::
+    >>> browser.open('/shop/article-container/article1/article11')
+    >>> print browser.bycss('.stock')
+    --- 1 ---
+    <span class="stock">Stock: 60 pcs</span>
 
-#     >>> browser.open('/shop/article-container/article1/article11/edit')
-#     >>> browser.getControl(name="form.widgets.use_subarticle:list").value = ['on']
-#     >>> browser.getControl(name="form.buttons.save").click()
+Edit Ärticle1 not to use subarticle::
 
-# Add Ärticle111 to Ärticle11::
+    >>> browser.open('/shop/article-container/article1/edit')
+    >>> browser.getControl(name="form.widgets.use_subarticle:list").value = []
+    >>> browser.getControl(name="form.buttons.save").click()
 
-#     >>> browser.open('/shop/article-container/article1/article11/++add++collective.cart.core.Article')
-#     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle111'
-#     >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Ärticle111.'
-#     >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU111'
-#     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '36.90'
-#     >>> browser.getControl(name="form.widgets.ISize.weight").value = '100.0'
-#     >>> browser.getControl(name="form.buttons.save").click()
+Edit Ärticle11 not to use subarticle::
 
-# Add Stock to Ärticle111::
+    >>> browser.open('/shop/article-container/article1/article11/edit')
+    >>> browser.getControl(name="form.widgets.use_subarticle:list").value = ['on']
+    >>> browser.getControl(name="form.buttons.save").click()
 
-#     >>> browser.open('/shop/article-container/article1/article11/article111/++add++collective.cart.stock.Stock')
-#     >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck111'
-#     >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Stöck111'
-#     >>> browser.getControl(name="form.widgets.stock").value = '100'
-#     >>> browser.getControl( name="form.widgets.IStockPrice.price").value = '0.0'
-#     >>> browser.getControl(name="form.buttons.save").click()
+Add Ärticle111 to Ärticle11::
 
-# Go to Article1::
+    >>> browser.open('/shop/article-container/article1/article11/++add++collective.cart.core.Article')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle111'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Ärticle111.'
+    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU111'
+    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '36.90'
+    >>> browser.getControl(name="form.widgets.ISize.weight").value = '100.0'
+    >>> browser.getControl(name="form.buttons.save").click()
 
-#     >>> browser.open('/shop/article-container/article1')
+Add Stock to Ärticle111::
 
-# Add to cart::
+    >>> browser.open('/shop/article-container/article1/article11/article111/++add++collective.cart.stock.Stock')
+    >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck111'
+    >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Stöck111'
+    >>> browser.getControl(name="form.widgets.stock").value = '100'
+    >>> browser.getControl( name="form.widgets.IStockPrice.price").value = '0.0'
+    >>> browser.getControl(name="form.buttons.save").click()
 
-#     >>> browser.getControl(name="quantity").value = '10'
-#     >>> browser.getControl(name="form.buttons.AddToCart").click()
+Go to Article1::
 
-# Go to cart::
+    >>> browser.open('/shop/article-container/article1')
 
-#     >>> browser.open('/shop/@@cart')
-#     >>> print browser.bycss('#cart-is-empty')
-#     >>> print browser.bycss('#cart-articles')
-#     --- 1 ---
-#     <section id="cart-articles"><table><tbody><form method="post" action="http://nohost/plone/shop/@@cart">
-#     <tr><td class="image">
-#     <a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
-#     </a>
-#     </td>
-#     <td class="name">
-#     <h3>
-#     <a href="http://nohost/plone/shop/article-container/article1">&#196;rticle1</a>
-#     </h3>
-#     <p>Descripti&#246;n of &#196;rticle1</p>
-#     </td>
-#     <td class="price-and-quantity">
-#     <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="110">
-#     &#160;&#215;&#160;
-#     <span class="gross">24.60 &#8364;</span>
-#     <br><span class="vat">Including VAT: 23.00 %</span>
-#     <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="1">Update</button>
-#     <button class="shopping-button remove" name="form.delete.article" type="submit" value="1">Delete</button>
-#     </section></td>
-#     </tr></form>
-#     <form method="post" action="http://nohost/plone/shop/@@cart">
-#     <tr><td class="image">
-#     <a href="http://nohost/plone/shop/article-container/article1/article11" title="&#196;rticle11">
-#     </a>
-#     </td>
-#     <td class="name">
-#     <h3>
-#     <a href="http://nohost/plone/shop/article-container/article1/article11">&#196;rticle11</a>
-#     </h3>
-#     <p>Descripti&#246;n of &#196;rticle11.</p>
-#     </td>
-#     <td class="price-and-quantity">
-#     <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="15">
-#     &#160;&#215;&#160;
-#     <span class="gross">10.00 &#8364;</span>
-#     <br><span class="vat">Including VAT: 23.00 %</span>
-#     <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="2">Update</button>
-#     <button class="shopping-button remove" name="form.delete.article" type="submit" value="2">Delete</button>
-#     </section></td>
-#     </tr></form>
-#     <form method="post" action="http://nohost/plone/shop/@@cart">
-#     <tr><td class="image">
-#     <a href="http://nohost/plone/shop/article-container/article1/article11/article111" title="&#196;rticle111">
-#     </a>
-#     </td>
-#     <td class="name">
-#     <h3>
-#     <a href="http://nohost/plone/shop/article-container/article1/article11/article111">&#196;rticle111</a>
-#     </h3>
-#     <p>Descripti&#246;n of &#196;rticle111.</p>
-#     </td>
-#     <td class="price-and-quantity">
-#     <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="10">
-#     &#160;&#215;&#160;
-#     <span class="gross">36.90 &#8364;</span>
-#     <br><span class="vat">Including VAT: 23.00 %</span>
-#     <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="3">Update</button>
-#     <button class="shopping-button remove" name="form.delete.article" type="submit" value="3">Delete</button>
-#     </section></td>
-#     </tr></form>
-#     </tbody></table></section>
+Add to cart::
 
-#     >>> print browser.bycss('#cart-total')
-#     --- 1 ---
-#     <section id="cart-total"><span>Total</span>&#160;&#160;
-#     <span id="total">3,225.00 &#8364;</span>
-#     </section>
+    >>> browser.getControl(name="quantity").value = '10'
+    >>> browser.getControl(name="form.buttons.AddToCart").click()
+
+Go to cart::
+
+    >>> browser.open('/shop/@@cart')
+    >>> print browser.bycss('#quantity')
+    --- 1 ---
+    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="110">
+    &#160;&#215;&#160;
+    --- 2 ---
+    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="40">
+    &#160;&#215;&#160;
+    --- 3 ---
+    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="10">
+    &#160;&#215;&#160;
+
+    >>> print browser.bycss('#cart-total')
+    --- 1 ---
+    <section id="cart-total"><span>Total</span>&#160;&#160;
+    <span id="total">3,475.00 &#8364;</span>
+    </section>
+
+Delete Article1::
+
+    >>> browser.getControl(name="form.delete.article", index=0).click()
+
+    >>> print browser.bycss('#quantity')
+    --- 1 ---
+    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="40">
+    &#160;&#215;&#160;
+    --- 2 ---
+    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="10">
+    &#160;&#215;&#160;
+
+    >>> print browser.bycss('#cart-total')
+    --- 1 ---
+    <section id="cart-total"><span>Total</span>&#160;&#160;
+    <span id="total">769.00 &#8364;</span>
+    </section>
+
+Update Article111 over the stock::
+
+    >>> browser.getControl(name="quantity", index=1).value = '200'
+    >>> browser.getControl(name="form.update.article", index=1).click()
+    >>> print browser.bycss('.warn')
+    --- 1 ---
+    <dl class="portalMessage warn"><dt>Warn</dt>
+    <dd>Invalid quantity.</dd>
+    </dl>
+
+Update Article111 with minus quantity::
+
+    >>> browser.getControl(name="quantity", index=1).value = '-10'
+    >>> browser.getControl(name="form.update.article", index=1).click()
+    >>> print browser.bycss('.warn')
+    --- 1 ---
+    <dl class="portalMessage warn"><dt>Warn</dt>
+    <dd>Invalid quantity.</dd>
+    </dl>
+
+Update Article111 with appropriate quantity::
+
+    >>> browser.getControl(name="quantity", index=1).value = '20'
+    >>> browser.getControl(name="form.update.article", index=1).click()
+
+    >>> print browser.bycss('#quantity')
+    --- 1 ---
+    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="40">
+    &#160;&#215;&#160;
+    --- 2 ---
+    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="20">
+    &#160;&#215;&#160;
+
+    >>> print browser.bycss('#cart-total')
+    --- 1 ---
+    <section id="cart-total"><span>Total</span>&#160;&#160;
+    <span id="total">1,138.00 &#8364;</span>
+    </section>
+
+Go to Article111::
+
+    >>> browser.open('/shop/article-container/article1/article11/article111')
+    >>> print browser.bycss('.stock')
+    --- 1 ---
+    <span class="stock">Stock: 80 pcs</span>

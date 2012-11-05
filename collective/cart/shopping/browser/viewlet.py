@@ -63,6 +63,10 @@ class BaseAddToCartViewlet(core.browser.viewlet.AddToCartViewlet):
     grok.layer(ICollectiveCartShoppingLayer)
     grok.viewletmanager(AddToCartViewletManager)
 
+    def quantity_size(self):
+        """Size for quantity field."""
+        return len(str(self.quantity_max))
+
 
 class AddToCartViewlet(BaseAddToCartViewlet):
     """Viewlet to show add to cart form for salable article.
@@ -78,10 +82,6 @@ class AddToCartViewlet(BaseAddToCartViewlet):
         """Max quantity."""
         return IArticleAdapter(self.context).quantity_max
 
-    def quantity_size(self):
-        """Size for quantity field."""
-        return len(str(self.quantity_max))
-
     @property
     def soldout(self):
         return IArticleAdapter(self.context).soldout
@@ -93,13 +93,10 @@ class AddToCartViewlet(BaseAddToCartViewlet):
         return IUUID(self.context)
 
 
-class AddSubArticleToCartViewlet(AddToCartViewlet):
+class AddSubArticleToCartViewlet(BaseAddToCartViewlet):
     """Viewlet to show add to cart form for subarticles."""
     grok.name('collective.cart.core.add-subarticle-to-cart')
     grok.template('add-subarticle-to-cart')
-
-    def update(self):
-        form = self.request.form
 
     def available(self):
         return IArticleAdapter(self.context).subarticle_addable_to_cart
@@ -205,8 +202,11 @@ class CartArticlesViewlet(BaseCartArticlesViewlet):
                         carticle.quantity = quantity
                         modified(carticle)
                 except ValueError:
-                    message = _(u"Input integer value to update cart.")
+                    message = _(u"Invalid quantity.")
                     IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                    url = getMultiAdapter(
+                        (self.context, self.request), name='plone_context_state').current_base_url()
+                    self.request.response.redirect(url)
                 return self.render()
 
     @property
