@@ -23,4 +23,14 @@
     title="Migrate SubArticle into Article"
     />
 
+  <genericsetup:upgradeStep
+    description=""
+    destination="3"
+    handler="collective.cart.shopping.upgrades.update_rolemap"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="2"
+    title="Update rolemap for collective.cart.shopping: Add CustomerInfo."
+    />
+
 </configure>

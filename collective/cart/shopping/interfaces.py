@@ -6,6 +6,7 @@ from plone.app.textfield import RichText
 from plone.directives import form
 from plone.namedfile.field import NamedBlobImage
 from plone.namedfile.interfaces import IImageScaleTraversable
+from zope.component import getMultiAdapter
 from zope.interface import Attribute
 from zope.interface import Interface
 from zope.interface import alsoProvides
@@ -150,82 +151,112 @@ class IBaseCustomerInfo(form.Schema):
 @form.default_value(field=IBaseCustomerInfo['first_name'])
 def default_first_name(data):
     cart = IShoppingSite(data.context).cart
-    info = cart.get(data.view.form_type)
-    if info:
-        return info.first_name
+    if cart:
+        info = cart.get(data.view.form_type)
+        if info:
+            return info.first_name
+
+    portal_state = getMultiAdapter((data.context, data.request), name="plone_portal_state")
+    if not portal_state.anonymous():
+        member = portal_state.member()
+        fullname = member.getProperty('fullname').strip()
+        parts = [part for part in fullname.split(' ') if part != '']
+        if len(parts) >= 1:
+            parts = parts[:-1]
+            return ' '.join(parts)
 
 
 @form.default_value(field=IBaseCustomerInfo['last_name'])
 def default_last_name(data):
     cart = IShoppingSite(data.context).cart
-    info = cart.get(data.view.form_type)
-    if info:
-        return info.last_name
+    if cart:
+        info = cart.get(data.view.form_type)
+        if info:
+            return info.last_name
+
+    portal_state = getMultiAdapter((data.context, data.request), name="plone_portal_state")
+    if not portal_state.anonymous():
+        member = portal_state.member()
+        fullname = member.getProperty('fullname').strip()
+        parts = [part for part in fullname.split(' ') if part != '']
+        if len(parts) > 1:
+            return parts[-1]
 
 
 @form.default_value(field=IBaseCustomerInfo['organization'])
 def default_organization(data):
     cart = IShoppingSite(data.context).cart
-    info = cart.get(data.view.form_type)
-    if info:
-        return info.organization
+    if cart:
+        info = cart.get(data.view.form_type)
+        if info:
+            return info.organization
 
 
 @form.default_value(field=IBaseCustomerInfo['vat'])
 def default_vat(data):
     cart = IShoppingSite(data.context).cart
-    info = cart.get(data.view.form_type)
-    if info:
-        return info.vat
-    else:
-        return u'FI'
+    if cart:
+        info = cart.get(data.view.form_type)
+        if info:
+            return info.vat
+    return u'FI'
 
 
 @form.default_value(field=IBaseCustomerInfo['email'])
 def default_email(data):
     cart = IShoppingSite(data.context).cart
-    info = cart.get(data.view.form_type)
-    if info:
-        return info.email
+    if cart:
+        info = cart.get(data.view.form_type)
+        if info:
+            return info.email
+
+    portal_state = getMultiAdapter((data.context, data.request), name="plone_portal_state")
+    if not portal_state.anonymous():
+        member = portal_state.member()
+        return member.getProperty('email')
 
 
 @form.default_value(field=IBaseCustomerInfo['street'])
 def default_address(data):
     cart = IShoppingSite(data.context).cart
-    info = cart.get(data.view.form_type)
-    if info:
-        return info.street
+    if cart:
+        info = cart.get(data.view.form_type)
+        if info:
+            return info.street
 
 
 @form.default_value(field=IBaseCustomerInfo['post'])
 def default_post_code(data):
     cart = IShoppingSite(data.context).cart
-    info = cart.get(data.view.form_type)
-    if info:
-        return info.post
+    if cart:
+        info = cart.get(data.view.form_type)
+        if info:
+            return info.post
 
 
 @form.default_value(field=IBaseCustomerInfo['city'])
 def default_city(data):
     cart = IShoppingSite(data.context).cart
-    info = cart.get(data.view.form_type)
-    if info:
-        return info.city
+    if cart:
+        info = cart.get(data.view.form_type)
+        if info:
+            return info.city
 
 
 @form.default_value(field=IBaseCustomerInfo['phone'])
 def default_phone(data):
     cart = IShoppingSite(data.context).cart
-    info = cart.get(data.view.form_type)
-    if info:
-        return info.phone
+    if cart:
+        info = cart.get(data.view.form_type)
+        if info:
+            return info.phone
 
 
 class ICustomerInfo(IBaseCustomerInfo):
     """Schema for collective.cart.shipping.CustomerInfo dexterity type."""
 
-    info_type = TextLine(
-        title=_(u'Info Type'))
+    # info_type = TextLine(
+    #     title=_(u'Info Type'))
 
 
 class IShop(core.interfaces.IShoppingSiteRoot):

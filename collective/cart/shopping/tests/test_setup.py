@@ -45,6 +45,11 @@ class TestCase(IntegrationTestCase):
         from plone.browserlayer import utils
         self.failUnless(ICollectiveCartShoppingLayer in utils.registered_layers())
 
+    def test_metadata__version(self):
+        setup = getToolByName(self.portal, 'portal_setup')
+        self.assertEqual(
+            setup.getVersionForProfile('profile-collective.cart.shopping:default'), u'3')
+
     def get_record(self, name):
         """Get record by name.
         :param name: Name of record.
