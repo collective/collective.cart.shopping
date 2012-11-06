@@ -516,3 +516,23 @@ Go to Article111::
     >>> print browser.bycss('.stock')
     --- 1 ---
     <span class="stock">Stock: 80 pcs</span>
+
+Go to cart::
+
+    >>> browser.open('/shop/@@cart')
+
+Update Article111 to zero should remove the article::
+
+    >>> browser.getControl(name="quantity", index=1).value = '0'
+    >>> browser.getControl(name="form.update.article", index=1).click()
+
+    >>> print browser.bycss('#quantity')
+    --- 1 ---
+    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="40">
+    &#160;&#215;&#160;
+
+    >>> print browser.bycss('#cart-total')
+    --- 1 ---
+    <section id="cart-total"><span>Total</span>&#160;&#160;
+    <span id="total">400.00 &#8364;</span>
+    </section>

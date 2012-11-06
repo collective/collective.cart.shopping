@@ -121,12 +121,14 @@ class IBaseCustomerInfo(form.Schema):
         title=_(u'Last Name'))
 
     organization = TextLine(
-        title=_(u'Organization'))
+        title=_(u'Organization'),
+        required=False)
 
     vat = TextLine(
         title=_('VAT Number'),
         description=_(u'International VAT Number, for Finland it starts with FI.'),
-        default=u'FI')
+        default=u'FI',
+        required=False)
 
     email = TextLine(
         title=_(u'E-mail'))

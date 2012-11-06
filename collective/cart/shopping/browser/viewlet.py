@@ -189,14 +189,17 @@ class CartArticlesViewlet(BaseCartArticlesViewlet):
             if quantity is not None:
                 try:
                     quantity = int(quantity)
-                    carticle = IShoppingSite(self.context).get_cart_article(oid)
+                    shopping_site = IShoppingSite(self.context)
+                    carticle = shopping_site.get_cart_article(oid)
                     article = ICartArticleAdapter(carticle).orig_article
-                    if quantity > carticle.quantity:
+                    if quantity == 0:
+                        shopping_site.remove_cart_articles(oid)
+                    elif quantity > carticle.quantity:
                         if article:
                             IStock(article).sub_stock(quantity - carticle.quantity)
                             carticle.quantity = quantity
                             modified(carticle)
-                    if quantity < carticle.quantity:
+                    elif quantity < carticle.quantity:
                         if article:
                             IStock(article).add_stock(carticle.quantity - quantity)
                         carticle.quantity = quantity
