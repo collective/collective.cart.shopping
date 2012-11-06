@@ -73,7 +73,7 @@ Edit Ärtilce1 and enable discount::
     <form method="post" action="http://nohost/plone/shop/article-container/article1">
     <section id="money"><p id="price" class="gross">12.30 &#8364;</p>
     <p id="vat">Including VAT: 23.00 %</p>
-    </section><section id="discount"><p id="discount-message">(Discount valid till Nov 05, 2012)</p>
+    </section><section id="discount"><p id="discount-message">(Discount valid till ...)</p>
     <p id="normal-price">Normal Price: 24.60 &#8364;</p>
     </section><label>Quantity</label>
     <input id="quantity" name="quantity" type="text" value="1" maxlength="3" size="3"><span id="pcs">pcs</span>
@@ -220,7 +220,7 @@ Edit Ärticle1 not to use subarticle::
     &#160;&#215;&#160;
     <span class="gross">6.15 &#8364;</span>
     <br><span class="vat">Including VAT: 23.00 %</span>
-    <section id="discount"><p id="discount-message">(Discount valid till Nov 05, 2012)</p>
+    <section id="discount"><p id="discount-message">(Discount valid till ...)</p>
     <p id="normal-price">Normal Price: 24.60 &#8364;</p>
     </section><section class="stock">Stock: 100 pcs</section><section class="buttons"><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section></form>

@@ -68,8 +68,7 @@ There should be one article in cart::
     >>> print browser.bycss('#cart-is-empty')
     >>> print browser.bycss('#cart-articles')
     --- 1 ---
-    <section id="cart-articles"><table><tbody><form method="post" action="http://nohost/plone/shop/@@cart">
-    <tr><td class="image">
+    <section id="cart-articles"><table><tbody><tr><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
     <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png"></a>
     </td>
@@ -80,15 +79,16 @@ There should be one article in cart::
     <p>Descripti&#246;n of &#196;rticle1</p>
     </td>
     <td class="price-and-quantity">
+    <form method="post" action="http://nohost/plone/shop/@@cart">
     <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="1">
     &#160;&#215;&#160;
     <span class="gross">24.60 &#8364;</span>
     <br><span class="vat">Including VAT: 23.00 %</span>
     <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="1">Update</button>
     <button class="shopping-button remove" name="form.delete.article" type="submit" value="1">Delete</button>
-    </section></td>
-    </tr></form>
-    </tbody></table></section>
+    </section></form>
+    </td>
+    </tr></tbody></table></section>
     >>> print browser.bycss('#cart-total')
     --- 1 ---
     <section id="cart-total"><span>Total</span>&#160;&#160;
@@ -114,8 +114,7 @@ Go to cart::
     >>> print browser.bycss('#cart-is-empty')
     >>> print browser.bycss('#cart-articles')
     --- 1 ---
-    <section id="cart-articles"><table><tbody><form method="post" action="http://nohost/plone/shop/@@cart">
-    <tr><td class="image">
+    <section id="cart-articles"><table><tbody><tr><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
     <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png"></a>
     </td>
@@ -126,15 +125,16 @@ Go to cart::
     <p>Descripti&#246;n of &#196;rticle1</p>
     </td>
     <td class="price-and-quantity">
+    <form method="post" action="http://nohost/plone/shop/@@cart">
     <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="100">
     &#160;&#215;&#160;
     <span class="gross">24.60 &#8364;</span>
     <br><span class="vat">Including VAT: 23.00 %</span>
     <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="1">Update</button>
     <button class="shopping-button remove" name="form.delete.article" type="submit" value="1">Delete</button>
-    </section></td>
-    </tr></form>
-    </tbody></table></section>
+    </section></form>
+    </td>
+    </tr></tbody></table></section>
 
     >>> print browser.bycss('#cart-total')
     --- 1 ---
@@ -175,8 +175,7 @@ Adding more articles uses price which is already in cart::
     >>> print browser.bycss('#cart-is-empty')
     >>> print browser.bycss('#cart-articles')
     --- 1 ---
-    <section id="cart-articles"><table><tbody><form method="post" action="http://nohost/plone/shop/@@cart">
-    <tr><td class="image">
+    <section id="cart-articles"><table><tbody><tr><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
     <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png"></a>
     </td>
@@ -187,15 +186,16 @@ Adding more articles uses price which is already in cart::
     <p>Descripti&#246;n of &#196;rticle1</p>
     </td>
     <td class="price-and-quantity">
+    <form method="post" action="http://nohost/plone/shop/@@cart">
     <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="110">
     &#160;&#215;&#160;
     <span class="gross">24.60 &#8364;</span>
     <br><span class="vat">Including VAT: 23.00 %</span>
     <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="1">Update</button>
     <button class="shopping-button remove" name="form.delete.article" type="submit" value="1">Delete</button>
-    </section></td>
-    </tr></form>
-    </tbody></table></section>
+    </section></form>
+    </td>
+    </tr></tbody></table></section>
     >>> print browser.bycss('#cart-total')
     --- 1 ---
     <section id="cart-total"><span>Total</span>&#160;&#160;
@@ -277,8 +277,7 @@ Go to cart::
     >>> print browser.bycss('#cart-is-empty')
     >>> print browser.bycss('#cart-articles')
     --- 1 ---
-    <section id="cart-articles"><table><tbody><form method="post" action="http://nohost/plone/shop/@@cart">
-    <tr><td class="image">
+    <section id="cart-articles"><table><tbody><tr><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
     <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png"></a>
     </td>
@@ -289,16 +288,16 @@ Go to cart::
     <p>Descripti&#246;n of &#196;rticle1</p>
     </td>
     <td class="price-and-quantity">
+    <form method="post" action="http://nohost/plone/shop/@@cart">
     <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="110">
     &#160;&#215;&#160;
     <span class="gross">24.60 &#8364;</span>
     <br><span class="vat">Including VAT: 23.00 %</span>
     <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="1">Update</button>
     <button class="shopping-button remove" name="form.delete.article" type="submit" value="1">Delete</button>
-    </section></td>
-    </tr></form>
-    <form method="post" action="http://nohost/plone/shop/@@cart">
-    <tr><td class="image">
+    </section></form>
+    </td>
+    </tr><tr><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1/article11" title="&#196;rticle11">
     <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png"></a>
     </td>
@@ -309,15 +308,16 @@ Go to cart::
     <p>Descripti&#246;n of &#196;rticle11.</p>
     </td>
     <td class="price-and-quantity">
+    <form method="post" action="http://nohost/plone/shop/@@cart">
     <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="10">
     &#160;&#215;&#160;
     <span class="gross">10.00 &#8364;</span>
     <br><span class="vat">Including VAT: 23.00 %</span>
     <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="2">Update</button>
     <button class="shopping-button remove" name="form.delete.article" type="submit" value="2">Delete</button>
-    </section></td>
-    </tr></form>
-    </tbody></table></section>
+    </section></form>
+    </td>
+    </tr></tbody></table></section>
     >>> print browser.bycss('#cart-total')
     --- 1 ---
     <section id="cart-total"><span>Total</span>&#160;&#160;
