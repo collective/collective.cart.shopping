@@ -133,10 +133,10 @@ class IBaseCustomerInfo(form.Schema):
     email = TextLine(
         title=_(u'E-mail'))
 
-    address = TextLine(
+    street = TextLine(
         title=_(u'Street Address'))
 
-    post_code = TextLine(
+    post = TextLine(
         title=_(u'Post Code'),
         required=False)
 
@@ -189,20 +189,20 @@ def default_email(data):
         return info.email
 
 
-@form.default_value(field=IBaseCustomerInfo['address'])
+@form.default_value(field=IBaseCustomerInfo['street'])
 def default_address(data):
     cart = IShoppingSite(data.context).cart
     info = cart.get(data.view.form_type)
     if info:
-        return info.address
+        return info.street
 
 
-@form.default_value(field=IBaseCustomerInfo['post_code'])
+@form.default_value(field=IBaseCustomerInfo['post'])
 def default_post_code(data):
     cart = IShoppingSite(data.context).cart
     info = cart.get(data.view.form_type)
     if info:
-        return info.post_code
+        return info.post
 
 
 @form.default_value(field=IBaseCustomerInfo['city'])

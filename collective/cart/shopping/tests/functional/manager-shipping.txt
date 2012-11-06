@@ -123,8 +123,8 @@ Should be able to visit /@@billing-and-shipping and fill billing info::
     >>> browser.getControl(name="form.billing.widgets.organization").value = 'Billing Örganization'
     >>> browser.getControl(name="form.billing.widgets.vat").value = 'FI1234567890'
     >>> browser.getControl(name="form.billing.widgets.email").value = 'first.last@email.billing'
-    >>> browser.getControl(name="form.billing.widgets.address").value = 'Billing Street Äddress'
-    >>> browser.getControl(name="form.billing.widgets.post_code").value = 'Billing Pöst Cöde'
+    >>> browser.getControl(name="form.billing.widgets.street").value = 'Billing Street Äddress'
+    >>> browser.getControl(name="form.billing.widgets.post").value = 'Billing Pöst Cöde'
     >>> browser.getControl(name="form.billing.widgets.city").value = 'Billing €ity'
     >>> browser.getControl(name="form.billing.widgets.phone").value = 'Billing Phöne Number'
     >>> browser.getControl(name="form.billing.buttons.submit").click()
