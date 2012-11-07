@@ -1,6 +1,12 @@
 Change log
 ----------
 
+0.2.1.4 (2012-11-XX)
+====================
+
+- Adds collective.cart.shopping.MemberArea to
+  types_not_searched and metaTypesNotToList. [taito]
+
 0.2.1.3 (2012-11-04)
 ====================
 

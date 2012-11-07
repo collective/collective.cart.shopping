@@ -21,8 +21,7 @@ def update_typeinfo(context, logger=None):
         logger = logging.getLogger(__name__)
     setup = getToolByName(context, 'portal_setup')
     logger.info('Reimporting typeinfo.')
-    setup.runImportStepFromProfile(
-        'profile-collective.cart.shopping:default', 'typeinfo', run_dependencies=False, purge_old=False)
+    setup.runImportStepFromProfile(PROFILE_ID, 'typeinfo', run_dependencies=False, purge_old=False)
 
 
 def upgrade_1_to_2(context, logger=None):
@@ -78,3 +77,13 @@ def upgrade_1_to_2(context, logger=None):
             checkConstraints=False, **items)
         article.title = title
         modified(article)
+
+
+def update_propertiestool(context, logger=None):
+    """Update propertiestool"""
+    if logger is None:
+        logger = logging.getLogger(__name__)
+    setup = getToolByName(context, 'portal_setup')
+    logger.info('Reimporting propertiestool.')
+    setup.runImportStepFromProfile(
+        PROFILE_ID, 'propertiestool', run_dependencies=False, purge_old=False)

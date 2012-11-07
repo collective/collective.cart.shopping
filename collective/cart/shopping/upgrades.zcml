@@ -33,4 +33,14 @@
     title="Update rolemap for collective.cart.shopping: Add CustomerInfo."
     />
 
+  <genericsetup:upgradeStep
+    description="Adds collective.cart.shopping.MemberArea to types_not_searched and metaTypesNotToList."
+    destination="4"
+    handler="collective.cart.shopping.upgrades.update_propertiestool"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="3"
+    title="Update propertiestool"
+    />
+
 </configure>

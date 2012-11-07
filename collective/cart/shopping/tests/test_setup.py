@@ -48,7 +48,7 @@ class TestCase(IntegrationTestCase):
     def test_metadata__version(self):
         setup = getToolByName(self.portal, 'portal_setup')
         self.assertEqual(
-            setup.getVersionForProfile('profile-collective.cart.shopping:default'), u'3')
+            setup.getVersionForProfile('profile-collective.cart.shopping:default'), u'4')
 
     def get_record(self, name):
         """Get record by name.
@@ -130,11 +130,12 @@ class TestCase(IntegrationTestCase):
         properties = getToolByName(self.portal, 'portal_properties')
         site_properties = getattr(properties, 'site_properties')
         contents = (
+            'collective.cart.shipping.ShippingMethodContainer',
             'collective.cart.shopping.ArticleContainer',
             'collective.cart.shopping.CustomerInfo',
-            'collective.cart.stock.Stock',
-            'collective.cart.shipping.ShippingMethodContainer',
-            'collective.cart.shopping.SubArticle')
+            'collective.cart.shopping.MemberArea',
+            'collective.cart.shopping.SubArticle',
+            'collective.cart.stock.Stock')
         for content in contents:
             self.assertIn(content, site_properties.getProperty('types_not_searched'))
 
@@ -142,10 +143,11 @@ class TestCase(IntegrationTestCase):
         properties = getToolByName(self.portal, 'portal_properties')
         navtree_properties = getattr(properties, 'navtree_properties')
         contents = (
-            'collective.cart.shopping.CustomerInfo',
-            'collective.cart.stock.Stock',
             'collective.cart.shipping.ShippingMethodContainer',
-            'collective.cart.shopping.SubArticle')
+            'collective.cart.shopping.CustomerInfo',
+            'collective.cart.shopping.MemberArea',
+            'collective.cart.shopping.SubArticle',
+            'collective.cart.stock.Stock')
         for content in contents:
             self.assertIn(content, navtree_properties.getProperty('metaTypesNotToList'))
 
@@ -173,18 +175,16 @@ class TestCase(IntegrationTestCase):
     def test_types__collective_cart_core_Article__behaviors(self):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.core.Article')
-        self.assertEqual(
-            ctype.behaviors,
-            (
-                'plone.app.content.interfaces.INameFromTitle',
-                'plone.app.dexterity.behaviors.metadata.IDublinCore',
-                'collective.behavior.sku.interfaces.ISKU',
-                'collective.behavior.salable.interfaces.ISalable',
-                'collective.behavior.discount.interfaces.IDiscount',
-                'collective.behavior.stock.interfaces.IStock',
-                'collective.behavior.vat.interfaces.IVAT',
-                'collective.behavior.size.interfaces.ISize',
-                'plone.app.relationfield.behavior.IRelatedItems'))
+        self.assertEqual(ctype.behaviors, (
+            'plone.app.content.interfaces.INameFromTitle',
+            'plone.app.dexterity.behaviors.metadata.IDublinCore',
+            'collective.behavior.sku.interfaces.ISKU',
+            'collective.behavior.salable.interfaces.ISalable',
+            'collective.behavior.discount.interfaces.IDiscount',
+            'collective.behavior.stock.interfaces.IStock',
+            'collective.behavior.vat.interfaces.IVAT',
+            'collective.behavior.size.interfaces.ISize',
+            'plone.app.relationfield.behavior.IRelatedItems'))
 
     def test_types__collective_cart_shopping_Shop__i18n_domain(self):
         types = getToolByName(self.portal, 'portal_types')
