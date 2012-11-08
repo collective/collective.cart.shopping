@@ -1,0 +1,57 @@
+<html
+  i18n:domain="collective.cart.shopping"
+  lang="en"
+  metal:use-macro="context/main_template/macros/master"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal">
+  <body>
+    <metal:main fill-slot="main">
+      <section class="collective-cart-shopping customer-info">
+        <div tal:replace="structure provider:plone.abovecontenttitle" />
+        <h1 class="documentFirstHeading">Address</h1>
+        <div tal:replace="structure provider:plone.belowcontenttitle" />
+        <table class="listing">
+          <tbody>
+            <tr>
+              <th i18n:translate="">First Name</th>
+              <td tal:content="context/first_name" />
+            </tr>
+            <tr>
+              <th i18n:translate="">Last Name</th>
+              <td tal:content="context/last_name" />
+            </tr>
+            <tr>
+              <th i18n:translate="">Organization</th>
+              <td tal:content="context/organization" />
+            </tr>
+            <tr>
+              <th i18n:translate="">VAT Number</th>
+              <td tal:content="context/vat" />
+            </tr>
+            <tr>
+              <th i18n:translate="">E-mail</th>
+              <td tal:content="context/email" />
+            </tr>
+            <tr>
+              <th i18n:translate="">Street Address</th>
+              <td tal:content="context/street" />
+            </tr>
+            <tr>
+              <th i18n:translate="">Post Code</th>
+              <td tal:content="context/post" />
+            </tr>
+            <tr>
+              <th i18n:translate="">City</th>
+              <td tal:content="context/city" />
+            </tr>
+            <tr>
+              <th i18n:translate="">Phone Number</th>
+              <td tal:content="context/phone" />
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </metal:main>
+  </body>
+</html>

@@ -152,7 +152,7 @@ class IBaseCustomerInfo(form.Schema):
 def default_first_name(data):
     cart = IShoppingSite(data.context).cart
     if cart:
-        info = cart.get(data.view.form_type)
+        info = cart.get('billing_info')
         if info:
             return info.first_name
 
@@ -170,7 +170,7 @@ def default_first_name(data):
 def default_last_name(data):
     cart = IShoppingSite(data.context).cart
     if cart:
-        info = cart.get(data.view.form_type)
+        info = cart.get('billing_info')
         if info:
             return info.last_name
 
@@ -187,7 +187,7 @@ def default_last_name(data):
 def default_organization(data):
     cart = IShoppingSite(data.context).cart
     if cart:
-        info = cart.get(data.view.form_type)
+        info = cart.get('billing_info')
         if info:
             return info.organization
 
@@ -196,7 +196,7 @@ def default_organization(data):
 def default_vat(data):
     cart = IShoppingSite(data.context).cart
     if cart:
-        info = cart.get(data.view.form_type)
+        info = cart.get('billing_info')
         if info:
             return info.vat
     return u'FI'
@@ -206,7 +206,7 @@ def default_vat(data):
 def default_email(data):
     cart = IShoppingSite(data.context).cart
     if cart:
-        info = cart.get(data.view.form_type)
+        info = cart.get('billing_info')
         if info:
             return info.email
 
@@ -220,7 +220,7 @@ def default_email(data):
 def default_address(data):
     cart = IShoppingSite(data.context).cart
     if cart:
-        info = cart.get(data.view.form_type)
+        info = cart.get('billing_info')
         if info:
             return info.street
 
@@ -229,7 +229,7 @@ def default_address(data):
 def default_post_code(data):
     cart = IShoppingSite(data.context).cart
     if cart:
-        info = cart.get(data.view.form_type)
+        info = cart.get('billing_info')
         if info:
             return info.post
 
@@ -238,7 +238,7 @@ def default_post_code(data):
 def default_city(data):
     cart = IShoppingSite(data.context).cart
     if cart:
-        info = cart.get(data.view.form_type)
+        info = cart.get('billing_info')
         if info:
             return info.city
 
@@ -247,7 +247,7 @@ def default_city(data):
 def default_phone(data):
     cart = IShoppingSite(data.context).cart
     if cart:
-        info = cart.get(data.view.form_type)
+        info = cart.get('billing_info')
         if info:
             return info.phone
 

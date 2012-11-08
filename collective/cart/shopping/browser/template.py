@@ -7,6 +7,7 @@ from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingL
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
+from collective.cart.shopping.interfaces import ICustomerInfo
 from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.stock.interfaces import IStock
 from five import grok
@@ -162,3 +163,12 @@ class StockListView(grok.View):
         """
         ulocalized_time = self._ulocalized_time()
         return ulocalized_time(date, context=self.context)
+
+
+class CustomerInfoView(grok.View):
+    """View for Customer Info."""
+    grok.context(ICustomerInfo)
+    grok.layer(ICollectiveCartShoppingLayer)
+    grok.name('view')
+    grok.require('zope2.View')
+    grok.template('customer-info')

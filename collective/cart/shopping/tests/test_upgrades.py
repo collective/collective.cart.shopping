@@ -104,21 +104,3 @@ class TestCase(IntegrationTestCase):
         self.assertFalse(ISubArticle.providedBy(article2))
         for key in item2.keys():
             self.assertEqual(getattr(article2, key), item2[key])
-
-    def test_update_propertiestool(self):
-        properties = getToolByName(self.portal, 'portal_properties')
-        site_properties = getattr(properties, 'site_properties')
-        site_properties.manage_changeProperties(types_not_searched=())
-        self.assertEqual(site_properties.getProperty('types_not_searched'), ())
-
-        from collective.cart.shopping.upgrades import update_propertiestool
-        update_propertiestool(self.portal)
-
-        contents = (
-            'collective.cart.shopping.ArticleContainer',
-            'collective.cart.shopping.CustomerInfo',
-            'collective.cart.shopping.MemberArea',
-            'collective.cart.shopping.SubArticle',
-            'collective.cart.stock.Stock')
-        for content in contents:
-            self.assertIn(content, site_properties.getProperty('types_not_searched'))

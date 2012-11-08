@@ -48,7 +48,7 @@ class TestCase(IntegrationTestCase):
     def test_metadata__version(self):
         setup = getToolByName(self.portal, 'portal_setup')
         self.assertEqual(
-            setup.getVersionForProfile('profile-collective.cart.shopping:default'), u'4')
+            setup.getVersionForProfile('profile-collective.cart.shopping:default'), u'3')
 
     def get_record(self, name):
         """Get record by name.
@@ -133,7 +133,6 @@ class TestCase(IntegrationTestCase):
             'collective.cart.shipping.ShippingMethodContainer',
             'collective.cart.shopping.ArticleContainer',
             'collective.cart.shopping.CustomerInfo',
-            'collective.cart.shopping.MemberArea',
             'collective.cart.shopping.SubArticle',
             'collective.cart.stock.Stock')
         for content in contents:
@@ -145,7 +144,6 @@ class TestCase(IntegrationTestCase):
         contents = (
             'collective.cart.shipping.ShippingMethodContainer',
             'collective.cart.shopping.CustomerInfo',
-            'collective.cart.shopping.MemberArea',
             'collective.cart.shopping.SubArticle',
             'collective.cart.stock.Stock')
         for content in contents:
