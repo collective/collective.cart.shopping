@@ -104,3 +104,42 @@ class TestCase(IntegrationTestCase):
         self.assertFalse(ISubArticle.providedBy(article2))
         for key in item2.keys():
             self.assertEqual(getattr(article2, key), item2[key])
+
+    def test_update_catalog(self):
+        from collective.cart.shopping.interfaces import ICustomerInfo
+        from plone.dexterity.utils import createContentInContainer
+        item = {
+            "first_name": 'FIST NAME',
+            "last_name": 'LAST NAME',
+            "organization": 'ORGANIZATION',
+            "vat": 'VAT',
+            "email": 'EMAIL',
+            "street": 'STREET',
+            "post": 'POST',
+            "city": 'CITY',
+            "phone": 'PHONE',
+        }
+        createContentInContainer(self.portal, 'collective.cart.shopping.CustomerInfo',
+            checkConstraints=False, **item)
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        catalog.manage_catalogClear()
+        self.assertEqual(len(catalog()), 0)
+        column = 'first_name'
+        catalog.delColumn(column)
+        self.assertNotIn(column, catalog.schema())
+
+        from collective.cart.shopping.upgrades import update_catalog
+        update_catalog(self.portal)
+
+        self.assertIn(column, catalog.schema())
+        self.assertNotEqual(len(catalog()), 0)
+        brain = catalog(object_provides=ICustomerInfo.__identifier__)[0]
+        self.assertEqual(brain.first_name, 'FIST NAME')
+        self.assertEqual(brain.last_name, 'LAST NAME')
+        self.assertEqual(brain.organization, 'ORGANIZATION')
+        self.assertEqual(brain.vat, 'VAT')
+        self.assertEqual(brain.email, 'EMAIL')
+        self.assertEqual(brain.street, 'STREET')
+        self.assertEqual(brain.post, 'POST')
+        self.assertEqual(brain.city, 'CITY')
+        self.assertEqual(brain.phone, 'PHONE')

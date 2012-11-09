@@ -4,4 +4,15 @@
   <column value="gross"/>
   <column value="quantity"/>
 
+  <!-- CustomerInfo attributes -->
+  <column value="first_name"/>
+  <column value="last_name"/>
+  <column value="organization"/>
+  <column value="vat"/>
+  <column value="email"/>
+  <column value="street"/>
+  <column value="post"/>
+  <column value="city"/>
+  <column value="phone"/>
+
 </object>

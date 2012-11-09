@@ -45,6 +45,50 @@ class TestCase(IntegrationTestCase):
         from plone.browserlayer import utils
         self.failUnless(ICollectiveCartShoppingLayer in utils.registered_layers())
 
+    def test_catalog__column__gross(self):
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        self.assertIn('gross', catalog.schema())
+
+    def test_catalog__column__quantity(self):
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        self.assertIn('quantity', catalog.schema())
+
+    def test_catalog__column__first_name(self):
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        self.assertIn('first_name', catalog.schema())
+
+    def test_catalog__column__last_name(self):
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        self.assertIn('last_name', catalog.schema())
+
+    def test_catalog__column__organization(self):
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        self.assertIn('organization', catalog.schema())
+
+    def test_catalog__column__vat(self):
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        self.assertIn('vat', catalog.schema())
+
+    def test_catalog__column__email(self):
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        self.assertIn('email', catalog.schema())
+
+    def test_catalog__column__street(self):
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        self.assertIn('street', catalog.schema())
+
+    def test_catalog__column__post(self):
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        self.assertIn('post', catalog.schema())
+
+    def test_catalog__column__city(self):
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        self.assertIn('city', catalog.schema())
+
+    def test_catalog__column__phone(self):
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        self.assertIn('phone', catalog.schema())
+
     def test_metadata__version(self):
         setup = getToolByName(self.portal, 'portal_setup')
         self.assertEqual(
