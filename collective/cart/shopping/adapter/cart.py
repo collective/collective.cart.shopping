@@ -4,6 +4,7 @@ from collective.behavior.price.interfaces import ICurrency
 from collective.behavior.size.interfaces import ISize
 from collective.cart import core
 from collective.cart.shipping.interfaces import ICartShippingMethod
+from collective.cart.shopping.interfaces import IBaseCustomerInfo
 from collective.cart.shopping.interfaces import ICart
 from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
@@ -84,6 +85,44 @@ class CartAdapter(core.adapter.cart.CartAdapter):
     def shipping_vat_money(self):
         if self.shipping_gross_money:
             return Decimal(self.shipping_method.vat_rate) / 100 * self.shipping_gross_money
+
+    @property
+    def billing_info(self):
+        return self.get_address('billing')
+
+    @property
+    def shipping_info(self):
+        return self.get_address('shipping')
+
+    def add_address(self, name):
+        """Add address with name."""
+
+    def add_addresses(self):
+        pass
+
+    def get_address(self, name):
+        """Get address by name."""
+        context = aq_inner(self.context)
+        catalog = getToolByName(context, 'portal_catalog')
+        query = {
+            'id': name,
+            'path': {
+                'query': '/'.join(context.getPhysicalPath()),
+                'depth': 1,
+            }
+        }
+        brains = catalog(query)
+        if brains:
+            return brains[0]
+
+    def update_address(self, name, data):
+        """Update existing address."""
+        address = self.get_address(name).getObject()
+        for attr in IBaseCustomerInfo.names():
+            value = getattr(data, attr, None) or data.get(attr)
+            setattr(address, attr, value)
+        address.orig_uuid = getattr(data, 'UID', None)
+        modified(address)
 
     def update_shipping_method(self, uuid=None):
         context = aq_inner(self.context)

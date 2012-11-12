@@ -33,4 +33,44 @@
     title="Update rolemap for collective.cart.shopping: Add CustomerInfo."
     />
 
+  <genericsetup:upgradeStep
+    description=""
+    destination="4"
+    handler="collective.cart.shopping.upgrades.update_catalog"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="3"
+    title="Update catalog for CustomerInfo attributes."
+    />
+
+  <genericsetup:upgradeStep
+    description="Update for icon of collective.cart.shopping.CustomerInfo."
+    destination="5"
+    handler="collective.cart.shopping.upgrades.update_typeinfo"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="4"
+    title="Reimport typeinfo"
+    />
+
+  <genericsetup:upgradeStep
+    description="Add use_subarticle to index."
+    destination="6"
+    handler="collective.cart.shopping.upgrades.update_catalog"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="5"
+    title="Reimport catalog"
+    />
+
+  <genericsetup:upgradeStep
+    description="Update use_subarticle attribute for collective.cart.core.Article."
+    destination="7"
+    handler="collective.cart.shopping.upgrades.upgrade_6_to_7"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="6"
+    title="Update collective.cart.core.Article"
+    />
+
 </configure>

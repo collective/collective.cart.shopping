@@ -89,10 +89,15 @@ class TestCase(IntegrationTestCase):
         catalog = getToolByName(self.portal, 'portal_catalog')
         self.assertIn('phone', catalog.schema())
 
+    def test_catalog__index__use_subarticle(self):
+        from Products.PluginIndexes.BooleanIndex.BooleanIndex import BooleanIndex
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        self.assertIsInstance(catalog.Indexes['use_subarticle'], BooleanIndex)
+
     def test_metadata__version(self):
         setup = getToolByName(self.portal, 'portal_setup')
         self.assertEqual(
-            setup.getVersionForProfile('profile-collective.cart.shopping:default'), u'3')
+            setup.getVersionForProfile('profile-collective.cart.shopping:default'), u'7')
 
     def get_record(self, name):
         """Get record by name.

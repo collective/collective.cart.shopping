@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from collective.behavior.stock.interfaces import IStock
 from collective.cart import core
@@ -13,6 +12,7 @@ from collective.cart.shopping import _
 from collective.cart.shopping.browser.form import BillingInfoForm
 from collective.cart.shopping.browser.form import ShippingInfoForm
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
+from collective.cart.shopping.browser.wrapper import CustomerInfoFormWrapper
 from collective.cart.shopping.browser.wrapper import ShippingMethodFormWrapper
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
@@ -26,7 +26,6 @@ from five import grok
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.viewletmanager.manager import OrderedViewletManager
 from plone.uuid.interfaces import IUUID
-from plone.z3cform.layout import FormWrapper
 from zope.component import getMultiAdapter
 from zope.interface import Interface
 from zope.lifecycleevent import modified
@@ -260,7 +259,7 @@ class CheckOutViewlet(BaseCartViewlet):
 
     def update(self):
         form = self.request.form
-        if form.get('form.checkout', None) is not None:
+        if form.get('form.checkout') is not None:
             cart = IShoppingSite(self.context).cart
             # Update shipping method.
             ICartAdapter(cart).update_shipping_method()
@@ -284,15 +283,10 @@ class BaseCustomerInfoViewlet(BaseViewlet):
     grok.viewletmanager(BillingAndShippingViewletManager)
 
     def create_form(self, form_class):
-        view = FormWrapper(self.context, self.request)
+        view = CustomerInfoFormWrapper(self.context, self.request)
         form = form_class(self.context, self.request)
         view.form_instance = form
         return view()
-
-
-class FormWrapper(FormWrapper):
-
-    index = ViewPageTemplateFile('viewlets/formwrapper.pt')
 
 
 class BillingInfoViewlet(BaseCustomerInfoViewlet):

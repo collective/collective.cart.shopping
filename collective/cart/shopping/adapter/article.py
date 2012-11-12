@@ -27,20 +27,21 @@ class ArticleAdapter(core.adapter.article.ArticleAdapter):
         """True if the Article is addable to cart."""
         context = aq_inner(self.context)
         return IShoppingSite(context).shop and ISalable(
-            context).salable and not context.use_subarticle and not self.subarticles
+            context).salable and not context.use_subarticle and not self.articles_in_article
 
     @property
     def subarticles(self):
         context = aq_inner(self.context)
         catalog = getToolByName(context, 'portal_catalog')
         brains = catalog({
-            'object_provides': core.interfaces.IArticle.__identifier__,
+            'object_provides': IArticle.__identifier__,
             'path': {
                 'query': '/'.join(context.getPhysicalPath()),
                 'depth': 1,
             },
             'salable': True,
             'sort_on': 'getObjPositionInParent',
+            'use_subarticle': False,
         })
         return brains
 
@@ -65,7 +66,19 @@ class ArticleAdapter(core.adapter.article.ArticleAdapter):
     @property
     def articles_in_article(self):
         """Articles in Article which is not optional subarticle."""
-        return not self.context.use_subarticle and self.subarticles or []
+        context = aq_inner(self.context)
+        catalog = getToolByName(context, 'portal_catalog')
+        brains = catalog({
+            'object_provides': IArticle.__identifier__,
+            'path': {
+                'query': '/'.join(context.getPhysicalPath()),
+                'depth': 1,
+            },
+            'salable': True,
+            'sort_on': 'getObjPositionInParent',
+        })
+
+        return not self.context.use_subarticle and brains or []
 
     @property
     def subarticle_addable_to_cart(self):

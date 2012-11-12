@@ -81,13 +81,25 @@ class ICart(core.interfaces.ICart):
 class ICartAdapter(core.interfaces.ICartAdapter):
     """Adapter interface for Cart"""
 
-    # billing_info = Attribute('Billing info')
-    # shipping_info = Attribute('Shipping info')
+    billing_info = Attribute('Billing info')
+    shipping_info = Attribute('Shipping info')
     articles_total = Attribute('Total money of articles')
     shipping_method = Attribute('Brain of shipping method')
     shipping_gross_money = Attribute('Gross money of shipping method')
     shipping_net_money = Attribute('Net money of shipping method')
     shipping_vat_money = Attribute('VAT money of shipping method')
+
+    def add_address(name):  # pragma: no cover
+        """Add address of the name to cart."""
+
+    def add_addresses():  # pragma: no cover
+        """Add addresses."""
+
+    def get_address(name):  # pragma: no cover
+        """Get address by name."""
+
+    def update_address(name):  # pragma: no cover
+        """Update existing address."""
 
     def update_shipping_method(uuid=None):  # pragma: no cover
         """Update shipping method based on uuid."""
@@ -148,13 +160,19 @@ class IBaseCustomerInfo(form.Schema):
         title=_(u'Phone Number'))
 
 
-@form.default_value(field=IBaseCustomerInfo['first_name'])
-def default_first_name(data):
+def get_cart_value(data):
     cart = IShoppingSite(data.context).cart
     if cart:
-        info = cart.get('billing_info')
+        info = ICartAdapter(cart).get_address(getattr(data.view, 'form_type', None))
         if info:
-            return info.first_name
+            return getattr(info, data.field.getName())
+
+
+@form.default_value(field=IBaseCustomerInfo['first_name'])
+def default_first_name(data):
+    cart_value = get_cart_value(data)
+    if cart_value:
+        return cart_value
 
     portal_state = getMultiAdapter((data.context, data.request), name="plone_portal_state")
     if not portal_state.anonymous():
@@ -168,11 +186,9 @@ def default_first_name(data):
 
 @form.default_value(field=IBaseCustomerInfo['last_name'])
 def default_last_name(data):
-    cart = IShoppingSite(data.context).cart
-    if cart:
-        info = cart.get('billing_info')
-        if info:
-            return info.last_name
+    cart_value = get_cart_value(data)
+    if cart_value:
+        return cart_value
 
     portal_state = getMultiAdapter((data.context, data.request), name="plone_portal_state")
     if not portal_state.anonymous():
@@ -185,30 +201,19 @@ def default_last_name(data):
 
 @form.default_value(field=IBaseCustomerInfo['organization'])
 def default_organization(data):
-    cart = IShoppingSite(data.context).cart
-    if cart:
-        info = cart.get('billing_info')
-        if info:
-            return info.organization
+    return get_cart_value(data)
 
 
 @form.default_value(field=IBaseCustomerInfo['vat'])
 def default_vat(data):
-    cart = IShoppingSite(data.context).cart
-    if cart:
-        info = cart.get('billing_info')
-        if info:
-            return info.vat
-    return u'FI'
+    return get_cart_value(data) or u'FI'
 
 
 @form.default_value(field=IBaseCustomerInfo['email'])
 def default_email(data):
-    cart = IShoppingSite(data.context).cart
-    if cart:
-        info = cart.get('billing_info')
-        if info:
-            return info.email
+    cart_value = get_cart_value(data)
+    if cart_value:
+        return cart_value
 
     portal_state = getMultiAdapter((data.context, data.request), name="plone_portal_state")
     if not portal_state.anonymous():
@@ -217,46 +222,29 @@ def default_email(data):
 
 
 @form.default_value(field=IBaseCustomerInfo['street'])
-def default_address(data):
-    cart = IShoppingSite(data.context).cart
-    if cart:
-        info = cart.get('billing_info')
-        if info:
-            return info.street
+def default_street(data):
+    return get_cart_value(data)
 
 
 @form.default_value(field=IBaseCustomerInfo['post'])
-def default_post_code(data):
-    cart = IShoppingSite(data.context).cart
-    if cart:
-        info = cart.get('billing_info')
-        if info:
-            return info.post
+def default_post(data):
+    return get_cart_value(data)
 
 
 @form.default_value(field=IBaseCustomerInfo['city'])
 def default_city(data):
-    cart = IShoppingSite(data.context).cart
-    if cart:
-        info = cart.get('billing_info')
-        if info:
-            return info.city
+    return get_cart_value(data)
 
 
 @form.default_value(field=IBaseCustomerInfo['phone'])
 def default_phone(data):
-    cart = IShoppingSite(data.context).cart
-    if cart:
-        info = cart.get('billing_info')
-        if info:
-            return info.phone
+    return get_cart_value(data)
 
 
 class ICustomerInfo(IBaseCustomerInfo):
     """Schema for collective.cart.shipping.CustomerInfo dexterity type."""
 
-    # info_type = TextLine(
-    #     title=_(u'Info Type'))
+    orig_uuid = Attribute('Original UUID.')
 
 
 class IShop(core.interfaces.IShoppingSiteRoot):

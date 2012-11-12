@@ -10,6 +10,7 @@ from plone.dexterity.utils import createContentInContainer
 from plone.directives import form
 from z3c.form import button
 from zope.component import getMultiAdapter
+from zope.lifecycleevent import modified
 
 
 class BaseCustomerInfoForm(form.SchemaForm):
@@ -36,16 +37,19 @@ class BillingInfoForm(BaseCustomerInfoForm):
                 cart, 'collective.cart.shopping.CustomerInfo', id='billing',
                 checkConstraints=False, **data)
             if cart.get('shipping') is None:
-                createContentInContainer(
-                    cart, 'collective.cart.shopping.CustomerInfo', id='shipping',
-                    checkConstraints=False, **data)
-            context_state = getMultiAdapter(
-                (self.context, self.request), name='plone_context_state')
-            return self.redirect(context_state.current_base_url())
+                shipping = createContentInContainer(cart, 'collective.cart.shopping.CustomerInfo',
+                    id='shipping', checkConstraints=False, **data)
+                modified(shipping)
+
         else:
             for key in data:
                 if getattr(billing, key) != data[key]:
                     setattr(billing, key, data[key])
+
+        modified(billing)
+        context_state = getMultiAdapter(
+            (self.context, self.request), name='plone_context_state')
+        return self.redirect(context_state.current_base_url())
 
 
 class ShippingInfoForm(BaseCustomerInfoForm):
@@ -67,6 +71,11 @@ class ShippingInfoForm(BaseCustomerInfoForm):
             for key in data:
                 if getattr(shipping, key) != data[key]:
                     setattr(shipping, key, data[key])
+
+        modified(shipping)
+        context_state = getMultiAdapter(
+            (self.context, self.request), name='plone_context_state')
+        return self.redirect(context_state.current_base_url())
 
 
 @form.default_value(field=shipping.schema.IShippingMethodSchema['shipping_method'])

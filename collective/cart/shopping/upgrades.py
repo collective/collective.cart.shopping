@@ -100,3 +100,19 @@ def update_catalog(context, logger=None):
     catalog = getToolByName(context, 'portal_catalog')
     logger.info('Clearing, finding and rebuilding catalog.')
     catalog.clearFindAndRebuild()
+
+
+def upgrade_6_to_7(context, logger=None):
+    """Update use_subarticle attribute for Article."""
+    from collective.cart.shopping.interfaces import IArticle
+    from zope.lifecycleevent import modified
+
+    if logger is None:
+        logger = logging.getLogger(__name__)
+
+    catalog = getToolByName(context, 'portal_catalog')
+    for brain in catalog(object_provides=IArticle.__identifier__):
+        if brain.use_subarticle is None:
+            obj = brain.getObject()
+            obj.use_subarticle = False
+            modified(obj)
