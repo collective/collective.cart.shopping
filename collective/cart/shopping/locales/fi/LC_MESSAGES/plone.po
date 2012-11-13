@@ -1,0 +1,2 @@
+msgid "Stock List"
+msgstr "Varastolista"
