@@ -125,6 +125,3 @@ def upgrade_6_to_7(context, logger=None):
             obj = brain.getObject()
             obj.use_subarticle = False
             modified(obj)
-
-
-
