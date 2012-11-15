@@ -97,7 +97,7 @@ class TestCase(IntegrationTestCase):
     def test_metadata__version(self):
         setup = getToolByName(self.portal, 'portal_setup')
         self.assertEqual(
-            setup.getVersionForProfile('profile-collective.cart.shopping:default'), u'7')
+            setup.getVersionForProfile('profile-collective.cart.shopping:default'), u'8')
 
     def get_record(self, name):
         """Get record by name.

@@ -73,4 +73,14 @@
     title="Update collective.cart.core.Article"
     />
 
+  <genericsetup:upgradeStep
+    description="Fixes UnicodeDecodeError by setting title to unicode."
+    destination="8"
+    handler="collective.cart.shopping.upgrades.upgrade_1_to_2"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="7"
+    title="Migrate SubArticle into Article once again!"
+    />
+
 </configure>

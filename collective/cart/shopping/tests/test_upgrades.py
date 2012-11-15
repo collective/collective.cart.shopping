@@ -61,7 +61,7 @@ class TestCase(IntegrationTestCase):
         subarticle1 = createContentInContainer(
             self.portal, 'collective.cart.shopping.SubArticle',
             checkConstraints=False, **item1)
-        subarticle1.title = 'SubArticle1'
+        subarticle1.title = 'SubArticle1'.encode('utf-8')
         modified(subarticle1)
 
         price2 = Decimal('50.00')
@@ -99,6 +99,7 @@ class TestCase(IntegrationTestCase):
         self.assertFalse(ISubArticle.providedBy(article1))
         for key in item1.keys():
             self.assertEqual(getattr(article1, key), item1[key])
+        self.assertIsInstance(article1.title, unicode)
 
         article2 = self.portal['folder']['sa2']
         self.assertFalse(ISubArticle.providedBy(article2))

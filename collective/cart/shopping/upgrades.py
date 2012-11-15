@@ -28,10 +28,12 @@ def upgrade_1_to_2(context, logger=None):
     """Migrate SubArticle into Article."""
     from Acquisition import aq_inner
     from Acquisition import aq_parent
+    from Products.CMFPlone.utils import safe_unicode
     from collective.behavior.discount.interfaces import IDiscount
     from collective.behavior.size.interfaces import ISize
     from collective.behavior.stock.interfaces import IStock
     from collective.behavior.vat.interfaces import IVAT
+    from collective.cart.shopping.interfaces import IArticle
     from collective.cart.shopping.interfaces import ISubArticle
     from plone.dexterity.utils import createContentInContainer
     from zope.lifecycleevent import modified
@@ -40,7 +42,7 @@ def upgrade_1_to_2(context, logger=None):
         logger = logging.getLogger(__name__)
 
     catalog = getToolByName(context, 'portal_catalog')
-    for brain in catalog(object_provides=ISubArticle.__identifier__):
+    for brain in catalog(Language="all", object_provides=ISubArticle.__identifier__):
         obj = brain.getObject()
         parent = aq_parent(aq_inner(obj))
         discount = IDiscount(obj)
@@ -78,6 +80,13 @@ def upgrade_1_to_2(context, logger=None):
         article.title = title
         modified(article)
 
+    for brain in catalog(Language="all", object_provides=IArticle.__identifier__):
+        obj = brain.getObject()
+        if not isinstance(obj.title, unicode):
+            logger.info('Setting unicode title to {}.'.format('/'.join(obj.getPhysicalPath())))
+            obj.title = safe_unicode(obj.title)
+            modified(obj)
+
 
 def update_propertiestool(context, logger=None):
     """Update propertiestool"""
@@ -111,8 +120,11 @@ def upgrade_6_to_7(context, logger=None):
         logger = logging.getLogger(__name__)
 
     catalog = getToolByName(context, 'portal_catalog')
-    for brain in catalog(object_provides=IArticle.__identifier__):
+    for brain in catalog(Language="all", object_provides=IArticle.__identifier__):
         if brain.use_subarticle is None:
             obj = brain.getObject()
             obj.use_subarticle = False
             modified(obj)
+
+
+
