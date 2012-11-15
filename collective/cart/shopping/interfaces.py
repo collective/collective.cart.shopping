@@ -1,3 +1,4 @@
+from Products.CMFPlone.utils import safe_unicode
 from collective.behavior.price.interfaces import IPrice
 from collective.cart import core
 from collective.cart.core.interfaces import IShoppingSite as IBaseShoppingSite
@@ -181,7 +182,7 @@ def default_first_name(data):
         parts = [part for part in fullname.split(' ') if part != '']
         if len(parts) >= 1:
             parts = parts[:-1]
-            return ' '.join(parts)
+            return safe_unicode(' '.join(parts))
 
 
 @form.default_value(field=IBaseCustomerInfo['last_name'])
@@ -196,7 +197,7 @@ def default_last_name(data):
         fullname = member.getProperty('fullname').strip()
         parts = [part for part in fullname.split(' ') if part != '']
         if len(parts) > 1:
-            return parts[-1]
+            return safe_unicode(parts[-1])
 
 
 @form.default_value(field=IBaseCustomerInfo['organization'])
