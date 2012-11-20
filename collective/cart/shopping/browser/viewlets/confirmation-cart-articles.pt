@@ -1,22 +1,22 @@
 <section
   id="cart-articles"
   i18n:domain="collective.cart.shopping"
-  tal:condition="viewlet/cart_articles">
+  tal:condition="viewlet/articles">
   <table>
     <tbody>
       <tr tal:repeat="item viewlet/articles">
         <td class="image">
-          <a
-            tal:condition="item/url"
-            tal:attributes="
-              href item/url;
-              title item/title">
-            <img tal:replace="structure item/image" />
-          </a>
-          <img
-            tal:condition="not: item/url"
-            tal:replace="structure item/image"
-            />
+            <a
+              tal:condition="item/url"
+              tal:attributes="
+                href item/url;
+                title item/title">
+              <img tal:attributes="src item/image_url" />
+            </a>
+            <img
+              tal:condition="not: item/url"
+              tal:attributes="src item/image_url"
+              />
         </td>
         <td class="name">
           <h3>

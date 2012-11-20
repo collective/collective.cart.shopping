@@ -1,7 +1,7 @@
 <section
   id="cart-articles"
   i18n:domain="collective.cart.shopping"
-  tal:condition="view/cart_articles">
+  tal:condition="viewlet/articles">
   <table>
     <tbody>
         <tr tal:repeat="item viewlet/articles">

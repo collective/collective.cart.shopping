@@ -125,3 +125,13 @@ def upgrade_6_to_7(context, logger=None):
             obj = brain.getObject()
             obj.use_subarticle = False
             modified(obj)
+
+
+def update_viewlets(context, logger=None):
+    """Update viewlets"""
+    if logger is None:
+        logger = logging.getLogger(__name__)
+    setup = getToolByName(context, 'portal_setup')
+    logger.info('Reimporting viewlets.')
+    setup.runImportStepFromProfile(
+        PROFILE_ID, 'viewlets', run_dependencies=False, purge_old=False)

@@ -23,6 +23,12 @@ class IShoppingSite(IBaseShoppingSite):
     shipping_method = Attribute('Shipping method from cart')
     total = Attribute('Total money')
 
+    def get_shipping_gross_money(uuid):
+        """Get shipping gross money by uuid."""
+
+    def get_brain_for_text(name):
+        """Get brain for displaying texts based on view name."""
+
 
 class IUpdateCart(Interface):
     """Multi adapter interface for updating cart."""

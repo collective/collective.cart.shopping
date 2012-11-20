@@ -9,6 +9,7 @@ from collective.cart.core.browser.viewlet import CartContentViewletManager
 from collective.cart.core.browser.viewlet import CartViewletManager
 from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping import _
+from collective.cart.shopping.browser.base import Message
 from collective.cart.shopping.browser.form import BillingInfoForm
 from collective.cart.shopping.browser.form import ShippingInfoForm
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
@@ -169,11 +170,11 @@ class BaseCartArticlesViewlet(core.browser.viewlet.CartArticlesViewlet):
     grok.baseclass()
     grok.layer(ICollectiveCartShoppingLayer)
 
-    def _image(self, obj):
-        scales = getMultiAdapter((obj, self.request), name='images')
-        scale = scales.scale('image', scale='thumb')
-        if scale:
-            return scale.tag()
+    # def _image(self, obj):
+    #     scales = getMultiAdapter((obj, self.request), name='images')
+    #     scale = scales.scale('image', scale='thumb')
+    #     if scale:
+    #         return scale.tag()
 
 
 class CartArticlesViewlet(BaseCartArticlesViewlet):
@@ -214,27 +215,8 @@ class CartArticlesViewlet(BaseCartArticlesViewlet):
     @property
     def articles(self):
         """Returns list of articles to show in cart."""
-        results = []
-        for item in IContentListing(self.view.cart_articles):
-            obj = item.getObject()
-            items = self._items(item)
-            items['image'] = None
-            items['description'] = None
-            items['gross'] = obj.gross
-            quantity = obj.quantity
-            items['quantity'] = quantity
-            items['vat_rate'] = obj.vat_rate
-            quantity_max = quantity
-            orig_article = ICartArticleAdapter(obj).orig_article
-            if orig_article:
-                items['image'] = self._image(orig_article)
-                items['description'] = orig_article.Description()
-                quantity_max += IStock(orig_article).stock
-            items['image_url'] = IArticleAdapter(orig_article).image_url
-            items['quantity_max'] = quantity_max
-            items['quantity_size'] = len(str(quantity_max))
-            results.append(items)
-        return results
+        cart = IShoppingSite(self.context).cart
+        return ICartAdapter(cart).articles
 
 
 class BaseCartViewlet(BaseViewlet):
@@ -266,7 +248,7 @@ class CheckOutViewlet(BaseCartViewlet):
             url = '{}/@@billing-and-shipping'.format(self.context.absolute_url())
             return self.request.response.redirect(url)
         if form.get('form.clear.cart', None) is not None:
-            ids = [brain.id for brain in IShoppingSite(self.context).cart_articles]
+            ids = [item['id'] for item in IShoppingSite(self.context).cart_articles]
             IShoppingSite(self.context).remove_cart_articles(ids)
             url = getMultiAdapter(
                 (self.context, self.request), name='plone_context_state').current_base_url()
@@ -336,42 +318,15 @@ class BaseOrderConfirmationViewlet(BaseViewlet):
     grok.baseclass()
     grok.viewletmanager(OrderConfirmationViewletManager)
 
-    def cart(self, cid=None):
-        """Cart object."""
-        container = IShoppingSite(self.context).cart_container
-        if container and cid is None:
-            cid = self.view.cart_id
-        return container.get(cid)
-
 
 class OrderConfirmationCartArticlesViewlet(BaseOrderConfirmationViewlet, BaseCartArticlesViewlet):
     """Cart Articles Viewlet for OrderConfirmationViewletManager."""
+    grok.name('collective.cart.shopping.confirmation-articles')
     grok.template('confirmation-cart-articles')
 
-    @property
-    def cart_articles(self):
-        """List of CartArticles within cart."""
-        cart = self.cart()
-        if cart:
-            return ICartAdapter(cart).articles
-
-    @property
     def articles(self):
         """Returns list of articles to show in cart."""
-        results = []
-        for item in IContentListing(self.cart_articles):
-            obj = item.getObject()
-            items = self._items(item)
-            items['image'] = None
-            items['description'] = None
-            items['vat_rate'] = obj.vat_rate
-            items['gross_subtotal'] = ICartArticleAdapter(obj).gross_subtotal
-            orig_article = ICartArticleAdapter(obj).orig_article
-            if orig_article:
-                items['image'] = self._image(orig_article)
-                items['description'] = orig_article.Description()
-            results.append(items)
-        return results
+        return ICartAdapter(self.view.cart).articles
 
 
 class OrderConfirmationShippingMethodViewlet(BaseOrderConfirmationViewlet):
@@ -380,9 +335,7 @@ class OrderConfirmationShippingMethodViewlet(BaseOrderConfirmationViewlet):
     grok.template('confirmation-shipping-method')
 
     def shipping_method(self):
-        cart = self.cart()
-        if cart:
-            return ICartAdapter(cart).shipping_method
+        return ICartAdapter(self.view.cart).shipping_method
 
 
 class OrderConfirmationTotalViewlet(BaseOrderConfirmationViewlet):
@@ -391,20 +344,33 @@ class OrderConfirmationTotalViewlet(BaseOrderConfirmationViewlet):
     grok.template('confirmation-total')
 
     def total(self):
-        cart = self.cart()
-        if cart:
-            return ICartAdapter(cart).total
+        return ICartAdapter(self.view.cart).total
 
 
-class OrderConfirmationViewOrderViewlet(BaseOrderConfirmationViewlet):
-    """View Order Viewlet for OrderConfirmationViewletManager."""
-    grok.name('collective.cart.shopping.cofirmation-view-order')
-    grok.template('confirmation-view-order')
+class TermsViewletManager(BaseViewletManager):
+    """Viewlet manager for terms."""
+    grok.name('collective.cart.shopping.terms.manager')
 
-    def cart_url(self):
-        cart = self.cart()
-        if cart:
-            return cart.absolute_url()
+
+class OrderConfirmationTermsViewlet(BaseViewlet, Message):
+    """Viewlet to show terms for ordering..."""
+    grok.name('confirmation-terms')
+    grok.template('confirmation-terms')
+    grok.viewletmanager(TermsViewletManager)
+
+# class OrderConfirmationViewOrderViewlet(BaseOrderConfirmationViewlet):
+#     """View Order Viewlet for OrderConfirmationViewletManager."""
+#     grok.name('collective.cart.shopping.cofirmation-view-order')
+#     grok.template('confirmation-view-order')
+
+#     def cart_url(self):
+#         return self.view.cart.absolute_url()
+
+
+class OrderConfirmationCheckoutViewlet(BaseOrderConfirmationViewlet):
+    """Check out viewlet for OrderConfirmationViewletManager."""
+    grok.name('collective.cart.shopping.confirmation-checkout')
+    grok.template('confirmation-checkout')
 
 
 class BaseCartContentViewlet(BaseViewlet):

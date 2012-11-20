@@ -112,12 +112,10 @@ Should not be able to visit /@@order-confirmation::
 
     >>> browser.open('/shop/@@order-confirmation')
     >>> browser.url
-    'http://nohost/plone/shop/@@cart'
-    >>> print browser.bycss('#cart-is-empty')
+    'http://nohost/plone/shop/@@billing-and-shipping'
 
-Should be able to visit /@@billing-and-shipping and fill billing info::
+Fill billing info::
 
-    >>> browser.open('/shop/@@billing-and-shipping')
     >>> browser.getControl(name="form.billing.widgets.first_name").value = 'Billing First Näme'
     >>> browser.getControl(name="form.billing.widgets.last_name").value = 'Billing Last Näme'
     >>> browser.getControl(name="form.billing.widgets.organization").value = 'Billing Örganization'
@@ -137,7 +135,7 @@ Should be able to visit /@@billing-and-shipping and fill billing info::
     <span class="required horizontal" title="Required">&#160;</span>
     </label>
     <div class="fieldErrorBox"></div>
-    <select id="form-widgets-shipping_method" name="form.widgets.shipping_method:list" class="select-widget required choice-field" size="1"><option id="form-widgets-shipping_method-0" value="..." selected>ShippingMeth&#246;d1</option><option id="form-widgets-shipping_method-1" value="...">ShippingMeth&#246;d2</option></select><input name="form.widgets.shipping_method-empty-marker" type="hidden" value="1"></div>
+    <select id="form-widgets-shipping_method" name="form.widgets.shipping_method:list" class="select-widget required choice-field" size="1"><option id="form-widgets-shipping_method-0" value="..." selected>ShippingMeth&#246;d1  0.1 EUR</option><option id="form-widgets-shipping_method-1" value="...">ShippingMeth&#246;d2  0.2 EUR</option></select><input name="form.widgets.shipping_method-empty-marker" type="hidden" value="1"></div>
 
 Update Shipping Method to ShippingMethod2::
 
@@ -154,7 +152,7 @@ Update Shipping Method to ShippingMethod2::
     <span class="required horizontal" title="Required">&#160;</span>
     </label>
     <div class="fieldErrorBox"></div>
-    <select id="form-widgets-shipping_method" name="form.widgets.shipping_method:list" class="select-widget required choice-field" size="1"><option id="form-widgets-shipping_method-0" value="...">ShippingMeth&#246;d1</option><option id="form-widgets-shipping_method-1" value="..." selected>ShippingMeth&#246;d2</option></select><input name="form.widgets.shipping_method-empty-marker" type="hidden" value="1"></div>
+    <select id="form-widgets-shipping_method" name="form.widgets.shipping_method:list" class="select-widget required choice-field" size="1"><option id="form-widgets-shipping_method-0" value="...">ShippingMeth&#246;d1  0.1 EUR</option><option id="form-widgets-shipping_method-1" value="..." selected>ShippingMeth&#246;d2  0.2 EUR</option></select><input name="form.widgets.shipping_method-empty-marker" type="hidden" value="1"></div>
 
 Confirm::
 

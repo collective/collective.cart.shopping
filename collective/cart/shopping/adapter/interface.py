@@ -1,6 +1,8 @@
-from Acquisition import aq_inner
+from Products.ATContentTypes.interfaces import IATDocument
+from Products.ATContentTypes.interfaces import IATFolder
 from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
+from collective.behavior.price.interfaces import ICurrency
 from collective.behavior.size.interfaces import ISize
 from collective.behavior.stock.interfaces import IStock
 from collective.cart.core.adapter import interface
@@ -10,9 +12,14 @@ from collective.cart.shopping import interfaces
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import ICartAdapter
 from five import grok
+from moneyed import Money
+from plone.registry.interfaces import IRegistry
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IBrowserRequest
+
+import types
 
 
 class ShoppingSite(interface.ShoppingSite):
@@ -29,17 +36,35 @@ class ShoppingSite(interface.ShoppingSite):
 
     @property
     def shipping_methods(self):
-        context = aq_inner(self.context)
-        catalog = getToolByName(context, 'portal_catalog')
-        query = {
-            'path': '/'.join(self.shop.getPhysicalPath()),
-            'object_provides': IShippingMethod.__identifier__,
-        }
-        return catalog(query)
+        path = '/'.join(self.shop.getPhysicalPath())
+        return self.get_brains(IShippingMethod, path=path)
 
     @property
     def shipping_method(self):
         return ICartAdapter(self.cart).shipping_method
+
+    def get_shipping_gross_money(self, uuid):
+        """Get shipping gross money by uuid."""
+        shipping_methods = [sm for sm in self.shipping_methods if sm.UID == uuid]
+        if shipping_methods:
+            shipping_method = shipping_methods[0]
+            obj = shipping_method.getObject()
+            rate = shipping_method.weight_dimension_rate
+            shipping_fee = price = obj.shipping_fee()
+            if isinstance(shipping_fee, types.FunctionType):
+                price = shipping_fee(ICartAdapter(self.cart)._calculated_weight(rate=rate))
+            registry = getUtility(IRegistry)
+            currency = registry.forInterface(ICurrency).default_currency
+            return Money(price, currency=currency)
+
+    def get_brain_for_text(self, name):
+        path = '/'.join(self.shop.getPhysicalPath())
+        brains = self.get_brains(IATFolder, path=path, depth=1, id=name)
+        if brains:
+            brain = brains[0]
+            brains = self.get_brains(IATDocument, path=brain.getPath(), depth=1)
+            if brains:
+                return brains[0]
 
 
 class UpdateCart(grok.MultiAdapter):
@@ -71,15 +96,16 @@ class UpdateCart(grok.MultiAdapter):
                                     quantity = item.quantity_max
                                 size = ISize(obj)
                                 kwargs = {
+                                    'depth': size.depth,
                                     'gross': item.gross,
+                                    'height': size.height,
                                     'net': item.net,
+                                    'quantity': quantity,
+                                    'sku': obj.sku,
                                     'vat': item.vat,
                                     'vat_rate': item.context.vat,
-                                    'quantity': quantity,
                                     'weight': size.weight,
                                     'width': size.width,
-                                    'height': size.height,
-                                    'depth': size.depth,
                                 }
                                 item.add_to_cart(**kwargs)
                                 IStock(obj).sub_stock(quantity)

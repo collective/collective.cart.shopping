@@ -24,14 +24,6 @@ class ICartAdapterTestCase(unittest.TestCase):
         from collective.cart.shopping.interfaces import ICartAdapter
         return ICartAdapter.get(name)
 
-    # def test_billing_info(self):
-    #     self.assertEqual(self.get_field('billing_info').getDoc(),
-    #         'Billing info')
-
-    # def test_shipping_info(self):
-    #     self.assertEqual(self.get_field('shipping_info').getDoc(),
-    #         'Shipping info')
-
     def test_shipping_method(self):
         self.assertEqual(self.get_field('shipping_method').getDoc(),
             'Brain of shipping method')
@@ -115,10 +107,10 @@ class CartAdapterTestCase(IntegrationTestCase):
 
     def create_articles(self, cart):
         article1 = createContentInContainer(cart, 'collective.cart.core.CartArticle',
-            id='article1', weight=100.0, quantity=1)
+            id='article1', weight=100.0, quantity=1, gross=Money(10.0, currency=u'EUR'), orig_uuid='UUID')
         modified(article1)
         article2 = createContentInContainer(cart, 'collective.cart.core.CartArticle',
-            id='article2', weight=200.0, quantity=2)
+            id='article2', weight=200.0, quantity=2, gross=Money(20.0, currency=u'EUR'), orig_uuid='UUID')
         modified(article2)
         return (article1, article2)
 
@@ -185,7 +177,7 @@ class CartAdapterTestCase(IntegrationTestCase):
 
         # Add another article to cart.
         article3 = createContentInContainer(cart, 'collective.cart.core.CartArticle',
-            id='article3', weight=300.0, quantity=3)
+            id='article3', weight=300.0, quantity=3, gross=Money(30.0, currency=u'EUR'), orig_uuid='UUID')
         modified(article3)
 
         # Update shipping method.

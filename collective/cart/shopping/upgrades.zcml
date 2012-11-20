@@ -83,4 +83,14 @@
     title="Migrate SubArticle into Article once again!"
     />
 
+  <genericsetup:upgradeStep
+    description="Fixes order of viewlets at @@billing-and-shipping view."
+    destination="9"
+    handler="collective.cart.shopping.upgrades.update_viewlets"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="8"
+    title="Reimport viewlets"
+    />
+
 </configure>

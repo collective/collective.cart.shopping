@@ -1,0 +1,15 @@
+<section
+  id="confirmation-terms"
+  i18n:domain="collective.cart.shopping"
+  tal:condition="viewlet/message">
+  <h1 tal:content="viewlet/message/title" />
+  <p tal:content="viewlet/message/description" />
+  <section id="terms">
+    <div tal:replace="structure viewlet/message/text" />
+  </section>
+  <input type="checkbox" name="accept-terms" id="accept-terms" value="accept" />
+  <label class="formQuestion"><span:tal i18n:translate="">Agree with terms above.</span:tal>
+    <span class="formHelp" i18n:translate="">Check this box to process your order.</span>
+  </label>
+
+</section>

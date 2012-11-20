@@ -1,0 +1,18 @@
+<html
+  i18n:domain="collective.cart.shopping"
+  lang="en"
+  metal:use-macro="context/main_template/macros/master"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal">
+  <body>
+    <metal:main fill-slot="main">
+      <section class="collective-cart-shopping">
+        <h1 class="documentFirstHeading" tal:condition="view/message" tal:content="view/message/title" />
+        <h1 class="documentFirstHeading" tal:condition="not: view/message" i18n:translate="">Thank you for the order.</h1>
+        <p class="documentDescription" tal:condition="view/message" tal:content="view/message/description" />
+        <div  tal:condition="view/message" tal:replace="structure view/message/text" />
+      </section>
+    </metal:main>
+  </body>
+</html>

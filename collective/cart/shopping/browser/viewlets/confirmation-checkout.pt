@@ -1,0 +1,17 @@
+<section
+  id="confirmation-checkout"
+  i18n:domain="collective.cart.shopping">
+  <form
+    method="post"
+    tal:attributes="action string: ${context/absolute_url}/@@thanks">
+    <div tal:replace="structure provider:collective.cart.shopping.terms.manager" />
+    <button
+      class="buttons shopping-button checkout"
+      i18n:translate=""
+      name="form.buttons.ConfirmOrder"
+      value="form.buttons.ConfirmOrder"
+      type="submit">
+      Confirm Order
+    </button>
+  </form>
+</section>

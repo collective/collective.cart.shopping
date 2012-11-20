@@ -15,6 +15,9 @@
             2. Customer Info and Shipping Method</span>&nbsp;&nbsp;&#45;&nbsp;&nbsp;<span i18n:translate="">
             3. Confirmation</span>
         </section>
+        <section class="description" tal:condition="view/message">
+          <p tal:content="view/message/description" />
+        </section>
         <section class="checkout-content cart">
           <p
             i18n:translate=""
@@ -25,6 +28,9 @@
           <div
             tal:condition="view/cart_articles"
             tal:replace="structure provider:collective.cart.core.cartviewletmanager" />
+        </section>
+        <section class="text" tal:condition="view/message">
+          <div tal:replace="structure view/message/text" />
         </section>
       </section>
     </div>

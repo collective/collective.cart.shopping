@@ -2,19 +2,26 @@ from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from collective.behavior.price.interfaces import ICurrency
 from collective.behavior.size.interfaces import ISize
+from collective.behavior.stock.interfaces import IStock
 from collective.cart import core
 from collective.cart.shipping.interfaces import ICartShippingMethod
+from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IBaseCustomerInfo
 from collective.cart.shopping.interfaces import ICart
 from collective.cart.shopping.interfaces import ICartAdapter
+from collective.cart.shopping.interfaces import ICartArticle
+from collective.cart.shopping.interfaces import ICartArticleAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
 from decimal import Decimal
 from five import grok
 from moneyed import Money
+from plone.app.contentlisting.interfaces import IContentListing
 from plone.dexterity.utils import createContentInContainer
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.lifecycleevent import modified
+
+import types
 
 
 class CartAdapter(core.adapter.cart.CartAdapter):
@@ -24,13 +31,42 @@ class CartAdapter(core.adapter.cart.CartAdapter):
     grok.provides(ICartAdapter)
 
     @property
+    def articles(self):
+        """List of dictionary of Articles within cart."""
+        res = []
+        for item in IContentListing(self.get_brains(ICartArticle)):
+            obj = item.getObject()
+            items = {
+                'description': item.Description(),
+                'gross': item.gross,
+                'gross_subtotal': ICartArticleAdapter(obj).gross_subtotal,
+                'id': item.getId(),
+                'image_url': None,
+                'obj': obj,
+                'quantity': item.quantity,
+                'quantity_max': item.quantity,
+                'sku': item.sku,
+                'title': item.Title(),
+                'url': None,
+                'vat_rate': item.vat_rate,
+            }
+            orig_article = ICartArticleAdapter(obj).orig_article
+            if orig_article:
+                items['url'] = orig_article.absolute_url()
+                items['image_url'] = IArticleAdapter(orig_article).image_url
+                items['quantity_max'] += IStock(orig_article).stock
+            items['quantity_size'] = len(str(items['quantity_max']))
+            res.append(items)
+        return res
+
+    @property
     def articles_total(self):
         """Total money of articles"""
         registry = getUtility(IRegistry)
         currency = registry.forInterface(ICurrency).default_currency
         res = Money(0.00, currency=currency)
-        for brain in self.articles:
-            res += brain.gross * brain.quantity
+        for item in self.articles:
+            res += item['gross'] * item['quantity']
         return res
 
     @property
@@ -59,8 +95,8 @@ class CartAdapter(core.adapter.cart.CartAdapter):
     def _calculated_weight(self, rate=None):
         weight = 0
         for article in self.articles:
-            obj = article.getObject()
-            weight += ISize(obj).calculated_weight(rate=rate) * article.quantity
+            obj = article['obj']
+            weight += ISize(obj).calculated_weight(rate=rate) * article['quantity']
         return weight
 
     @property
@@ -71,7 +107,9 @@ class CartAdapter(core.adapter.cart.CartAdapter):
                 shipping_method = shipping_methods[0]
                 obj = shipping_method.getObject()
                 rate = shipping_method.weight_dimension_rate
-                price = obj.shipping_fee()(self._calculated_weight(rate=rate))
+                shipping_fee = price = obj.shipping_fee()
+                if isinstance(shipping_fee, types.FunctionType):
+                    price = shipping_fee(self._calculated_weight(rate=rate))
                 registry = getUtility(IRegistry)
                 currency = registry.forInterface(ICurrency).default_currency
                 return Money(price, currency=currency)

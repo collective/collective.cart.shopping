@@ -1,8 +1,9 @@
+from Acquisition import aq_inner
 from Products.ATContentTypes.interfaces.image import IATImage
 from Products.CMFCore.utils import getToolByName
 from collective.cart import core
-from collective.cart.core.browser.template import CartView
 from collective.cart.core.interfaces import IShoppingSiteRoot
+from collective.cart.shopping.browser.base import Message
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
@@ -17,12 +18,17 @@ from plone.memoize.instance import memoize
 grok.templatedir('templates')
 
 
-class ArticleView(grok.View):
+class BaseView(grok.View):
+    """Base class for View."""
+    grok.baseclass()
+    grok.layer(ICollectiveCartShoppingLayer)
+    grok.require('zope2.View')
+
+
+class ArticleView(BaseView):
     """Default view for Article."""
     grok.context(IArticle)
-    grok.layer(ICollectiveCartShoppingLayer)
     grok.name('view')
-    grok.require('zope2.View')
     grok.template('article')
 
     def images(self):
@@ -59,25 +65,21 @@ class ArticleView(grok.View):
         return IArticleAdapter(self.context).title
 
 
-class ArticleContainerView(grok.View):
+class ArticleContainerView(BaseView):
     """Default view for ArticleContainer."""
     grok.context(IArticleContainer)
-    grok.layer(ICollectiveCartShoppingLayer)
     grok.name('view')
-    grok.require('zope2.View')
     grok.template('article-container')
 
 
-class ShoppingCartView(CartView):
+class CartView(core.browser.template.CartView, Message):
     """Cart View"""
     grok.layer(ICollectiveCartShoppingLayer)
 
 
-class BaseCheckoutView(grok.View):
+class BaseCheckoutView(BaseView):
     grok.baseclass()
     grok.context(IShoppingSiteRoot)
-    grok.layer(ICollectiveCartShoppingLayer)
-    grok.require('zope2.View')
 
     def update(self):
         if not IShoppingSite(self.context).cart_articles or (
@@ -88,35 +90,50 @@ class BaseCheckoutView(grok.View):
             self.request.set('disable_border', True)
             super(BaseCheckoutView, self).update()
 
+    @property
+    def cart(self):
+        return IShoppingSite(self.context).cart
 
-class BillingAndShippingView(BaseCheckoutView):
+
+class BillingAndShippingView(BaseCheckoutView, Message):
     grok.name('billing-and-shipping')
     grok.template('billing-and-shipping')
 
 
-class OrderConfirmationView(BaseCheckoutView):
+class OrderConfirmationView(BaseCheckoutView, Message):
     grok.name('order-confirmation')
     grok.template('order-confirmation')
 
     def update(self):
-        ids = []
-        cart = IShoppingSite(self.context).cart
-        if cart is not None:
-            ids = cart.objectIds()
-        if not 'billing' in ids or not 'shipping' in ids:
-            url = '{}/@@cart'.format(self.context.absolute_url())
+        if not self.cart or 'billing' not in self.cart.objectIds() or 'shipping' not in self.cart.objectIds():
+            url = '{}/@@billing-and-shipping'.format(self.context.absolute_url())
             return self.request.response.redirect(url)
-        else:
-            super(OrderConfirmationView, self).update()
-            self.cart_id = cart.id
-            workflow = getToolByName(self.context, 'portal_workflow')
-            workflow.doActionFor(cart, 'charge')
+        super(OrderConfirmationView, self).update()
 
 
-class StockListView(grok.View):
+class ThanksView(BaseCheckoutView, Message):
+    """View for thank for order."""
+    grok.name('thanks')
+    grok.template('thanks')
+
+    def update(self):
+        super(ThanksView, self).update()
+        context = aq_inner(self.context)
+        form = self.request.form
+        if form.get('form.buttons.ConfirmOrder') is not None:
+            if form.get('accept-terms') is not None:
+                self.cart_id = self.cart.id
+                workflow = getToolByName(context, 'portal_workflow')
+                workflow.doActionFor(self.cart, 'ordered')
+                return
+
+        url = '{}/@@order-confirmation'.format(context.absolute_url())
+        return self.request.response.redirect(url)
+
+
+class StockListView(BaseView):
     """View to show list of Article stock."""
     grok.context(core.interfaces.IArticle)
-    grok.layer(ICollectiveCartShoppingLayer)
     grok.name('stock-list')
     grok.require('cmf.ModifyPortalContent')
     grok.template('stock-list')
@@ -165,10 +182,8 @@ class StockListView(grok.View):
         return ulocalized_time(date, context=self.context)
 
 
-class CustomerInfoView(grok.View):
+class CustomerInfoView(BaseView):
     """View for Customer Info."""
     grok.context(ICustomerInfo)
-    grok.layer(ICollectiveCartShoppingLayer)
     grok.name('view')
-    grok.require('zope2.View')
     grok.template('customer-info')

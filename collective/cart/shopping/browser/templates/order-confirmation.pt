@@ -15,9 +15,14 @@
             2. Customer Info and Shipping Method</span>&nbsp;&nbsp;&#45;&nbsp;&nbsp;<span id="current-step" i18n:translate="">
             3. Confirmation</span>
         </section>
+        <section class="description" tal:condition="view/message">
+          <p tal:content="view/message/description" />
+        </section>
         <section class="checkout-content order-confirmation">
-          <h1 i18n:translate="head_order_confirmation">The order is confirmed.</h1>
           <div tal:replace="structure provider:collective.cart.shopping.order.confirmation.manager" />
+        </section>
+        <section class="text" tal:condition="view/message">
+          <div tal:replace="structure view/message/text" />
         </section>
       </section>
     </metal:main>

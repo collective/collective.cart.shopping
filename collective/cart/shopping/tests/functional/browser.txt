@@ -412,7 +412,7 @@ Go to Cart Container:
     </tr></thead><tbody><tr><td class="cart-id">
     <a href="http://nohost/plone/shop/cart-container/1">1</a>
     </td>
-    <td class="cart-state">created</td>
+    <td class="cart-state">Created</td>
     <td class="cart-modified">...</td>
     <td class="cart-owner">test_user_1_</td>
     </tr></tbody></table></section>
