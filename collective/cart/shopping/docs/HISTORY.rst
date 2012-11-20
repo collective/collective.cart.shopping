@@ -10,6 +10,7 @@ Change log
 - Added content types: Variable Container and Variable. [taito]
 - Added dependency to collective.behavior.sku. [taito]
 - Added behaviors to Subarticle. [taito]
+- Added thansk page. [taito]
 
 0.2.1 (2012-09-25)
 ==================
