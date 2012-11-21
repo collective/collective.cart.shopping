@@ -3,7 +3,7 @@
   <order manager="collective.cart.shopping.billing.shipping.manager" skinname="*">
     <viewlet name="collective.cart.shopping.billing.info" />
     <viewlet name="collective.cart.shopping.shipping.info" />
-    <viewlet name="collective.cart.shipping.shipping.method" />
+    <viewlet name="collective.cart.shopping.shipping.method" />
     <viewlet name="collective.cart.shopping.billing.shipping.method.checkout" />
   </order>
   <order manager="collective.cart.shopping.order.confirmation.manager" skinname="*">

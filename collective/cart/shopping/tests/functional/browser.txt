@@ -403,7 +403,7 @@ Go to Cart Container:
     >>> browser.open('/shop/cart-container')
     >>> print browser.bycss('#cart-container')
     --- 1 ---
-    <section id="cart-container"><h1>Cart Container</h1>
+    <section id="cart-container"><h1>Orders</h1>
     <p id="next-cart-id">The next cart ID: 2</p>
     <table class="listing" id="cart-list"><thead><tr><th>Cart ID</th>
     <th>State</th>

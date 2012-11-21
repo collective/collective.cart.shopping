@@ -1,15 +1,16 @@
-from collective.cart import shipping
 from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
-from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.interfaces import IBaseCustomerInfo
+from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
+from collective.cart.shopping.schema import IShippingMethodSchema
 from five import grok
 from plone.dexterity.utils import createContentInContainer
 from plone.directives import form
 from z3c.form import button
 from zope.component import getMultiAdapter
+from zope.interface import Interface
 from zope.lifecycleevent import modified
 
 
@@ -78,7 +79,7 @@ class ShippingInfoForm(BaseCustomerInfoForm):
         return self.redirect(context_state.current_base_url())
 
 
-@form.default_value(field=shipping.schema.IShippingMethodSchema['shipping_method'])
+@form.default_value(field=IShippingMethodSchema['shipping_method'])
 def default_shipping_method(data):
     if IShoppingSite(data.context).shipping_method:
         shipping_uuid = IShoppingSite(data.context).shipping_method.orig_uuid
@@ -87,10 +88,14 @@ def default_shipping_method(data):
     return shipping_uuid
 
 
-class ShippingMethodForm(shipping.browser.form.ShippingMethodForm):
+class ShippingMethodForm(form.SchemaForm):
+    grok.context(Interface)
     grok.layer(ICollectiveCartShoppingLayer)
+    grok.name('shipping-method-form')
+    grok.require('zope2.View')
 
-    schema = shipping.schema.IShippingMethodSchema
+    ignoreContext = True
+    schema = IShippingMethodSchema
 
     @button.buttonAndHandler(_(u'Update'))
     def handleApply(self, action):

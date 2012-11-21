@@ -1,0 +1,5 @@
+<section
+  id="shipping-method-form"
+  tal:condition="viewlet/available">
+  <form tal:replace="structure viewlet/form" />
+</section>

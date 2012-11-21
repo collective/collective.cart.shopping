@@ -4,17 +4,16 @@ from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
 from collective.behavior.stock.interfaces import IStock
 from collective.cart import core
-from collective.cart import shipping
 from collective.cart.core.browser.viewlet import CartContentViewletManager
 from collective.cart.core.browser.viewlet import CartViewletManager
 from collective.cart.core.interfaces import IShoppingSiteRoot
+from collective.cart.shopping.browser.wrapper import ShippingMethodFormWrapper
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.base import Message
 from collective.cart.shopping.browser.form import BillingInfoForm
 from collective.cart.shopping.browser.form import ShippingInfoForm
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
 from collective.cart.shopping.browser.wrapper import CustomerInfoFormWrapper
-from collective.cart.shopping.browser.wrapper import ShippingMethodFormWrapper
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
@@ -28,8 +27,9 @@ from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.viewletmanager.manager import OrderedViewletManager
 from plone.uuid.interfaces import IUUID
 from zope.component import getMultiAdapter
-from zope.interface import Interface
+from zope.component import getUtility
 from zope.lifecycleevent import modified
+from zope.schema.interfaces import IVocabularyFactory
 
 
 grok.templatedir('viewlets')
@@ -170,12 +170,6 @@ class BaseCartArticlesViewlet(core.browser.viewlet.CartArticlesViewlet):
     grok.baseclass()
     grok.layer(ICollectiveCartShoppingLayer)
 
-    # def _image(self, obj):
-    #     scales = getMultiAdapter((obj, self.request), name='images')
-    #     scale = scales.scale('image', scale='thumb')
-    #     if scale:
-    #         return scale.tag()
-
 
 class CartArticlesViewlet(BaseCartArticlesViewlet):
     """Cart Articles Viewlet Class."""
@@ -291,10 +285,20 @@ class ShippingInfoViewlet(BaseCustomerInfoViewlet):
         return self.create_form(ShippingInfoForm)
 
 
-class ShippingMethodViewlet(BaseCustomerInfoViewlet, shipping.browser.viewlet.ShippingMethodViewlet):
-    grok.view(Interface)
+class ShippingMethodViewlet(BaseCustomerInfoViewlet):
+    """Viewlet to show updating shipping method form."""
+    grok.name('collective.cart.shopping.shipping.method')
+    grok.template('shipping-method')
 
     _form_wrapper = ShippingMethodFormWrapper
+
+    def form(self):
+        return self._form_wrapper(self.context, self.request)()
+
+    def available(self):
+        return len(getUtility(
+            IVocabularyFactory,
+            name="collective.cart.shipping.methods").__call__(self.context))
 
 
 class BillingShippingCheckOutViewlet(BaseCustomerInfoViewlet):
