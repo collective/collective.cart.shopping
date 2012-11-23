@@ -33,6 +33,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
+        'Products.CMFPlone>=4.2',
         'collective.behavior.discount',
         'collective.behavior.size',
         'collective.behavior.sku',
