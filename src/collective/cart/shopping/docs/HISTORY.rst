@@ -1,7 +1,7 @@
 Change log
 ----------
 
-0.2.1.7 (2012-11-23)
+0.2.1.8 (2012-11-23)
 ====================
 
 - Added upgrade step to migrate SubArticle to Article. [taito]
