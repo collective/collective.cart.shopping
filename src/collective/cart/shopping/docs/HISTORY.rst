@@ -1,6 +1,11 @@
 Change log
 ----------
 
+0.2.1.9 (2012-11-23)
+====================
+
+- Updated version of collective.cart.core for Travis CI. [taito]
+
 0.2.1.8 (2012-11-23)
 ====================
 
