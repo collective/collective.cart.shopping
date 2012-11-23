@@ -95,6 +95,7 @@ class ICartAdapter(core.interfaces.ICartAdapter):
     shipping_gross_money = Attribute('Gross money of shipping method')
     shipping_net_money = Attribute('Net money of shipping method')
     shipping_vat_money = Attribute('VAT money of shipping method')
+    is_addresses_filled = Attribute('True if both billing and shipping addresses are filled.')
 
     def add_address(name):  # pragma: no cover
         """Add address of the name to cart."""
@@ -104,6 +105,9 @@ class ICartAdapter(core.interfaces.ICartAdapter):
 
     def get_address(name):  # pragma: no cover
         """Get address by name."""
+
+    def is_address_filled(name):  # pragma: no cover
+        """Return true if the address of the name is filled."""
 
     def update_address(name):  # pragma: no cover
         """Update existing address."""

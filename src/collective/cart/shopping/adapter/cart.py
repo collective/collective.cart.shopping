@@ -132,6 +132,20 @@ class CartAdapter(core.adapter.cart.CartAdapter):
     def shipping_info(self):
         return self.get_address('shipping')
 
+    def is_address_filled(self, name):
+        """Return true if the address of the name is filled."""
+        info = self.get_address(name)
+        names = [name for name in IBaseCustomerInfo.names() if IBaseCustomerInfo.get(name).required]
+        for name in names:
+            if getattr(info, name, None) is None:
+                return False
+        return True
+
+    @property
+    def is_addresses_filled(self):
+        """True if both billing and shipping addresses are filled."""
+        return self.is_address_filled('billing') and self.is_address_filled('shipping')
+
     def add_address(self, name):
         """Add address with name."""
 

@@ -1,13 +1,16 @@
 from Acquisition import aq_inner
 from Products.ATContentTypes.interfaces.image import IATImage
 from Products.CMFCore.utils import getToolByName
+from Products.statusmessages.interfaces import IStatusMessage
 from collective.cart import core
 from collective.cart.core.interfaces import IShoppingSiteRoot
+from collective.cart.shopping import _
 from collective.cart.shopping.browser.base import Message
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
+from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.interfaces import ICustomerInfo
 from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.stock.interfaces import IStock
@@ -105,7 +108,9 @@ class OrderConfirmationView(BaseCheckoutView, Message):
     grok.template('order-confirmation')
 
     def update(self):
-        if not self.cart or 'billing' not in self.cart.objectIds() or 'shipping' not in self.cart.objectIds():
+        if not self.cart or not ICartAdapter(self.cart).is_addresses_filled:
+            message = _(u'info_missing_from_addresses', default=u"Some information is missing from addresses.")
+            IStatusMessage(self.request).addStatusMessage(message, type='info')
             url = '{}/@@billing-and-shipping'.format(self.context.absolute_url())
             return self.request.response.redirect(url)
         super(OrderConfirmationView, self).update()
@@ -121,7 +126,9 @@ class ThanksView(BaseCheckoutView, Message):
         context = aq_inner(self.context)
         form = self.request.form
         if form.get('form.buttons.ConfirmOrder') is not None:
-            if form.get('accept-terms') is not None:
+            if IShoppingSite(self.context).get_brain_for_text('confirmation-terms-message') and form.get('accept-terms') is None:
+                return
+            else:
                 self.cart_id = self.cart.id
                 workflow = getToolByName(context, 'portal_workflow')
                 workflow.doActionFor(self.cart, 'ordered')
