@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-11-20 19:42+0000\n"
+"POT-Creation-Date: 2012-11-22 07:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,7 +45,7 @@ msgstr ""
 msgid "Article Container"
 msgstr ""
 
-#: ./browser/viewlet.py:278
+#: ./browser/viewlet.py:272
 #: ./browser/viewlets/customer-info.pt:10
 msgid "Billing Info"
 msgstr ""
@@ -130,7 +130,7 @@ msgstr ""
 msgid "Initial Stock"
 msgstr ""
 
-#: ./adapter/interface.py:122
+#: ./adapter/interface.py:113
 msgid "Input integer value to add to cart."
 msgstr ""
 
@@ -138,7 +138,7 @@ msgstr ""
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr ""
 
-#: ./browser/viewlet.py:208
+#: ./browser/viewlet.py:202
 msgid "Invalid quantity."
 msgstr ""
 
@@ -192,9 +192,13 @@ msgstr ""
 msgid "Representative Image"
 msgstr ""
 
-#: ./browser/viewlet.py:288
+#: ./browser/viewlet.py:282
 #: ./browser/viewlets/customer-info.pt:11
 msgid "Shipping Info"
+msgstr ""
+
+#: ./schema.py:9
+msgid "Shipping Method"
 msgstr ""
 
 #: ./browser/viewlets/confirmation-shipping-method.pt:9
@@ -234,7 +238,7 @@ msgstr ""
 msgid "Subarticle"
 msgstr ""
 
-#: ./browser/form.py:30
+#: ./browser/form.py:31
 msgid "Submit"
 msgstr ""
 
@@ -251,7 +255,7 @@ msgstr ""
 msgid "Total"
 msgstr ""
 
-#: ./browser/form.py:95
+#: ./browser/form.py:100
 #: ./browser/viewlets/cart-articles.pt:55
 msgid "Update"
 msgstr ""

@@ -5,9 +5,9 @@ import os
 
 
 long_description = (
-    open(os.path.join("collective", "cart", "shopping", "docs", "README.rst")).read() + "\n" +
-    open(os.path.join("collective", "cart", "shopping", "docs", "HISTORY.rst")).read() + "\n" +
-    open(os.path.join("collective", "cart", "shopping", "docs", "CONTRIBUTORS.rst")).read())
+    open(os.path.join("src", "collective", "cart", "shopping", "docs", "README.rst")).read() + "\n" +
+    open(os.path.join("src", "collective", "cart", "shopping", "docs", "HISTORY.rst")).read() + "\n" +
+    open(os.path.join("src", "collective", "cart", "shopping", "docs", "CONTRIBUTORS.rst")).read())
 
 
 setup(
@@ -27,7 +27,8 @@ setup(
     author_email='taito.horiuchi@gmail.com',
     url='https://github.com/collective/collective.cart.shopping/',
     license='BSD',
-    packages=find_packages(exclude=['ez_setup']),
+    packages=find_packages('src', exclude=['ez_setup']),
+    package_dir={'': 'src'},
     namespace_packages=['collective', 'collective.cart'],
     include_package_data=True,
     zip_safe=False,
@@ -40,6 +41,7 @@ setup(
         'collective.cart.core',
         'collective.cart.shipping',
         'five.grok',
+        'five.pt',
         'hexagonit.testing',
         'plone.app.imaging',
         'plone.app.relationfield',
@@ -47,8 +49,7 @@ setup(
         'plone.directives.form',
         'plone.browserlayer',
         'plone.namedfile [blobs]',
-        'setuptools',
-        'zope.i18nmessageid'],
+        'setuptools'],
     entry_points="""
     # -*- Entry points: -*-
 

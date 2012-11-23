@@ -7,7 +7,15 @@
   xmlns:plone="http://namespaces.plone.org/plone"
   xmlns="http://namespaces.zope.org/zope">
 
-  <includeDependencies package="." />
+  <include package="five.pt"/>
+  <include package="collective.cart.core"/>
+  <include package="collective.cart.shipping"/>
+  <include package="collective.behavior.discount"/>
+  <include package="collective.behavior.size"/>
+  <include package="collective.behavior.sku"/>
+  <include package="collective.behavior.stock"/>
+  <include package="collective.behavior.vat"/>
+
   <grok:grok package="." />
   <five:registerPackage package="." initialize=".initialize" />
   <i18n:registerTranslations directory="locales" />

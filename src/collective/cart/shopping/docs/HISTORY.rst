@@ -1,7 +1,7 @@
 Change log
 ----------
 
-0.2.1.6 (2012-11-15)
+0.2.1.6 (2012-11-21)
 ====================
 
 - Added upgrade step to migrate SubArticle to Article. [taito]
@@ -11,6 +11,7 @@ Change log
 - Added dependency to collective.behavior.sku. [taito]
 - Added behaviors to Subarticle. [taito]
 - Added thansk page. [taito]
+- Added testing integration to Travis CI. [taito]
 
 0.2.1 (2012-09-25)
 ==================
