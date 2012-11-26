@@ -1,6 +1,12 @@
 Change log
 ----------
 
+0.2.1.10 (2012-11-26)
+=====================
+
+- Added redirection to login page for anonymous when trying to add article to cart.
+  [taito]
+
 0.2.1.9 (2012-11-23)
 ====================
 
