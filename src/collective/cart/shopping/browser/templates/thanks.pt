@@ -11,7 +11,9 @@
         <h1 class="documentFirstHeading" tal:condition="view/message" tal:content="view/message/title" />
         <h1 class="documentFirstHeading" tal:condition="not: view/message" i18n:translate="">Thank you for the order.</h1>
         <p class="documentDescription" tal:condition="view/message" tal:content="view/message/description" />
+        <p i18n:translate="">Your order number is <span id="number" i18n:name="number" tal:content="view/cart_id" />.</p>
         <div  tal:condition="view/message" tal:replace="structure view/message/text" />
+        <a class="button" tal:attributes="href view/order_url" i18n:translate="">Check the order</a>
       </section>
     </metal:main>
   </body>

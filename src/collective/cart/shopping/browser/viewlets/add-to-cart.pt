@@ -20,35 +20,30 @@
         Normal Price: <span i18n:name="normal-price" tal:replace="context/money" />
       </p>
     </section>
-    <tal:block tal:condition="not: context/@@plone_portal_state/anonymous">
-      <label i18n:translate="">Quantity</label>
-      <input
-        id="quantity"
-        name="quantity"
-        tal:attributes="
-          maxlength viewlet/quantity_size;
-          size viewlet/quantity_size"
-        type="text"
-        value="1"
-        />
-      <span
-        id="pcs"
-        i18n:translate="">pcs</span>
-      <span class="stock" i18n:translate="">
-        Stock: <span i18n:name="stock" tal:replace="viewlet/quantity_max" /> pcs
-      </span>
-      <button
-        class="shopping-button update"
-        i18n:domain="collective.cart.core"
-        i18n:translate=""
-        name="form.buttons.AddToCart"
-        tal:attributes="value viewlet/uuid"
-        type="submit"
-        >Add To Cart</button>
-    </tal:block>
-    <div
-      tal:condition="context/@@plone_portal_state/anonymous"
-      tal:replace="structure provider:collective.cart.shopping.loginmanager" />
+    <label i18n:translate="">Quantity</label>
+    <input
+      id="quantity"
+      name="quantity"
+      tal:attributes="
+        maxlength viewlet/quantity_size;
+        size viewlet/quantity_size"
+      type="text"
+      value="1"
+      />
+    <span
+      id="pcs"
+      i18n:translate="">pcs</span>
+    <span class="stock" i18n:translate="">
+      Stock: <span i18n:name="stock" tal:replace="viewlet/quantity_max" /> pcs
+    </span>
+    <button
+      class="shopping-button update"
+      i18n:domain="collective.cart.core"
+      i18n:translate=""
+      name="form.buttons.AddToCart"
+      tal:attributes="value viewlet/uuid"
+      type="submit"
+      >Add To Cart</button>
   </form>
   <p
     class="sold-out"

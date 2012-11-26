@@ -127,15 +127,19 @@ class ThanksView(BaseCheckoutView, Message):
         form = self.request.form
         if form.get('form.buttons.ConfirmOrder') is not None:
             if IShoppingSite(self.context).get_brain_for_text('confirmation-terms-message') and form.get('accept-terms') is None:
-                return
+                url = '{}/@@order-confirmation'.format(context.absolute_url())
+                return self.request.response.redirect(url)
             else:
                 self.cart_id = self.cart.id
                 workflow = getToolByName(context, 'portal_workflow')
                 workflow.doActionFor(self.cart, 'ordered')
-                return
+        else:
+            url = '{}/@@order-confirmation'.format(context.absolute_url())
+            return self.request.response.redirect(url)
 
-        url = '{}/@@order-confirmation'.format(context.absolute_url())
-        return self.request.response.redirect(url)
+    def order_url(self):
+        membership = getToolByName(self.context, 'portal_membership')
+        return '{}?order_number={}'.format(membership.getHomeUrl(), self.cart_id)
 
 
 class StockListView(BaseView):

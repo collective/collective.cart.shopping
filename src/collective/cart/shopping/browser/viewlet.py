@@ -157,7 +157,7 @@ class ArticlesInArticleViewlet(BaseViewlet):
                 'quantity_size': quantity_size,
                 'soldout': soldout,
                 'subarticles': article.subarticles_option,
-                'title': item.Title(),
+                'title': article.title,
                 'url': item.getURL(),
                 'uuid': item.uuid(),
                 'vat': item.vat,
