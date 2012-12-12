@@ -71,22 +71,22 @@
         <td i18n:translate="">Street Address</td>
         <td
           tal:condition="billing"
-          tal:content="billing/address"
+          tal:content="billing/street"
           />
         <td
           tal:condition="shipping"
-          tal:content="shipping/address"
+          tal:content="shipping/street"
           />
       </tr>
       <tr>
         <td i18n:translate="">Post Code</td>
         <td
           tal:condition="billing"
-          tal:content="billing/post_code"
+          tal:content="billing/post"
           />
         <td
           tal:condition="shipping"
-          tal:content="shipping/post_code"
+          tal:content="shipping/post"
           />
       </tr>
       <tr>
