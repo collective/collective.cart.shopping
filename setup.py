@@ -18,7 +18,6 @@ setup(
     classifiers=[
         "Framework :: Plone",
         "Framework :: Plone :: 4.2",
-        "Framework :: Plone :: 4.3",
         "License :: OSI Approved :: BSD License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7"],
@@ -33,7 +32,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'Products.CMFPlone>=4.2',
+        'Products.CMFPlone',
         'collective.behavior.discount',
         'collective.behavior.size',
         'collective.behavior.sku',
@@ -44,11 +43,9 @@ setup(
         'five.grok',
         'five.pt',
         'hexagonit.testing',
-        'plone.app.imaging',
         'plone.app.relationfield',
         'plone.app.textfield',
         'plone.directives.form',
-        'plone.browserlayer',
         'plone.namedfile [blobs]',
         'setuptools'],
     entry_points="""

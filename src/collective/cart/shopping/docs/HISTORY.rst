@@ -4,7 +4,7 @@ Change log
 0.2.1.11 (2012-12-12)
 =====================
 
-- Updated translations. [taito]
+- Updated translations and dependencies. [taito]
 
 0.2.1.10 (2012-11-26)
 =====================
