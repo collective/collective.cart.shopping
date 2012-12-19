@@ -16,6 +16,7 @@ from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.stock.interfaces import IStock
 from five import grok
 from plone.memoize.instance import memoize
+from zope.component import getMultiAdapter
 
 
 grok.templatedir('templates')
@@ -133,6 +134,12 @@ class ThanksView(BaseCheckoutView, Message):
                 self.cart_id = self.cart.id
                 workflow = getToolByName(context, 'portal_workflow')
                 workflow.doActionFor(self.cart, 'ordered')
+
+        elif form.get('form.buttons.back') is not None:
+            portal_state = getMultiAdapter((self.context, self.request), name="plone_portal_state")
+            url = '{}/@@billing-and-shipping'.format(portal_state.navigation_root_url())
+            return self.request.response.redirect(url)
+
         else:
             url = '{}/@@order-confirmation'.format(context.absolute_url())
             return self.request.response.redirect(url)

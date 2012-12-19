@@ -1,6 +1,12 @@
 Change log
 ----------
 
+0.2.1.12 (2012-12-20)
+=====================
+
+- Updated translations and dependencies. [taito]
+- Added "Back" button to check out process. [taito]
+
 0.2.1.11 (2012-12-12)
 =====================
 

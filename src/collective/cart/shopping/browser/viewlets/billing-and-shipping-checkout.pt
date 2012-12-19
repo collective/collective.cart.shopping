@@ -6,12 +6,20 @@
     method="post"
     tal:attributes="action viewlet/action_url">
     <button
+      class="buttons shopping-button back"
+      i18n:translate=""
+      name="form.buttons.back"
+      value="form.buttons.back"
+      type="submit">
+      Back
+    </button>
+    <button
       class="buttons shopping-button checkout"
       i18n:translate=""
       name="form.to.confirmation"
       value="form.to.confirmation"
       type="submit">
-      Confirmation
+      Next
     </button>
   </form>
 </section>

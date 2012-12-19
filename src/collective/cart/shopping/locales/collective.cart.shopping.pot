@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-11-26 20:32+0000\n"
+"POT-Creation-Date: 2012-12-19 20:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,6 +44,11 @@ msgstr ""
 msgid "Article Container"
 msgstr ""
 
+#: ./browser/viewlets/billing-and-shipping-checkout.pt:8
+#: ./browser/viewlets/confirmation-checkout.pt:8
+msgid "Back"
+msgstr ""
+
 #: ./browser/viewlet.py:272
 #: ./browser/viewlets/customer-info.pt:10
 msgid "Billing Info"
@@ -75,12 +80,8 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: ./browser/viewlets/confirmation-checkout.pt:8
+#: ./browser/viewlets/confirmation-checkout.pt:16
 msgid "Confirm Order"
-msgstr ""
-
-#: ./browser/viewlets/billing-and-shipping-checkout.pt:8
-msgid "Confirmation"
 msgstr ""
 
 #: ./browser/templates/stock-list.pt:27
@@ -153,6 +154,10 @@ msgstr ""
 
 #: ./browser/templates/stock-list.pt:26
 msgid "Name"
+msgstr ""
+
+#: ./browser/viewlets/billing-and-shipping-checkout.pt:16
+msgid "Next"
 msgstr ""
 
 #: ./browser/viewlets/add-to-cart.pt:20
@@ -300,7 +305,7 @@ msgid "description_no_stocks_available"
 msgstr ""
 
 #. Default: "Some information is missing from addresses."
-#: ./browser/template.py:112
+#: ./browser/template.py:113
 msgid "info_missing_from_addresses"
 msgstr ""
 

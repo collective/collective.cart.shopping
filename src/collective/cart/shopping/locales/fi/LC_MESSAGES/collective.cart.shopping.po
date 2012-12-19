@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-11-26 20:32+0000\n"
+"POT-Creation-Date: 2012-12-19 20:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,6 +41,11 @@ msgstr "3. Vahvistus"
 msgid "Article Container"
 msgstr "Tuotekansio"
 
+#: ./browser/viewlets/billing-and-shipping-checkout.pt:8
+#: ./browser/viewlets/confirmation-checkout.pt:8
+msgid "Back"
+msgstr "Edellinen"
+
 #: ./browser/viewlet.py:272
 #: ./browser/viewlets/customer-info.pt:10
 msgid "Billing Info"
@@ -72,13 +77,9 @@ msgstr "Kaupunki"
 msgid "Clear"
 msgstr "Tyhjennä"
 
-#: ./browser/viewlets/confirmation-checkout.pt:8
+#: ./browser/viewlets/confirmation-checkout.pt:16
 msgid "Confirm Order"
 msgstr "Vahvista tilauksen"
-
-#: ./browser/viewlets/billing-and-shipping-checkout.pt:8
-msgid "Confirmation"
-msgstr "Varmista"
 
 #: ./browser/templates/stock-list.pt:27
 msgid "Created"
@@ -151,6 +152,10 @@ msgstr "Sukunimi"
 #: ./browser/templates/stock-list.pt:26
 msgid "Name"
 msgstr "Nimi"
+
+#: ./browser/viewlets/billing-and-shipping-checkout.pt:16
+msgid "Next"
+msgstr "Seuraava"
 
 #: ./browser/viewlets/add-to-cart.pt:20
 #: ./browser/viewlets/articles-in-article.pt:58
@@ -289,7 +294,7 @@ msgstr "Tilausnumero on ${number}."
 #. Default: "I agree with the terms."
 #: ./browser/viewlets/confirmation-terms.pt:11
 msgid "agree_with_terms"
-msgstr "Hyväksyn kauppaehdot."
+msgstr "Hyväksyn toimitusehdot."
 
 #. Default: "There are no stocks available for this article."
 #: ./browser/templates/stock-list.pt:14
@@ -297,7 +302,7 @@ msgid "description_no_stocks_available"
 msgstr "Tällä tuotteella ei ole varastoa."
 
 #. Default: "Some information is missing from addresses."
-#: ./browser/template.py:112
+#: ./browser/template.py:113
 msgid "info_missing_from_addresses"
 msgstr "Joku tieto puuttuu osoitteesta."
 

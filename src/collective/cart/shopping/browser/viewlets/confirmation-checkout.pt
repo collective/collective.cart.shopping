@@ -6,6 +6,14 @@
     tal:attributes="action string: ${context/absolute_url}/@@thanks">
     <div tal:replace="structure provider:collective.cart.shopping.terms.manager" />
     <button
+      class="buttons shopping-button back"
+      i18n:translate=""
+      name="form.buttons.back"
+      value="form.buttons.back"
+      type="submit">
+      Back
+    </button>
+    <button
       class="buttons shopping-button checkout"
       i18n:translate=""
       name="form.buttons.ConfirmOrder"

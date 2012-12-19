@@ -362,19 +362,17 @@ class OrderConfirmationTermsViewlet(BaseViewlet, Message):
     grok.template('confirmation-terms')
     grok.viewletmanager(TermsViewletManager)
 
-# class OrderConfirmationViewOrderViewlet(BaseOrderConfirmationViewlet):
-#     """View Order Viewlet for OrderConfirmationViewletManager."""
-#     grok.name('collective.cart.shopping.cofirmation-view-order')
-#     grok.template('confirmation-view-order')
-
-#     def cart_url(self):
-#         return self.view.cart.absolute_url()
-
 
 class OrderConfirmationCheckoutViewlet(BaseOrderConfirmationViewlet):
     """Check out viewlet for OrderConfirmationViewletManager."""
     grok.name('collective.cart.shopping.confirmation-checkout')
     grok.template('confirmation-checkout')
+
+    def update(self):
+        if self.request.form.get('form.buttons.back') is not None:
+            portal_state = getMultiAdapter((self.context, self.request), name="plone_portal_state")
+            url = '{}/@@cart'.format(portal_state.navigation_root_url())
+            return self.request.response.redirect(url)
 
 
 class BaseCartContentViewlet(BaseViewlet):
