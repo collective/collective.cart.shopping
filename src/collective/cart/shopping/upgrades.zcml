@@ -93,4 +93,14 @@
     title="Reimport viewlets"
     />
 
+  <genericsetup:upgradeStep
+    description=""
+    destination="10"
+    handler="collective.cart.shopping.upgrades.reimport_registry"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="9"
+    title="Add Notification CC E-mail address."
+    />
+
 </configure>

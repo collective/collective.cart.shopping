@@ -1,4 +1,5 @@
 from Acquisition import aq_inner
+from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
 from collective.behavior.price.interfaces import ICurrency
 from collective.behavior.size.interfaces import ISize
@@ -33,11 +34,13 @@ class CartAdapter(core.adapter.cart.CartAdapter):
     @property
     def articles(self):
         """List of dictionary of Articles within cart."""
+        encoding = getUtility(ISiteRoot).getProperty('email_charset', 'utf-8')
         res = []
         for item in IContentListing(self.get_brains(ICartArticle)):
             obj = item.getObject()
             items = {
-                'description': item.Description(),
+                # 'description': item.Description(),
+                'description': item.Description().decode(encoding),
                 'gross': item.gross,
                 'gross_subtotal': ICartArticleAdapter(obj).gross_subtotal,
                 'id': item.getId(),
@@ -46,7 +49,8 @@ class CartAdapter(core.adapter.cart.CartAdapter):
                 'quantity': item.quantity,
                 'quantity_max': item.quantity,
                 'sku': item.sku,
-                'title': item.Title(),
+                # 'title': item.Title(),
+                'title': item.Title().decode(encoding),
                 'url': None,
                 'vat_rate': item.vat_rate,
             }

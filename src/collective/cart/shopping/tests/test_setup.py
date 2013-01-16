@@ -97,7 +97,7 @@ class TestCase(IntegrationTestCase):
     def test_metadata__version(self):
         setup = getToolByName(self.portal, 'portal_setup')
         self.assertEqual(
-            setup.getVersionForProfile('profile-collective.cart.shopping:default'), u'9')
+            setup.getVersionForProfile('profile-collective.cart.shopping:default'), u'10')
 
     def get_record(self, name):
         """Get record by name.
@@ -130,6 +130,23 @@ class TestCase(IntegrationTestCase):
     def test_registry_record__collective_cart_shopping_number_of_images__value(self):
         record = self.get_record('collective.cart.shopping.number_of_images')
         self.assertEqual(record.value, 3)
+
+    def test_registry_record__collective_cart_shopping_notification_cc_email__field__instance(self):
+        from plone.registry.field import TextLine
+        record = self.get_record('collective.cart.shopping.notification_cc_email')
+        self.assertIsInstance(record.field, TextLine)
+
+    def test_registry_record__collective_cart_shopping_notification_cc_email__field__title(self):
+        record = self.get_record('collective.cart.shopping.notification_cc_email')
+        self.assertEqual(record.field.title, u'Notification CC E-mail')
+
+    def test_registry_record__collective_cart_shopping_notification_cc_email__field__description(self):
+        record = self.get_record('collective.cart.shopping.notification_cc_email')
+        self.assertEqual(record.field.description, u'CC of e-mail sent to customers.')
+
+    def test_registry_record__collective_cart_shopping_notification_cc_email__value(self):
+        record = self.get_record('collective.cart.shopping.notification_cc_email')
+        self.assertIsNone(record.value)
 
     def test_rolemap__collective_cart_shipping_AddShop__rolesOfPermission(self):
         permission = "collective.cart.shopping: Add Shop"
@@ -707,10 +724,18 @@ class TestCase(IntegrationTestCase):
         from plone.browserlayer import utils
         self.failIf(ICollectiveCartShoppingLayer in utils.registered_layers())
 
-    def test_uninstall__registry(self):
+    def test_uninstall__registry__record__collective_cart_shopping_number_of_images(self):
         installer = getToolByName(self.portal, 'portal_quickinstaller')
         installer.uninstallProducts(['collective.cart.shopping'])
         from plone.registry.interfaces import IRegistry
         from zope.component import getUtility
         with self.assertRaises(KeyError):
             getUtility(IRegistry)['collective.cart.shopping.number_of_images']
+
+    def test_uninstall__registry__record__collective_cart_shopping_notification_cc_email(self):
+        installer = getToolByName(self.portal, 'portal_quickinstaller')
+        installer.uninstallProducts(['collective.cart.shopping'])
+        from plone.registry.interfaces import IRegistry
+        from zope.component import getUtility
+        with self.assertRaises(KeyError):
+            getUtility(IRegistry)['collective.cart.shopping.notification_cc_email']

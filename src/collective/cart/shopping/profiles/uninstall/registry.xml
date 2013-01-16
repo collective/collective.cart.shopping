@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
 <registry>
   <record name="collective.cart.shopping.number_of_images" delete="true" />
+  <record name="collective.cart.shopping.notification_cc_email" delete="true" />
 </registry>

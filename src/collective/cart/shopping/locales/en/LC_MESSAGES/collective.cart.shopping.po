@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-12-19 20:32+0000\n"
+"POT-Creation-Date: 2013-01-16 03:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,6 +44,10 @@ msgstr ""
 #: ./browser/viewlets/billing-and-shipping-checkout.pt:8
 #: ./browser/viewlets/confirmation-checkout.pt:8
 msgid "Back"
+msgstr ""
+
+#: ./subscriber.py:144
+msgid "Billing Address"
 msgstr ""
 
 #: ./browser/viewlet.py:272
@@ -162,6 +166,14 @@ msgstr ""
 msgid "Normal Price: ${normal-price}"
 msgstr ""
 
+#: ./subscriber.py:132
+msgid "Ordered"
+msgstr ""
+
+#: ./subscriber.py:181
+msgid "Ordered contents"
+msgstr ""
+
 #: ./browser/templates/customer-info.pt:25
 #: ./browser/viewlets/customer-info.pt:38
 #: ./interfaces.py:148
@@ -193,8 +205,20 @@ msgstr ""
 msgid "Quantity"
 msgstr ""
 
+#: ./subscriber.py:247
+msgid "Recipient address rejected by server."
+msgstr ""
+
 #: ./interfaces.py:55
 msgid "Representative Image"
+msgstr ""
+
+#: ./browser/form.py:31
+msgid "Save Info"
+msgstr ""
+
+#: ./subscriber.py:163
+msgid "Shipping Address"
 msgstr ""
 
 #: ./browser/viewlet.py:282
@@ -203,6 +227,7 @@ msgid "Shipping Info"
 msgstr ""
 
 #: ./schema.py:9
+#: ./subscriber.py:192
 msgid "Shipping Method"
 msgstr ""
 
@@ -243,11 +268,8 @@ msgstr ""
 msgid "Subarticle"
 msgstr ""
 
-#: ./browser/form.py:31
-msgid "Submit"
-msgstr ""
-
 #: ./browser/templates/thanks.pt:12
+#: ./subscriber.py:138
 msgid "Thank you for the order."
 msgstr ""
 
@@ -257,6 +279,7 @@ msgstr ""
 
 #: ./browser/viewlets/cart-total.pt:4
 #: ./browser/viewlets/confirmation-total.pt:4
+#: ./subscriber.py:194
 msgid "Total"
 msgstr ""
 
@@ -283,7 +306,7 @@ msgstr ""
 msgid "View Order"
 msgstr ""
 
-#: ./subscriber.py:80
+#: ./subscriber.py:89
 msgid "You need to first remove some images to add here one."
 msgstr ""
 
@@ -304,6 +327,16 @@ msgstr ""
 #. Default: "Some information is missing from addresses."
 #: ./browser/template.py:113
 msgid "info_missing_from_addresses"
+msgstr ""
+
+#. Default: "Link to the order: ${url}"
+#: ./subscriber.py:198
+msgid "link-to-order"
+msgstr ""
+
+#. Default: "Order Number: ${number}"
+#: ./subscriber.py:141
+msgid "order-number"
 msgstr ""
 
 #: ./browser/viewlets/add-subarticle-to-cart.pt:28

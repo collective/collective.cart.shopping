@@ -8,4 +8,11 @@
     </field>
     <value>3</value>
   </record>
+  <record name="collective.cart.shopping.notification_cc_email">
+    <field type="plone.registry.field.TextLine">
+      <title>Notification CC E-mail</title>
+      <description>CC of e-mail sent to customers.</description>
+    </field>
+    <value></value>
+  </record>
 </registry>

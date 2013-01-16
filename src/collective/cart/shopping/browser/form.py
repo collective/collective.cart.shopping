@@ -28,7 +28,7 @@ class BillingInfoForm(BaseCustomerInfoForm):
     form_type = 'billing'
     prefix = 'form.billing.'
 
-    @button.buttonAndHandler(_(u'Submit'))
+    @button.buttonAndHandler(_(u'Save Info'), name='submit')
     def handleApply(self, action):
         data, errors = self.extractData()
         cart = IShoppingSite(self.context).cart
@@ -59,7 +59,7 @@ class ShippingInfoForm(BaseCustomerInfoForm):
     form_type = 'shipping'
     prefix = 'form.shipping.'
 
-    @button.buttonAndHandler(_(u'Submit'))
+    @button.buttonAndHandler(_(u'Save Info'), name='submit')
     def handleApply(self, action):
         data, errors = self.extractData()
         cart = IShoppingSite(self.context).cart
