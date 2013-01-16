@@ -190,6 +190,8 @@ def notify_ordered(context, event):
         article_lines = u'\n'.join(articles)
 
         SHIPPING_METHOD = _(u'Shipping Method')
+        shipping_method = hasattr(
+            cadapter.shipping_method, 'Title') and cadapter.shipping_method.Title.decode(encoding) or u''
 
         TOTAL = _(u'Total')
 
@@ -228,7 +230,7 @@ def notify_ordered(context, event):
             article_lines=article_lines,
             underline='=' * 28,
             SHIPPING_METHOD=SHIPPING_METHOD,
-            shipping_method=cadapter.shipping_method.Title.decode(encoding),
+            shipping_method=shipping_method,
             shipping_gross_momey=cadapter.shipping_gross_money,
             TOTAL=TOTAL,
             total=cadapter.total,
