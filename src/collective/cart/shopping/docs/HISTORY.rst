@@ -1,6 +1,11 @@
 Change log
 ----------
 
+0.2.1.14 (2013-01-06)
+=====================
+
+- Added case when shipping method does not exsits. [taito]
+
 0.2.1.13 (2013-01-16)
 =====================
 
