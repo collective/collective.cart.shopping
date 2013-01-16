@@ -4,7 +4,7 @@ Change log
 0.2.1.13 (2013-01-16)
 =====================
 
-
+- Added subscriber to send e-mail when ordered. [taito]
 
 0.2.1.12 (2012-12-20)
 =====================
