@@ -82,8 +82,9 @@ class RelatedArticlesViewlet(BaseArticleViewlet):
                         'image_url': art.image_url,
                         'title': art.title,
                         'url': obj.absolute_url(),
-                        })
+                    })
             return res[:4]
+
 
 class AddToCartViewletManager(BaseViewletManager):
     """Viewlet manager for add to cart form in Article."""
