@@ -1,10 +1,11 @@
 Change log
 ----------
 
-0.2.1.15 (2013-01-xx)
+0.2.1.15 (2013-01-17)
 =====================
 
 - Added viewlet to show related articles. [taito]
+- Added event signaling "add to cart" and its subscriber to show status message about it. [taito]
 
 0.2.1.14 (2013-01-06)
 =====================
