@@ -8,6 +8,7 @@ from collective.behavior.stock.interfaces import IStock
 from collective.cart.core.adapter import interface
 from collective.cart.shipping.interfaces import IShippingMethod
 from collective.cart.shopping import _
+from collective.cart.shopping.event import ArticleAddedToCartEvent
 from collective.cart.shopping import interfaces
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import ICartAdapter
@@ -16,6 +17,7 @@ from moneyed import Money
 from plone.registry.interfaces import IRegistry
 from zope.component import getMultiAdapter
 from zope.component import getUtility
+from zope.event import notify
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IBrowserRequest
 
@@ -114,6 +116,7 @@ class UpdateCart(grok.MultiAdapter):
                                 }
                                 item.add_to_cart(**kwargs)
                                 IStock(obj).sub_stock(quantity)
+                                notify(ArticleAddedToCartEvent(item, self.request))
                         except ValueError:
                             message = _(u"Input integer value to add to cart.")
                             IStatusMessage(self.request).addStatusMessage(message, type='warn')

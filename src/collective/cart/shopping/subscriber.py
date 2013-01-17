@@ -11,6 +11,7 @@ from collective.cart.core.interfaces import IArticle
 from collective.cart.core.interfaces import ICartArticle
 from collective.cart.core.interfaces import IMakeShoppingSiteEvent
 from collective.cart.shopping import _
+from collective.cart.shopping.interfaces import IArticleAddedToCartEvent
 from collective.cart.shopping.interfaces import ICart
 from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.interfaces import ICartArticleAdapter
@@ -247,3 +248,10 @@ def notify_ordered(context, event):
             # Don't disclose email address on failure
             raise SMTPRecipientsRefused(
                 _(u'Recipient address rejected by server.'))
+
+
+@grok.subscribe(IArticleAddedToCartEvent)
+def status_message_article_added(event):
+    article = event.article
+    message = _(u"article-added-to-cart", default=u"${title} is added to cart.", mapping={'title': article.title})
+    IStatusMessage(event.request).addStatusMessage(message, type='info')

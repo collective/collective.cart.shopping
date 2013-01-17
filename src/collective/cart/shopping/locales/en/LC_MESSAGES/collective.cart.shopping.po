@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-01-17 14:23+0000\n"
+"POT-Creation-Date: 2013-01-17 18:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,11 +46,11 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: ./subscriber.py:144
+#: ./subscriber.py:145
 msgid "Billing Address"
 msgstr ""
 
-#: ./browser/viewlet.py:306
+#: ./browser/viewlet.py:308
 #: ./browser/viewlets/customer-info.pt:10
 msgid "Billing Info"
 msgstr ""
@@ -135,7 +135,7 @@ msgstr ""
 msgid "Initial Stock"
 msgstr ""
 
-#: ./adapter/interface.py:118
+#: ./adapter/interface.py:121
 msgid "Input integer value to add to cart."
 msgstr ""
 
@@ -143,7 +143,7 @@ msgstr ""
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr ""
 
-#: ./browser/viewlet.py:236
+#: ./browser/viewlet.py:238
 msgid "Invalid quantity."
 msgstr ""
 
@@ -166,11 +166,11 @@ msgstr ""
 msgid "Normal Price: ${normal-price}"
 msgstr ""
 
-#: ./subscriber.py:132
+#: ./subscriber.py:133
 msgid "Ordered"
 msgstr ""
 
-#: ./subscriber.py:181
+#: ./subscriber.py:182
 msgid "Ordered contents"
 msgstr ""
 
@@ -205,7 +205,7 @@ msgstr ""
 msgid "Quantity"
 msgstr ""
 
-#: ./subscriber.py:249
+#: ./subscriber.py:250
 msgid "Recipient address rejected by server."
 msgstr ""
 
@@ -217,17 +217,17 @@ msgstr ""
 msgid "Save Info"
 msgstr ""
 
-#: ./subscriber.py:163
+#: ./subscriber.py:164
 msgid "Shipping Address"
 msgstr ""
 
-#: ./browser/viewlet.py:316
+#: ./browser/viewlet.py:318
 #: ./browser/viewlets/customer-info.pt:11
 msgid "Shipping Info"
 msgstr ""
 
 #: ./schema.py:9
-#: ./subscriber.py:192
+#: ./subscriber.py:193
 msgid "Shipping Method"
 msgstr ""
 
@@ -269,7 +269,7 @@ msgid "Subarticle"
 msgstr ""
 
 #: ./browser/templates/thanks.pt:12
-#: ./subscriber.py:138
+#: ./subscriber.py:139
 msgid "Thank you for the order."
 msgstr ""
 
@@ -279,7 +279,7 @@ msgstr ""
 
 #: ./browser/viewlets/cart-total.pt:4
 #: ./browser/viewlets/confirmation-total.pt:4
-#: ./subscriber.py:196
+#: ./subscriber.py:197
 msgid "Total"
 msgstr ""
 
@@ -306,7 +306,7 @@ msgstr ""
 msgid "View Order"
 msgstr ""
 
-#: ./subscriber.py:88
+#: ./subscriber.py:89
 msgid "You need to first remove some images to add here one."
 msgstr ""
 
@@ -317,6 +317,11 @@ msgstr ""
 #. Default: "I agree with the terms."
 #: ./browser/viewlets/confirmation-terms.pt:11
 msgid "agree_with_terms"
+msgstr ""
+
+#. Default: "${title} is added to cart."
+#: ./subscriber.py:256
+msgid "article-added-to-cart"
 msgstr ""
 
 #. Default: "There are no stocks available for this article."
@@ -330,12 +335,12 @@ msgid "info_missing_from_addresses"
 msgstr ""
 
 #. Default: "Link to the order: ${url}"
-#: ./subscriber.py:200
+#: ./subscriber.py:201
 msgid "link-to-order"
 msgstr ""
 
 #. Default: "Order Number: ${number}"
-#: ./subscriber.py:141
+#: ./subscriber.py:142
 msgid "order-number"
 msgstr ""
 
@@ -345,7 +350,7 @@ msgstr ""
 msgid "pcs"
 msgstr ""
 
-#. Default: "We recommend the following articles, too."
+#. Default: "We also recommend the following articles."
 #: ./browser/viewlets/related-articles.pt:5
 msgid "recommendation-text"
 msgstr ""

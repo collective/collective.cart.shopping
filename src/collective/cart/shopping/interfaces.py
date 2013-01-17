@@ -274,3 +274,7 @@ alsoProvides(IStockPrice, form.IFormFieldProvider)
 
 class ISubArticle(core.interfaces.IArticle):
     """Schema interface for variable."""
+
+
+class IArticleAddedToCartEvent(Interface):
+    """Event signaling when article is added to cart."""
