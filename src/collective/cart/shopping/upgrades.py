@@ -145,3 +145,13 @@ def reimport_registry(context, logger=None):
     logger.info('Reimporting registry.')
     setup.runImportStepFromProfile(
         PROFILE_ID, 'plone.app.registry', run_dependencies=False, purge_old=False)
+
+
+def reimport_cssregistry(context, logger=None):
+    """Reimport cssregistry"""
+    if logger is None:
+        logger = logging.getLogger(__name__)
+    setup = getToolByName(context, 'portal_setup')
+    logger.info('Reimporting cssregistry.')
+    setup.runImportStepFromProfile(
+        PROFILE_ID, 'cssregistry', run_dependencies=False, purge_old=False)

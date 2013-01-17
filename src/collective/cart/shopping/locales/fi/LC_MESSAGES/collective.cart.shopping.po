@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-01-16 03:36+0000\n"
+"POT-Creation-Date: 2013-01-17 14:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,7 +50,7 @@ msgstr "Edellinen"
 msgid "Billing Address"
 msgstr "Laskutusosoite"
 
-#: ./browser/viewlet.py:272
+#: ./browser/viewlet.py:306
 #: ./browser/viewlets/customer-info.pt:10
 msgid "Billing Info"
 msgstr "Laskutusosoite"
@@ -143,7 +143,7 @@ msgstr "Syötä määrä lisätääkseen ostoskoriin."
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr "Kansainvälinen VAT-numero. Suomessa alkaa 'FI' kirjaimella."
 
-#: ./browser/viewlet.py:202
+#: ./browser/viewlet.py:236
 msgid "Invalid quantity."
 msgstr "Väärä numero"
 
@@ -205,7 +205,7 @@ msgstr "Ostohinta alv 0%"
 msgid "Quantity"
 msgstr "Määrä"
 
-#: ./subscriber.py:247
+#: ./subscriber.py:249
 msgid "Recipient address rejected by server."
 msgstr "Sähköpostia ei pystytty lähettämään."
 
@@ -221,7 +221,7 @@ msgstr "Tallenna tiedot"
 msgid "Shipping Address"
 msgstr "Toimitusosoite"
 
-#: ./browser/viewlet.py:282
+#: ./browser/viewlet.py:316
 #: ./browser/viewlets/customer-info.pt:11
 msgid "Shipping Info"
 msgstr "Toimitusosoite"
@@ -279,7 +279,7 @@ msgstr "Tämä tuotteen edustava kuva."
 
 #: ./browser/viewlets/cart-total.pt:4
 #: ./browser/viewlets/confirmation-total.pt:4
-#: ./subscriber.py:194
+#: ./subscriber.py:196
 msgid "Total"
 msgstr "Yhteensä"
 
@@ -306,7 +306,7 @@ msgstr "VAT-numero"
 msgid "View Order"
 msgstr "Tarkista tilauksen"
 
-#: ./subscriber.py:89
+#: ./subscriber.py:88
 msgid "You need to first remove some images to add here one."
 msgstr "Lisätääkseen tähän uusi kuvaa, täytyy ensin poistaa tästä kuvia."
 
@@ -330,7 +330,7 @@ msgid "info_missing_from_addresses"
 msgstr "Joku tieto puuttuu osoitteesta."
 
 #. Default: "Link to the order: ${url}"
-#: ./subscriber.py:198
+#: ./subscriber.py:200
 msgid "link-to-order"
 msgstr "Tilauksen linkki: ${url}"
 
@@ -344,4 +344,9 @@ msgstr "Tilausnumero"
 #: ./browser/viewlets/articles-in-article.pt:110
 msgid "pcs"
 msgstr "kpl"
+
+#. Default: "We recommend the following articles, too."
+#: ./browser/viewlets/related-articles.pt:5
+msgid "recommendation-text"
+msgstr "Suosittelemme myös seuraavia tuotteita."
 

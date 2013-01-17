@@ -1,6 +1,11 @@
 Change log
 ----------
 
+0.2.1.15 (2013-01-xx)
+=====================
+
+- Added viewlet to show related articles. [taito]
+
 0.2.1.14 (2013-01-06)
 =====================
 

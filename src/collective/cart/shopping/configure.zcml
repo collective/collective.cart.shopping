@@ -15,6 +15,7 @@
   <include package="collective.behavior.sku"/>
   <include package="collective.behavior.stock"/>
   <include package="collective.behavior.vat"/>
+  <include package="plone.app.relationfield"/>
 
   <grok:grok package="." />
   <five:registerPackage package="." initialize=".initialize" />

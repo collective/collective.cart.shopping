@@ -100,7 +100,17 @@
     profile="collective.cart.shopping:default"
     sortkey="1"
     source="9"
-    title="Add Notification CC E-mail address."
+    title="Add Notification CC E-mail address"
+    />
+
+  <genericsetup:upgradeStep
+    description=""
+    destination="11"
+    handler="collective.cart.shopping.upgrades.reimport_cssregistry"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="10"
+    title="Add style.css"
     />
 
 </configure>

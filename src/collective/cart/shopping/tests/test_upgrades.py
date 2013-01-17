@@ -144,3 +144,14 @@ class TestCase(IntegrationTestCase):
         self.assertEqual(brain.post, 'POST')
         self.assertEqual(brain.city, 'CITY')
         self.assertEqual(brain.phone, 'PHONE')
+
+    def test_reimport_cssregistry(self):
+        css = getToolByName(self.portal, 'portal_css')
+        rid = '++resource++collective.cart.shopping/css/style.css'
+        css.unregisterResource(rid)
+        self.assertIsNone(css.getResource(rid))
+
+        from collective.cart.shopping.upgrades import reimport_cssregistry
+        reimport_cssregistry(self.portal)
+
+        self.assertIsNotNone(css.getResource(rid))

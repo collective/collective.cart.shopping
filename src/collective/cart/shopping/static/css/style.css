@@ -1,0 +1,42 @@
+/* Related articles */
+#related-articles {
+    margin: 3em 0 0;
+    width: 90%;
+}
+#related-articles p {
+    margin: 0 0 1em;
+}
+#related-articles article {
+    display: inline-block;
+    width: 21%;
+    margin: 0 3% 0 0;
+    vertical-align: top;
+}
+#related-articles article img {
+    width: 100%;
+}
+#related-articles article h1 {
+    font-size: 0.9em;
+    line-height: 1.2em;
+    margin: 0.5em 0 0;
+}
+#related-articles article h1 a {
+    color: #333333;
+    font-weight: normal;
+}
+#related-articles article p {
+    color: #CA2464;
+    font-size: 1.2em;
+}
+
+@media screen and (max-width: 800px) {
+    #related-articles article {
+    width: 44%;
+    margin: 0 3% 0 0;
+    }
+}
+@media screen and (max-width: 400px) {
+    #related-articles article {
+    width: 100%;
+    }
+}

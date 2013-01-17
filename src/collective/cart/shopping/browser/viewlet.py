@@ -7,13 +7,13 @@ from collective.cart import core
 from collective.cart.core.browser.viewlet import CartContentViewletManager
 from collective.cart.core.browser.viewlet import CartViewletManager
 from collective.cart.core.interfaces import IShoppingSiteRoot
-from collective.cart.shopping.browser.wrapper import ShippingMethodFormWrapper
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.base import Message
 from collective.cart.shopping.browser.form import BillingInfoForm
 from collective.cart.shopping.browser.form import ShippingInfoForm
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
 from collective.cart.shopping.browser.wrapper import CustomerInfoFormWrapper
+from collective.cart.shopping.browser.wrapper import ShippingMethodFormWrapper
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
@@ -24,6 +24,8 @@ from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.shopping.interfaces import IUpdateCart
 from five import grok
 from plone.app.contentlisting.interfaces import IContentListing
+from plone.app.layout.globals.interfaces import IViewView
+from plone.app.layout.viewlets.interfaces import IBelowContent
 from plone.app.viewletmanager.manager import OrderedViewletManager
 from plone.uuid.interfaces import IUUID
 from zope.component import getMultiAdapter
@@ -45,10 +47,43 @@ class BaseViewletManager(OrderedViewletManager, grok.ViewletManager):
 class BaseViewlet(grok.Viewlet):
     """Base class for viewlet in collective.cart.shopping package."""
     grok.baseclass()
-    grok.context(IShoppingSiteRoot)
     grok.layer(ICollectiveCartShoppingLayer)
     grok.require('zope2.View')
 
+
+class BaseShoppingSiteRootViewlet(BaseViewlet):
+    """Base viewlet class for IShoppingSiteRoot"""
+    grok.baseclass()
+    grok.context(IShoppingSiteRoot)
+
+
+class BaseArticleViewlet(BaseViewlet):
+    """Base viewlet class for IArticle"""
+    grok.baseclass()
+    grok.context(IArticle)
+
+
+class RelatedArticlesViewlet(BaseArticleViewlet):
+    """Viewlet to show related articles for IArticle"""
+    grok.name('collective.cart.shopping.related.articles')
+    grok.template('related-articles')
+    grok.view(IViewView)
+    grok.viewletmanager(IBelowContent)
+
+    def articles(self):
+        if hasattr(self.context, 'relatedItems'):
+            res = []
+            for article in self.context.relatedItems:
+                obj = article.to_object
+                if IArticle.providedBy(obj):
+                    art = IArticleAdapter(obj)
+                    res.append({
+                        'gross': art.gross,
+                        'image_url': art.image_url,
+                        'title': art.title,
+                        'url': obj.absolute_url(),
+                        })
+            return res[:4]
 
 class AddToCartViewletManager(BaseViewletManager):
     """Viewlet manager for add to cart form in Article."""
@@ -120,7 +155,7 @@ class BelowArticleViewletManager(BaseViewletManager):
     grok.name('collective.cart.shopping.below.article')
 
 
-class ArticlesInArticleViewlet(BaseViewlet):
+class ArticlesInArticleViewlet(BaseArticleViewlet):
     grok.context(IArticle)
     grok.name('collective.cart.shopping.articles.in.article')
     grok.template('articles-in-article')
@@ -213,7 +248,7 @@ class CartArticlesViewlet(BaseCartArticlesViewlet):
         return ICartAdapter(cart).articles
 
 
-class BaseCartViewlet(BaseViewlet):
+class BaseCartViewlet(BaseShoppingSiteRootViewlet):
     """Base viewlet for cart view."""
     grok.baseclass()
     grok.viewletmanager(CartViewletManager)
@@ -254,7 +289,7 @@ class BillingAndShippingViewletManager(BaseViewletManager):
     grok.name('collective.cart.shopping.billing.shipping.manager')
 
 
-class BaseCustomerInfoViewlet(BaseViewlet):
+class BaseCustomerInfoViewlet(BaseShoppingSiteRootViewlet):
     grok.baseclass()
     grok.viewletmanager(BillingAndShippingViewletManager)
 
@@ -317,7 +352,7 @@ class OrderConfirmationViewletManager(BaseViewletManager):
     grok.name('collective.cart.shopping.order.confirmation.manager')
 
 
-class BaseOrderConfirmationViewlet(BaseViewlet):
+class BaseOrderConfirmationViewlet(BaseShoppingSiteRootViewlet):
     """Base class for viewlet in order-confirmation page."""
     grok.baseclass()
     grok.viewletmanager(OrderConfirmationViewletManager)
@@ -356,7 +391,7 @@ class TermsViewletManager(BaseViewletManager):
     grok.name('collective.cart.shopping.terms.manager')
 
 
-class OrderConfirmationTermsViewlet(BaseViewlet, Message):
+class OrderConfirmationTermsViewlet(BaseShoppingSiteRootViewlet, Message):
     """Viewlet to show terms for ordering..."""
     grok.name('confirmation-terms')
     grok.template('confirmation-terms')
@@ -375,7 +410,7 @@ class OrderConfirmationCheckoutViewlet(BaseOrderConfirmationViewlet):
             return self.request.response.redirect(url)
 
 
-class BaseCartContentViewlet(BaseViewlet):
+class BaseCartContentViewlet(BaseShoppingSiteRootViewlet):
     """Base class for viewlet within cart content."""
     grok.baseclass()
     grok.context(ICart)
@@ -415,9 +450,14 @@ class ArticleContainerViewletManager(BaseViewletManager):
     grok.name('collective.cart.shopping.articlecontainer')
 
 
-class ArticlesInArticleContainerViewlet(BaseViewlet):
-    """Viewlet to show Articles in ArticleContainer."""
+class BaseArticleContainerViewlet(BaseViewlet):
+    """Base viewlet class for IArticleContainer"""
+    grok.baseclass()
     grok.context(IArticleContainer)
+
+
+class ArticlesInArticleContainerViewlet(BaseArticleContainerViewlet):
+    """Viewlet to show Articles in ArticleContainer."""
     grok.name('collective.cart.core.articles-in-articlecontainer')
     grok.template('articles-in-articlecontainer')
     grok.viewletmanager(ArticleContainerViewletManager)
