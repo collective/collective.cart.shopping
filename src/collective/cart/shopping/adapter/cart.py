@@ -148,7 +148,10 @@ class CartAdapter(core.adapter.cart.CartAdapter):
     @property
     def is_addresses_filled(self):
         """True if both billing and shipping addresses are filled."""
-        return self.is_address_filled('billing') and self.is_address_filled('shipping')
+        shipping_filled = self.is_address_filled('shipping')
+        return (
+            self.context.billing_same_as_shipping and shipping_filled) or (
+            self.is_address_filled('billing') and shipping_filled)
 
     def add_address(self, name):
         """Add address with name."""

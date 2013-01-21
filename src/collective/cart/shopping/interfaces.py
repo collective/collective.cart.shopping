@@ -84,6 +84,10 @@ class IArticleAdapter(core.interfaces.IArticleAdapter):
 class ICart(core.interfaces.ICart):
     """Interface for Cart."""
 
+    billing_same_as_shipping = Bool(
+        title=_(u'Billing info same as shipping info'),
+        required=False)
+
 
 class ICartAdapter(core.interfaces.ICartAdapter):
     """Adapter interface for Cart"""

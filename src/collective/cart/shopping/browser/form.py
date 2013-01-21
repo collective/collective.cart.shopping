@@ -66,7 +66,7 @@ class ShippingInfoForm(BaseCustomerInfoForm):
         shipping = cart.get('shipping')
         if shipping is None:
             shipping = createContentInContainer(
-                cart, 'collective.cart.shopping.CustomerInfo', id='shippings',
+                cart, 'collective.cart.shopping.CustomerInfo', id='shipping',
                 checkConstraints=False, **data)
         else:
             for key in data:

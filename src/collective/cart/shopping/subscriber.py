@@ -110,7 +110,7 @@ def add_cart_container_to_shop(obj, event):
 
 
 @grok.subscribe(IShop, IObjectAddedEvent)
-def add_shopping_methods_to_shop(context, event):
+def add_shipping_methods_to_shop(context, event):
     assert context == event.object
     container = createContentInContainer(context, 'collective.cart.shipping.ShippingMethodContainer',
         id='shipping-methods', title='Shipping Methods', checkConstraints=False)
