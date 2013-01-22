@@ -23,7 +23,7 @@ from plone.dexterity.utils import createContentInContainer
 from plone.registry.interfaces import IRegistry
 from smtplib import SMTPRecipientsRefused
 from zope.component import getUtility
-from zope.i18n import translate
+# from zope.i18n import translate
 from zope.lifecycleevent import modified
 from zope.lifecycleevent.interfaces import IObjectAddedEvent
 from zope.lifecycleevent.interfaces import IObjectCreatedEvent
@@ -125,24 +125,27 @@ def notify_ordered(context, event):
         email_from_name = portal.getProperty('email_from_name')
 
         cadapter = ICartAdapter(context)
-        billing_info = cadapter.billing_info
+        if context.billing_same_as_shipping:
+            billing_info = cadapter.shipping_info
+        else:
+            billing_info = cadapter.billing_info
         email_to_address = billing_info.email
         email_to_name = u'{} {}'.format(billing_info.first_name, billing_info.last_name)
 
         encoding = getUtility(ISiteRoot).getProperty('email_charset', 'utf-8')
-        subject = _(u'Ordered')
+        subject = context.translate(_(u'Ordered'))
         mto = email_to_address
         mfrom = email_from_address
         host = getToolByName(context, 'MailHost')
 
         # First message
-        FIRST_MESSAGE = _(u'Thank you for the order.')
+        FIRST_MESSAGE = context.translate(_(u'Thank you for the order.'))
 
         # Order number
-        ORDER_NUMBER = _(u'order-number', u'Order Number: ${number}', mapping={'number': context.id})
+        ORDER_NUMBER = context.translate(_(u'order-number', u'Order Number: ${number}', mapping={'number': context.id}))
 
         # Billing address
-        BILLING_ADDRESS = _(u'Billing Address')
+        BILLING_ADDRESS = context.translate(_(u'Billing Address'))
         BILLING_INFO = u"""{first_name} {last_name}  {organization}  {vat}
 {street}
 {post} {city}
@@ -161,7 +164,7 @@ def notify_ordered(context, event):
 
         # Shipping address
         shipping_info = cadapter.shipping_info
-        SHIPPING_ADDRESS = _(u'Shipping Address')
+        SHIPPING_ADDRESS = context.translate(_(u'Shipping Address'))
         SHIPPING_INFO = u"""{first_name} {last_name}  {organization}  {vat}
 {street}
 {post} {city}
@@ -179,7 +182,7 @@ def notify_ordered(context, event):
             email=shipping_info.email)
 
         # Ordered contents
-        ORDERED_CONTENTS = _(u'Ordered contents')
+        ORDERED_CONTENTS = context.translate(_(u'Ordered contents'))
         articles = []
         for article in cadapter.articles:
             article_line = u'{sku}: {title} x {quantity} = {subtotal}'.format(
@@ -190,15 +193,15 @@ def notify_ordered(context, event):
             articles.append(article_line)
         article_lines = u'\n'.join(articles)
 
-        SHIPPING_METHOD = _(u'Shipping Method')
+        SHIPPING_METHOD = context.translate(_(u'Shipping Method'))
         shipping_method = hasattr(
             cadapter.shipping_method, 'Title') and cadapter.shipping_method.Title.decode(encoding) or u''
 
-        TOTAL = _(u'Total')
+        TOTAL = context.translate(_(u'Total'))
 
         # Link to the order
         url = context.absolute_url()
-        LINK = _(u'link-to-order', u'Link to the order: ${url}', mapping={'url': url})
+        LINK = context.translate(_(u'link-to-order', u'Link to the order: ${url}', mapping={'url': url}))
 
         mail_text = u"""{FIRST_MESSAGE}
 
@@ -221,11 +224,11 @@ def notify_ordered(context, event):
 {TOTAL}: {total}
 
 {LINK}""".format(
-            FIRST_MESSAGE=translate(FIRST_MESSAGE),
-            ORDER_NUMBER=translate(ORDER_NUMBER),
-            BILLING_ADDRESS=translate(BILLING_ADDRESS),
+            FIRST_MESSAGE=FIRST_MESSAGE,
+            ORDER_NUMBER=ORDER_NUMBER,
+            BILLING_ADDRESS=BILLING_ADDRESS,
             BILLING_INFO=BILLING_INFO,
-            SHIPPING_ADDRESS=translate(SHIPPING_ADDRESS),
+            SHIPPING_ADDRESS=SHIPPING_ADDRESS,
             SHIPPING_INFO=SHIPPING_INFO,
             ORDERED_CONTENTS=ORDERED_CONTENTS,
             article_lines=article_lines,
@@ -235,7 +238,7 @@ def notify_ordered(context, event):
             shipping_gross_momey=cadapter.shipping_gross_money,
             TOTAL=TOTAL,
             total=cadapter.total,
-            LINK=translate(LINK))
+            LINK=LINK)
 
         message = message_from_string(mail_text.encode(encoding).strip())
         message.set_charset(encoding)
