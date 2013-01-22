@@ -1,7 +1,7 @@
 Change log
 ----------
 
-0.2.1.16 (2013-01-xx)
+0.2.1.16 (2013-01-22)
 =====================
 
 - Added field billing_same_as_shipping to cart. [taito]
