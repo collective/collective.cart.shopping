@@ -1,7 +1,12 @@
 Change log
 ----------
 
-0.2.1.16 (2013-01-22)
+0.2.1.17 (2013-01-22)
+=====================
+
+- Set default billing_same_as_shipping to True. [taito]
+
+0.2.1.16 (2013-01-21)
 =====================
 
 - Added field billing_same_as_shipping to cart. [taito]
