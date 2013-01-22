@@ -86,7 +86,8 @@ class ICart(core.interfaces.ICart):
 
     billing_same_as_shipping = Bool(
         title=_(u'Billing info same as shipping info'),
-        required=False)
+        required=False,
+        default=True)
 
 
 class ICartAdapter(core.interfaces.ICartAdapter):
