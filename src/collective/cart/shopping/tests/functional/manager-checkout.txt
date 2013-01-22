@@ -198,7 +198,7 @@ Check the newest message sent::
     Content-Transfer-Encoding: quoted-printable
     CC: email@from.address
     Subject: =?utf-8?q?Ordered?=
-    To: first.last@email.newbilling
+    To: first.last@email.shipping
     From: email@from.address
     Date: ...
     <BLANKLINE>
@@ -209,12 +209,12 @@ Check the newest message sent::
     Billing Address
     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
     =3D=3D=3D
-    New Billing First N=C3=A4me New Billing Last N=C3=A4me  New Billing =C3=96r=
-    ganization  NEW1234567890
-    New Billing Street =C3=84ddress
-    New Billing P=C3=B6st C=C3=B6de New Billing =E2=82=ACity
-    New Billing Ph=C3=B6ne Number
-    first.last@email.newbilling
+    Shipping First N=C3=A4me Shipping Last N=C3=A4me  Shipping =C3=96rganizatio=
+    n  SHIPPING1234567890
+    Shipping Street =C3=84ddress
+    Shipping P=C3=B6st C=C3=B6de Shipping =E2=82=ACity
+    Shipping Ph=C3=B6ne Number
+    first.last@email.shipping
     <BLANKLINE>
     <BLANKLINE>
     Shipping Address

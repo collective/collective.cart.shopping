@@ -39,7 +39,6 @@ class CartAdapter(core.adapter.cart.CartAdapter):
         for item in IContentListing(self.get_brains(ICartArticle)):
             obj = item.getObject()
             items = {
-                # 'description': item.Description(),
                 'description': item.Description().decode(encoding),
                 'gross': item.gross,
                 'gross_subtotal': ICartArticleAdapter(obj).gross_subtotal,
@@ -49,7 +48,6 @@ class CartAdapter(core.adapter.cart.CartAdapter):
                 'quantity': item.quantity,
                 'quantity_max': item.quantity,
                 'sku': item.sku,
-                # 'title': item.Title(),
                 'title': item.Title().decode(encoding),
                 'url': None,
                 'vat_rate': item.vat_rate,
