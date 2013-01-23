@@ -195,6 +195,7 @@ class CartAdapter(core.adapter.cart.CartAdapter):
                         max_delivery_days=shipping_method.max_delivery_days,
                         vat_rate=shipping_method.vat,
                         weight_dimension_rate=shipping_method.weight_dimension_rate)
+                    # Index first for the culculations.
                     modified(sm)
                     sm.gross = self.shipping_gross_money
                     sm.net = self.shipping_net_money
@@ -225,6 +226,11 @@ class CartAdapter(core.adapter.cart.CartAdapter):
                             sm.max_delivery_days = shipping_method.max_delivery_days
                             sm.vat_rate = shipping_method.vat
                             sm.weight_dimension_rate = shipping_method.weight_dimension_rate
+                            # Reindex first for the culculations.
+                            modified(sm)
+                            sm.gross = self.shipping_gross_money
+                            sm.net = self.shipping_net_money
+                            sm.vat = self.shipping_vat_money
                             modified(sm)
                 else:
                     smethods = [smethod for smethod in shipping_methods if smethod.UID == uuid]
@@ -238,6 +244,7 @@ class CartAdapter(core.adapter.cart.CartAdapter):
                             max_delivery_days=shipping_method.max_delivery_days,
                             vat_rate=shipping_method.vat,
                             weight_dimension_rate=shipping_method.weight_dimension_rate)
+                        # Index first for the culculations.
                         modified(sm)
                         sm.gross = self.shipping_gross_money
                         sm.net = self.shipping_net_money
