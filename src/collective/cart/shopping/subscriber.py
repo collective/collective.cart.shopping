@@ -23,7 +23,6 @@ from plone.dexterity.utils import createContentInContainer
 from plone.registry.interfaces import IRegistry
 from smtplib import SMTPRecipientsRefused
 from zope.component import getUtility
-# from zope.i18n import translate
 from zope.lifecycleevent import modified
 from zope.lifecycleevent.interfaces import IObjectAddedEvent
 from zope.lifecycleevent.interfaces import IObjectCreatedEvent
@@ -73,23 +72,23 @@ def set_quantity_back_to_orig_article(context, event):
 
 @grok.subscribe(IATImage, IObjectCreatedEvent)
 def warn_number_of_images(context, event):
-    assert context == event.object
-    container = aq_chain(aq_inner(context))[3]
-    if IArticle.providedBy(container):
-        catalog = getToolByName(context, 'portal_catalog')
-        query = {
-            'path': {
-                'depth': 1,
-                'query': '/'.join(container.getPhysicalPath()),
-            },
-            'object_provides': IATImage.__identifier__,
-        }
-        number_of_images = getUtility(IRegistry)['collective.cart.shopping.number_of_images']
-        if len(catalog(query)) >= number_of_images:
-            message = _(u"You need to first remove some images to add here one.")
-            IStatusMessage(container.REQUEST).addStatusMessage(message, type='warn')
-            url = '{}/@@folder_contents'.format(container.absolute_url())
-            return container.REQUEST.RESPONSE.redirect(url)
+    if context == event.object:
+        container = aq_chain(aq_inner(context))[3]
+        if IArticle.providedBy(container):
+            catalog = getToolByName(context, 'portal_catalog')
+            query = {
+                'path': {
+                    'depth': 1,
+                    'query': '/'.join(container.getPhysicalPath()),
+                },
+                'object_provides': IATImage.__identifier__,
+            }
+            number_of_images = getUtility(IRegistry)['collective.cart.shopping.number_of_images']
+            if len(catalog(query)) >= number_of_images:
+                message = _(u"You need to first remove some images to add here one.")
+                IStatusMessage(container.REQUEST).addStatusMessage(message, type='warn')
+                url = '{}/@@folder_contents'.format(container.absolute_url())
+                return container.REQUEST.RESPONSE.redirect(url)
 
 
 @grok.subscribe(IMakeShoppingSiteEvent)

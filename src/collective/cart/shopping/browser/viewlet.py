@@ -73,9 +73,10 @@ class RelatedArticlesViewlet(BaseArticleViewlet):
     def articles(self):
         if hasattr(self.context, 'relatedItems'):
             res = []
+            workflow = getToolByName(self.context, 'portal_workflow')
             for article in self.context.relatedItems:
                 obj = article.to_object
-                if IArticle.providedBy(obj):
+                if IArticle.providedBy(obj) and workflow.getInfoFor(obj, 'review_state') == 'published':
                     art = IArticleAdapter(obj)
                     res.append({
                         'gross': art.gross,
