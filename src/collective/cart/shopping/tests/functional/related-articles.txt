@@ -25,6 +25,7 @@ Add Article1::
     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '24.60'
     >>> browser.getControl(name="form.widgets.ISize.weight").value = '100.0'
     >>> browser.getControl(name="form.buttons.save").click()
+    >>> browser.getLink('Publish').click()
 
 Add Article2::
 
@@ -86,6 +87,7 @@ Add four more articles and relate it to Article1
     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '30.00'
     >>> browser.getControl(name="form.widgets.ISize.weight").value = '300.0'
     >>> browser.getControl(name="form.buttons.save").click()
+    >>> browser.getLink('Publish').click()
 
     >>> browser.open('/shop/article-container/++add++collective.cart.core.Article')
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle4'
@@ -94,6 +96,7 @@ Add four more articles and relate it to Article1
     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '40.00'
     >>> browser.getControl(name="form.widgets.ISize.weight").value = '400.0'
     >>> browser.getControl(name="form.buttons.save").click()
+    >>> browser.getLink('Publish').click()
 
     >>> browser.open('/shop/article-container/++add++collective.cart.core.Article')
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle5'
@@ -102,6 +105,7 @@ Add four more articles and relate it to Article1
     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '50.00'
     >>> browser.getControl(name="form.widgets.ISize.weight").value = '500.0'
     >>> browser.getControl(name="form.buttons.save").click()
+    >>> browser.getLink('Publish').click()
 
     >>> browser.open('/shop/article-container/++add++collective.cart.core.Article')
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle6'
@@ -110,6 +114,7 @@ Add four more articles and relate it to Article1
     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '60.00'
     >>> browser.getControl(name="form.widgets.ISize.weight").value = '600.0'
     >>> browser.getControl(name="form.buttons.save").click()
+    >>> browser.getLink('Publish').click()
 
 Relate all the Articles to Article2::
 

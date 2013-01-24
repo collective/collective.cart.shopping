@@ -82,10 +82,6 @@ class UpdateCart(grok.MultiAdapter):
         form = self.request.form
         uuid = form.get('subarticle') or form.get('form.buttons.AddToCart')
         if uuid is not None:
-            portal_state = getMultiAdapter((self.context, self.request), name="plone_portal_state")
-            if portal_state.anonymous():
-                url = '{}/login'.format(portal_state.portal_url())
-                return self.request.response.redirect(url)
             quantity = form.get('quantity')
             if quantity is not None:
                 brains = getToolByName(self.context, 'portal_catalog')(UID=uuid)

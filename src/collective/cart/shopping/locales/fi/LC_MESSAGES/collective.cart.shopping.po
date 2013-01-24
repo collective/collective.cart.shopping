@@ -356,7 +356,6 @@ msgstr "kpl"
 
 #. Default: "We also recommend the following articles."
 #: ./browser/viewlets/related-articles.pt:5
-#, fuzzy
 msgid "recommendation-text"
 msgstr "Suosittelemme myös seuraavia tuotteita."
 
