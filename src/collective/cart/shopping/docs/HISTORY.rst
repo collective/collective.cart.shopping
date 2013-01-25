@@ -6,6 +6,7 @@ Change log
 
 - Fixed subscriber to enable pasting articles. [taito]
 - Updated to show only published related articles. [taito]
+- Show log in and register links instead of add to cart button from anonymous. [taito]
 
 0.2.1.17 (2013-01-22)
 =====================

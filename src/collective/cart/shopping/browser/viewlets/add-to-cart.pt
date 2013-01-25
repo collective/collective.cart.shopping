@@ -45,16 +45,16 @@
         tal:attributes="value viewlet/uuid"
         type="submit"
         >Add To Cart</button>
-      </tal:block>
-      <section class="please-login" tal:condition="context/@@plone_portal_state/anonymous">
-        <p i18n:translate="please-login">
-          You need to log in to add this article to cart. If you have not registered yet, please register first.
-        </p>
-        <p i18n:domain="plone">
-          <a i18n:translate="" tal:attributes="href string:${context/@@plone_portal_state/portal_url}/login">Log in</a>
-          <a i18n:translate="" tal:attributes="href string:${context/@@plone_portal_state/portal_url}/@@register">Register</a>
-        </p>
-      </section>
+    </tal:block>
+    <section class="please-login" tal:condition="context/@@plone_portal_state/anonymous">
+      <p i18n:translate="please-login">
+        You need to log in to add this article to cart. If you have not registered yet, please register first.
+      </p>
+      <p i18n:domain="plone">
+        <a i18n:translate="" tal:attributes="href string:${context/@@plone_portal_state/portal_url}/login">Log in</a>
+        <a i18n:translate="" tal:attributes="href string:${context/@@plone_portal_state/portal_url}/@@register">Register</a>
+      </p>
+    </section>
   </form>
   <p
     class="sold-out"
