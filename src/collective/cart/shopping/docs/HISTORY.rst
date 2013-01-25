@@ -1,7 +1,7 @@
 Change log
 ----------
 
-0.2.1.18 (2013-01-xx)
+0.2.1.18 (2013-01-25)
 =====================
 
 - Fixed subscriber to enable pasting articles. [taito]
