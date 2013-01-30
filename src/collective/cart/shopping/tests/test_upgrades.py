@@ -155,3 +155,18 @@ class TestCase(IntegrationTestCase):
         reimport_cssregistry(self.portal)
 
         self.assertIsNotNone(css.getResource(rid))
+
+    def test_reimport_actions(self):
+        from collective.cart.core.tests.test_setup import get_action
+        self.assertIsNotNone(get_action(self.portal, 'object', 'stock-list'))
+
+        category = getattr(getToolByName(self.portal, 'portal_actions'), 'object')
+        category.manage_delObjects(['stock-list'])
+
+        with self.assertRaises(AttributeError):
+            get_action(self.portal, 'object', 'stock-list')
+
+        from collective.cart.shopping.upgrades import reimport_actions
+        reimport_actions(self.portal)
+
+        self.assertIsNotNone(get_action(self.portal, 'object', 'stock-list'))

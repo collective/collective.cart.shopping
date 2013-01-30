@@ -113,6 +113,6 @@ def test_suite():
         DocFileSuite('functional/browser.txt'),
         DocFileSuite('functional/manager-article.txt'),
         DocFileSuite('functional/manager-cart.txt'),
-        DocFileSuite('functional/manager-checkout.txt'),
+        DocFileSuite('functional/manager-order-confirmation.txt'),
         DocFileSuite('functional/manager-shipping.txt'),
         DocFileSuite('functional/related-articles.txt')])

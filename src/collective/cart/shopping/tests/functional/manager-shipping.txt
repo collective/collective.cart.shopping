@@ -103,16 +103,15 @@ Should not be able to visit /@@order-confirmation::
     'http://nohost/plone/shop/@@cart'
     >>> print browser.bycss('#cart-is-empty')
 
-# Check Out::
+Check Out::
 
-#     >>> query = {'form.checkout': 'form.checkout'}
-#     >>> browser.post(browser.url, query)
+    >>> browser.getControl(name="form.checkout").click()
 
-# Should not be able to visit /@@order-confirmation::
+Should not be able to visit /@@order-confirmation::
 
-#     >>> browser.open('/shop/@@order-confirmation')
-#     >>> browser.url
-#     'http://nohost/plone/shop/@@billing-and-shipping'
+    >>> browser.open('/shop/@@order-confirmation')
+    >>> browser.url
+    'http://nohost/plone/shop/@@billing-and-shipping'
 
 # Fill billing info::
 
@@ -157,3 +156,5 @@ Should not be able to visit /@@order-confirmation::
 # Confirm::
 
 #     >>> browser.getControl(name="form.to.confirmation").click()
+
+    >>> browser.openBrowser()

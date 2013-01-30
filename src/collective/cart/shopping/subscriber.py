@@ -4,6 +4,7 @@ from Products.ATContentTypes.interfaces import IATImage
 from Products.CMFCore.interfaces import IActionSucceededEvent
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 from Products.statusmessages.interfaces import IStatusMessage
 from collective.behavior.discount.interfaces import IDiscount
 from collective.behavior.stock.interfaces import IStock
@@ -126,7 +127,7 @@ def notify_ordered(context, event):
         billing_info = cadapter.billing_info
         email_to_address = billing_info.email
         # email_to_name = u'{} {}'.format(billing_info.first_name, billing_info.last_name)
-
+        default_charset = getattr(getattr(getToolByName(context, 'portal_properties'), 'site_properties'), 'default_charset', 'utf-8')
         encoding = getUtility(ISiteRoot).getProperty('email_charset', 'utf-8')
         subject = context.translate(_(u'Ordered'))
         mto = email_to_address
@@ -147,14 +148,14 @@ def notify_ordered(context, event):
 {phone}
 {email}
 """.format(
-            first_name=billing_info.first_name,
-            last_name=billing_info.last_name,
-            organization=billing_info.organization,
-            vat=billing_info.vat,
-            street=billing_info.street,
-            post=billing_info.post,
-            city=billing_info.city,
-            phone=billing_info.phone,
+            first_name=safe_unicode(billing_info.first_name, encoding=default_charset),
+            last_name=safe_unicode(billing_info.last_name, encoding=default_charset),
+            organization=safe_unicode(billing_info.organization, encoding=default_charset),
+            vat=safe_unicode(billing_info.vat, encoding=default_charset),
+            street=safe_unicode(billing_info.street, encoding=default_charset),
+            post=safe_unicode(billing_info.post, encoding=default_charset),
+            city=safe_unicode(billing_info.city, encoding=default_charset),
+            phone=safe_unicode(billing_info.phone, encoding=default_charset),
             email=billing_info.email)
 
         # Shipping address
@@ -169,14 +170,14 @@ def notify_ordered(context, event):
 {phone}
 {email}
 """.format(
-            first_name=shipping_info.first_name,
-            last_name=shipping_info.last_name,
-            organization=shipping_info.organization,
-            vat=shipping_info.vat,
-            street=shipping_info.street,
-            post=shipping_info.post,
-            city=shipping_info.city,
-            phone=shipping_info.phone,
+            first_name=safe_unicode(shipping_info.first_name, encoding=default_charset),
+            last_name=safe_unicode(shipping_info.last_name, encoding=default_charset),
+            organization=safe_unicode(shipping_info.organization, encoding=default_charset),
+            vat=safe_unicode(shipping_info.vat, encoding=default_charset),
+            street=safe_unicode(shipping_info.street, encoding=default_charset),
+            post=safe_unicode(shipping_info.post, encoding=default_charset),
+            city=safe_unicode(shipping_info.city, encoding=default_charset),
+            phone=safe_unicode(shipping_info.phone, encoding=default_charset),
             email=shipping_info.email)
 
         # Ordered contents

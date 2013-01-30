@@ -158,3 +158,13 @@ def reimport_cssregistry(context, logger=None):
 
 
 update_viewlets = reimport_viewlets
+
+
+def reimport_actions(context, logger=None):
+    """Reimport actions"""
+    if logger is None:
+        logger = logging.getLogger(__name__)
+    setup = getToolByName(context, 'portal_setup')
+    logger.info('Reimporting actions.')
+    setup.runImportStepFromProfile(
+        PROFILE_ID, 'actions', run_dependencies=False, purge_old=False)
