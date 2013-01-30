@@ -223,6 +223,8 @@ class ThanksView(BaseCheckoutView, Message):
         form = self.request.form
         if form.get('form.buttons.ConfirmOrder') is not None:
             if IShoppingSite(self.context).get_brain_for_text('confirmation-terms-message') and form.get('accept-terms') is None:
+                message = _(u'need_to_accept_terms', default=u"You need to accept the terms to process the order.")
+                IStatusMessage(self.request).addStatusMessage(message, type='info')
                 url = '{}/@@order-confirmation'.format(context.absolute_url())
                 return self.request.response.redirect(url)
             else:

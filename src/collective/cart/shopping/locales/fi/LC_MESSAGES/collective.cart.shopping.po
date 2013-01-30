@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-01-30 05:34+0000\n"
+"POT-Creation-Date: 2013-01-30 13:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,6 +41,10 @@ msgstr "3. Vahvistus"
 msgid "Article Container"
 msgstr "Tuotekansio"
 
+#: ./profiles/default/actions.xml
+msgid "Article List"
+msgstr "Tuotelista"
+
 #: ./browser/templates/shipping-info.pt:105
 #: ./browser/viewlets/billing-and-shipping-checkout.pt:8
 #: ./browser/viewlets/billing-info.pt:121
@@ -51,7 +55,7 @@ msgstr "Edellinen"
 msgid "Billing"
 msgstr "Laskutus"
 
-#: ./subscriber.py:146
+#: ./subscriber.py:144
 msgid "Billing Address"
 msgstr "Laskutusosoite"
 
@@ -85,8 +89,8 @@ msgstr "Hyväksymällä pääsee tilauksen eteenpäin."
 msgid "City"
 msgstr "Kaupunki"
 
-#: ./browser/template.py:179
-#: ./browser/viewlet.py:399
+#: ./browser/template.py:157
+#: ./browser/viewlet.py:369
 msgid "City is missing."
 msgstr "Kaupunki puuttuu."
 
@@ -98,11 +102,11 @@ msgstr "Tyhjennä"
 msgid "Confirm Order"
 msgstr "Vahvista tilaus"
 
-#: ./browser/templates/stock-list.pt:27
+#: ./browser/templates/stock-list.pt:31
 msgid "Created"
 msgstr "Luotu"
 
-#: ./browser/templates/stock-list.pt:29
+#: ./browser/templates/stock-list.pt:33
 msgid "Current Stock"
 msgstr "Nykyvarasto"
 
@@ -138,8 +142,8 @@ msgstr "Sähköposti"
 msgid "First Name"
 msgstr "Etunimi"
 
-#: ./browser/template.py:158
-#: ./browser/viewlet.py:378
+#: ./browser/template.py:136
+#: ./browser/viewlet.py:348
 msgid "First name is missing."
 msgstr "Etunimi puuttuu."
 
@@ -153,7 +157,7 @@ msgstr "Kirjoita tuotteen lisätiedot tähän."
 msgid "Including VAT: ${vat} &#37;"
 msgstr "sis alv. ${vat} &#37;"
 
-#: ./browser/templates/stock-list.pt:28
+#: ./browser/templates/stock-list.pt:32
 msgid "Initial Stock"
 msgstr "Alkuvarasto"
 
@@ -165,12 +169,12 @@ msgstr "Syötä määrä lisätääkseen ostoskoriin."
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr "Kansainvälinen VAT-numero. Suomessa alkaa 'FI' kirjaimella."
 
-#: ./browser/template.py:169
-#: ./browser/viewlet.py:389
+#: ./browser/template.py:147
+#: ./browser/viewlet.py:359
 msgid "Invalid e-mail address."
 msgstr "Ei toimiva sähköpostiosoite."
 
-#: ./browser/viewlet.py:245
+#: ./browser/viewlet.py:239
 msgid "Invalid quantity."
 msgstr "Väärä numero"
 
@@ -180,12 +184,13 @@ msgstr "Väärä numero"
 msgid "Last Name"
 msgstr "Sukunimi"
 
-#: ./browser/template.py:163
-#: ./browser/viewlet.py:383
+#: ./browser/template.py:141
+#: ./browser/viewlet.py:353
 msgid "Last name is missing."
 msgstr "Sukunimi puuttuu."
 
-#: ./browser/templates/stock-list.pt:26
+#: ./browser/templates/article-list.pt:17
+#: ./browser/templates/stock-list.pt:30
 msgid "Name"
 msgstr "Nimi"
 
@@ -205,11 +210,11 @@ msgstr "Normaali hinta: ${normal-price}"
 msgid "Only for organization customer"
 msgstr "Vain yritysasiakkaille"
 
-#: ./subscriber.py:134
+#: ./subscriber.py:132
 msgid "Ordered"
 msgstr "Tilattu"
 
-#: ./subscriber.py:183
+#: ./subscriber.py:184
 msgid "Ordered contents"
 msgstr "Tilauksen sisältö"
 
@@ -225,8 +230,8 @@ msgstr "Organisaatio"
 msgid "Phone Number"
 msgstr "Puhelinnumero"
 
-#: ./browser/template.py:184
-#: ./browser/viewlet.py:404
+#: ./browser/template.py:162
+#: ./browser/viewlet.py:374
 msgid "Phone number is missing."
 msgstr "Puhelinnumero puuttuu."
 
@@ -240,7 +245,7 @@ msgstr "Postinumero"
 msgid "Price excluding VAT"
 msgstr "Hinta ALV 0%"
 
-#: ./browser/templates/stock-list.pt:30
+#: ./browser/templates/stock-list.pt:34
 msgid "Purchase Price VAT 0%"
 msgstr "Ostohinta alv 0%"
 
@@ -249,7 +254,7 @@ msgstr "Ostohinta alv 0%"
 msgid "Quantity"
 msgstr "Määrä"
 
-#: ./subscriber.py:253
+#: ./subscriber.py:254
 msgid "Recipient address rejected by server."
 msgstr "Sähköpostia ei pystytty lähettämään."
 
@@ -257,7 +262,8 @@ msgstr "Sähköpostia ei pystytty lähettämään."
 msgid "Representative Image"
 msgstr "Tuotekuva"
 
-#: ./subscriber.py:184
+#: ./browser/templates/article-list.pt:16
+#: ./subscriber.py:185
 msgid "SKU"
 msgstr "Tuotetunnus"
 
@@ -273,7 +279,7 @@ msgstr "Tallenna tiedot"
 msgid "Select one if this information is used only for billing or shipping."
 msgstr "Valitse yksi jos nämä tiedot käytetään vain laskutus- tai toimitustietona."
 
-#: ./browser/viewlet.py:409
+#: ./browser/viewlet.py:379
 msgid "Select one shipping method."
 msgstr "Valitse yksi toimitustapa."
 
@@ -281,7 +287,7 @@ msgstr "Valitse yksi toimitustapa."
 msgid "Shipping"
 msgstr "Toimitus"
 
-#: ./subscriber.py:165
+#: ./subscriber.py:166
 msgid "Shipping Address"
 msgstr "Toimitusosoite"
 
@@ -291,7 +297,7 @@ msgstr "Toimitusosoite"
 
 #: ./browser/viewlets/billing-info.pt:96
 #: ./schema.py:9
-#: ./subscriber.py:196
+#: ./subscriber.py:197
 msgid "Shipping Method"
 msgstr "Postituskulu"
 
@@ -303,11 +309,19 @@ msgstr "Toimitustapa:"
 msgid "Shop"
 msgstr "Kauppa"
 
+#: ./profiles/default/actions.xml
+msgid "Show list of articles."
+msgstr "Näytä tuotelista."
+
 #: ./browser/viewlets/add-subarticle-to-cart.pt:51
 #: ./browser/viewlets/add-to-cart.pt:59
 #: ./browser/viewlets/articles-in-article.pt:75
 msgid "Sold Out"
 msgstr "Loppuun myyty"
+
+#: ./browser/templates/article-list.pt:18
+msgid "Stock"
+msgstr "Varasto"
 
 #: ./profiles/default/types/collective.cart.shopping.SubArticle.xml
 msgid "Stock List"
@@ -328,8 +342,8 @@ msgstr "Varastossa: ${stock} kpl"
 msgid "Street Address"
 msgstr "Katuosoite"
 
-#: ./browser/template.py:174
-#: ./browser/viewlet.py:394
+#: ./browser/template.py:152
+#: ./browser/viewlet.py:364
 msgid "Street address is missing."
 msgstr "Katuosoite puuttuu."
 
@@ -338,7 +352,7 @@ msgid "Subarticle"
 msgstr "Alatuote"
 
 #: ./browser/templates/thanks.pt:12
-#: ./subscriber.py:140
+#: ./subscriber.py:138
 msgid "Thank you for the order."
 msgstr "Kiitos tilauksesta."
 
@@ -348,7 +362,7 @@ msgstr "Tämä tuotteen edustava kuva."
 
 #: ./browser/viewlets/cart-total.pt:4
 #: ./browser/viewlets/confirmation-total.pt:4
-#: ./subscriber.py:200
+#: ./subscriber.py:201
 msgid "Total"
 msgstr "Yhteensä"
 
@@ -379,7 +393,7 @@ msgstr "VAT-numero"
 msgid "View Order"
 msgstr "Tarkista tilauksen"
 
-#: ./subscriber.py:87
+#: ./subscriber.py:88
 msgid "You need to first remove some images to add here one."
 msgstr "Lisätääkseen tähän uusi kuvaa, täytyy ensin poistaa tästä kuvia."
 
@@ -393,7 +407,7 @@ msgid "agree_with_terms"
 msgstr "Hyväksyn toimitusehdot."
 
 #. Default: "${title} is added to cart."
-#: ./subscriber.py:259
+#: ./subscriber.py:260
 msgid "article-added-to-cart"
 msgstr "${title} on lisätty ostoskoriin."
 
@@ -403,22 +417,27 @@ msgid "billing-and-shipping-same-or-different"
 msgstr "Laskutus- ja toimitus-osoite sama vai eri?"
 
 #. Default: "There are no stocks available for this article."
-#: ./browser/templates/stock-list.pt:14
+#: ./browser/templates/stock-list.pt:17
 msgid "description_no_stocks_available"
 msgstr "Tällä tuotteella ei ole varastoa."
 
 #. Default: "Some information is missing from addresses."
-#: ./browser/template.py:230
+#: ./browser/template.py:208
 msgid "info_missing_from_addresses"
 msgstr "Joku tieto puuttuu osoitteesta."
 
 #. Default: "Link to the order: ${url}"
-#: ./subscriber.py:204
+#: ./subscriber.py:205
 msgid "link-to-order"
 msgstr "Tilauksen linkki: ${url}"
 
+#. Default: "You need to accept the terms to process the order."
+#: ./browser/template.py:226
+msgid "need_to_accept_terms"
+msgstr "Hyväksy toimitusehdot, että pystyisisimme käsittelemään tilausta."
+
 #. Default: "Order Number: ${number}"
-#: ./subscriber.py:143
+#: ./subscriber.py:141
 msgid "order-number"
 msgstr "Tilausnumero: ${number}"
 
