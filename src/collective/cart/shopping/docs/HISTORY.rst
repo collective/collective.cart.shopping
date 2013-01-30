@@ -4,7 +4,7 @@ Change log
 0.2.1.20 (2013-01-xx)
 =====================
 
-- Added action to show stock list on shop top. [taito]
+- Added action to show article list on shop top. [taito]
 
 0.2.1.19 (2013-01-30)
 =====================

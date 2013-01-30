@@ -300,31 +300,7 @@ class BillingInfoViewlet(BaseShoppingSiteRootViewlet):
     def billing_info(self):
         shopping_site = IShoppingSite(self.context)
         cart = shopping_site.cart
-        billing = cart.get('billing')
-        if billing:
-            return {
-                'first_name': billing.first_name,
-                'last_name': billing.last_name,
-                'organization': billing.organization,
-                'vat': billing.vat,
-                'email': billing.email,
-                'street': billing.street,
-                'post': billing.post,
-                'city': billing.city,
-                'phone': billing.phone,
-            }
-        else:
-            return {
-                'first_name': '',
-                'last_name': '',
-                'organization': '',
-                'vat': '',
-                'email': '',
-                'street': '',
-                'post': '',
-                'city': '',
-                'phone': '',
-            }
+        return ICartAdapter(cart).get_info('billing')
 
     @property
     def shipping_methods(self):

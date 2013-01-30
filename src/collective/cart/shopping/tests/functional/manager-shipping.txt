@@ -156,5 +156,3 @@ Should not be able to visit /@@order-confirmation::
 # Confirm::
 
 #     >>> browser.getControl(name="form.to.confirmation").click()
-
-    >>> browser.openBrowser()

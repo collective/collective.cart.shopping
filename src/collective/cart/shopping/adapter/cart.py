@@ -187,7 +187,7 @@ class CartAdapter(core.adapter.cart.CartAdapter):
                 'phone': info.phone,
             }
         else:
-            return {
+            data = {
                 'first_name': '',
                 'last_name': '',
                 'organization': '',
@@ -198,6 +198,16 @@ class CartAdapter(core.adapter.cart.CartAdapter):
                 'city': '',
                 'phone': '',
             }
+            membership = getToolByName(self.context, 'portal_membership')
+            if not membership.isAnonymousUser():
+                member = membership.getAuthenticatedMember()
+                fullname = member.getProperty('fullname')
+                names = fullname.split(' ')
+                data['first_name'] = names.pop(0)
+                data['last_name'] = ' '.join(names)
+                data['email'] = member.getProperty('email')
+
+            return data
 
     def update_address(self, name, data):
         """Update existing address."""

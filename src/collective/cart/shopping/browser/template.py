@@ -3,7 +3,9 @@ from Products.ATContentTypes.interfaces.image import IATImage
 from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.validation import validation
+from collective.behavior.stock.interfaces import IStock as IStockBehavior
 from collective.cart import core
+from collective.cart.core.interfaces import IBaseAdapter
 from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.base import Message
@@ -15,13 +17,13 @@ from collective.cart.shopping.interfaces import IArticleContainer
 from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.interfaces import ICustomerInfo
 from collective.cart.shopping.interfaces import IShoppingSite
-from collective.cart.stock.interfaces import IStock
 from five import grok
 from plone.dexterity.utils import createContentInContainer
 from plone.memoize.instance import memoize
 from zope.component import getMultiAdapter
 from zope.event import notify
 from zope.lifecycleevent import modified
+from collective.cart.stock.interfaces import IStock
 
 
 grok.templatedir('templates')
@@ -117,31 +119,7 @@ class ShippingInfoView(BaseCheckoutView, Message):
     def shipping_info(self):
         shopping_site = IShoppingSite(self.context)
         cart = shopping_site.cart
-        shipping = cart.get('shipping')
-        if shipping:
-            return {
-                'first_name': shipping.first_name,
-                'last_name': shipping.last_name,
-                'organization': shipping.organization,
-                'vat': shipping.vat,
-                'email': shipping.email,
-                'street': shipping.street,
-                'post': shipping.post,
-                'city': shipping.city,
-                'phone': shipping.phone,
-            }
-        else:
-            return {
-                'first_name': '',
-                'last_name': '',
-                'organization': '',
-                'vat': '',
-                'email': '',
-                'street': '',
-                'post': '',
-                'city': '',
-                'phone': '',
-            }
+        return ICartAdapter(cart).get_info('shipping')
 
     def update(self):
         form = self.request.form
@@ -315,6 +293,29 @@ class StockListView(BaseView):
         """
         ulocalized_time = self._ulocalized_time()
         return ulocalized_time(date, context=self.context)
+
+
+class ArticleList(BaseView):
+    """List for all the articles."""
+    grok.context(IShoppingSiteRoot)
+    grok.name('article-list')
+    grok.require('cmf.ModifyPortalContent')
+    grok.template('article-list')
+
+    def articles(self):
+        for item in IBaseAdapter(self.context).get_content_listing(interface=IArticle):
+            obj = item.getObject()
+            article = IArticleAdapter(obj)
+            yield {
+                'sku': item.sku,
+                'stock': IStockBehavior(obj).stock,
+                'title': article.title,
+                'url': item.getURL(),
+            }
+
+    def update(self):
+        self.request.set('disable_plone.leftcolumn', True)
+        self.request.set('disable_plone.rightcolumn', True)
 
 
 class CustomerInfoView(BaseView):

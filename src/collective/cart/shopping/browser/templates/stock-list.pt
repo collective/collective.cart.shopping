@@ -4,19 +4,23 @@
   metal:use-macro="context/main_template/macros/master"
   xmlns:i18n="http://xml.zope.org/namespaces/i18n"
   xmlns:metal="http://xml.zope.org/namespaces/metal"
-  xmlns:tal="http://xml.zope.org/namespaces/tal"
-  >
+  xmlns:tal="http://xml.zope.org/namespaces/tal">
   <body>
-    <metal:main fill-slot="main">
+    <!-- <metal:main fill-slot="main"> -->
+    <metal:title fill-slot="content-title">
       <h1
         class="documentFirstHeading"
-        i18n:translate="">Stock List of <span tal:replace="context/title" /></h1>
+        i18n:translate="">Stock List of <span tal:replace="context/title" />
+      </h1>
+    </metal:title>
+    <metal:description fill-slot="content-description">
       <p
         i18n:translate="description_no_stocks_available"
         tal:condition="not: view/stocks">
         There are no stocks available for this article.
       </p>
-
+    </metal:description>
+    <metal:text fill-slot="content-core">
       <section
         id="collective-cart-shopping-stock-list"
         tal:condition="view/stocks">
@@ -56,6 +60,6 @@
           </tbody>
         </table>
       </section>
-    </metal:main>
+    </metal:text>
   </body>
 </html>

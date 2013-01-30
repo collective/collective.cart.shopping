@@ -6,10 +6,10 @@
   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
 
   <object name="object" meta_type="CMF Action Category">
-    <object name="stock-list" meta_type="CMF Action">
-      <property name="title" i18n:translate="">Stock List</property>
-      <property name="description" i18n:translate="">Show list of article stocks.</property>
-      <property  name="url_expr">string:${globals_view/getCurrentFolderUrl}/@@stock-list</property>
+    <object name="article-list" meta_type="CMF Action">
+      <property name="title" i18n:translate="">Article List</property>
+      <property name="description" i18n:translate="">Show list of articles.</property>
+      <property  name="url_expr">string:${globals_view/getCurrentFolderUrl}/@@article-list</property>
       <property name="icon_expr"></property>
       <property name="available_expr">python: object.restrictedTraverse("is-shopping-site")()</property>
       <property name="permissions">
