@@ -5,6 +5,7 @@ Change log
 =====================
 
 - Added article listing. [taito]
+- Added status message to inform about accepting terms. [taito]
 
 0.2.1.19 (2013-01-30)
 =====================
