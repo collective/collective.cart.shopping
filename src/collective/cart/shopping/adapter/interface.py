@@ -6,6 +6,7 @@ from collective.behavior.price.interfaces import ICurrency
 from collective.behavior.size.interfaces import ISize
 from collective.behavior.stock.interfaces import IStock
 from collective.cart.core.adapter import interface
+from collective.cart.core.interfaces import IPrice
 from collective.cart.shipping.interfaces import IShippingMethod
 from collective.cart.shopping import _
 from collective.cart.shopping.event import ArticleAddedToCartEvent
@@ -55,6 +56,7 @@ class ShoppingSite(interface.ShoppingSite):
             shipping_fee = price = obj.shipping_fee()
             if isinstance(shipping_fee, types.FunctionType):
                 price = shipping_fee(ICartAdapter(self.cart)._calculated_weight(rate=rate))
+            price = getUtility(IPrice, name="string")(price)
             registry = getUtility(IRegistry)
             currency = registry.forInterface(ICurrency).default_currency
             return Money(price, currency=currency)

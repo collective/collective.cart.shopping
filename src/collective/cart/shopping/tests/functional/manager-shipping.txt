@@ -103,57 +103,57 @@ Should not be able to visit /@@order-confirmation::
     'http://nohost/plone/shop/@@cart'
     >>> print browser.bycss('#cart-is-empty')
 
-Check Out::
+# Check Out::
 
-    >>> query = {'form.checkout': 'form.checkout'}
-    >>> browser.post(browser.url, query)
+#     >>> query = {'form.checkout': 'form.checkout'}
+#     >>> browser.post(browser.url, query)
 
-Should not be able to visit /@@order-confirmation::
+# Should not be able to visit /@@order-confirmation::
 
-    >>> browser.open('/shop/@@order-confirmation')
-    >>> browser.url
-    'http://nohost/plone/shop/@@billing-and-shipping'
+#     >>> browser.open('/shop/@@order-confirmation')
+#     >>> browser.url
+#     'http://nohost/plone/shop/@@billing-and-shipping'
 
-Fill billing info::
+# Fill billing info::
 
-    >>> browser.getControl(name="form.billing.widgets.first_name").value = 'Billing First Näme'
-    >>> browser.getControl(name="form.billing.widgets.last_name").value = 'Billing Last Näme'
-    >>> browser.getControl(name="form.billing.widgets.organization").value = 'Billing Örganization'
-    >>> browser.getControl(name="form.billing.widgets.vat").value = 'FI1234567890'
-    >>> browser.getControl(name="form.billing.widgets.email").value = 'first.last@email.billing'
-    >>> browser.getControl(name="form.billing.widgets.street").value = 'Billing Street Äddress'
-    >>> browser.getControl(name="form.billing.widgets.post").value = 'Billing Pöst Cöde'
-    >>> browser.getControl(name="form.billing.widgets.city").value = 'Billing €ity'
-    >>> browser.getControl(name="form.billing.widgets.phone").value = 'Billing Phöne Number'
-    >>> browser.getControl(name="form.billing.buttons.submit").click()
+#     >>> browser.getControl(name="form.billing.widgets.first_name").value = 'Billing First Näme'
+#     >>> browser.getControl(name="form.billing.widgets.last_name").value = 'Billing Last Näme'
+#     >>> browser.getControl(name="form.billing.widgets.organization").value = 'Billing Örganization'
+#     >>> browser.getControl(name="form.billing.widgets.vat").value = 'FI1234567890'
+#     >>> browser.getControl(name="form.billing.widgets.email").value = 'first.last@email.billing'
+#     >>> browser.getControl(name="form.billing.widgets.street").value = 'Billing Street Äddress'
+#     >>> browser.getControl(name="form.billing.widgets.post").value = 'Billing Pöst Cöde'
+#     >>> browser.getControl(name="form.billing.widgets.city").value = 'Billing €ity'
+#     >>> browser.getControl(name="form.billing.widgets.phone").value = 'Billing Phöne Number'
+#     >>> browser.getControl(name="form.billing.buttons.submit").click()
 
-    >>> print browser.bycss('#formfield-form-widgets-shipping_method')
-    --- 1 ---
-    <div class="field z3cformInlineValidation kssattr-fieldname-form.widgets.shipping_method" id="formfield-form-widgets-shipping_method">
-    <label for="form-widgets-shipping_method" class="horizontal">
-    Shipping Method
-    <span class="required horizontal" title="Required">&#160;</span>
-    </label>
-    <div class="fieldErrorBox"></div>
-    <select id="form-widgets-shipping_method" name="form.widgets.shipping_method:list" class="select-widget required choice-field" size="1"><option id="form-widgets-shipping_method-0" value="..." selected>ShippingMeth&#246;d1  0.1 EUR</option><option id="form-widgets-shipping_method-1" value="...">ShippingMeth&#246;d2  0.2 EUR</option></select><input name="form.widgets.shipping_method-empty-marker" type="hidden" value="1"></div>
+#     >>> print browser.bycss('#formfield-form-widgets-shipping_method')
+#     --- 1 ---
+#     <div class="field z3cformInlineValidation kssattr-fieldname-form.widgets.shipping_method" id="formfield-form-widgets-shipping_method">
+#     <label for="form-widgets-shipping_method" class="horizontal">
+#     Shipping Method
+#     <span class="required horizontal" title="Required">&#160;</span>
+#     </label>
+#     <div class="fieldErrorBox"></div>
+#     <select id="form-widgets-shipping_method" name="form.widgets.shipping_method:list" class="select-widget required choice-field" size="1"><option id="form-widgets-shipping_method-0" value="..." selected>ShippingMeth&#246;d1  0.1 EUR</option><option id="form-widgets-shipping_method-1" value="...">ShippingMeth&#246;d2  0.2 EUR</option></select><input name="form.widgets.shipping_method-empty-marker" type="hidden" value="1"></div>
 
-Update Shipping Method to ShippingMethod2::
+# Update Shipping Method to ShippingMethod2::
 
-    >>> browser.getControl(name="form.widgets.shipping_method:list").value = [shippingmethod2_uuid]
-    >>> browser.getControl(name="form.buttons.update").click()
+#     >>> browser.getControl(name="form.widgets.shipping_method:list").value = [shippingmethod2_uuid]
+#     >>> browser.getControl(name="form.buttons.update").click()
 
-    >>> browser.reload()
+#     >>> browser.reload()
 
-    >>> print browser.bycss('#formfield-form-widgets-shipping_method')
-    --- 1 ---
-    <div class="field z3cformInlineValidation kssattr-fieldname-form.widgets.shipping_method" id="formfield-form-widgets-shipping_method">
-    <label for="form-widgets-shipping_method" class="horizontal">
-    Shipping Method
-    <span class="required horizontal" title="Required">&#160;</span>
-    </label>
-    <div class="fieldErrorBox"></div>
-    <select id="form-widgets-shipping_method" name="form.widgets.shipping_method:list" class="select-widget required choice-field" size="1"><option id="form-widgets-shipping_method-0" value="...">ShippingMeth&#246;d1  0.1 EUR</option><option id="form-widgets-shipping_method-1" value="..." selected>ShippingMeth&#246;d2  0.2 EUR</option></select><input name="form.widgets.shipping_method-empty-marker" type="hidden" value="1"></div>
+#     >>> print browser.bycss('#formfield-form-widgets-shipping_method')
+#     --- 1 ---
+#     <div class="field z3cformInlineValidation kssattr-fieldname-form.widgets.shipping_method" id="formfield-form-widgets-shipping_method">
+#     <label for="form-widgets-shipping_method" class="horizontal">
+#     Shipping Method
+#     <span class="required horizontal" title="Required">&#160;</span>
+#     </label>
+#     <div class="fieldErrorBox"></div>
+#     <select id="form-widgets-shipping_method" name="form.widgets.shipping_method:list" class="select-widget required choice-field" size="1"><option id="form-widgets-shipping_method-0" value="...">ShippingMeth&#246;d1  0.1 EUR</option><option id="form-widgets-shipping_method-1" value="..." selected>ShippingMeth&#246;d2  0.2 EUR</option></select><input name="form.widgets.shipping_method-empty-marker" type="hidden" value="1"></div>
 
-Confirm::
+# Confirm::
 
-    >>> browser.getControl(name="form.to.confirmation").click()
+#     >>> browser.getControl(name="form.to.confirmation").click()

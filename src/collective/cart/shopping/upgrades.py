@@ -127,7 +127,7 @@ def upgrade_6_to_7(context, logger=None):
             modified(obj)
 
 
-def update_viewlets(context, logger=None):
+def reimport_viewlets(context, logger=None):
     """Update viewlets"""
     if logger is None:
         logger = logging.getLogger(__name__)
@@ -155,3 +155,6 @@ def reimport_cssregistry(context, logger=None):
     logger.info('Reimporting cssregistry.')
     setup.runImportStepFromProfile(
         PROFILE_ID, 'cssregistry', run_dependencies=False, purge_old=False)
+
+
+update_viewlets = reimport_viewlets

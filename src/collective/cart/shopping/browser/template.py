@@ -2,11 +2,13 @@ from Acquisition import aq_inner
 from Products.ATContentTypes.interfaces.image import IATImage
 from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
+from Products.validation import validation
 from collective.cart import core
 from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.base import Message
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
+from collective.cart.shopping.event import ShippingAddressConfirmedEvent
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
@@ -15,8 +17,11 @@ from collective.cart.shopping.interfaces import ICustomerInfo
 from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.stock.interfaces import IStock
 from five import grok
+from plone.dexterity.utils import createContentInContainer
 from plone.memoize.instance import memoize
 from zope.component import getMultiAdapter
+from zope.event import notify
+from zope.lifecycleevent import modified
 
 
 grok.templatedir('templates')
@@ -102,6 +107,118 @@ class BaseCheckoutView(BaseView):
 class BillingAndShippingView(BaseCheckoutView, Message):
     grok.name('billing-and-shipping')
     grok.template('billing-and-shipping')
+
+
+class ShippingInfoView(BaseCheckoutView, Message):
+    """View for editing shipping info which checkout"""
+    grok.name('shipping-info')
+    grok.template('shipping-info')
+
+    def shipping_info(self):
+        shopping_site = IShoppingSite(self.context)
+        cart = shopping_site.cart
+        shipping = cart.get('shipping')
+        if shipping:
+            return {
+                'first_name': shipping.first_name,
+                'last_name': shipping.last_name,
+                'organization': shipping.organization,
+                'vat': shipping.vat,
+                'email': shipping.email,
+                'street': shipping.street,
+                'post': shipping.post,
+                'city': shipping.city,
+                'phone': shipping.phone,
+            }
+        else:
+            return {
+                'first_name': '',
+                'last_name': '',
+                'organization': '',
+                'vat': '',
+                'email': '',
+                'street': '',
+                'post': '',
+                'city': '',
+                'phone': '',
+            }
+
+    def update(self):
+        form = self.request.form
+        shopping_site = IShoppingSite(self.context)
+        shop_url = shopping_site.shop.absolute_url()
+        if form.get('form.buttons.back') is not None:
+            IShoppingSite(self.context).shop
+            url = '{}/@@billing-and-shipping'.format(shop_url)
+            return self.request.response.redirect(url)
+        if form.get('form.to.confirmation') is not None:
+            current_url = self.context.restrictedTraverse('@@plone_context_state').current_base_url()
+            first_name = form.get('first-name')
+            if not first_name:
+                message = _('First name is missing.')
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                return self.request.response.redirect(current_url)
+            last_name = form.get('last-name')
+            if not last_name:
+                message = _('Last name is missing.')
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                return self.request.response.redirect(current_url)
+            email = form.get('email')
+            email_validation = validation.validatorFor('isEmail')
+            if email_validation(email) != 1:
+                message = _('Invalid e-mail address.')
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                return self.request.response.redirect(current_url)
+            street = form.get('street')
+            if not street:
+                message = _('Street address is missing.')
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                return self.request.response.redirect(current_url)
+            city = form.get('city')
+            if not city:
+                message = _('City is missing.')
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                return self.request.response.redirect(current_url)
+            phone = form.get('phone')
+            if not phone:
+                message = _('Phone number is missing.')
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                return self.request.response.redirect(current_url)
+            else:
+                organization = form.get('organization')
+                vat = form.get('vat')
+                post = form.get('post')
+
+                cart = shopping_site.cart
+
+                data = {
+                    'first_name': first_name,
+                    'last_name': last_name,
+                    'organization': organization,
+                    'vat': vat,
+                    'email': email,
+                    'street': street,
+                    'post': post,
+                    'city': city,
+                    'phone': phone,
+                }
+
+                shipping = cart.get('shipping')
+                if shipping is None:
+                    shipping = createContentInContainer(
+                        cart, 'collective.cart.shopping.CustomerInfo', id='shipping',
+                        checkConstraints=False, **data)
+                else:
+                    for key in data:
+                        if getattr(shipping, key) != data[key]:
+                            setattr(shipping, key, data[key])
+
+                modified(shipping)
+
+                notify(ShippingAddressConfirmedEvent(cart))
+
+                url = '{}/@@order-confirmation'.format(shop_url)
+                return self.request.response.redirect(url)
 
 
 class OrderConfirmationView(BaseCheckoutView, Message):

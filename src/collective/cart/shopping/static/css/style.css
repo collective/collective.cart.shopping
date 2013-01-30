@@ -29,6 +29,11 @@
     font-size: 1.2em;
 }
 
+/* Billing and shipping */
+section#customer-info p#billing-and-shipping-same-or-different {
+  border-bottom: 1px solid #CCCCCC;
+}
+
 @media screen and (max-width: 800px) {
     #related-articles article {
     width: 44%;

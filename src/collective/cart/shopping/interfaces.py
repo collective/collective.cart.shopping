@@ -12,8 +12,11 @@ from zope.interface import Attribute
 from zope.interface import Interface
 from zope.interface import alsoProvides
 from zope.schema import Bool
+from zope.schema import Choice
 from zope.schema import Decimal
 from zope.schema import TextLine
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 
 class IShoppingSite(IBaseShoppingSite):
@@ -105,11 +108,11 @@ class ICartAdapter(core.interfaces.ICartAdapter):
     def add_address(name):  # pragma: no cover
         """Add address of the name to cart."""
 
-    def add_addresses():  # pragma: no cover
-        """Add addresses."""
-
     def get_address(name):  # pragma: no cover
         """Get address by name."""
+
+    def get_info(name):  # pragma: no cover
+        """Return dictonary of address info by name."""
 
     def is_address_filled(name):  # pragma: no cover
         """Return true if the address of the name is filled."""
@@ -257,10 +260,20 @@ def default_phone(data):
     return get_cart_value(data)
 
 
+info_types = SimpleVocabulary([
+    SimpleTerm(value=u'billing', title=_(u'Billing')), SimpleTerm(value=u'shipping', title=_(u'Shipping'))])
+
+
 class ICustomerInfo(IBaseCustomerInfo):
     """Schema for collective.cart.shipping.CustomerInfo dexterity type."""
 
     orig_uuid = Attribute('Original UUID.')
+
+    info_type = Choice(
+        title=_(u'Type'),
+        description=_(u'Select one if this information is used only for billing or shipping.'),
+        vocabulary=info_types,
+        required=False)
 
 
 class IShop(core.interfaces.IShoppingSiteRoot):
@@ -283,3 +296,11 @@ class ISubArticle(core.interfaces.IArticle):
 
 class IArticleAddedToCartEvent(Interface):
     """Event signaling when article is added to cart."""
+
+
+class IBillingAddressConfirmedEvent(Interface):
+    """Event signaling when billing address is confirmed."""
+
+
+class IShippingAddressConfirmedEvent(Interface):
+    """Event signaling when shipping address is confirmed."""

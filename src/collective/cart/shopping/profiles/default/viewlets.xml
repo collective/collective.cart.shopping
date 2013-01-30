@@ -2,9 +2,6 @@
 <object>
   <order manager="collective.cart.shopping.billing.shipping.manager" skinname="*">
     <viewlet name="collective.cart.shopping.billing.info" />
-    <viewlet name="collective.cart.shopping.shipping.info" />
-    <viewlet name="collective.cart.shopping.shipping.method" />
-    <viewlet name="collective.cart.shopping.billing.shipping.method.checkout" />
   </order>
   <order manager="collective.cart.shopping.order.confirmation.manager" skinname="*">
     <viewlet name="collective.cart.shopping.confirmation-articles" />
@@ -12,7 +9,8 @@
     <viewlet name="collective.cart.shopping.confirmation-total" />
     <viewlet name="collective.cart.shopping.confirmation-checkout" />
   </order>
-  <hidden manager="plone.abovecontent" skinname="Plone Default">
+  <hidden manager="plone.abovecontent" skinname="*">
     <viewlet name="collective.cart.shipping.shipping.method" />
   </hidden>
+
 </object>

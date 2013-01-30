@@ -113,4 +113,14 @@
     title="Add style.css"
     />
 
+  <genericsetup:upgradeStep
+    description=""
+    destination="12"
+    handler="collective.cart.shopping.upgrades.reimport_viewlets"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="11"
+    title="Reimport viewlets"
+    />
+
 </configure>

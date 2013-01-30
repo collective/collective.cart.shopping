@@ -2,18 +2,18 @@
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
+from Products.validation import validation
 from collective.behavior.stock.interfaces import IStock
 from collective.cart import core
 from collective.cart.core.browser.viewlet import CartContentViewletManager
 from collective.cart.core.browser.viewlet import CartViewletManager
+from collective.cart.core.interfaces import IBaseAdapter
 from collective.cart.core.interfaces import IShoppingSiteRoot
+from collective.cart.shipping.interfaces import IShippingMethod
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.base import Message
-from collective.cart.shopping.browser.form import BillingInfoForm
-from collective.cart.shopping.browser.form import ShippingInfoForm
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
-from collective.cart.shopping.browser.wrapper import CustomerInfoFormWrapper
-from collective.cart.shopping.browser.wrapper import ShippingMethodFormWrapper
+from collective.cart.shopping.event import BillingAddressConfirmedEvent
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
@@ -27,11 +27,11 @@ from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.layout.globals.interfaces import IViewView
 from plone.app.layout.viewlets.interfaces import IBelowContent
 from plone.app.viewletmanager.manager import OrderedViewletManager
+from plone.dexterity.utils import createContentInContainer
 from plone.uuid.interfaces import IUUID
 from zope.component import getMultiAdapter
-from zope.component import getUtility
+from zope.event import notify
 from zope.lifecycleevent import modified
-from zope.schema.interfaces import IVocabularyFactory
 
 
 grok.templatedir('viewlets')
@@ -291,62 +291,164 @@ class BillingAndShippingViewletManager(BaseViewletManager):
     grok.name('collective.cart.shopping.billing.shipping.manager')
 
 
-class BaseCustomerInfoViewlet(BaseShoppingSiteRootViewlet):
-    grok.baseclass()
+class BillingInfoViewlet(BaseShoppingSiteRootViewlet):
+    """Viewlet class to show form to update billing address"""
+    grok.name('collective.cart.shopping.billing.info')
+    grok.template('billing-info')
     grok.viewletmanager(BillingAndShippingViewletManager)
 
-    def create_form(self, form_class):
-        view = CustomerInfoFormWrapper(self.context, self.request)
-        form = form_class(self.context, self.request)
-        view.form_instance = form
-        return view()
+    def billing_info(self):
+        shopping_site = IShoppingSite(self.context)
+        cart = shopping_site.cart
+        billing = cart.get('billing')
+        if billing:
+            return {
+                'first_name': billing.first_name,
+                'last_name': billing.last_name,
+                'organization': billing.organization,
+                'vat': billing.vat,
+                'email': billing.email,
+                'street': billing.street,
+                'post': billing.post,
+                'city': billing.city,
+                'phone': billing.phone,
+            }
+        else:
+            return {
+                'first_name': '',
+                'last_name': '',
+                'organization': '',
+                'vat': '',
+                'email': '',
+                'street': '',
+                'post': '',
+                'city': '',
+                'phone': '',
+            }
 
+    @property
+    def shipping_methods(self):
+        base = IBaseAdapter(self.context)
+        brains = base.get_brains(IShippingMethod)
+        shopping_site = IShoppingSite(self.context)
+        cart = ICartAdapter(shopping_site.cart)
+        res = []
+        for brain in brains:
+            uuid = brain.UID
+            orig_uuid = cart.shipping_method.orig_uuid
+            if uuid == orig_uuid:
+                shipping_gross_money = cart.shipping_gross_money
+            else:
+                shipping_gross_money = shopping_site.get_shipping_gross_money(uuid)
+            res.append({
+                'description': brain.Description,
+                'checked': uuid == orig_uuid,
+                'title': '{}  {} {}'.format(brain.Title, shipping_gross_money.amount, shipping_gross_money.currency),
+                'uuid': uuid,
+            })
+        return res
 
-class BillingInfoViewlet(BaseCustomerInfoViewlet):
-    grok.name('collective.cart.shopping.billing.info')
-    grok.template('info')
+    @property
+    def single_shipping_method(self):
+        return len(self.shipping_methods) == 1
 
-    title = _('Billing Info')
+    def billing_same_as_shipping(self):
+        shopping_site = IShoppingSite(self.context)
+        cart = shopping_site.cart
+        return getattr(cart, 'billing_same_as_shipping', True)
 
-    def form(self):
-        return self.create_form(BillingInfoForm)
+    def update(self):
+        form = self.request.form
+        shopping_site = IShoppingSite(self.context)
+        shop_url = shopping_site.shop.absolute_url()
+        if form.get('form.buttons.back') is not None:
+            IShoppingSite(self.context).shop
+            url = '{}/@@cart'.format(shop_url)
+            return self.request.response.redirect(url)
+        if form.get('form.to.confirmation') is not None:
+            current_url = self.context.restrictedTraverse('@@plone_context_state').current_base_url()
+            first_name = form.get('first-name')
+            if not first_name:
+                message = _('First name is missing.')
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                return self.request.response.redirect(current_url)
+            last_name = form.get('last-name')
+            if not last_name:
+                message = _('Last name is missing.')
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                return self.request.response.redirect(current_url)
+            email = form.get('email')
+            email_validation = validation.validatorFor('isEmail')
+            if email_validation(email) != 1:
+                message = _('Invalid e-mail address.')
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                return self.request.response.redirect(current_url)
+            street = form.get('street')
+            if not street:
+                message = _('Street address is missing.')
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                return self.request.response.redirect(current_url)
+            city = form.get('city')
+            if not city:
+                message = _('City is missing.')
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                return self.request.response.redirect(current_url)
+            phone = form.get('phone')
+            if not phone:
+                message = _('Phone number is missing.')
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                return self.request.response.redirect(current_url)
+            shipping_method = form.get('shipping-method')
+            if not self.single_shipping_method and not shipping_method:
+                message = _('Select one shipping method.')
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                return self.request.response.redirect(current_url)
 
+            else:
+                organization = form.get('organization')
+                vat = form.get('vat')
+                post = form.get('post')
 
-class ShippingInfoViewlet(BaseCustomerInfoViewlet):
-    grok.name('collective.cart.shopping.shipping.info')
-    grok.template('info')
+                cart = shopping_site.cart
 
-    title = _('Shipping Info')
+                data = {
+                    'first_name': first_name,
+                    'last_name': last_name,
+                    'organization': organization,
+                    'vat': vat,
+                    'email': email,
+                    'street': street,
+                    'post': post,
+                    'city': city,
+                    'phone': phone,
+                }
 
-    def form(self):
-        return self.create_form(ShippingInfoForm)
+                billing = cart.get('billing')
+                if billing is None:
+                    billing = createContentInContainer(
+                        cart, 'collective.cart.shopping.CustomerInfo', id='billing',
+                        checkConstraints=False, **data)
+                else:
+                    for key in data:
+                        if getattr(billing, key) != data[key]:
+                            setattr(billing, key, data[key])
 
+                modified(billing)
 
-class ShippingMethodViewlet(BaseCustomerInfoViewlet):
-    """Viewlet to show updating shipping method form."""
-    grok.name('collective.cart.shopping.shipping.method')
-    grok.template('shipping-method')
+                if form.get('billing-and-shipping-same-or-different') == 'same':
+                    cart.billing_same_as_shipping = True
+                    url = '{}/@@order-confirmation'.format(shop_url)
+                else:
+                    cart.billing_same_as_shipping = False
+                    url = '{}/@@shipping-info'.format(shop_url)
 
-    _form_wrapper = ShippingMethodFormWrapper
+                cadapter = ICartAdapter(cart)
+                if cadapter.shipping_method.orig_uuid != shipping_method:
+                    cadapter.update_shipping_method(shipping_method)
 
-    def form(self):
-        return self._form_wrapper(self.context, self.request)()
+                notify(BillingAddressConfirmedEvent(cart))
 
-    def available(self):
-        return len(getUtility(
-            IVocabularyFactory,
-            name="collective.cart.shipping.methods").__call__(self.context))
-
-
-class BillingShippingCheckOutViewlet(BaseCustomerInfoViewlet):
-    grok.name('collective.cart.shopping.billing.shipping.method.checkout')
-    grok.template('billing-and-shipping-checkout')
-
-    def action_url(self):
-        return '{}/@@order-confirmation'.format(self.context.absolute_url())
-
-    def cart_id(self):
-        return IShoppingSite(self.context).cart.id
+                return self.request.response.redirect(url)
 
 
 class OrderConfirmationViewletManager(BaseViewletManager):

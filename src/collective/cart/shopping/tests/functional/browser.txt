@@ -12,10 +12,11 @@ Log in as Manager::
     ...
     HTTPError: HTTP Error 404: Not Found
 
-Make Folder 'Shop' into Shop::
+Add Shop::
 
     >>> browser.open('/++add++collective.cart.shopping.Shop')
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Shöp'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Shöp.'
     >>> browser.getControl(name="form.buttons.save").click()
 
     >>> browser.open('/shop/cart-container')

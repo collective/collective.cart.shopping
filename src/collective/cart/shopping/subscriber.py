@@ -52,7 +52,6 @@ def set_moneys(context):
 
 @grok.subscribe(IArticle, IObjectAddedEvent)
 def create_moneys(context, event):
-    assert context == event.object
     set_moneys(context)
 
 
@@ -121,15 +120,12 @@ def notify_ordered(context, event):
     if event.action == 'ordered':
         portal = getToolByName(context, 'portal_url').getPortalObject()
         email_from_address = getUtility(IRegistry)['collective.cart.shopping.notification_cc_email'] or portal.getProperty('email_from_address')
-        email_from_name = portal.getProperty('email_from_name')
+        # email_from_name = portal.getProperty('email_from_name')
 
         cadapter = ICartAdapter(context)
-        if context.billing_same_as_shipping:
-            billing_info = cadapter.shipping_info
-        else:
-            billing_info = cadapter.billing_info
+        billing_info = cadapter.billing_info
         email_to_address = billing_info.email
-        email_to_name = u'{} {}'.format(billing_info.first_name, billing_info.last_name)
+        # email_to_name = u'{} {}'.format(billing_info.first_name, billing_info.last_name)
 
         encoding = getUtility(ISiteRoot).getProperty('email_charset', 'utf-8')
         subject = context.translate(_(u'Ordered'))
@@ -162,7 +158,10 @@ def notify_ordered(context, event):
             email=billing_info.email)
 
         # Shipping address
-        shipping_info = cadapter.shipping_info
+        if context.billing_same_as_shipping:
+            shipping_info = billing_info
+        else:
+            shipping_info = cadapter.shipping_info
         SHIPPING_ADDRESS = context.translate(_(u'Shipping Address'))
         SHIPPING_INFO = u"""{first_name} {last_name}  {organization}  {vat}
 {street}
@@ -182,9 +181,11 @@ def notify_ordered(context, event):
 
         # Ordered contents
         ORDERED_CONTENTS = context.translate(_(u'Ordered contents'))
+        SKU = context.translate(_(u'SKU'))
         articles = []
         for article in cadapter.articles:
-            article_line = u'{sku}: {title} x {quantity} = {subtotal}'.format(
+            article_line = u'{SKU}: {sku}\n{title} x {quantity} = {subtotal}'.format(
+                SKU=SKU,
                 sku=article['sku'],
                 title=article['title'],
                 quantity=article['quantity_size'],
@@ -257,3 +258,14 @@ def status_message_article_added(event):
     article = event.article
     message = _(u"article-added-to-cart", default=u"${title} is added to cart.", mapping={'title': article.title})
     IStatusMessage(event.request).addStatusMessage(message, type='info')
+
+
+@grok.subscribe(ICart, IActionSucceededEvent)
+def return_stock_to_original(context, event):
+    if event.action == 'canceled':
+        for carticle in ICartAdapter(context).articles:
+            obj = carticle['obj']
+            article = ICartArticleAdapter(obj).orig_article
+            if article:
+                IStock(article).add_stock(obj.quantity)
+                modified(article)

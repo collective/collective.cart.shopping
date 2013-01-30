@@ -5,6 +5,7 @@ from collective.behavior.price.interfaces import ICurrency
 from collective.behavior.size.interfaces import ISize
 from collective.behavior.stock.interfaces import IStock
 from collective.cart import core
+from collective.cart.core.interfaces import IPrice
 from collective.cart.shipping.interfaces import ICartShippingMethod
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IBaseCustomerInfo
@@ -112,6 +113,7 @@ class CartAdapter(core.adapter.cart.CartAdapter):
                 shipping_fee = price = obj.shipping_fee()
                 if isinstance(shipping_fee, types.FunctionType):
                     price = shipping_fee(self._calculated_weight(rate=rate))
+                price = getUtility(IPrice, name="string")(price)
                 registry = getUtility(IRegistry)
                 currency = registry.forInterface(ICurrency).default_currency
                 return Money(price, currency=currency)
@@ -145,16 +147,14 @@ class CartAdapter(core.adapter.cart.CartAdapter):
 
     @property
     def is_addresses_filled(self):
-        """True if both billing and shipping addresses are filled."""
-        shipping_filled = self.is_address_filled('shipping')
-        return (self.context.billing_same_as_shipping and shipping_filled) or (
-            self.is_address_filled('billing') and shipping_filled)
+        """True if billing addresses is filled and billing_same_as_shipping is True or
+        both billing and shipping addresses are filled."""
+        billing_filled = self.is_address_filled('billing')
+        return (self.context.billing_same_as_shipping and billing_filled) or (
+            self.is_address_filled('shipping') and billing_filled)
 
     def add_address(self, name):
         """Add address with name."""
-
-    def add_addresses(self):
-        pass
 
     def get_address(self, name):
         """Get address by name."""
@@ -170,6 +170,34 @@ class CartAdapter(core.adapter.cart.CartAdapter):
         brains = catalog(query)
         if brains:
             return brains[0]
+
+    def get_info(self, name):
+        """Return dictonary of address info by name."""
+        info = self.get_address(name)
+        if info:
+            return {
+                'first_name': info.first_name,
+                'last_name': info.last_name,
+                'organization': info.organization,
+                'vat': info.vat,
+                'email': info.email,
+                'street': info.street,
+                'post': info.post,
+                'city': info.city,
+                'phone': info.phone,
+            }
+        else:
+            return {
+                'first_name': '',
+                'last_name': '',
+                'organization': '',
+                'vat': '',
+                'email': '',
+                'street': '',
+                'post': '',
+                'city': '',
+                'phone': '',
+            }
 
     def update_address(self, name, data):
         """Update existing address."""
