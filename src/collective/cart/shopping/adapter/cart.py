@@ -136,9 +136,9 @@ class CartAdapter(core.adapter.cart.CartAdapter):
     def shipping_info(self):
         return self.get_address('shipping')
 
-    def is_address_filled(self, name):
-        """Return true if the address of the name is filled."""
-        info = self.get_address(name)
+    def is_address_filled(self, value):
+        """Return true if the address of the value is filled."""
+        info = self.get_address(value)
         names = [name for name in IBaseCustomerInfo.names() if IBaseCustomerInfo.get(name).required]
         for name in names:
             if getattr(info, name, None) is None:

@@ -189,7 +189,7 @@ class CartAdapterTestCase(IntegrationTestCase):
         self.assertEqual(shipping_methods[1].Title(), 'ShippingMethod2')
         ICartAdapter(cart).update_shipping_method(uuid=IUUID(shipping_methods[1]))
         shipping_method = ICartAdapter(cart).shipping_method
-        sm = [sm for sm in shipping_methods if IUUID(sm) == shipping_method.orig_uuid][0]
+        sm = [smethod for smethod in shipping_methods if IUUID(smethod) == shipping_method.orig_uuid][0]
         self.assertEqual(shipping_method.Title, sm.Title())
         self.assertEqual(shipping_method.min_delivery_days, sm.min_delivery_days)
         self.assertEqual(shipping_method.max_delivery_days, sm.max_delivery_days)

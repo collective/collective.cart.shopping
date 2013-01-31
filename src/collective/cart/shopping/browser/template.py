@@ -20,7 +20,6 @@ from collective.cart.shopping.interfaces import IShoppingSite
 from five import grok
 from plone.dexterity.utils import createContentInContainer
 from plone.memoize.instance import memoize
-from zope.component import getMultiAdapter
 from zope.event import notify
 from zope.lifecycleevent import modified
 from collective.cart.stock.interfaces import IStock
@@ -220,12 +219,13 @@ class ThanksView(BaseCheckoutView, Message):
     def update(self):
         super(ThanksView, self).update()
         context = aq_inner(self.context)
+        context_url = context.absolute_url()
         form = self.request.form
         if form.get('form.buttons.ConfirmOrder') is not None:
             if IShoppingSite(self.context).get_brain_for_text('confirmation-terms-message') and form.get('accept-terms') is None:
                 message = _(u'need_to_accept_terms', default=u"You need to accept the terms to process the order.")
                 IStatusMessage(self.request).addStatusMessage(message, type='info')
-                url = '{}/@@order-confirmation'.format(context.absolute_url())
+                url = '{}/@@order-confirmation'.format(context_url)
                 return self.request.response.redirect(url)
             else:
                 self.cart_id = self.cart.id
@@ -233,12 +233,11 @@ class ThanksView(BaseCheckoutView, Message):
                 workflow.doActionFor(self.cart, 'ordered')
 
         elif form.get('form.buttons.back') is not None:
-            portal_state = getMultiAdapter((self.context, self.request), name="plone_portal_state")
-            url = '{}/@@billing-and-shipping'.format(portal_state.navigation_root_url())
+            url = '{}/@@billing-and-shipping'.format(context_url)
             return self.request.response.redirect(url)
 
         else:
-            url = '{}/@@order-confirmation'.format(context.absolute_url())
+            url = '{}/@@order-confirmation'.format(context_url)
             return self.request.response.redirect(url)
 
     def order_url(self):

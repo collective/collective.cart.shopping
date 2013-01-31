@@ -483,12 +483,6 @@ class OrderConfirmationCheckoutViewlet(BaseOrderConfirmationViewlet):
     grok.name('collective.cart.shopping.confirmation-checkout')
     grok.template('confirmation-checkout')
 
-    def update(self):
-        if self.request.form.get('form.buttons.back') is not None:
-            portal_state = getMultiAdapter((self.context, self.request), name="plone_portal_state")
-            url = '{}/@@cart'.format(portal_state.navigation_root_url())
-            return self.request.response.redirect(url)
-
 
 class BaseCartContentViewlet(BaseShoppingSiteRootViewlet):
     """Base class for viewlet within cart content."""
