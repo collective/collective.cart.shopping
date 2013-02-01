@@ -43,7 +43,7 @@ msgstr "Tuotekansio"
 
 #: ./profiles/default/actions.xml
 msgid "Article List"
-msgstr "Tuotelista"
+msgstr "Varastosaldo"
 
 #: ./browser/templates/shipping-info.pt:105
 #: ./browser/viewlets/billing-and-shipping-checkout.pt:8

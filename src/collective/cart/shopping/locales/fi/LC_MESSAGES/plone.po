@@ -14,5 +14,8 @@ msgstr ""
 "Preferred-Encodings: latin9 utf-8\n"
 "Domain: plone\n"
 
+msgid "Article List"
+msgstr "Varastosaldo"
+
 msgid "Stock List"
 msgstr "Varastolista"
