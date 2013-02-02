@@ -1,4 +1,5 @@
 from Products.CMFCore.utils import getToolByName
+from collective.cart.core.tests.test_setup import get_action
 from collective.cart.shopping.tests.base import IntegrationTestCase
 
 
@@ -8,37 +9,43 @@ class TestCase(IntegrationTestCase):
     def setUp(self):
         self.portal = self.layer['portal']
 
-    def test_is_sll_shopping_installed(self):
+    def test_is_package_installed(self):
         installer = getToolByName(self.portal, 'portal_quickinstaller')
         self.failUnless(installer.isProductInstalled('collective.cart.shopping'))
 
-    def test_is_collective_cart_core_installed(self):
-        installer = getToolByName(self.portal, 'portal_quickinstaller')
-        self.failUnless(installer.isProductInstalled('collective.cart.core'))
+    def test_actions__object_stock__meta_type(self):
+        action = get_action(self.portal, 'object', 'stock')
+        self.assertEqual(action.meta_type, 'CMF Action')
 
-    def test_is_collective_cart_shipping_installed(self):
-        installer = getToolByName(self.portal, 'portal_quickinstaller')
-        self.failUnless(installer.isProductInstalled('collective.cart.shipping'))
+    def test_actions__object_stock__i18n_domain(self):
+        action = get_action(self.portal, 'object', 'stock')
+        self.assertEqual(action.i18n_domain, 'collective.cart.shopping')
 
-    def test_is_collective_behavior_discount_installed(self):
-        installer = getToolByName(self.portal, 'portal_quickinstaller')
-        self.failUnless(installer.isProductInstalled('collective.behavior.discount'))
+    def test_actions__object_stock__title(self):
+        action = get_action(self.portal, 'object', 'stock')
+        self.assertEqual(action.title, 'Stock')
 
-    def test_is_collective_behavior_size_installed(self):
-        installer = getToolByName(self.portal, 'portal_quickinstaller')
-        self.failUnless(installer.isProductInstalled('collective.behavior.size'))
+    def test_actions__object_stock__description(self):
+        action = get_action(self.portal, 'object', 'stock')
+        self.assertEqual(action.description, '')
 
-    def test_is_collective_behavior_sku_installed(self):
-        installer = getToolByName(self.portal, 'portal_quickinstaller')
-        self.failUnless(installer.isProductInstalled('collective.behavior.sku'))
+    def test_actions__object_stock__url_expr(self):
+        action = get_action(self.portal, 'object', 'stock')
+        self.assertEqual(
+            action.url_expr, 'string:${globals_view/getCurrentFolderUrl}/@@stock')
 
-    def test_is_collective_behavior_stock_installed(self):
-        installer = getToolByName(self.portal, 'portal_quickinstaller')
-        self.failUnless(installer.isProductInstalled('collective.behavior.stock'))
+    def test_actions__object_stock__available_expr(self):
+        action = get_action(self.portal, 'object', 'stock')
+        self.assertEqual(
+            action.available_expr, 'python: object.restrictedTraverse("is-article")()')
 
-    def test_is_collective_behavior_vat_installed(self):
-        installer = getToolByName(self.portal, 'portal_quickinstaller')
-        self.failUnless(installer.isProductInstalled('collective.behavior.vat'))
+    def test_actions__object_stock__permissions(self):
+        action = get_action(self.portal, 'object', 'stock')
+        self.assertEqual(action.permissions, ('Modify portal content',))
+
+    def test_actions__object_stock__visible(self):
+        action = get_action(self.portal, 'object', 'stock')
+        self.assertTrue(action.visible)
 
     def test_browserlayer(self):
         from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
@@ -94,10 +101,38 @@ class TestCase(IntegrationTestCase):
         catalog = getToolByName(self.portal, 'portal_catalog')
         self.assertIsInstance(catalog.Indexes['use_subarticle'], BooleanIndex)
 
+    def test_metadata_dependency_collective_cart_core(self):
+        installer = getToolByName(self.portal, 'portal_quickinstaller')
+        self.failUnless(installer.isProductInstalled('collective.cart.core'))
+
+    def test_metadata_dependency_collective_cart_shipping(self):
+        installer = getToolByName(self.portal, 'portal_quickinstaller')
+        self.failUnless(installer.isProductInstalled('collective.cart.shipping'))
+
+    def test_metadata_dependency_collective_behavior_discount(self):
+        installer = getToolByName(self.portal, 'portal_quickinstaller')
+        self.failUnless(installer.isProductInstalled('collective.behavior.discount'))
+
+    def test_metadata_dependency_collective_behavior_size(self):
+        installer = getToolByName(self.portal, 'portal_quickinstaller')
+        self.failUnless(installer.isProductInstalled('collective.behavior.size'))
+
+    def test_metadata_dependency_collective_behavior_sku(self):
+        installer = getToolByName(self.portal, 'portal_quickinstaller')
+        self.failUnless(installer.isProductInstalled('collective.behavior.sku'))
+
+    def test_metadata_dependency_collective_behavior_stock(self):
+        installer = getToolByName(self.portal, 'portal_quickinstaller')
+        self.failUnless(installer.isProductInstalled('collective.behavior.stock'))
+
+    def test_metadata_dependency_collective_behavior_vat(self):
+        installer = getToolByName(self.portal, 'portal_quickinstaller')
+        self.failUnless(installer.isProductInstalled('collective.behavior.vat'))
+
     def test_metadata__version(self):
         setup = getToolByName(self.portal, 'portal_setup')
         self.assertEqual(
-            setup.getVersionForProfile('profile-collective.cart.shopping:default'), u'13')
+            setup.getVersionForProfile('profile-collective.cart.shopping:default'), u'14')
 
     def get_record(self, name):
         """Get record by name.
@@ -177,21 +212,6 @@ class TestCase(IntegrationTestCase):
         self.assertEqual(
             self.portal.acquiredRolesAreUsedBy(permission), '')
 
-    def test_rolemap__collective_cart_shipping_AddSubArticle__rolesOfPermission(self):
-        permission = "collective.cart.shopping: Add Subarticle"
-        roles = [item['name'] for item in self.portal.rolesOfPermission(
-            permission) if item['selected'] == 'SELECTED']
-        roles.sort()
-        self.assertEqual(roles, [
-            'Contributor',
-            'Manager',
-            'Site Administrator'])
-
-    def test_rolemap__collective_cart_shipping_AddSubArticle__acquiredRolesAreUsedBy(self):
-        permission = "collective.cart.shopping: Add Subarticle"
-        self.assertEqual(
-            self.portal.acquiredRolesAreUsedBy(permission), 'CHECKED')
-
     def test_site_properties__types_not_searchable(self):
         properties = getToolByName(self.portal, 'portal_properties')
         site_properties = getattr(properties, 'site_properties')
@@ -199,7 +219,6 @@ class TestCase(IntegrationTestCase):
             'collective.cart.shipping.ShippingMethodContainer',
             'collective.cart.shopping.ArticleContainer',
             'collective.cart.shopping.CustomerInfo',
-            'collective.cart.shopping.SubArticle',
             'collective.cart.stock.Stock')
         for content in contents:
             self.assertIn(content, site_properties.getProperty('types_not_searched'))
@@ -210,7 +229,6 @@ class TestCase(IntegrationTestCase):
         contents = (
             'collective.cart.shipping.ShippingMethodContainer',
             'collective.cart.shopping.CustomerInfo',
-            'collective.cart.shopping.SubArticle',
             'collective.cart.stock.Stock')
         for content in contents:
             self.assertIn(content, navtree_properties.getProperty('metaTypesNotToList'))
@@ -554,161 +572,6 @@ class TestCase(IntegrationTestCase):
     def test_types__collective_cart_shopping_ArticleContainer__action__edit__permissions(self):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
-        action = ctype.getActionObject('object/edit')
-        self.assertEqual(action.permissions, (u'Modify portal content',))
-
-    def test_types__collective_cart_shopping_SubArticle__i18n_domain(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        self.assertEqual(ctype.i18n_domain, 'collective.cart.shopping')
-
-    def test_types__collective_cart_shopping_SubArticle__meta_type(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        self.assertEqual(ctype.meta_type, 'Dexterity FTI')
-
-    def test_types__collective_cart_shopping_SubArticle__title(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        self.assertEqual(ctype.title, 'Subarticle')
-
-    def test_types__collective_cart_shopping_SubArticle__description(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        self.assertEqual(ctype.description, '')
-
-    def test_types__collective_cart_shopping_SubArticle__content_icon(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        self.assertEqual(ctype.getIcon(), 'document_icon.png')
-
-    def test_types__collective_cart_shopping_SubArticle__allow_discussion(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        self.assertFalse(ctype.allow_discussion)
-
-    def test_types__collective_cart_shopping_SubArticle__global_allow(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        self.assertFalse(ctype.global_allow)
-
-    def test_types__collective_cart_shopping_SubArticle__filter_content_types(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        self.assertTrue(ctype.filter_content_types)
-
-    def test_types__collective_cart_shopping_SubArticle__allowed_content_types(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        self.assertEqual(ctype.allowed_content_types, ('collective.cart.stock.Stock',))
-
-    def test_types__collective_cart_shopping_SubArticle__schema(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        self.assertEqual(ctype.schema, 'collective.cart.shopping.interfaces.ISubArticle')
-
-    def test_types__collective_cart_shopping_SubArticle__klass(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        self.assertEqual(ctype.klass, 'plone.dexterity.content.Container')
-
-    def test_types__collective_cart_shopping_SubArticle__add_permission(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        self.assertEqual(ctype.add_permission, 'collective.cart.shopping.AddSubArticle')
-
-    def test_types__collective_cart_shopping_SubArticle__behaviors(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        self.assertEqual(ctype.behaviors, (
-            'plone.app.content.interfaces.INameFromTitle',
-            'plone.app.dexterity.behaviors.metadata.IDublinCore',
-            'collective.behavior.sku.interfaces.ISKU',
-            'collective.behavior.salable.interfaces.ISalable',
-            'collective.behavior.discount.interfaces.IDiscount',
-            'collective.behavior.stock.interfaces.IStock',
-            'collective.behavior.vat.interfaces.IVAT',
-            'collective.behavior.size.interfaces.ISize'))
-
-    def test_types__collective_cart_shopping_SubArticle__default_view(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        self.assertEqual(ctype.default_view, 'view')
-
-    def test_types__collective_cart_shopping_SubArticle__default_view_fallback(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        self.assertFalse(ctype.default_view_fallback)
-
-    def test_types__collective_cart_shopping_SubArticle__view_methods(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        self.assertEqual(ctype.view_methods, ('view',))
-
-    def test_types__collective_cart_shopping_SubArticle__default_aliases(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        self.assertEqual(
-            ctype.default_aliases,
-            {'edit': '@@edit', 'sharing': '@@sharing', '(Default)': '(dynamic view)', 'view': '(selected layout)'})
-
-    def test_types__collective_cart_shopping_SubArticle__action__view__title(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        action = ctype.getActionObject('object/view')
-        self.assertEqual(action.title, 'View')
-
-    def test_types__collective_cart_shopping_SubArticle__action__view__condition(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        action = ctype.getActionObject('object/view')
-        self.assertEqual(action.condition, '')
-
-    def test_types__collective_cart_shopping_SubArticle__action__view__url_expr(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        action = ctype.getActionObject('object/view')
-        self.assertEqual(action.getActionExpression(), 'string:${folder_url}/')
-
-    def test_types__collective_cart_shopping_SubArticle__action__view__visible(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        action = ctype.getActionObject('object/view')
-        self.assertTrue(action.visible)
-
-    def test_types__collective_cart_shopping_SubArticle__action__view__permissions(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        action = ctype.getActionObject('object/view')
-        self.assertEqual(action.permissions, (u'View',))
-
-    def test_types__collective_cart_shopping_SubArticle__action__edit__title(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        action = ctype.getActionObject('object/edit')
-        self.assertEqual(action.title, 'Edit')
-
-    def test_types__collective_cart_shopping_SubArticle__action__edit__condition(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        action = ctype.getActionObject('object/edit')
-        self.assertEqual(action.condition, '')
-
-    def test_types__collective_cart_shopping_SubArticle__action__edit__url_expr(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        action = ctype.getActionObject('object/edit')
-        self.assertEqual(action.getActionExpression(), 'string:${object_url}/edit')
-
-    def test_types__collective_cart_shopping_SubArticle__action__edit__visible(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
-        action = ctype.getActionObject('object/edit')
-        self.assertTrue(action.visible)
-
-    def test_types__collective_cart_shopping_SubArticle__action__edit__permissions(self):
-        types = getToolByName(self.portal, 'portal_types')
-        ctype = types.getTypeInfo('collective.cart.shopping.SubArticle')
         action = ctype.getActionObject('object/edit')
         self.assertEqual(action.permissions, (u'Modify portal content',))
 

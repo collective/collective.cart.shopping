@@ -21,6 +21,8 @@
   <five:registerPackage package="." initialize=".initialize" />
   <i18n:registerTranslations directory="locales" />
 
+  <include package=".browser" />
+
   <genericsetup:registerProfile
     description="Installs the collective.cart.shopping package"
     directory="profiles/default"
@@ -52,10 +54,10 @@
     title="collective.cart.shopping: Add Article Container"
     />
 
-  <permission
+  <!-- <permission
     id="collective.cart.shopping.AddSubArticle"
     title="collective.cart.shopping: Add Subarticle"
-    />
+    /> -->
 
   <plone:behavior
     description="Adds price field for stock."

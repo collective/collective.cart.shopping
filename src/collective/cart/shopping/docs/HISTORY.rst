@@ -1,6 +1,12 @@
 Change log
 ----------
 
+0.2.1.21 (2013-02-02)
+=====================
+
+- Removed content type: SubArticle. [taito]
+- Added stock view for articles. [taito]
+
 0.2.1.20 (2013-01-31)
 =====================
 

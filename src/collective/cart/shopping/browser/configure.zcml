@@ -1,0 +1,14 @@
+<configure
+  i18n_domain="collective.cart.shopping"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns="http://namespaces.zope.org/zope">
+
+  <browser:page
+    attribute="is_article"
+    class=".miscellaneous.Miscellaneous"
+    for="*"
+    name="is-article"
+    permission="cmf.ModifyPortalContent"
+    />
+
+</configure>

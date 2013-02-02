@@ -317,7 +317,7 @@ msgstr "Näytä tuotelista."
 #: ./browser/viewlets/add-to-cart.pt:59
 #: ./browser/viewlets/articles-in-article.pt:75
 msgid "Sold Out"
-msgstr "Loppuun myyty"
+msgstr "Tuote tilapäisesti loppunut"
 
 #: ./browser/templates/article-list.pt:18
 msgid "Stock"

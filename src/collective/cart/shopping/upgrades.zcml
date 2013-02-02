@@ -15,16 +15,6 @@
 
   <genericsetup:upgradeStep
     description=""
-    destination="2"
-    handler="collective.cart.shopping.upgrades.upgrade_1_to_2"
-    profile="collective.cart.shopping:default"
-    sortkey="1"
-    source="1"
-    title="Migrate SubArticle into Article"
-    />
-
-  <genericsetup:upgradeStep
-    description=""
     destination="3"
     handler="collective.cart.shopping.upgrades.update_rolemap"
     profile="collective.cart.shopping:default"
@@ -74,16 +64,6 @@
     />
 
   <genericsetup:upgradeStep
-    description="Fixes UnicodeDecodeError by setting title to unicode."
-    destination="8"
-    handler="collective.cart.shopping.upgrades.upgrade_1_to_2"
-    profile="collective.cart.shopping:default"
-    sortkey="1"
-    source="7"
-    title="Migrate SubArticle into Article once again!"
-    />
-
-  <genericsetup:upgradeStep
     description="Fixes order of viewlets at @@billing-and-shipping view."
     destination="9"
     handler="collective.cart.shopping.upgrades.update_viewlets"
@@ -130,6 +110,26 @@
     profile="collective.cart.shopping:default"
     sortkey="1"
     source="12"
+    title="Reimport actions"
+    />
+
+  <genericsetup:upgradeStep
+    description=""
+    destination="14"
+    handler="collective.cart.shopping.upgrades.reimport_typeinfo"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="13"
+    title="Reimport actions"
+    />
+
+  <genericsetup:upgradeStep
+    description=""
+    destination="14"
+    handler="collective.cart.shopping.upgrades.reimport_actions"
+    profile="collective.cart.shopping:default"
+    sortkey="2"
+    source="13"
     title="Reimport actions"
     />
 

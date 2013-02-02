@@ -10,11 +10,11 @@
       <role name="Manager" />
       <role name="Site Administrator" />
     </permission>
-    <permission name="collective.cart.shopping: Add Subarticle" acquire="True">
+    <!-- <permission name="collective.cart.shopping: Add Subarticle" acquire="True">
       <role name="Contributor" />
       <role name="Manager" />
       <role name="Site Administrator" />
-    </permission>
+    </permission> -->
     <permission name="collective.cart.shopping: Add CustomerInfo" acquire="True">
       <role name="Member" />
       <role name="Manager" />
