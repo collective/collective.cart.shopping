@@ -27,17 +27,4 @@
     <element value="plone.app.relationfield.behavior.IRelatedItems"/>
   </property>
 
-  <alias from="stock-list" to="@@stock-list"/>
-
-  <action
-    action_id="stock-list"
-    category="object"
-    condition_expr=""
-    i18n:attributes="title"
-    title="Stock List"
-    url_expr="string:${folder_url}/@@stock-list"
-    visible="True">
-    <permission value="Modify portal content"/>
-  </action>
-
 </object>

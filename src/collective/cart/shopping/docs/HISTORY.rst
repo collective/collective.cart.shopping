@@ -41,7 +41,7 @@ Change log
 - Added viewlet to show related articles. [taito]
 - Added event signaling "add to cart" and its subscriber to show status message about it. [taito]
 
-0.2.1.14 (2013-01-06)
+0.2.1.14 (2013-01-16)
 =====================
 
 - Added case when shipping method does not exsits. [taito]
