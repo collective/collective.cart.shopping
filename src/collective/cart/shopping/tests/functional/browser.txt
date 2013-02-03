@@ -62,8 +62,6 @@ Add Stock to Ärticle1::
     >>> browser.getControl( name="form.widgets.IStockPrice.price").value = '0.0'
     >>> browser.getControl(name="form.buttons.save").click()
 
-    >>> stock1_url = browser.url
-
 Go to Ärticle1::
 
     >>> browser.open(article1_url)
@@ -108,7 +106,7 @@ Go to Ärticle1::
 
 Check Stöck1::
 
-    >>> browser.open(stock1_url)
+    >>> browser.open('/shop/article-container/article1/stock1')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
     <span id="form-widgets-stock" class="text-widget required int-field">99</span>
@@ -160,7 +158,7 @@ Go to Ärticle1 and add more to cart::
 
 Check Stöck1::
 
-    >>> browser.open(stock1_url)
+    >>> browser.open('/shop/article-container/article1/stock1')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
     <span id="form-widgets-stock" class="text-widget required int-field">90</span>
@@ -194,8 +192,6 @@ Add Stock to Ärticle2::
     >>> browser.getControl( name="form.widgets.IStockPrice.price").value = '0.0'
     >>> browser.getControl(name="form.buttons.save").click()
 
-    >>> stock2_url = browser.url
-
 Add another stock to Ärticle2
 
     >>> browser.open(article2_url)
@@ -205,8 +201,6 @@ Add another stock to Ärticle2
     >>> browser.getControl(name="form.widgets.stock").value = '10'
     >>> browser.getControl( name="form.widgets.IStockPrice.price").value = '0.0'
     >>> browser.getControl(name="form.buttons.save").click()
-
-    >>> stock3_url = browser.url
 
 Go to Ärtile2:
 
@@ -243,14 +237,14 @@ Add to Cart::
 
 Check Stöck2::
 
-    >>> browser.open(stock2_url)
+    >>> browser.open('/shop/article-container/article2/stock2')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
     <span id="form-widgets-stock" class="text-widget required int-field">15</span>
 
 Check Stöck3::
 
-    >>> browser.open(stock3_url)
+    >>> browser.open('/shop/article-container/article2/stock3')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
     <span id="form-widgets-stock" class="text-widget required int-field">10</span>
@@ -305,14 +299,14 @@ Go to Ärticle2 and add more to cart::
 
 Check Stöck2::
 
-    >>> browser.open(stock2_url)
+    >>> browser.open('/shop/article-container/article2/stock2')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
     <span id="form-widgets-stock" class="text-widget required int-field">0</span>
 
 Check Stöck3::
 
-    >>> browser.open(stock3_url)
+    >>> browser.open('/shop/article-container/article2/stock3')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
     <span id="form-widgets-stock" class="text-widget required int-field">0</span>
@@ -343,7 +337,7 @@ Delete Ärticle1::
 
 Check Stöck1::
 
-    >>> browser.open(stock1_url)
+    >>> browser.open('/shop/article-container/article1/stock1')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
     <span id="form-widgets-stock" class="text-widget required int-field">100</span>
@@ -387,14 +381,14 @@ Update Ärticle2 in Cart::
 
 Check Stöck2::
 
-    >>> browser.open(stock2_url)
+    >>> browser.open('/shop/article-container/article2/stock2')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
     <span id="form-widgets-stock" class="text-widget required int-field">0</span>
 
 Check Stöck3::
 
-    >>> browser.open(stock3_url)
+    >>> browser.open('/shop/article-container/article2/stock3')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
     <span id="form-widgets-stock" class="text-widget required int-field">10</span>

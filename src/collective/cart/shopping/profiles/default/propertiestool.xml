@@ -5,7 +5,6 @@
     <property name="types_not_searched" type="lines" purge="False">
       <element value="collective.cart.shopping.ArticleContainer"/>
       <element value="collective.cart.shopping.CustomerInfo"/>
-      <!-- <element value="collective.cart.shopping.SubArticle"/> -->
       <element value="collective.cart.stock.Stock"/>
     </property>
   </object>
@@ -13,7 +12,6 @@
   <object name="navtree_properties" meta_type="Plone Property Sheet">
     <property name="metaTypesNotToList" type="lines" purge="False">
       <element value="collective.cart.shopping.CustomerInfo"/>
-      <!-- <element value="collective.cart.shopping.SubArticle"/> -->
       <element value="collective.cart.stock.Stock"/>
     </property>
   </object>

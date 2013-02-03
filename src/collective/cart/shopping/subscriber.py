@@ -1,5 +1,6 @@
 from Acquisition import aq_chain
 from Acquisition import aq_inner
+from Acquisition import aq_parent
 from Products.ATContentTypes.interfaces import IATImage
 from Products.CMFCore.interfaces import IActionSucceededEvent
 from Products.CMFCore.interfaces import ISiteRoot
@@ -17,6 +18,7 @@ from collective.cart.shopping.interfaces import ICart
 from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.interfaces import ICartArticleAdapter
 from collective.cart.shopping.interfaces import IShop
+from collective.cart.stock.interfaces import IStock as IStockContent
 from email import message_from_string
 from email.Header import Header
 from five import grok
@@ -270,3 +272,11 @@ def return_stock_to_original(context, event):
             if article:
                 IStock(article).add_stock(obj.quantity)
                 modified(article)
+
+
+@grok.subscribe(IStockContent, IObjectAddedEvent)
+def redirect_to_stock(context, event):
+    if context == event.object:
+        parent = aq_parent(aq_inner(context))
+        url = '{}/@@stock'.format(parent.absolute_url())
+        return context.REQUEST.RESPONSE.redirect(url)

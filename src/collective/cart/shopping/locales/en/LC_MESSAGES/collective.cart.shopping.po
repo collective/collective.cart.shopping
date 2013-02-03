@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-01-31 04:10+0000\n"
+"POT-Creation-Date: 2013-02-03 13:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,6 +37,10 @@ msgstr ""
 msgid "3. Confirmation"
 msgstr ""
 
+#: ./browser/templates/stock.pt:66
+msgid "Add New Stock"
+msgstr ""
+
 #: ./profiles/default/types/collective.cart.shopping.ArticleContainer.xml
 msgid "Article Container"
 msgstr ""
@@ -55,7 +59,7 @@ msgstr ""
 msgid "Billing"
 msgstr ""
 
-#: ./subscriber.py:144
+#: ./subscriber.py:146
 msgid "Billing Address"
 msgstr ""
 
@@ -89,7 +93,7 @@ msgstr ""
 msgid "City"
 msgstr ""
 
-#: ./browser/template.py:157
+#: ./browser/template.py:257
 #: ./browser/viewlet.py:369
 msgid "City is missing."
 msgstr ""
@@ -102,11 +106,11 @@ msgstr ""
 msgid "Confirm Order"
 msgstr ""
 
-#: ./browser/templates/stock-list.pt:31
+#: ./browser/templates/stock.pt:81
 msgid "Created"
 msgstr ""
 
-#: ./browser/templates/stock-list.pt:33
+#: ./browser/templates/stock.pt:83
 msgid "Current Stock"
 msgstr ""
 
@@ -142,7 +146,7 @@ msgstr ""
 msgid "First Name"
 msgstr ""
 
-#: ./browser/template.py:136
+#: ./browser/template.py:236
 #: ./browser/viewlet.py:348
 msgid "First name is missing."
 msgstr ""
@@ -151,13 +155,13 @@ msgstr ""
 msgid "Further detailed information comes here."
 msgstr ""
 
-#: ./browser/templates/stock.pt:29
 #: ./browser/viewlets/add-to-cart.pt:12
 #: ./browser/viewlets/articles-in-article.pt:49
+#: ./browser/viewlets/cart-articles.pt:52
 msgid "Including VAT: ${vat} &#37;"
 msgstr ""
 
-#: ./browser/templates/stock-list.pt:32
+#: ./browser/templates/stock.pt:82
 msgid "Initial Stock"
 msgstr ""
 
@@ -169,7 +173,7 @@ msgstr ""
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr ""
 
-#: ./browser/template.py:147
+#: ./browser/template.py:247
 #: ./browser/viewlet.py:359
 msgid "Invalid e-mail address."
 msgstr ""
@@ -184,13 +188,12 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-#: ./browser/template.py:141
+#: ./browser/template.py:241
 #: ./browser/viewlet.py:353
 msgid "Last name is missing."
 msgstr ""
 
 #: ./browser/templates/article-list.pt:17
-#: ./browser/templates/stock-list.pt:30
 msgid "Name"
 msgstr ""
 
@@ -210,11 +213,11 @@ msgstr ""
 msgid "Only for organization customer"
 msgstr ""
 
-#: ./subscriber.py:132
+#: ./subscriber.py:134
 msgid "Ordered"
 msgstr ""
 
-#: ./subscriber.py:184
+#: ./subscriber.py:186
 msgid "Ordered contents"
 msgstr ""
 
@@ -230,7 +233,7 @@ msgstr ""
 msgid "Phone Number"
 msgstr ""
 
-#: ./browser/template.py:162
+#: ./browser/template.py:262
 #: ./browser/viewlet.py:374
 msgid "Phone number is missing."
 msgstr ""
@@ -245,7 +248,7 @@ msgstr ""
 msgid "Price excluding VAT"
 msgstr ""
 
-#: ./browser/templates/stock-list.pt:34
+#: ./browser/templates/stock.pt:84
 msgid "Purchase Price VAT 0%"
 msgstr ""
 
@@ -254,7 +257,15 @@ msgstr ""
 msgid "Quantity"
 msgstr ""
 
-#: ./subscriber.py:254
+#: ./browser/templates/stock.pt:35
+msgid "Quick Add"
+msgstr ""
+
+#: ./browser/templates/stock.pt:55
+msgid "Quick Subtract"
+msgstr ""
+
+#: ./subscriber.py:256
 msgid "Recipient address rejected by server."
 msgstr ""
 
@@ -263,16 +274,12 @@ msgid "Representative Image"
 msgstr ""
 
 #: ./browser/templates/article-list.pt:16
-#: ./subscriber.py:185
+#: ./subscriber.py:187
 msgid "SKU"
 msgstr ""
 
 #: ./browser/viewlets/billing-info.pt:90
 msgid "Same"
-msgstr ""
-
-#: ./browser/form.py:31
-msgid "Save Info"
 msgstr ""
 
 #: ./interfaces.py:274
@@ -287,7 +294,7 @@ msgstr ""
 msgid "Shipping"
 msgstr ""
 
-#: ./subscriber.py:166
+#: ./subscriber.py:168
 msgid "Shipping Address"
 msgstr ""
 
@@ -297,7 +304,7 @@ msgstr ""
 
 #: ./browser/viewlets/billing-info.pt:96
 #: ./schema.py:9
-#: ./subscriber.py:197
+#: ./subscriber.py:199
 msgid "Shipping Method"
 msgstr ""
 
@@ -320,15 +327,8 @@ msgid "Sold Out"
 msgstr ""
 
 #: ./browser/templates/article-list.pt:18
+#: ./profiles/default/actions.xml
 msgid "Stock"
-msgstr ""
-
-#: ./profiles/default/types/collective.cart.shopping.SubArticle.xml
-msgid "Stock List"
-msgstr ""
-
-#: ./browser/templates/stock-list.pt:13
-msgid "Stock List of ${DYNAMIC_CONTENT}"
 msgstr ""
 
 #: ./browser/viewlets/add-to-cart.pt:38
@@ -342,17 +342,13 @@ msgstr ""
 msgid "Street Address"
 msgstr ""
 
-#: ./browser/template.py:152
+#: ./browser/template.py:252
 #: ./browser/viewlet.py:364
 msgid "Street address is missing."
 msgstr ""
 
-#: ./profiles/default/types/collective.cart.shopping.SubArticle.xml
-msgid "Subarticle"
-msgstr ""
-
 #: ./browser/templates/thanks.pt:12
-#: ./subscriber.py:138
+#: ./subscriber.py:140
 msgid "Thank you for the order."
 msgstr ""
 
@@ -362,7 +358,7 @@ msgstr ""
 
 #: ./browser/viewlets/cart-total.pt:4
 #: ./browser/viewlets/confirmation-total.pt:4
-#: ./subscriber.py:201
+#: ./subscriber.py:203
 msgid "Total"
 msgstr ""
 
@@ -370,7 +366,6 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
-#: ./browser/form.py:100
 #: ./browser/viewlets/cart-articles.pt:55
 msgid "Update"
 msgstr ""
@@ -393,12 +388,17 @@ msgstr ""
 msgid "View Order"
 msgstr ""
 
-#: ./subscriber.py:88
+#: ./subscriber.py:90
 msgid "You need to first remove some images to add here one."
 msgstr ""
 
 #: ./browser/templates/thanks.pt:14
 msgid "Your order number is ${number}."
+msgstr ""
+
+#. Default: "Add less than ${number}."
+#: ./browser/template.py:142
+msgid "add_less_than_number"
 msgstr ""
 
 #. Default: "I agree with the terms."
@@ -407,7 +407,7 @@ msgid "agree_with_terms"
 msgstr ""
 
 #. Default: "${title} is added to cart."
-#: ./subscriber.py:260
+#: ./subscriber.py:262
 msgid "article-added-to-cart"
 msgstr ""
 
@@ -416,28 +416,28 @@ msgstr ""
 msgid "billing-and-shipping-same-or-different"
 msgstr ""
 
-#. Default: "There are no stocks available for this article."
-#: ./browser/templates/stock-list.pt:17
+#. Default: "There are no stocks available."
+#: ./browser/templates/stock.pt:15
 msgid "description_no_stocks_available"
 msgstr ""
 
 #. Default: "Some information is missing from addresses."
-#: ./browser/template.py:208
+#: ./browser/template.py:308
 msgid "info_missing_from_addresses"
 msgstr ""
 
 #. Default: "Link to the order: ${url}"
-#: ./subscriber.py:205
+#: ./subscriber.py:207
 msgid "link-to-order"
 msgstr ""
 
 #. Default: "You need to accept the terms to process the order."
-#: ./browser/template.py:226
+#: ./browser/template.py:327
 msgid "need_to_accept_terms"
 msgstr ""
 
 #. Default: "Order Number: ${number}"
-#: ./subscriber.py:141
+#: ./subscriber.py:143
 msgid "order-number"
 msgstr ""
 
@@ -457,5 +457,25 @@ msgstr ""
 #. Default: "We also recommend the following articles."
 #: ./browser/viewlets/related-articles.pt:5
 msgid "recommendation-text"
+msgstr ""
+
+#. Default: "${title}: ${stock} pcs"
+#: ./browser/templates/stock.pt:13
+msgid "stock_of_article"
+msgstr ""
+
+#. Default: "Subtract less than ${number}."
+#: ./browser/template.py:158
+msgid "subtract_less_than_number"
+msgstr ""
+
+#. Default: "Successfully added ${number} pc(s)."
+#: ./browser/template.py:149
+msgid "successfully_added_number"
+msgstr ""
+
+#. Default: "Successfully subtracted ${number} pc(s)."
+#: ./browser/template.py:165
+msgid "successfully_subtracted_number"
 msgstr ""
 

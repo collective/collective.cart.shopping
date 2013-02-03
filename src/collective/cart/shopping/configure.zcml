@@ -54,11 +54,6 @@
     title="collective.cart.shopping: Add Article Container"
     />
 
-  <!-- <permission
-    id="collective.cart.shopping.AddSubArticle"
-    title="collective.cart.shopping: Add Subarticle"
-    /> -->
-
   <plone:behavior
     description="Adds price field for stock."
     factory="collective.behavior.price.behavior.Price"

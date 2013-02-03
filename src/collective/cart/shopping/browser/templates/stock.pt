@@ -7,35 +7,123 @@
   xmlns:tal="http://xml.zope.org/namespaces/tal">
   <body>
     <metal:main fill-slot="main">
-      <section id="collective-cart-shopping-article">
-        <table>
-          <tbody>
+      <h1
+        class="documentFirstHeading"
+        i18n:translate="stock_of_article">
+        <span i18n:name="title" tal:replace="view/title" />: <span i18n:name="stock" tal:replace="view/stock" /> pcs
+      </h1>
+      <div
+        class="documentDescription"
+        i18n:translate="description_no_stocks_available"
+        tal:condition="not: view/stocks">
+        There are no stocks available.
+      </div>
+      <section id="add-and-subtract-stock">
+        <form
+          id="quick-add"
+          method="post"
+          tal:attributes="action context/@@plone_context_state/current_base_url"
+          tal:define="item view/add"
+          tal:condition="item">
+          <input
+            name="quick-add"
+            type="number"
+            min="1"
+            tal:attributes="
+              max item/max;
+              size item/size" />
+          <button
+            class="button-small"
+            i18n:translate=""
+            name="form.buttons.QuickAdd"
+            value="form.buttons.QuickAdd"
+            type="submit">Quick Add</button>
+        </form>
+        <form
+          id="quick-subtract"
+          method="post"
+          tal:attributes="action context/@@plone_context_state/current_base_url"
+          tal:define="item view/subtract"
+          tal:condition="item">
+          <input
+            name="quick-subtract"
+            type="number"
+            min="1"
+            tal:attributes="
+              max item/max;
+              size item/size" />
+          <button
+            class="button-small"
+            i18n:translate=""
+            name="form.buttons.QuickSubtract"
+            value="form.buttons.QuickSubtract"
+            type="submit">Quick Subtract</button>
+        </form>
+        <form
+          id="add-new-stock"
+          method="post"
+          tal:attributes="action context/@@plone_context_state/current_base_url">
+          <button
+            class="button-small"
+            i18n:translate=""
+            name="form.buttons.AddNewStock"
+            value="form.buttons.AddNewStock"
+            type="submit">Add New Stock</button>
+        </form>
+      </section>
+      <section
+        id="collective-cart-shopping-stock-list"
+        tal:condition="view/stocks">
+        <table class="listing">
+          <thead>
             <tr>
-              <td>
-                <img
-                  tal:condition="view/image"
-                  tal:replace="structure view/image" />
-                <br />
-                <img
-                  tal:repeat="item view/images"
-                  tal:replace="structure item"
-                  />
-              </td>
-              <td>
-                <h1 class="documentFirstHeading" tal:content="context/title" />
-                <p class="documentDescription" tal:content="context/description" />
-                <p id="price" tal:content="view/gross" />
-                <p id="vat" i18n:translate="">
-                  Including VAT: <span i18n:name="vat" tal:replace="context/vat" /> &#37;
-                </p>
-                <div tal:replace="structure provider:collective.cart.shopping.add.to.cart.manager" />
-              </td>
+              <th i18n:domain="plone" i18n:translate="">Title</th>
+              <th i18n:translate="">Created</th>
+              <th i18n:translate="">Initial Stock</th>
+              <th i18n:translate="">Current Stock</th>
+              <th i18n:translate="">Purchase Price VAT 0%</th>
+              <th i18n:domain="plone" i18n:translate="">Remove</th>
             </tr>
+          </thead>
+          <tbody>
+            <tal:block tal:repeat="item view/stocks">
+              <tr class="even" tal:define="oddrow repeat/item/odd">
+                <td>
+                  <a
+                    tal:attributes="title item/description;href item/url"
+                    tal:content="item/title"
+                    />
+                </td>
+                <td>
+                  <span tal:replace="item/crated" />
+                </td>
+                <td>
+                  <span tal:replace="item/initial_stock" />
+                </td>
+                <td>
+                  <span tal:replace="item/current_stock" />
+                </td>
+                <td>
+                  <span tal:replace="item/money" />
+                </td>
+                <td>
+                  <form
+                    id="remove-stock"
+                    method="post"
+                    tal:attributes="action context/@@plone_context_state/current_base_url">
+                    <button
+                      class="button-small"
+                      i18n:domain="plone"
+                      i18n:translate=""
+                      name="form.buttons.Remove"
+                      tal:attributes="value item/oid"
+                      type="submit">Remove</button>
+                  </form>
+                </td>
+              </tr>
+            </tal:block>
           </tbody>
         </table>
-        <div
-          tal:condition="context/text"
-          tal:replace="structure context/text/output" />
       </section>
     </metal:main>
   </body>

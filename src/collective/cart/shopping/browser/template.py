@@ -17,12 +17,12 @@ from collective.cart.shopping.interfaces import IArticleContainer
 from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.interfaces import ICustomerInfo
 from collective.cart.shopping.interfaces import IShoppingSite
+from collective.cart.stock.interfaces import IStock
 from five import grok
 from plone.dexterity.utils import createContentInContainer
-from plone.memoize.instance import memoize
+from zope.component import getMultiAdapter
 from zope.event import notify
 from zope.lifecycleevent import modified
-from collective.cart.stock.interfaces import IStock
 
 
 grok.templatedir('templates')
@@ -35,9 +35,17 @@ class BaseView(grok.View):
     grok.require('zope2.View')
 
 
-class ArticleView(BaseView):
-    """Default view for Article."""
+class BaseArticleView(BaseView):
+    """Base class for Article"""
+    grok.baseclass()
     grok.context(IArticle)
+
+    def title(self):
+        return IArticleAdapter(self.context).title
+
+
+class ArticleView(BaseArticleView):
+    """Default view for Article."""
     grok.name('view')
     grok.template('article')
 
@@ -71,8 +79,101 @@ class ArticleView(BaseView):
     def image_url(self):
         return IArticleAdapter(self.context).image_url
 
-    def title(self):
-        return IArticleAdapter(self.context).title
+
+class StockView(BaseArticleView):
+    """View to show and manage article's stock."""
+    grok.name('stock')
+    grok.require('cmf.ModifyPortalContent')
+    grok.template('stock')
+
+    @property
+    def stock(self):
+        return IStockBehavior(self.context).stock
+
+    def stocks(self):
+        plone = getMultiAdapter((self.context, self.request), name="plone")
+        base = IBaseAdapter(self.context)
+        res = []
+        for item in base.get_content_listing(interfaces=IStock, depth=1, sort_on='created', sort_order='descending'):
+            res.append({
+                'crated': plone.toLocalizedTime(item.created),
+                'current_stock': item.stock,
+                'description': item.Description(),
+                'initial_stock': item.initial_stock,
+                'money': item.money,
+                'title': item.Title(),
+                'oid': item.id,
+                'url': item.getURL(),
+            })
+        return res
+
+    @property
+    def add(self):
+        stock = IStockBehavior(self.context)
+        maximum = stock.initial_stock - stock.stock
+        if maximum == 0:
+            return None
+
+        return {
+            'max': maximum,
+            'size': len(str(maximum)),
+        }
+
+    @property
+    def subtract(self):
+        maximum = self.stock
+        if maximum == 0:
+            return None
+        return {
+            'max': maximum,
+            'size': len(str(maximum)),
+        }
+
+    def update(self):
+        form = self.request.form
+        url = getMultiAdapter((self.context, self.request), name="plone_context_state").current_base_url()
+        stock = IStockBehavior(self.context)
+
+        if form.get('form.buttons.QuickAdd') is not None:
+            value = form.get('quick-add')
+            validate = validation.validatorFor('isInt')
+            maximum = self.add['max']
+            if validate(value) != 1:
+                message = _(u'add_less_than_number', default=u'Add less than ${number}.', mapping={'number': maximum})
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+            else:
+                value = int(value)
+                if value > maximum:
+                    value = maximum
+                stock.add_stock(value)
+                message = _(u'successfully_added_number', default=u'Successfully added ${number} pc(s).', mapping={'number': value})
+                IStatusMessage(self.request).addStatusMessage(message, type='info')
+            return self.request.response.redirect(url)
+
+        elif form.get('form.buttons.QuickSubtract') is not None:
+            value = form.get('quick-subtract')
+            validate = validation.validatorFor('isInt')
+            maximum = self.subtract['max']
+            if validate(value) != 1:
+                message = _(u'subtract_less_than_number', default=u'Subtract less than ${number}.', mapping={'number': maximum})
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+            else:
+                value = int(value)
+                if value > maximum:
+                    value = maximum
+                stock.sub_stock(value)
+                message = _(u'successfully_subtracted_number', default=u'Successfully subtracted ${number} pc(s).', mapping={'number': value})
+                IStatusMessage(self.request).addStatusMessage(message, type='info')
+            return self.request.response.redirect(url)
+
+        elif form.get('form.buttons.AddNewStock') is not None:
+            url = '{}/++add++collective.cart.stock.Stock'.format(self.context.absolute_url())
+            return self.request.response.redirect(url)
+
+        elif form.get('form.buttons.Remove') is not None:
+            ids = [form.get('form.buttons.Remove')]
+            self.context.manage_delObjects(ids)
+            return self.request.response.redirect(url)
 
 
 class ArticleContainerView(BaseView):
@@ -243,57 +344,6 @@ class ThanksView(BaseCheckoutView, Message):
     def order_url(self):
         membership = getToolByName(self.context, 'portal_membership')
         return '{}?order_number={}'.format(membership.getHomeUrl(), self.cart_id)
-
-
-class StockListView(BaseView):
-    """View to show list of Article stock."""
-    grok.context(core.interfaces.IArticle)
-    grok.name('stock-list')
-    grok.require('cmf.ModifyPortalContent')
-    grok.template('stock-list')
-
-    def stocks(self):
-        catalog = getToolByName(self.context, 'portal_catalog')
-        query = {
-            'path': {
-                'query': '/'.join(self.context.getPhysicalPath()),
-                'depth': 1,
-            },
-            'object_provides': IStock.__identifier__,
-            'sort_on': 'created',
-            'sort_order': 'descending',
-        }
-        res = []
-        for brain in catalog(query):
-            items = {
-                'url': brain.getURL(),
-                'title': brain.Title,
-                'description': brain.Description,
-                'crated': self._date(brain.created),
-                'initial_stock': brain.initial_stock,
-                'current_stock': brain.stock,
-                'money': brain.money,
-            }
-            res.append(items)
-        return res
-
-    @memoize
-    def _ulocalized_time(self):
-        """Return ulocalized_time method.
-
-        :rtype: method
-        """
-        translation_service = getToolByName(self.context, 'translation_service')
-        return translation_service.ulocalized_time
-
-    def _date(self, date):
-        """Returns localized date.
-
-        :param date: Date and time.
-        :type date: DateTime.DateTime
-        """
-        ulocalized_time = self._ulocalized_time()
-        return ulocalized_time(date, context=self.context)
 
 
 class ArticleList(BaseView):
