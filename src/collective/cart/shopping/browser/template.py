@@ -94,7 +94,7 @@ class StockView(BaseArticleView):
         plone = getMultiAdapter((self.context, self.request), name="plone")
         base = IBaseAdapter(self.context)
         res = []
-        for item in base.get_content_listing(interfaces=IStock, depth=1, sort_on='created', sort_order='descending'):
+        for item in base.get_content_listing(interface=IStock, depth=1, sort_on='created', sort_order='descending'):
             res.append({
                 'crated': plone.toLocalizedTime(item.created),
                 'current_stock': item.stock,
