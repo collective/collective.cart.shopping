@@ -1,7 +1,7 @@
 Change log
 ----------
 
-0.2.1.21 (2013-02-02)
+0.2.1.21 (2013-02-04)
 =====================
 
 - Removed content type: SubArticle. [taito]
