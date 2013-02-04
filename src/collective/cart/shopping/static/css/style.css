@@ -29,6 +29,19 @@
     font-size: 1.2em;
 }
 
+/* Stock */
+section#add-and-subtract-stock {
+    margin: 0 0 1em;
+}
+section#add-and-subtract-stock form {
+    display: inline-block;
+    margin: 0 1em 0 0;
+}
+section#collective-cart-shopping-stock-list form button {
+    font-size: 80%;
+}
+
+
 /* Billing and shipping */
 section#customer-info p#billing-and-shipping-same-or-different {
   border-bottom: 1px solid #CCCCCC;
