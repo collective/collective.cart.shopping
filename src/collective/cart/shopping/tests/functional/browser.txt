@@ -396,32 +396,28 @@ Check Stöck3::
 Go to Cart Container:
 
     >>> browser.open('/shop/cart-container')
-    >>> print browser.bycss('#cart-container')
+    >>> print browser.bycss('#order-list')
     --- 1 ---
-    <section id="cart-container"><h1>Orders</h1>
-    <p id="next-cart-id">The next cart ID: 2</p>
-    <table class="listing" id="cart-list"><thead><tr><th>Cart ID</th>
-    <th>State</th>
-    <th>Last Modified</th>
+    <table class="listing" id="order-list"><thead><tr><th>No.</th>
+    <th>Updated</th>
     <th>Owner</th>
+    <th>State</th>
+    <th>Change State</th>
     </tr></thead><tbody><tr><td class="cart-id">
     <a href="http://nohost/plone/shop/cart-container/1">1</a>
     </td>
-    <td class="cart-state">Created</td>
-    <td class="cart-modified">...</td>
+    <td class="cart-updated">...</td>
     <td class="cart-owner">test_user_1_</td>
-    </tr></tbody></table></section>
+    <td class="cart-state">Created</td>
+    <td>
+    <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
+    <input name="cart-id" type="hidden" value="1"><button name="form.buttons.ChangeState" type="submit" value="canceled">Canceled</button>
+    </form>
+    </td>
+    </tr></tbody></table>
 
     >>> browser.open('/shop/cart-container/1')
     >>> print browser.bycss('#cart-content')
-    --- 1 ---
-    <section id="cart-content"><table class="listing" id="article-list"><thead><tr><th>ID</th>
-    <th>Name</th>
-    </tr></thead><tbody><tr><td class="article-id">2</td>
-    <td class="article-title">
-    <a href="http://nohost/plone/shop/article-container/article2">&#196;rticle2</a>
-    </td>
-    </tr></tbody></table>...
 
 Go to Ärticle2 and update discount::
 

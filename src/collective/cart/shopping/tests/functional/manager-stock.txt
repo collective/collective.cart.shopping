@@ -43,7 +43,7 @@ Check stock::
     >>> print browser.bycss('#add-and-subtract-stock')
     --- 1 ---
     <section id="add-and-subtract-stock"><form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
     </form>
     </section>
 
@@ -73,10 +73,10 @@ Add stock::
     >>> print browser.bycss('#add-and-subtract-stock')
     --- 1 ---
     <section id="add-and-subtract-stock"><form id="quick-subtract" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-subtract" type="number" min="1" max="100" size="3"><button class="button-small" name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
+    <input name="quick-subtract" type="number" min="1" max="100" size="3"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
     </form>
     <form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
     </form>
     </section>
 
@@ -105,7 +105,7 @@ Add stock::
     </td>
     <td>
     <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
+    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
     </form>
     </td>
     </tr></tbody></table></section>
@@ -128,10 +128,10 @@ Add another stock::
     >>> print browser.bycss('#add-and-subtract-stock')
     --- 1 ---
     <section id="add-and-subtract-stock"><form id="quick-subtract" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-subtract" type="number" min="1" max="150" size="3"><button class="button-small" name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
+    <input name="quick-subtract" type="number" min="1" max="150" size="3"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
     </form>
     <form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
     </form>
     </section>
 
@@ -160,7 +160,7 @@ Add another stock::
     </td>
     <td>
     <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
+    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
     </form>
     </td>
     </tr><tr class="even"><td>
@@ -180,7 +180,7 @@ Add another stock::
     </td>
     <td>
     <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
+    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
     </form>
     </td>
     </tr></tbody></table></section>
@@ -209,13 +209,13 @@ Subtract stock::
     >>> print browser.bycss('#add-and-subtract-stock')
     --- 1 ---
     <section id="add-and-subtract-stock"><form id="quick-add" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-add" type="number" min="1" max="70" size="2"><button class="button-small" name="form.buttons.QuickAdd" value="form.buttons.QuickAdd" type="submit">Quick Add</button>
+    <input name="quick-add" type="number" min="1" max="70" size="2"><button name="form.buttons.QuickAdd" value="form.buttons.QuickAdd" type="submit">Quick Add</button>
     </form>
     <form id="quick-subtract" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-subtract" type="number" min="1" max="80" size="2"><button class="button-small" name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
+    <input name="quick-subtract" type="number" min="1" max="80" size="2"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
     </form>
     <form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
     </form>
     </section>
 
@@ -244,7 +244,7 @@ Subtract stock::
     </td>
     <td>
     <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
+    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
     </form>
     </td>
     </tr><tr class="even"><td>
@@ -264,7 +264,7 @@ Subtract stock::
     </td>
     <td>
     <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
+    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
     </form>
     </td>
     </tr></tbody></table></section>
@@ -293,13 +293,13 @@ Add stock::
     >>> print browser.bycss('#add-and-subtract-stock')
     --- 1 ---
     <section id="add-and-subtract-stock"><form id="quick-add" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-add" type="number" min="1" max="20" size="2"><button class="button-small" name="form.buttons.QuickAdd" value="form.buttons.QuickAdd" type="submit">Quick Add</button>
+    <input name="quick-add" type="number" min="1" max="20" size="2"><button name="form.buttons.QuickAdd" value="form.buttons.QuickAdd" type="submit">Quick Add</button>
     </form>
     <form id="quick-subtract" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-subtract" type="number" min="1" max="130" size="3"><button class="button-small" name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
+    <input name="quick-subtract" type="number" min="1" max="130" size="3"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
     </form>
     <form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
     </form>
     </section>
 
@@ -328,7 +328,7 @@ Add stock::
     </td>
     <td>
     <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
+    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
     </form>
     </td>
     </tr><tr class="even"><td>
@@ -348,7 +348,7 @@ Add stock::
     </td>
     <td>
     <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
+    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
     </form>
     </td>
     </tr></tbody></table></section>
@@ -377,10 +377,10 @@ Add too many pcs::
     >>> print browser.bycss('#add-and-subtract-stock')
     --- 1 ---
     <section id="add-and-subtract-stock"><form id="quick-subtract" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-subtract" type="number" min="1" max="150" size="3"><button class="button-small" name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
+    <input name="quick-subtract" type="number" min="1" max="150" size="3"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
     </form>
     <form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
     </form>
     </section>
 
@@ -409,7 +409,7 @@ Add too many pcs::
     </td>
     <td>
     <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
+    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
     </form>
     </td>
     </tr><tr class="even"><td>
@@ -429,7 +429,7 @@ Add too many pcs::
     </td>
     <td>
     <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
+    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
     </form>
     </td>
     </tr></tbody></table></section>
@@ -458,10 +458,10 @@ Subtract too many pcs::
     >>> print browser.bycss('#add-and-subtract-stock')
     --- 1 ---
     <section id="add-and-subtract-stock"><form id="quick-add" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-add" type="number" min="1" max="150" size="3"><button class="button-small" name="form.buttons.QuickAdd" value="form.buttons.QuickAdd" type="submit">Quick Add</button>
+    <input name="quick-add" type="number" min="1" max="150" size="3"><button name="form.buttons.QuickAdd" value="form.buttons.QuickAdd" type="submit">Quick Add</button>
     </form>
     <form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
     </form>
     </section>
 
@@ -490,7 +490,7 @@ Subtract too many pcs::
     </td>
     <td>
     <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
+    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
     </form>
     </td>
     </tr><tr class="even"><td>
@@ -510,7 +510,7 @@ Subtract too many pcs::
     </td>
     <td>
     <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
+    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
     </form>
     </td>
     </tr></tbody></table></section>
@@ -539,13 +539,13 @@ Add stock again::
     >>> print browser.bycss('#add-and-subtract-stock')
     --- 1 ---
     <section id="add-and-subtract-stock"><form id="quick-add" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-add" type="number" min="1" max="20" size="2"><button class="button-small" name="form.buttons.QuickAdd" value="form.buttons.QuickAdd" type="submit">Quick Add</button>
+    <input name="quick-add" type="number" min="1" max="20" size="2"><button name="form.buttons.QuickAdd" value="form.buttons.QuickAdd" type="submit">Quick Add</button>
     </form>
     <form id="quick-subtract" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-subtract" type="number" min="1" max="130" size="3"><button class="button-small" name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
+    <input name="quick-subtract" type="number" min="1" max="130" size="3"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
     </form>
     <form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
     </form>
     </section>
 
@@ -574,7 +574,7 @@ Add stock again::
     </td>
     <td>
     <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
+    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
     </form>
     </td>
     </tr><tr class="even"><td>
@@ -594,7 +594,7 @@ Add stock again::
     </td>
     <td>
     <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
+    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
     </form>
     </td>
     </tr></tbody></table></section>
@@ -618,10 +618,10 @@ Remove stocks::
     >>> print browser.bycss('#add-and-subtract-stock')
     --- 1 ---
     <section id="add-and-subtract-stock"><form id="quick-subtract" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-subtract" type="number" min="1" max="50" size="2"><button class="button-small" name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
+    <input name="quick-subtract" type="number" min="1" max="50" size="2"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
     </form>
     <form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
     </form>
     </section>
 
@@ -650,7 +650,7 @@ Remove stocks::
     </td>
     <td>
     <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
+    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
     </form>
     </td>
     </tr></tbody></table></section>
@@ -667,7 +667,7 @@ Remove stocks::
     >>> print browser.bycss('#add-and-subtract-stock')
     --- 1 ---
     <section id="add-and-subtract-stock"><form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button class="button-small" name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
     </form>
     </section>
 

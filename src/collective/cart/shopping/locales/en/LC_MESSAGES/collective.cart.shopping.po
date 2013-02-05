@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-02-04 06:57+0000\n"
+"POT-Creation-Date: 2013-02-05 17:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,7 +37,7 @@ msgstr ""
 msgid "3. Confirmation"
 msgstr ""
 
-#: ./browser/templates/stock.pt:66
+#: ./browser/templates/stock.pt:64
 msgid "Add New Stock"
 msgstr ""
 
@@ -93,8 +93,8 @@ msgstr ""
 msgid "City"
 msgstr ""
 
-#: ./browser/template.py:257
-#: ./browser/viewlet.py:369
+#: ./browser/template.py:253
+#: ./browser/viewlet.py:377
 msgid "City is missing."
 msgstr ""
 
@@ -106,11 +106,11 @@ msgstr ""
 msgid "Confirm Order"
 msgstr ""
 
-#: ./browser/templates/stock.pt:81
+#: ./browser/templates/stock.pt:78
 msgid "Created"
 msgstr ""
 
-#: ./browser/templates/stock.pt:83
+#: ./browser/templates/stock.pt:80
 msgid "Current Stock"
 msgstr ""
 
@@ -146,8 +146,8 @@ msgstr ""
 msgid "First Name"
 msgstr ""
 
-#: ./browser/template.py:236
-#: ./browser/viewlet.py:348
+#: ./browser/template.py:232
+#: ./browser/viewlet.py:356
 msgid "First name is missing."
 msgstr ""
 
@@ -161,7 +161,7 @@ msgstr ""
 msgid "Including VAT: ${vat} &#37;"
 msgstr ""
 
-#: ./browser/templates/stock.pt:82
+#: ./browser/templates/stock.pt:79
 msgid "Initial Stock"
 msgstr ""
 
@@ -173,12 +173,12 @@ msgstr ""
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr ""
 
-#: ./browser/template.py:247
-#: ./browser/viewlet.py:359
+#: ./browser/template.py:243
+#: ./browser/viewlet.py:367
 msgid "Invalid e-mail address."
 msgstr ""
 
-#: ./browser/viewlet.py:239
+#: ./browser/viewlet.py:248
 msgid "Invalid quantity."
 msgstr ""
 
@@ -188,8 +188,8 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-#: ./browser/template.py:241
-#: ./browser/viewlet.py:353
+#: ./browser/template.py:237
+#: ./browser/viewlet.py:361
 msgid "Last name is missing."
 msgstr ""
 
@@ -233,8 +233,8 @@ msgstr ""
 msgid "Phone Number"
 msgstr ""
 
-#: ./browser/template.py:262
-#: ./browser/viewlet.py:374
+#: ./browser/template.py:258
+#: ./browser/viewlet.py:382
 msgid "Phone number is missing."
 msgstr ""
 
@@ -248,7 +248,7 @@ msgstr ""
 msgid "Price excluding VAT"
 msgstr ""
 
-#: ./browser/templates/stock.pt:84
+#: ./browser/templates/stock.pt:81
 msgid "Purchase Price VAT 0%"
 msgstr ""
 
@@ -261,7 +261,7 @@ msgstr ""
 msgid "Quick Add"
 msgstr ""
 
-#: ./browser/templates/stock.pt:55
+#: ./browser/templates/stock.pt:54
 msgid "Quick Subtract"
 msgstr ""
 
@@ -286,7 +286,7 @@ msgstr ""
 msgid "Select one if this information is used only for billing or shipping."
 msgstr ""
 
-#: ./browser/viewlet.py:379
+#: ./browser/viewlet.py:387
 msgid "Select one shipping method."
 msgstr ""
 
@@ -342,8 +342,8 @@ msgstr ""
 msgid "Street Address"
 msgstr ""
 
-#: ./browser/template.py:252
-#: ./browser/viewlet.py:364
+#: ./browser/template.py:248
+#: ./browser/viewlet.py:372
 msgid "Street address is missing."
 msgstr ""
 
@@ -422,7 +422,7 @@ msgid "description_no_stocks_available"
 msgstr ""
 
 #. Default: "Some information is missing from addresses."
-#: ./browser/template.py:308
+#: ./browser/template.py:304
 msgid "info_missing_from_addresses"
 msgstr ""
 
@@ -432,8 +432,13 @@ msgid "link-to-order"
 msgstr ""
 
 #. Default: "You need to accept the terms to process the order."
-#: ./browser/template.py:327
+#: ./browser/template.py:323
 msgid "need_to_accept_terms"
+msgstr ""
+
+#. Default: "No more than ${quantity} can be added to cart for ${title}"
+#: ./browser/viewlet.py:233
+msgid "no_more_than_quantity"
 msgstr ""
 
 #. Default: "Order Number: ${number}"
@@ -465,17 +470,17 @@ msgid "stock_of_article"
 msgstr ""
 
 #. Default: "Subtract less than ${number}."
-#: ./browser/template.py:158
+#: ./browser/template.py:156
 msgid "subtract_less_than_number"
 msgstr ""
 
 #. Default: "Successfully added ${number} pc(s)."
-#: ./browser/template.py:149
+#: ./browser/template.py:146
 msgid "successfully_added_number"
 msgstr ""
 
 #. Default: "Successfully subtracted ${number} pc(s)."
-#: ./browser/template.py:165
+#: ./browser/template.py:160
 msgid "successfully_subtracted_number"
 msgstr ""
 

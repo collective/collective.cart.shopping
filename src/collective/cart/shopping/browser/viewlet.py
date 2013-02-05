@@ -5,6 +5,7 @@ from Products.statusmessages.interfaces import IStatusMessage
 from Products.validation import validation
 from collective.behavior.stock.interfaces import IStock
 from collective.cart import core
+from collective.cart.core.browser.viewlet import CartContentViewlet as BaseCartContentViewlet
 from collective.cart.core.browser.viewlet import CartContentViewletManager
 from collective.cart.core.browser.viewlet import CartViewletManager
 from collective.cart.core.interfaces import IBaseAdapter
@@ -217,31 +218,38 @@ class CartArticlesViewlet(BaseCartArticlesViewlet):
         oid = form.get('form.update.article', None)
         if oid is not None:
             quantity = form.get('quantity', None)
-            if quantity is not None:
-                try:
-                    quantity = int(quantity)
-                    shopping_site = IShoppingSite(self.context)
-                    carticle = shopping_site.get_cart_article(oid)
-                    article = ICartArticleAdapter(carticle).orig_article
-                    if quantity == 0:
-                        shopping_site.remove_cart_articles(oid)
-                    elif quantity > carticle.quantity:
-                        if article:
-                            IStock(article).sub_stock(quantity - carticle.quantity)
-                            carticle.quantity = quantity
-                            modified(carticle)
+            validate = validation.validatorFor('isInt')
+            if quantity is not None and validate(quantity) == 1 and int(quantity) >= 0:
+                quantity = int(quantity)
+                shopping_site = IShoppingSite(self.context)
+                carticle = shopping_site.get_cart_article(oid)
+                article = ICartArticleAdapter(carticle).orig_article
+                if quantity == 0:
+                    shopping_site.remove_cart_articles(oid)
+                elif article:
+                    if quantity > carticle.quantity:
+                        carticle.quantity += IStock(article).sub_stock(quantity - carticle.quantity)
+                        modified(carticle)
+                        message = _(u'no_more_than_quantity', default=u"No more than ${quantity} can be added to cart for ${title}", mapping={
+                            'quantity': carticle.quantity, 'title': article.title})
+                        IStatusMessage(self.request).addStatusMessage(message, type='info')
+                        url = getMultiAdapter(
+                            (self.context, self.request), name='plone_context_state').current_base_url()
+                        return self.request.response.redirect(url)
                     elif quantity < carticle.quantity:
-                        if article:
-                            IStock(article).add_stock(carticle.quantity - quantity)
+                        IStock(article).add_stock(carticle.quantity - quantity)
                         carticle.quantity = quantity
                         modified(carticle)
-                except ValueError:
-                    message = _(u"Invalid quantity.")
-                    IStatusMessage(self.request).addStatusMessage(message, type='warn')
-                    url = getMultiAdapter(
-                        (self.context, self.request), name='plone_context_state').current_base_url()
-                    self.request.response.redirect(url)
-                return self.render()
+                    else:
+                        pass
+                else:
+                    pass
+            else:
+                message = _(u"Invalid quantity.")
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                url = getMultiAdapter(
+                    (self.context, self.request), name='plone_context_state').current_base_url()
+                return self.request.response.redirect(url)
 
     @property
     def articles(self):
@@ -484,38 +492,66 @@ class OrderConfirmationCheckoutViewlet(BaseOrderConfirmationViewlet):
     grok.template('confirmation-checkout')
 
 
-class BaseCartContentViewlet(BaseShoppingSiteRootViewlet):
-    """Base class for viewlet within cart content."""
-    grok.baseclass()
-    grok.context(ICart)
-    grok.viewletmanager(CartContentViewletManager)
+# class BaseCartContentViewlet(BaseShoppingSiteRootViewlet):
+#     """Base class for viewlet within cart content."""
+#     grok.baseclass()
+#     grok.context(ICart)
+#     grok.viewletmanager(CartContentViewletManager)
 
 
-class CustomerInfoViewlet(BaseCartContentViewlet):
+class CartContentViewlet(BaseCartContentViewlet):
     """Viewlet to show customer info in cart."""
-    grok.name('collective.cart.core.customer-info')
-    grok.template('customer-info')
+    grok.layer(ICollectiveCartShoppingLayer)
 
-    def billing(self):
-        return self.context.get('billing')
+    # def billing(self):
+    #     return self.context.get('billing')
 
-    def shipping(self):
-        return self.context.get('shipping')
+    # def shipping(self):
+    #     return self.context.get('shipping')
+
+    def order(self):
+        # res = []
+        # creator = getMultiAdapter((self.context, self.request), name="plone_portal_state").member().id
+        workflow = getToolByName(self.context, 'portal_workflow')
+        # shop = IShoppingSite(self.context).shop
+        # query = {
+        #     'Creator': creator,
+        #     'path': '/'.join(shop.getPhysicalPath()),
+        #     'sort_on': 'modified',
+        #     'sort_order': 'descending',
+        # }
+        # order_number = self.request.form.get('order_number')
+        # if order_number:
+        #     query['id'] = order_number
+        # for item in base.get_content_listing(ICart, **query):
+            # obj = item.getObject()
+        cart = ICartAdapter(self.context)
+        return {
+            'articles': cart.articles,
+            'id': self.context.id,
+            'modified': cart.localized_time(self.context),
+            'shipping_method': cart.shipping_method,
+            'state_title': workflow.getTitleForStateOnType(self.context.review_state(), self.context.portal_type),
+            'title': self.context.Title(),
+            'total': cart.total,
+            'url': self.context.getURL(),
+        }
+        # return res
 
 
 class DescriptionCartContentViewlet(BaseCartContentViewlet):
     """Viewlet to show description of cart."""
-    grok.name('collective.cart.shopping.cart-content-description')
+    grok.name('collective.cart.shopping.order.description')
     grok.template('cart-content-description')
 
 
-class ShippingMethodCartContentViewlet(BaseCartContentViewlet):
-    """Viewlet to show shipping method info in cart content."""
-    grok.name('collective.cart.shopping.cart-content-shipping-method')
-    grok.template('confirmation-shipping-method')
+# class ShippingMethodCartContentViewlet(BaseCartContentViewlet):
+#     """Viewlet to show shipping method info in cart content."""
+#     grok.name('collective.cart.shopping.cart-content-shipping-method')
+#     grok.template('confirmation-shipping-method')
 
-    def shipping_method(self):
-        return ICartAdapter(self.context).shipping_method
+#     def shipping_method(self):
+#         return ICartAdapter(self.context).shipping_method
 
 
 class ArticleContainerViewletManager(BaseViewletManager):

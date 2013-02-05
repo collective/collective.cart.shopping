@@ -475,11 +475,27 @@ Update Article111 over the stock::
 
     >>> browser.getControl(name="quantity", index=1).value = '200'
     >>> browser.getControl(name="form.update.article", index=1).click()
-    >>> print browser.bycss('.warn')
+    >>> print browser.bycss('.info')
     --- 1 ---
-    <dl class="portalMessage warn"><dt>Warn</dt>
-    <dd>Invalid quantity.</dd>
+    ...
+    --- 2 ---
+    <dl class="portalMessage info"><dt>Info</dt>
+    <dd>No more than 100 can be added to cart for &#196;rticle111</dd>
     </dl>
+
+    >>> print browser.bycss('#quantity')
+    --- 1 ---
+    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="40">
+    &#160;&#215;&#160;
+    --- 2 ---
+    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="100">
+    &#160;&#215;&#160;
+
+    >>> print browser.bycss('#cart-total')
+    --- 1 ---
+    <section id="cart-total"><span>Total</span>&#160;&#160;
+    <span id="total">4,090.00 &#8364;</span>
+    </section>
 
 Update Article111 with minus quantity::
 

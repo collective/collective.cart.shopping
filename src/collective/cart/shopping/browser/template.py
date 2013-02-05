@@ -143,10 +143,8 @@ class StockView(BaseArticleView):
                 IStatusMessage(self.request).addStatusMessage(message, type='warn')
             else:
                 value = int(value)
-                if value > maximum:
-                    value = maximum
-                stock.add_stock(value)
-                message = _(u'successfully_added_number', default=u'Successfully added ${number} pc(s).', mapping={'number': value})
+                message = _(u'successfully_added_number', default=u'Successfully added ${number} pc(s).', mapping={
+                    'number': stock.add_stock(value)})
                 IStatusMessage(self.request).addStatusMessage(message, type='info')
             return self.request.response.redirect(url)
 
@@ -159,10 +157,8 @@ class StockView(BaseArticleView):
                 IStatusMessage(self.request).addStatusMessage(message, type='warn')
             else:
                 value = int(value)
-                if value > maximum:
-                    value = maximum
-                stock.sub_stock(value)
-                message = _(u'successfully_subtracted_number', default=u'Successfully subtracted ${number} pc(s).', mapping={'number': value})
+                message = _(u'successfully_subtracted_number', default=u'Successfully subtracted ${number} pc(s).', mapping={
+                    'number': stock.sub_stock(value)})
                 IStatusMessage(self.request).addStatusMessage(message, type='info')
             return self.request.response.redirect(url)
 

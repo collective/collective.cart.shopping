@@ -37,7 +37,8 @@ section#add-and-subtract-stock form {
     display: inline-block;
     margin: 0 1em 0 0;
 }
-section#collective-cart-shopping-stock-list form button {
+section#collective-cart-shopping-stock-list form button,
+section#collective-cart-shopping-order-list form button {
     font-size: 80%;
 }
 
