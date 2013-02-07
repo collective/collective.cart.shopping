@@ -1,6 +1,11 @@
 Change log
 ----------
 
+0.2.1.24 (2013-02-xx)
+=====================
+
+- Added price and subtotal columns and enabled export to csv.[taito]
+
 0.2.1.23 (2013-02-05)
 =====================
 

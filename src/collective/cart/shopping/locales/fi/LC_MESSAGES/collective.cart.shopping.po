@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-02-05 17:26+0000\n"
+"POT-Creation-Date: 2013-02-07 11:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,7 +93,7 @@ msgstr "Hyväksymällä pääsee tilauksen eteenpäin."
 msgid "City"
 msgstr "Kaupunki"
 
-#: ./browser/template.py:253
+#: ./browser/template.py:260
 #: ./browser/viewlet.py:377
 msgid "City is missing."
 msgstr "Kaupunki puuttuu."
@@ -140,13 +140,17 @@ msgstr "Tarjous"
 msgid "E-mail"
 msgstr "Sähköposti"
 
+#: ./browser/templates/article-list.pt:17
+msgid "Export"
+msgstr "Export"
+
 #: ./browser/templates/customer-info.pt:17
 #: ./browser/templates/shipping-info.pt:29
 #: ./browser/viewlets/billing-info.pt:8
 msgid "First Name"
 msgstr "Etunimi"
 
-#: ./browser/template.py:232
+#: ./browser/template.py:239
 #: ./browser/viewlet.py:356
 msgid "First name is missing."
 msgstr "Etunimi puuttuu."
@@ -173,7 +177,7 @@ msgstr "Syötä määrä lisätääkseen ostoskoriin."
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr "Kansainvälinen VAT-numero. Suomessa alkaa 'FI' kirjaimella."
 
-#: ./browser/template.py:243
+#: ./browser/template.py:250
 #: ./browser/viewlet.py:367
 msgid "Invalid e-mail address."
 msgstr "Ei toimiva sähköpostiosoite."
@@ -188,12 +192,12 @@ msgstr "Väärä numero"
 msgid "Last Name"
 msgstr "Sukunimi"
 
-#: ./browser/template.py:237
+#: ./browser/template.py:244
 #: ./browser/viewlet.py:361
 msgid "Last name is missing."
 msgstr "Sukunimi puuttuu."
 
-#: ./browser/templates/article-list.pt:17
+#: ./browser/template.py:363
 msgid "Name"
 msgstr "Nimi"
 
@@ -233,7 +237,7 @@ msgstr "Organisaatio"
 msgid "Phone Number"
 msgstr "Puhelinnumero"
 
-#: ./browser/template.py:258
+#: ./browser/template.py:265
 #: ./browser/viewlet.py:382
 msgid "Phone number is missing."
 msgstr "Puhelinnumero puuttuu."
@@ -243,6 +247,10 @@ msgstr "Puhelinnumero puuttuu."
 #: ./browser/viewlets/billing-info.pt:60
 msgid "Post Code"
 msgstr "Postinumero"
+
+#: ./browser/template.py:364
+msgid "Price"
+msgstr "Hinta"
 
 #: ./interfaces.py:286
 msgid "Price excluding VAT"
@@ -273,7 +281,7 @@ msgstr "Sähköpostia ei pystytty lähettämään."
 msgid "Representative Image"
 msgstr "Tuotekuva"
 
-#: ./browser/templates/article-list.pt:16
+#: ./browser/template.py:362
 #: ./subscriber.py:187
 msgid "SKU"
 msgstr "Tuotetunnus"
@@ -326,7 +334,7 @@ msgstr "Näytä tuotelista."
 msgid "Sold Out"
 msgstr "Tuote tilapäisesti loppunut"
 
-#: ./browser/templates/article-list.pt:18
+#: ./browser/template.py:365
 #: ./profiles/default/actions.xml
 msgid "Stock"
 msgstr "Varasto"
@@ -342,10 +350,14 @@ msgstr "Varastossa: ${stock} kpl"
 msgid "Street Address"
 msgstr "Katuosoite"
 
-#: ./browser/template.py:248
+#: ./browser/template.py:255
 #: ./browser/viewlet.py:372
 msgid "Street address is missing."
 msgstr "Katuosoite puuttuu."
+
+#: ./browser/template.py:366
+msgid "Subtotal"
+msgstr "Yhteensä"
 
 #: ./browser/templates/thanks.pt:12
 #: ./subscriber.py:140
@@ -397,7 +409,7 @@ msgid "Your order number is ${number}."
 msgstr "Tilausnumero on ${number}."
 
 #. Default: "Add less than ${number}."
-#: ./browser/template.py:142
+#: ./browser/template.py:149
 msgid "add_less_than_number"
 msgstr "Lisää vähemmän kuin ${number} kpl."
 
@@ -422,7 +434,7 @@ msgid "description_no_stocks_available"
 msgstr "Tällä tuotteella ei ole varastoa."
 
 #. Default: "Some information is missing from addresses."
-#: ./browser/template.py:304
+#: ./browser/template.py:311
 msgid "info_missing_from_addresses"
 msgstr "Joku tieto puuttuu osoitteesta."
 
@@ -432,7 +444,7 @@ msgid "link-to-order"
 msgstr "Tilauksen linkki: ${url}"
 
 #. Default: "You need to accept the terms to process the order."
-#: ./browser/template.py:323
+#: ./browser/template.py:330
 msgid "need_to_accept_terms"
 msgstr "Hyväksy toimitusehdot, että pystyisisimme käsittelemään tilausta."
 
@@ -470,18 +482,18 @@ msgid "stock_of_article"
 msgstr "${title}: ${stock} kpl"
 
 #. Default: "Subtract less than ${number}."
-#: ./browser/template.py:156
+#: ./browser/template.py:163
 msgid "subtract_less_than_number"
 msgstr "Vähettnä vähemmän kuin ${number} kpl."
 
 #. Default: "Successfully added ${number} pc(s)."
-#: ./browser/template.py:146
+#: ./browser/template.py:153
 #, fuzzy
 msgid "successfully_added_number"
 msgstr "Onnistuneesti lisätty ${number} kpl."
 
 #. Default: "Successfully subtracted ${number} pc(s)."
-#: ./browser/template.py:160
+#: ./browser/template.py:167
 #, fuzzy
 msgid "successfully_subtracted_number"
 msgstr "Onnistuneesti vähennetty ${number} kpl."

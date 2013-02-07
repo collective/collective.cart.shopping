@@ -10,12 +10,20 @@
       <section
         id="collective-cart-shopping-article-list"
         tal:condition="view/articles">
+        <form
+          id=""
+          method="post"
+          tal:attributes="action context/@@plone_context_state/current_base_url">
+          <button
+            i18n:translate=""
+            name="form.buttons.Export"
+            value="form.buttons.Export"
+            type="submit">Export</button>
+        </form>
         <table class="listing">
           <thead>
             <tr>
-              <th i18n:translate="">SKU</th>
-              <th i18n:translate="">Name</th>
-              <th i18n:translate="">Stock</th>
+              <th tal:repeat="th view/table_headers" tal:content="th" />
             </tr>
           </thead>
           <tbody>
@@ -31,7 +39,13 @@
                     />
                 </td>
                 <td>
+                  <span tal:replace="item/price" />
+                </td>
+                <td>
                   <span tal:replace="item/stock" />
+                </td>
+                <td>
+                  <span tal:replace="item/subtotal" />
                 </td>
               </tr>
             </tal:block>

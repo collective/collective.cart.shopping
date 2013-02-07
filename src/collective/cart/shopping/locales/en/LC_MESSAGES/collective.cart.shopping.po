@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-02-05 17:26+0000\n"
+"POT-Creation-Date: 2013-02-07 11:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,7 +93,7 @@ msgstr ""
 msgid "City"
 msgstr ""
 
-#: ./browser/template.py:253
+#: ./browser/template.py:260
 #: ./browser/viewlet.py:377
 msgid "City is missing."
 msgstr ""
@@ -140,13 +140,17 @@ msgstr ""
 msgid "E-mail"
 msgstr ""
 
+#: ./browser/templates/article-list.pt:17
+msgid "Export"
+msgstr ""
+
 #: ./browser/templates/customer-info.pt:17
 #: ./browser/templates/shipping-info.pt:29
 #: ./browser/viewlets/billing-info.pt:8
 msgid "First Name"
 msgstr ""
 
-#: ./browser/template.py:232
+#: ./browser/template.py:239
 #: ./browser/viewlet.py:356
 msgid "First name is missing."
 msgstr ""
@@ -173,7 +177,7 @@ msgstr ""
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr ""
 
-#: ./browser/template.py:243
+#: ./browser/template.py:250
 #: ./browser/viewlet.py:367
 msgid "Invalid e-mail address."
 msgstr ""
@@ -188,12 +192,12 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-#: ./browser/template.py:237
+#: ./browser/template.py:244
 #: ./browser/viewlet.py:361
 msgid "Last name is missing."
 msgstr ""
 
-#: ./browser/templates/article-list.pt:17
+#: ./browser/template.py:363
 msgid "Name"
 msgstr ""
 
@@ -233,7 +237,7 @@ msgstr ""
 msgid "Phone Number"
 msgstr ""
 
-#: ./browser/template.py:258
+#: ./browser/template.py:265
 #: ./browser/viewlet.py:382
 msgid "Phone number is missing."
 msgstr ""
@@ -242,6 +246,10 @@ msgstr ""
 #: ./browser/templates/shipping-info.pt:81
 #: ./browser/viewlets/billing-info.pt:60
 msgid "Post Code"
+msgstr ""
+
+#: ./browser/template.py:364
+msgid "Price"
 msgstr ""
 
 #: ./interfaces.py:286
@@ -273,7 +281,7 @@ msgstr ""
 msgid "Representative Image"
 msgstr ""
 
-#: ./browser/templates/article-list.pt:16
+#: ./browser/template.py:362
 #: ./subscriber.py:187
 msgid "SKU"
 msgstr ""
@@ -326,7 +334,7 @@ msgstr ""
 msgid "Sold Out"
 msgstr ""
 
-#: ./browser/templates/article-list.pt:18
+#: ./browser/template.py:365
 #: ./profiles/default/actions.xml
 msgid "Stock"
 msgstr ""
@@ -342,9 +350,13 @@ msgstr ""
 msgid "Street Address"
 msgstr ""
 
-#: ./browser/template.py:248
+#: ./browser/template.py:255
 #: ./browser/viewlet.py:372
 msgid "Street address is missing."
+msgstr ""
+
+#: ./browser/template.py:366
+msgid "Subtotal"
 msgstr ""
 
 #: ./browser/templates/thanks.pt:12
@@ -397,7 +409,7 @@ msgid "Your order number is ${number}."
 msgstr ""
 
 #. Default: "Add less than ${number}."
-#: ./browser/template.py:142
+#: ./browser/template.py:149
 msgid "add_less_than_number"
 msgstr ""
 
@@ -422,7 +434,7 @@ msgid "description_no_stocks_available"
 msgstr ""
 
 #. Default: "Some information is missing from addresses."
-#: ./browser/template.py:304
+#: ./browser/template.py:311
 msgid "info_missing_from_addresses"
 msgstr ""
 
@@ -432,7 +444,7 @@ msgid "link-to-order"
 msgstr ""
 
 #. Default: "You need to accept the terms to process the order."
-#: ./browser/template.py:323
+#: ./browser/template.py:330
 msgid "need_to_accept_terms"
 msgstr ""
 
@@ -470,17 +482,17 @@ msgid "stock_of_article"
 msgstr ""
 
 #. Default: "Subtract less than ${number}."
-#: ./browser/template.py:156
+#: ./browser/template.py:163
 msgid "subtract_less_than_number"
 msgstr ""
 
 #. Default: "Successfully added ${number} pc(s)."
-#: ./browser/template.py:146
+#: ./browser/template.py:153
 msgid "successfully_added_number"
 msgstr ""
 
 #. Default: "Successfully subtracted ${number} pc(s)."
-#: ./browser/template.py:160
+#: ./browser/template.py:167
 msgid "successfully_subtracted_number"
 msgstr ""
 

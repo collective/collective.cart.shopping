@@ -3,9 +3,11 @@ from Products.ATContentTypes.interfaces.image import IATImage
 from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.validation import validation
+from StringIO import StringIO
 from collective.behavior.stock.interfaces import IStock as IStockBehavior
 from collective.cart import core
 from collective.cart.core.interfaces import IBaseAdapter
+from collective.cart.core.interfaces import IPrice
 from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.base import Message
@@ -18,11 +20,16 @@ from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.interfaces import ICustomerInfo
 from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.stock.interfaces import IStock
+from datetime import datetime
 from five import grok
 from plone.dexterity.utils import createContentInContainer
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.event import notify
 from zope.lifecycleevent import modified
+
+
+import csv
 
 
 grok.templatedir('templates')
@@ -349,20 +356,70 @@ class ArticleList(BaseView):
     grok.require('cmf.ModifyPortalContent')
     grok.template('article-list')
 
+    @property
+    def table_headers(self):
+        return [
+            _(u'SKU'),
+            _(u'Name'),
+            _(u'Price'),
+            _(u'Stock'),
+            _(u'Subtotal')]
+
+    @property
     def articles(self):
-        for item in IBaseAdapter(self.context).get_content_listing(interface=IArticle):
+        res = []
+        for item in IBaseAdapter(self.context).get_content_listing(interface=IArticle, sort_on='sku'):
             obj = item.getObject()
             article = IArticleAdapter(obj)
-            yield {
+            sbehavior = IStockBehavior(obj)
+            stock = sbehavior.stock
+            stocks = sbehavior.stocks()
+            if stocks:
+                price = stocks[0].price
+                subtotal = price * stock
+                price = getUtility(IPrice, name="string")(price)
+                subtotal = getUtility(IPrice, name="string")(subtotal)
+            else:
+                price = subtotal = 'N/A'
+            res.append({
+                'price': price,
                 'sku': item.sku,
-                'stock': IStockBehavior(obj).stock,
+                'stock': stock,
+                'subtotal': subtotal,
                 'title': article.title,
                 'url': item.getURL(),
-            }
+            })
+        return res
+
 
     def update(self):
         self.request.set('disable_plone.leftcolumn', True)
         self.request.set('disable_plone.rightcolumn', True)
+
+    def __call__(self):
+        if self.request.form.get('form.buttons.Export', None) is not None:
+            out = StringIO()
+            writer = csv.writer(out, delimiter='|', quoting=csv.QUOTE_MINIMAL)
+            plone = getMultiAdapter((self.context, self.request), name="plone")
+            encoding = plone.site_encoding()
+            headers = [self.context.translate(_(header)).encode(encoding) for header in self.table_headers]
+            writer.writerow(headers)
+
+            for article in self.articles:
+                writer.writerow((
+                    article['sku'].encode(encoding),
+                    article['title'],
+                    article['price'],
+                    article['stock'],
+                    article['subtotal']))
+
+            filename = 'stock-{}.csv'.format(datetime.now().isoformat())
+            cd = 'attachment; filename="{}"'.format(filename)
+            self.request.response.setHeader('Content-Type', 'text/csv')
+            self.request.response.setHeader("Content-Disposition", cd)
+            return out.getvalue()
+        else:
+            return super(ArticleList, self).__call__()
 
 
 class CustomerInfoView(BaseView):
