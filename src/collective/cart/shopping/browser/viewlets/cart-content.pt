@@ -1,22 +1,16 @@
-<!-- <section class="collective-cart-shopping slt-theme-orders">
-  <h1 class="documentFirstHeading" i18n:domain="slt.policy" i18n:translate="">Orders</h1>
-  <div class="documentDescription"
-    i18n:translate="no_orders"
-    tal:condition="not: view/carts">You haven't tried to order anything yet.</div>
-  <dl tal:attributes="class view/class_collapsible" tal:repeat="cart view/carts">
-    <dt class="collapsibleHeader" i18n:domain="slt.theme">
+<section id="collective-cart-shopping-order" i18n:domain="collective.cart.core">
+  <dl class="collapsible" tal:define="cart viewlet/order">
+    <dt class="collapsibleHeader">
       <span class="order-number" i18n:translate="order-number">
         Order Number: <tal:name i18n:name="order_number" tal:replace="cart/id" /></span>
       <span class="order-state">
         <tal:translate i18n:translate="">State:</tal:translate>
-        <span i18n:domain="collective.cart.core" i18n:translate="" tal:replace="cart/state_title" /></span>
+        <span i18n:translate="" tal:replace="cart/state_title" /></span>
       <span class="order-updated" i18n:translate="order-updated">
         Updated: <tal:name i18n:name="order_updated" tal:replace="cart/modified" /></span>
     </dt>
     <dd class="collapsibleContent">
-      <section
-        id="cart-articles"
-        i18n:domain="collective.cart.shopping">
+      <section id="cart-articles">
         <table>
           <tbody>
             <tr tal:repeat="item cart/articles">
@@ -61,7 +55,6 @@
 
       <section
         id="shipping-method"
-        i18n:domain="collective.cart.shopping"
         tal:define="item cart/shipping_method">
         <table>
           <tbody>
@@ -81,12 +74,33 @@
           </tbody>
         </table>
       </section>
-      <section
-        id="cart-total"
-        i18n:domain="collective.cart.shopping">
+
+      <section id="cart-total">
         <span i18n:translate="">Total</span>&nbsp;&nbsp;
         <span id="total" tal:content="cart/total" />
       </section>
+
+      <section id="addresses">
+        <dl>
+          <dt i18n:translate="">Billing Address</dt>
+          <dd tal:define="item cart/billing_info">
+            <span tal:replace="item/first_name" />&nbsp;<span tal:replace="item/last_name" />&nbsp;&nbsp;<span tal:replace="item/organization" />&nbsp;&nbsp;<span tal:replace="item/vat" /><br />
+            <span tal:replace="item/post" />&nbsp;<span tal:replace="item/city" /><br />
+            <span tal:replace="item/phone" /><br />
+            <span tal:replace="item/email" /><br />
+          </dd>
+        </dl>
+        <dl>
+          <dt i18n:translate="">Shipping Address</dt>
+          <dd tal:define="item cart/shipping_info">
+            <span tal:replace="item/first_name" />&nbsp;<span tal:replace="item/last_name" />&nbsp;&nbsp;<span tal:replace="item/organization" />&nbsp;&nbsp;<span tal:replace="item/vat" /><br />
+            <span tal:replace="item/post" />&nbsp;<span tal:replace="item/city" /><br />
+            <span tal:replace="item/phone" /><br />
+            <span tal:replace="item/email" /><br />
+          </dd>
+        </dl>
+      </section>
+
     </dd>
   </dl>
-</section> -->
+</section>

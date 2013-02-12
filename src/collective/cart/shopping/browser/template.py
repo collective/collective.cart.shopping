@@ -375,7 +375,7 @@ class ArticleList(BaseView):
             stock = sbehavior.stock
             stocks = sbehavior.stocks()
             if stocks:
-                price = stocks[0].price
+                price = stocks[-1].price
                 subtotal = price * stock
                 price = getUtility(IPrice, name="string")(price)
                 subtotal = getUtility(IPrice, name="string")(subtotal)
@@ -390,7 +390,6 @@ class ArticleList(BaseView):
                 'url': item.getURL(),
             })
         return res
-
 
     def update(self):
         self.request.set('disable_plone.leftcolumn', True)

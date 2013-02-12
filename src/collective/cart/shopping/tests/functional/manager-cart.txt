@@ -318,6 +318,7 @@ Go to cart::
     </section></form>
     </td>
     </tr></tbody></table></section>
+
     >>> print browser.bycss('#cart-total')
     --- 1 ---
     <section id="cart-total"><span>Total</span>&#160;&#160;

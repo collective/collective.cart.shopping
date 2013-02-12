@@ -42,6 +42,25 @@ section#collective-cart-shopping-order-list form button {
     font-size: 80%;
 }
 
+/* Orders */
+#content section#collective-cart-shopping-order dt span {
+  background: #E3E3E3;
+  border-radius: 0.5em;
+  color: #0084A7;
+  padding: 0.25em 0.5em;
+}
+#content section#collective-cart-shopping-order dd {
+  margin: 0 2em 1em;
+}
+section#collective-cart-shopping-order section#cart-articles td {
+  vertical-align: top;
+}
+section#collective-cart-shopping-order section#addresses dl {
+    display: inline-block;
+}
+section#collective-cart-shopping-order section#addresses dt {
+    color: #0084A7;
+}
 
 /* Billing and shipping */
 section#customer-info p#billing-and-shipping-same-or-different {

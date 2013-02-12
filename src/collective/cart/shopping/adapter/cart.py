@@ -160,6 +160,8 @@ class CartAdapter(core.adapter.cart.CartAdapter):
         """Get address by name."""
         context = aq_inner(self.context)
         catalog = getToolByName(context, 'portal_catalog')
+        if name == 'shipping' and self.context.billing_same_as_shipping:
+            name = 'billing'
         query = {
             'id': name,
             'path': {

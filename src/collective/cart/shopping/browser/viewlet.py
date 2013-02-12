@@ -6,7 +6,6 @@ from Products.validation import validation
 from collective.behavior.stock.interfaces import IStock
 from collective.cart import core
 from collective.cart.core.browser.viewlet import CartContentViewlet as BaseCartContentViewlet
-from collective.cart.core.browser.viewlet import CartContentViewletManager
 from collective.cart.core.browser.viewlet import CartViewletManager
 from collective.cart.core.interfaces import IBaseAdapter
 from collective.cart.core.interfaces import IShoppingSiteRoot
@@ -18,7 +17,6 @@ from collective.cart.shopping.event import BillingAddressConfirmedEvent
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
-from collective.cart.shopping.interfaces import ICart
 from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.interfaces import ICartArticleAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
@@ -492,66 +490,31 @@ class OrderConfirmationCheckoutViewlet(BaseOrderConfirmationViewlet):
     grok.template('confirmation-checkout')
 
 
-# class BaseCartContentViewlet(BaseShoppingSiteRootViewlet):
-#     """Base class for viewlet within cart content."""
-#     grok.baseclass()
-#     grok.context(ICart)
-#     grok.viewletmanager(CartContentViewletManager)
-
-
 class CartContentViewlet(BaseCartContentViewlet):
     """Viewlet to show customer info in cart."""
     grok.layer(ICollectiveCartShoppingLayer)
 
-    # def billing(self):
-    #     return self.context.get('billing')
-
-    # def shipping(self):
-    #     return self.context.get('shipping')
-
     def order(self):
-        # res = []
-        # creator = getMultiAdapter((self.context, self.request), name="plone_portal_state").member().id
         workflow = getToolByName(self.context, 'portal_workflow')
-        # shop = IShoppingSite(self.context).shop
-        # query = {
-        #     'Creator': creator,
-        #     'path': '/'.join(shop.getPhysicalPath()),
-        #     'sort_on': 'modified',
-        #     'sort_order': 'descending',
-        # }
-        # order_number = self.request.form.get('order_number')
-        # if order_number:
-        #     query['id'] = order_number
-        # for item in base.get_content_listing(ICart, **query):
-            # obj = item.getObject()
         cart = ICartAdapter(self.context)
         return {
             'articles': cart.articles,
             'id': self.context.id,
             'modified': cart.localized_time(self.context),
             'shipping_method': cart.shipping_method,
-            'state_title': workflow.getTitleForStateOnType(self.context.review_state(), self.context.portal_type),
+            'state_title': workflow.getTitleForStateOnType(workflow.getInfoFor(self.context, 'review_state'), self.context.portal_type),
             'title': self.context.Title(),
             'total': cart.total,
-            'url': self.context.getURL(),
+            'url': self.context.absolute_url(),
+            'billing_info': cart.billing_info,
+            'shipping_info': cart.shipping_info,
         }
-        # return res
 
 
 class DescriptionCartContentViewlet(BaseCartContentViewlet):
     """Viewlet to show description of cart."""
     grok.name('collective.cart.shopping.order.description')
     grok.template('cart-content-description')
-
-
-# class ShippingMethodCartContentViewlet(BaseCartContentViewlet):
-#     """Viewlet to show shipping method info in cart content."""
-#     grok.name('collective.cart.shopping.cart-content-shipping-method')
-#     grok.template('confirmation-shipping-method')
-
-#     def shipping_method(self):
-#         return ICartAdapter(self.context).shipping_method
 
 
 class ArticleContainerViewletManager(BaseViewletManager):
