@@ -47,11 +47,11 @@ jq(".scrollable").scrollable();
 jq(".items img").click(function() {
 // see if same thumb is being clicked
 if (jq(this).hasClass("active")) { return; }
-// calclulate large image's URL based on the thumbnail URL (flickr specific)
+// calclulate large image's URL based on the thumbnail URL
 var url = jq(this).attr("src").replace("_t", "");
 // get handle to element that wraps the image and make it semi-transparent
 var wrap = jq("#image_wrap").fadeTo("medium", 0.5);
-// the large image from www.flickr.com
+// the large image
 var img = new Image();
 // call this function after it's loaded
 img.onload = function() {
@@ -60,7 +60,7 @@ wrap.fadeTo("fast", 1);
 // change the image
 wrap.find("img").attr("src", url);
 };
-// begin loading the image from www.flickr.com
+// begin loading the image
 img.src = url;
 // activate item
 jq(".items img").removeClass("active");
