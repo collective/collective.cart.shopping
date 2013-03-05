@@ -102,7 +102,6 @@ Input first, last name and email::
     <dd>Street address is missing.</dd>
     </dl>
 
-
 Input first, last name, email and street::
 
     >>> browser.getControl(name="first-name").value = 'Shipping First Näme'

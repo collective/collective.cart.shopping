@@ -61,8 +61,8 @@ Add stock::
     >>> browser.url
     'http://nohost/plone/shop/article-container/article1/@@stock'
 
-    >>> import time
-    >>> time.sleep(11)
+    # >>> import time
+    # >>> time.sleep(11)
 
     >>> print browser.bycss('.documentFirstHeading')
     --- 1 ---
@@ -88,7 +88,7 @@ Add stock::
     <th>Current Stock</th>
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
-    </tr></thead><tbody><tr class="even"><td>
+    </tr></thead><tbody><tr><td>
     <a title="Descripti&#246;n of St&#246;ck1" href="http://nohost/plone/shop/article-container/article1/stock1">St&#246;ck1</a>
     </td>
     <td>
@@ -143,45 +143,8 @@ Add another stock::
     <th>Current Stock</th>
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
-    </tr></thead><tbody><tr class="even"><td>
-    <a title="Descripti&#246;n of St&#246;ck2" href="http://nohost/plone/shop/article-container/article1/stock2">St&#246;ck2</a>
-    </td>
-    <td>
+    </tr></thead><tbody><tr><td>
     ...
-    </td>
-    <td>
-    50
-    </td>
-    <td>
-    50
-    </td>
-    <td>
-    5.00 &#8364;
-    </td>
-    <td>
-    <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
-    </form>
-    </td>
-    </tr><tr class="even"><td>
-    <a title="Descripti&#246;n of St&#246;ck1" href="http://nohost/plone/shop/article-container/article1/stock1">St&#246;ck1</a>
-    </td>
-    <td>
-    ...
-    </td>
-    <td>
-    100
-    </td>
-    <td>
-    100
-    </td>
-    <td>
-    4.00 &#8364;
-    </td>
-    <td>
-    <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
-    </form>
     </td>
     </tr></tbody></table></section>
 
@@ -227,32 +190,8 @@ Subtract stock::
     <th>Current Stock</th>
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
-    </tr></thead><tbody><tr class="even"><td>
-    <a title="Descripti&#246;n of St&#246;ck2" href="http://nohost/plone/shop/article-container/article1/stock2">St&#246;ck2</a>
-    </td>
-    <td>
+    </tr></thead><tbody><tr><td>
     ...
-    </td>
-    <td>
-    50
-    </td>
-    <td>
-    50
-    </td>
-    <td>
-    5.00 &#8364;
-    </td>
-    <td>
-    <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
-    </form>
-    </td>
-    </tr><tr class="even"><td>
-    <a title="Descripti&#246;n of St&#246;ck1" href="http://nohost/plone/shop/article-container/article1/stock1">St&#246;ck1</a>
-    </td>
-    <td>
-    ...
-    </td>
     <td>
     100
     </td>
@@ -262,11 +201,7 @@ Subtract stock::
     <td>
     4.00 &#8364;
     </td>
-    <td>
-    <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
-    </form>
-    </td>
+    ...
     </tr></tbody></table></section>
 
 Add stock::
@@ -311,32 +246,8 @@ Add stock::
     <th>Current Stock</th>
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
-    </tr></thead><tbody><tr class="even"><td>
-    <a title="Descripti&#246;n of St&#246;ck2" href="http://nohost/plone/shop/article-container/article1/stock2">St&#246;ck2</a>
-    </td>
-    <td>
+    </tr></thead><tbody><tr><td>
     ...
-    </td>
-    <td>
-    50
-    </td>
-    <td>
-    50
-    </td>
-    <td>
-    5.00 &#8364;
-    </td>
-    <td>
-    <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
-    </form>
-    </td>
-    </tr><tr class="even"><td>
-    <a title="Descripti&#246;n of St&#246;ck1" href="http://nohost/plone/shop/article-container/article1/stock1">St&#246;ck1</a>
-    </td>
-    <td>
-    ...
-    </td>
     <td>
     100
     </td>
@@ -346,11 +257,7 @@ Add stock::
     <td>
     4.00 &#8364;
     </td>
-    <td>
-    <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
-    </form>
-    </td>
+    ...
     </tr></tbody></table></section>
 
 Add too many pcs::
@@ -392,32 +299,8 @@ Add too many pcs::
     <th>Current Stock</th>
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
-    </tr></thead><tbody><tr class="even"><td>
-    <a title="Descripti&#246;n of St&#246;ck2" href="http://nohost/plone/shop/article-container/article1/stock2">St&#246;ck2</a>
-    </td>
-    <td>
+    </tr></thead><tbody><tr><td>
     ...
-    </td>
-    <td>
-    50
-    </td>
-    <td>
-    50
-    </td>
-    <td>
-    5.00 &#8364;
-    </td>
-    <td>
-    <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
-    </form>
-    </td>
-    </tr><tr class="even"><td>
-    <a title="Descripti&#246;n of St&#246;ck1" href="http://nohost/plone/shop/article-container/article1/stock1">St&#246;ck1</a>
-    </td>
-    <td>
-    ...
-    </td>
     <td>
     100
     </td>
@@ -427,11 +310,7 @@ Add too many pcs::
     <td>
     4.00 &#8364;
     </td>
-    <td>
-    <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
-    </form>
-    </td>
+    ...
     </tr></tbody></table></section>
 
 Subtract too many pcs::
@@ -473,12 +352,8 @@ Subtract too many pcs::
     <th>Current Stock</th>
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
-    </tr></thead><tbody><tr class="even"><td>
-    <a title="Descripti&#246;n of St&#246;ck2" href="http://nohost/plone/shop/article-container/article1/stock2">St&#246;ck2</a>
-    </td>
-    <td>
+    </tr></thead><tbody><tr><td>
     ...
-    </td>
     <td>
     50
     </td>
@@ -488,17 +363,19 @@ Subtract too many pcs::
     <td>
     5.00 &#8364;
     </td>
-    <td>
-    <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
-    </form>
-    </td>
-    </tr><tr class="even"><td>
-    <a title="Descripti&#246;n of St&#246;ck1" href="http://nohost/plone/shop/article-container/article1/stock1">St&#246;ck1</a>
-    </td>
-    <td>
     ...
-    </td>
+    </tr></tbody></table></section>
+
+    >>> print browser.bycss('#collective-cart-shopping-stock-list')
+    --- 1 ---
+    <section id="collective-cart-shopping-stock-list"><table class="listing"><thead><tr><th>Title</th>
+    <th>Created</th>
+    <th>Initial Stock</th>
+    <th>Current Stock</th>
+    <th>Purchase Price VAT 0%</th>
+    <th>Remove</th>
+    </tr></thead><tbody><tr><td>
+    ...
     <td>
     100
     </td>
@@ -508,11 +385,7 @@ Subtract too many pcs::
     <td>
     4.00 &#8364;
     </td>
-    <td>
-    <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
-    </form>
-    </td>
+    ...
     </tr></tbody></table></section>
 
 Add stock again::
@@ -557,12 +430,8 @@ Add stock again::
     <th>Current Stock</th>
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
-    </tr></thead><tbody><tr class="even"><td>
-    <a title="Descripti&#246;n of St&#246;ck2" href="http://nohost/plone/shop/article-container/article1/stock2">St&#246;ck2</a>
-    </td>
-    <td>
+    </tr></thead><tbody><tr><td>
     ...
-    </td>
     <td>
     50
     </td>
@@ -572,17 +441,19 @@ Add stock again::
     <td>
     5.00 &#8364;
     </td>
-    <td>
-    <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
-    </form>
-    </td>
-    </tr><tr class="even"><td>
-    <a title="Descripti&#246;n of St&#246;ck1" href="http://nohost/plone/shop/article-container/article1/stock1">St&#246;ck1</a>
-    </td>
-    <td>
     ...
-    </td>
+    </tr></tbody></table></section>
+
+    >>> print browser.bycss('#collective-cart-shopping-stock-list')
+    --- 1 ---
+    <section id="collective-cart-shopping-stock-list"><table class="listing"><thead><tr><th>Title</th>
+    <th>Created</th>
+    <th>Initial Stock</th>
+    <th>Current Stock</th>
+    <th>Purchase Price VAT 0%</th>
+    <th>Remove</th>
+    </tr></thead><tbody><tr><td>
+    ...
     <td>
     100
     </td>
@@ -592,11 +463,7 @@ Add stock again::
     <td>
     4.00 &#8364;
     </td>
-    <td>
-    <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
-    </form>
-    </td>
+    ...
     </tr></tbody></table></section>
 
 Remove stocks::
@@ -633,7 +500,7 @@ Remove stocks::
     <th>Current Stock</th>
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
-    </tr></thead><tbody><tr class="even"><td>
+    </tr></thead><tbody><tr><td>
     <a title="Descripti&#246;n of St&#246;ck2" href="http://nohost/plone/shop/article-container/article1/stock2">St&#246;ck2</a>
     </td>
     <td>
@@ -670,5 +537,3 @@ Remove stocks::
     <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
     </form>
     </section>
-
-    # >>> browser.openBrowser()

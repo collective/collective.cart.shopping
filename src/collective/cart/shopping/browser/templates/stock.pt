@@ -84,7 +84,7 @@
           </thead>
           <tbody>
             <tal:block tal:repeat="item view/stocks">
-              <tr class="even" tal:define="oddrow repeat/item/odd">
+              <tr>
                 <td>
                   <a
                     tal:attributes="title item/description;href item/url"
@@ -92,7 +92,7 @@
                     />
                 </td>
                 <td>
-                  <span tal:replace="item/crated" />
+                  <span tal:replace="item/created" />
                 </td>
                 <td>
                   <span tal:replace="item/initial_stock" />

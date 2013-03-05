@@ -129,7 +129,7 @@ Check the newest message sent::
     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
     =3D=3D=3D
     SKU: SK=C3=961
-    =C3=84rticle1 x 3 =3D 12.30 =E2=82=AC
+    =C3=84rticle1 x 1 =3D 12.30 =E2=82=AC
     <BLANKLINE>
     Shipping Method: ShippingMeth=C3=B6d1  0.10 =E2=82=AC
     <BLANKLINE>
@@ -228,11 +228,10 @@ Check the newest message sent::
     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
     =3D=3D=3D
     SKU: SK=C3=961
-    =C3=84rticle1 x 2 =3D 12.30 =E2=82=AC
+    =C3=84rticle1 x 2 =3D 24.60 =E2=82=AC
     <BLANKLINE>
-    Shipping Method: ShippingMeth=C3=B6d1  0.10 =E2=82=AC
+    Shipping Method: ShippingMeth=C3=B6d1  0.20 =E2=82=AC
     <BLANKLINE>
-    Total: 12.40 =E2=82=AC
+    Total: 24.80 =E2=82=AC
     <BLANKLINE>
     Link to the order: http://nohost/plone/shop/cart-container/2
-

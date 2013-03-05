@@ -1,6 +1,17 @@
+/* Article */
+#article-images {
+    float: left;
+    margin: 0 1em 0 0;
+    width: 45%;
+}
+#article-text {
+    clear: both;
+    padding: 1em 0;
+}
 /* Related articles */
 #related-articles {
-    margin: 3em 0 0;
+    border-top: 2px solid #CCCCCC;
+    padding: 3em 0 0;
     width: 90%;
 }
 #related-articles p {
@@ -28,6 +39,12 @@
     color: #CA2464;
     font-size: 1.2em;
 }
+/* Add To Cart */
+section#add-to-cart {
+  color: #666666;
+  line-height: 1.2em;
+}
+
 
 /* Stock */
 section#add-and-subtract-stock {

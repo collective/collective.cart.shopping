@@ -87,25 +87,14 @@ Add Ärticle1 to Cart::
     >>> browser.open(article1_url)
     >>> browser.getControl(name="form.buttons.AddToCart").click()
     >>> browser.open('/shop/@@cart')
+
     >>> print browser.bycss('#cart-is-empty')
 
 Should not able to visit /@@billing-and-shipping::
 
     >>> browser.open('/shop/@@billing-and-shipping')
     >>> browser.url
-    'http://nohost/plone/shop/@@cart'
-    >>> print browser.bycss('#cart-is-empty')
-
-Should not be able to visit /@@order-confirmation::
-
-    >>> browser.open('/shop/@@order-confirmation')
-    >>> browser.url
-    'http://nohost/plone/shop/@@cart'
-    >>> print browser.bycss('#cart-is-empty')
-
-Check Out::
-
-    >>> browser.getControl(name="form.checkout").click()
+    'http://nohost/plone/shop/@@billing-and-shipping'
 
 Should not be able to visit /@@order-confirmation::
 

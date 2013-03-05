@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from Products.CMFCore.utils import getToolByName
+from Testing import ZopeTestCase as ztc
 from collective.cart.shopping.tests.base import FUNCTIONAL_TESTING
 from datetime import date
 from hexagonit.testing.browser import Browser
@@ -42,7 +43,7 @@ def setUp(self):
         'portal': portal,
         'prink': prink,
     })
-
+    ztc.utils.setupCoreSessions(layer['app'])
     browser.setBaseUrl(portal.absolute_url())
 
     browser.handleErrors = True

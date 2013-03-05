@@ -14,39 +14,30 @@
         <span tal:replace="item/gross" />
       </option>
     </select>
-    <tal:block tal:condition="not: context/@@plone_portal_state/anonymous">
-      <label
-        i18n:translate="">Quantity</label>
-      <input
-        id="quantity"
-        name="quantity"
-        value="1"
-        type="text"
-        tal:attributes="
-          maxlength viewlet/quantity_size;
-          size viewlet/quantity_size"
-        />
-      <span
-        id="pcs"
-        i18n:translate="">pcs</span>
-      <button
-        class="shopping-button update"
-        type="submit"
-        name="form.buttons.AddToCart"
-        value="form.buttons.AddToCart"
-        i18n:translate=""
-        i18n:domain="collective.cart.core"
-        >Add To Cart</button>
-    </tal:block>
-    <section class="please-login" tal:condition="context/@@plone_portal_state/anonymous">
-      <p i18n:translate="please-login">
-        You need to log in to add this article to cart. If you have not registered yet, please register first.
-      </p>
-      <p i18n:domain="plone">
-        <a i18n:translate="" tal:attributes="href string:${context/@@plone_portal_state/portal_url}/login">Log in</a>
-        <a i18n:translate="" tal:attributes="href string:${context/@@plone_portal_state/portal_url}/@@register">Register</a>
-      </p>
-    </section>
+    <label
+      i18n:translate="">Quantity</label>
+    <input
+      id="quantity"
+      min="1"
+      name="quantity"
+      required="required"
+      value="1"
+      type="number"
+      tal:attributes="
+        maxlength viewlet/quantity_size;
+        size viewlet/quantity_size"
+      />
+    <span
+      id="pcs"
+      i18n:translate="">pcs</span>
+    <button
+      class="shopping-button update"
+      type="submit"
+      name="form.buttons.AddToCart"
+      value="form.buttons.AddToCart"
+      i18n:translate=""
+      i18n:domain="collective.cart.core"
+      >Add To Cart</button>
   </form>
   <p
     class="sold-out"

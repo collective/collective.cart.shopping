@@ -1,0 +1,73 @@
+# -*- coding: utf-8 -*-
+from collective.cart.core.interfaces import IShoppingSiteRoot
+from collective.cart.shopping.browser.template import ThanksView
+from collective.cart.shopping.interfaces import IShoppingSite
+from collective.cart.shopping.tests.base import IntegrationTestCase
+from plone.uuid.interfaces import IUUID
+from zope.interface import alsoProvides
+
+import mock
+
+
+class ThanksViewTestCase(IntegrationTestCase):
+    """TestCase for ThanksView"""
+
+    def test_subclass(self):
+        from collective.cart.shopping.browser.template import OrderConfirmationView
+        from collective.cart.shopping.browser.base import Message
+        self.assertTrue(issubclass(ThanksView, (OrderConfirmationView, Message)))
+
+    def test_name(self):
+        self.assertEqual(getattr(ThanksView, 'grokcore.component.directive.name'), 'thanks')
+
+    def test_template(self):
+        self.assertEqual(getattr(ThanksView, 'grokcore.view.directive.template'), 'thanks')
+
+    @mock.patch('collective.cart.shopping.browser.template.getToolByName')
+    @mock.patch('collective.cart.shopping.browser.template.IStockBehavior')
+    @mock.patch('collective.cart.shopping.browser.template.IStatusMessage')
+    def test_update(self, IStatusMessage, IStockBehavior, getToolByName):
+        instance = self.create_view(ThanksView)
+
+        adapter = IShoppingSite(self.portal)
+        session = adapter.getSessionData(create=True)
+        session.set('collective.cart.core', {})
+        address = {
+            'city': 'CITY',
+            'email': 'fist.last@email.com',
+            'first_name': 'FIRST',
+            'last_name': 'LAST',
+            'phone': 'PHONE',
+            'street': 'STREET',
+        }
+        adapter.update_cart('billing', address)
+        adapter.update_cart('shipping', address)
+
+        self.portal.absolute_url = mock.Mock(return_value='portal_url')
+        self.assertEqual(instance.update(), 'portal_url/@@order-confirmation')
+
+        instance.request.form = {'form.buttons.back': True}
+        self.assertEqual(instance.update(), 'portal_url/@@billing-and-shipping')
+
+        alsoProvides(self.portal, IShoppingSiteRoot)
+        container = self.create_content('collective.cart.core.CartContainer', id='cart-container')
+        article = self.create_content('collective.cart.core.Article', id='article', money=self.money('12.40'), vat=self.decimal('24.00'))
+        IStockBehavior().stock = 10
+        uuid = IUUID(article)
+        adapter.update_cart('articles', {uuid: {'id': uuid}})
+        instance.request.form = {'form.buttons.ConfirmOrder': True}
+        self.assertIsNone(instance.update())
+        getToolByName().doActionFor.assert_called_with(container['1'], 'ordered')
+        self.assertEqual(instance.cart_id, '1')
+
+        confirmation_terms_message = self.create_atcontent('Folder', id='confirmation-terms-message')
+        self.create_atcontent('Document', confirmation_terms_message, id='en')
+        self.assertEqual(instance.update(), 'portal_url/@@order-confirmation')
+        IStatusMessage().addStatusMessage.assert_called_with(u"need_to_accept_terms", type='info')
+
+    @mock.patch('collective.cart.shopping.browser.template.getToolByName')
+    def test_order_url(self, getToolByName):
+        instance = self.create_view(ThanksView)
+        instance.cart_id = '1'
+        getToolByName().getHomeUrl.return_value = 'home_url'
+        self.assertEqual(instance.order_url, 'home_url?order_number=1')

@@ -35,10 +35,13 @@
               tal:condition="not: item/soldout">
               <input
                 id="quantity"
+                min="1"
                 name="quantity"
+                required="required"
                 value="1"
-                type="text"
+                type="number"
                 tal:attributes="
+                  max item/quantity_max;
                   maxlength item/quantity_size;
                   size item/quantity_size"
                 />
@@ -97,38 +100,28 @@
               <span class="vat" i18n:translate="">
                 Including VAT: <span i18n:name="vat" tal:replace="item/vat" /> &#37;
               </span><br />
-              <tal:block tal:condition="not: context/@@plone_portal_state/anonymous">
-                <input
-                  id="quantity"
-                  min="1"
-                  name="quantity"
-                  value="1"
-                  type="text"
-                  tal:attributes="
-                    maxlength item/quantity_size;
-                    size item/quantity_size"
-                  />
-                <span
-                  id="pcs"
-                  i18n:translate="">pcs</span>
-                <button
-                  class="shopping-button update"
-                  i18n:domain="collective.cart.core"
-                  type="submit"
-                  name="form.buttons.AddToCart"
-                  value="form.buttons.AddToCart"
-                  i18n:translate=""
-                  >Add To Cart</button>
-              </tal:block>
-              <section class="please-login" tal:condition="context/@@plone_portal_state/anonymous">
-                <p i18n:translate="please-login">
-                  You need to log in to add this article to cart. If you have not registered yet, please register first.
-                </p>
-                <p i18n:domain="plone">
-                  <a i18n:translate="" tal:attributes="href string:${context/@@plone_portal_state/portal_url}/login">Log in</a>
-                  <a i18n:translate="" tal:attributes="href string:${context/@@plone_portal_state/portal_url}/@@register">Register</a>
-                </p>
-              </section>
+              <input
+                id="quantity"
+                min="1"
+                name="quantity"
+                required="required"
+                value="1"
+                type="number"
+                tal:attributes="
+                  maxlength item/quantity_size;
+                  size item/quantity_size"
+                />
+              <span
+                id="pcs"
+                i18n:translate="">pcs</span>
+              <button
+                class="shopping-button update"
+                i18n:domain="collective.cart.core"
+                type="submit"
+                name="form.buttons.AddToCart"
+                value="form.buttons.AddToCart"
+                i18n:translate=""
+                >Add To Cart</button>
             </form>
             <p
               class="sold-out"

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from Products.CMFCore.utils import getToolByName
+from Testing import ZopeTestCase as ztc
 from collective.cart.shopping.tests.base import FUNCTIONAL_TESTING
 from hexagonit.testing.browser import Browser
 from plone.app.testing import TEST_USER_ID
@@ -38,6 +39,7 @@ def setUp(self):
         'TEST_USER_NAME': TEST_USER_NAME,
         'TEST_USER_PASSWORD': TEST_USER_PASSWORD,
     })
+    ztc.utils.setupCoreSessions(layer['app'])
     browser = self.globs['browser']
     browser.setBaseUrl(portal_url)
 

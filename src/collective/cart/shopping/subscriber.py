@@ -126,7 +126,7 @@ def notify_ordered(context, event):
         # email_from_name = portal.getProperty('email_from_name')
 
         cadapter = ICartAdapter(context)
-        billing_info = cadapter.billing_info
+        billing_info = cadapter.get_address('billing')
         email_to_address = billing_info.email
         # email_to_name = u'{} {}'.format(billing_info.first_name, billing_info.last_name)
         default_charset = getattr(getattr(getToolByName(context, 'portal_properties'), 'site_properties'), 'default_charset', 'utf-8')
@@ -164,7 +164,7 @@ def notify_ordered(context, event):
         if context.billing_same_as_shipping:
             shipping_info = billing_info
         else:
-            shipping_info = cadapter.shipping_info
+            shipping_info = cadapter.get_address('shipping')
         SHIPPING_ADDRESS = context.translate(_(u'Shipping Address'))
         SHIPPING_INFO = u"""{first_name} {last_name}  {organization}  {vat}
 {street}
@@ -191,7 +191,7 @@ def notify_ordered(context, event):
                 SKU=SKU,
                 sku=article['sku'],
                 title=article['title'],
-                quantity=article['quantity_size'],
+                quantity=article['quantity'],
                 subtotal=article['gross_subtotal'])
             articles.append(article_line)
         article_lines = u'\n'.join(articles)
@@ -259,7 +259,7 @@ def notify_ordered(context, event):
 @grok.subscribe(IArticleAddedToCartEvent)
 def status_message_article_added(event):
     article = event.article
-    message = _(u"article-added-to-cart", default=u"${title} is added to cart.", mapping={'title': article.title})
+    message = _(u"article-added-to-cart", default=u"${title} is added to cart.", mapping={'title': safe_unicode(article.title)})
     IStatusMessage(event.request).addStatusMessage(message, type='info')
 
 

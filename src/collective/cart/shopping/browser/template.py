@@ -1,3 +1,5 @@
+# from collective.cart.shopping.event import ShippingAddressConfirmedEvent
+# from zope.event import notify
 from Acquisition import aq_inner
 from Products.ATContentTypes.interfaces.image import IATImage
 from Products.CMFCore.utils import getToolByName
@@ -5,29 +7,25 @@ from Products.statusmessages.interfaces import IStatusMessage
 from Products.validation import validation
 from StringIO import StringIO
 from collective.behavior.stock.interfaces import IStock as IStockBehavior
-from collective.cart import core
-from collective.cart.core.interfaces import IBaseAdapter
-from collective.cart.core.interfaces import IPrice
+from collective.cart.core.browser.template import BaseCheckOutView as BaseBaseCheckOutView
+from collective.cart.core.browser.template import CartView as BaseCartView
 from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.base import Message
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
-from collective.cart.shopping.event import ShippingAddressConfirmedEvent
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
-from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.interfaces import ICustomerInfo
+from collective.cart.shopping.interfaces import IPriceUtility
 from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.stock.interfaces import IStock
 from datetime import datetime
 from five import grok
-from plone.dexterity.utils import createContentInContainer
+from plone.memoize.view import memoize
+from plone.memoize.view import memoize_contextless
 from zope.component import getMultiAdapter
 from zope.component import getUtility
-from zope.event import notify
-from zope.lifecycleevent import modified
-
 
 import csv
 
@@ -47,27 +45,21 @@ class BaseArticleView(BaseView):
     grok.baseclass()
     grok.context(IArticle)
 
+    @property
+    @memoize
     def title(self):
         return IArticleAdapter(self.context).title
 
 
 class ArticleView(BaseArticleView):
-    """Default view for Article."""
+    """Default view for Article"""
     grok.name('view')
     grok.template('article')
 
+    @property
     def images(self):
-        catalog = getToolByName(self.context, 'portal_catalog')
-        query = {
-            'path': {
-                'query': '/'.join(self.context.getPhysicalPath()),
-                'depth': 1,
-            },
-            'object_provides': IATImage.__identifier__,
-            'sort_on': 'getObjPositionInParent',
-        }
         results = []
-        brains = catalog(query)
+        brains = IArticleAdapter(self.context).get_brains(IATImage, depth=1, sort_on='getObjPositionInParent')
         if brains:
             for brain in brains:
                 results.append({
@@ -77,12 +69,15 @@ class ArticleView(BaseArticleView):
                 })
         return results
 
+    @property
     def gross(self):
         return IArticleAdapter(self.context).gross
 
+    @property
     def discount_end(self):
         return IArticleAdapter(self.context).discount_end
 
+    @property
     def image_url(self):
         return IArticleAdapter(self.context).image_url
 
@@ -97,13 +92,13 @@ class StockView(BaseArticleView):
     def stock(self):
         return IStockBehavior(self.context).stock
 
+    @property
     def stocks(self):
-        plone = getMultiAdapter((self.context, self.request), name="plone")
-        base = IBaseAdapter(self.context)
+        adapter = IArticleAdapter(self.context)
         res = []
-        for item in base.get_content_listing(interface=IStock, depth=1, sort_on='created', sort_order='descending'):
+        for item in adapter.get_content_listing(IStock, depth=1, sort_on='created', sort_order='descending'):
             res.append({
-                'crated': plone.toLocalizedTime(item.created),
+                'created': adapter.ulocalized_time(item.created),
                 'current_stock': item.stock,
                 'description': item.Description(),
                 'initial_stock': item.initial_stock,
@@ -180,56 +175,69 @@ class StockView(BaseArticleView):
 
 
 class ArticleContainerView(BaseView):
-    """Default view for ArticleContainer."""
+    """Default view for ArticleContainer"""
     grok.context(IArticleContainer)
     grok.name('view')
     grok.template('article-container')
 
 
-class CartView(core.browser.template.CartView, Message):
-    """Cart View"""
+class BaseCheckOutView(BaseBaseCheckOutView):
+    """Base class for check out view"""
+    grok.baseclass()
     grok.layer(ICollectiveCartShoppingLayer)
 
-
-class BaseCheckoutView(BaseView):
-    grok.baseclass()
-    grok.context(IShoppingSiteRoot)
+    @property
+    def shopping_site(self):
+        return IShoppingSite(self.context)
 
     def update(self):
-        if not IShoppingSite(self.context).cart_articles or (
-            IShoppingSite(self.context).shipping_methods and not IShoppingSite(self.context).shipping_method):
-            url = '{}/@@cart'.format(self.context.absolute_url())
-            return self.request.response.redirect(url)
-        else:
-            self.request.set('disable_border', True)
-            super(BaseCheckoutView, self).update()
+        super(BaseCheckOutView, self).update()
 
-    @property
-    def cart(self):
-        return IShoppingSite(self.context).cart
+        if self.cart_articles:
+            articles = self.cart_articles.copy()
+            number_of_articles = len(articles)
+            for key in self.cart_articles:
+                obj = self.shopping_site.get_object(UID=key)
+                if obj and IStockBehavior(obj).stock == 0:
+                    del articles[key]
+
+            if len(articles) != number_of_articles:
+                session = self.shopping_site.getSessionData(create=False)
+                session.set('collective.cart.core', {'articles': articles})
+
+            if not articles or (self.shopping_site.shipping_methods and not self.shopping_site.shipping_method):
+                url = '{}/@@cart'.format(self.context.absolute_url())
+                return self.request.response.redirect(url)
 
 
-class BillingAndShippingView(BaseCheckoutView, Message):
+class CartView(BaseCheckOutView, BaseCartView, Message):
+    """Cart View"""
+
+    def update(self):
+        shopping_site = IShoppingSite(self.context)
+        if shopping_site.shipping_method is None:
+            shopping_site.update_shipping_method()
+        super(CartView, self).update()
+
+
+class BillingAndShippingView(BaseCheckOutView, Message):
     grok.name('billing-and-shipping')
     grok.template('billing-and-shipping')
 
 
-class ShippingInfoView(BaseCheckoutView, Message):
+class ShippingInfoView(BaseCheckOutView, Message):
     """View for editing shipping info which checkout"""
     grok.name('shipping-info')
     grok.template('shipping-info')
 
+    @property
     def shipping_info(self):
-        shopping_site = IShoppingSite(self.context)
-        cart = shopping_site.cart
-        return ICartAdapter(cart).get_info('shipping')
+        return self.shopping_site.get_info('shipping')
 
     def update(self):
         form = self.request.form
-        shopping_site = IShoppingSite(self.context)
-        shop_url = shopping_site.shop.absolute_url()
+        shop_url = self.context.absolute_url()
         if form.get('form.buttons.back') is not None:
-            IShoppingSite(self.context).shop
             url = '{}/@@billing-and-shipping'.format(shop_url)
             return self.request.response.redirect(url)
         if form.get('form.to.confirmation') is not None:
@@ -270,8 +278,6 @@ class ShippingInfoView(BaseCheckoutView, Message):
                 vat = form.get('vat')
                 post = form.get('post')
 
-                cart = shopping_site.cart
-
                 data = {
                     'first_name': first_name,
                     'last_name': last_name,
@@ -284,30 +290,28 @@ class ShippingInfoView(BaseCheckoutView, Message):
                     'phone': phone,
                 }
 
-                shipping = cart.get('shipping')
+                shipping = self.shopping_site.get_address('shipping')
                 if shipping is None:
-                    shipping = createContentInContainer(
-                        cart, 'collective.cart.shopping.CustomerInfo', id='shipping',
-                        checkConstraints=False, **data)
+                    self.shopping_site.update_cart('shipping', data)
                 else:
                     for key in data:
-                        if getattr(shipping, key) != data[key]:
-                            setattr(shipping, key, data[key])
+                        if shipping[key] != data[key]:
+                            shipping[key] = data[key]
+                    self.shopping_site.update_cart('shipping', shipping)
 
-                modified(shipping)
-
-                notify(ShippingAddressConfirmedEvent(cart))
+                # cart = self.shopping_site.cart
+                # notify(ShippingAddressConfirmedEvent(cart))
 
                 url = '{}/@@order-confirmation'.format(shop_url)
                 return self.request.response.redirect(url)
 
 
-class OrderConfirmationView(BaseCheckoutView, Message):
+class OrderConfirmationView(BaseCheckOutView, Message):
     grok.name('order-confirmation')
     grok.template('order-confirmation')
 
     def update(self):
-        if not self.cart or not ICartAdapter(self.cart).is_addresses_filled:
+        if not self.shopping_site.is_addresses_filled:
             message = _(u'info_missing_from_addresses', default=u"Some information is missing from addresses.")
             IStatusMessage(self.request).addStatusMessage(message, type='info')
             url = '{}/@@billing-and-shipping'.format(self.context.absolute_url())
@@ -315,7 +319,7 @@ class OrderConfirmationView(BaseCheckoutView, Message):
         super(OrderConfirmationView, self).update()
 
 
-class ThanksView(BaseCheckoutView, Message):
+class ThanksView(OrderConfirmationView, Message):
     """View for thank for order."""
     grok.name('thanks')
     grok.template('thanks')
@@ -326,15 +330,16 @@ class ThanksView(BaseCheckoutView, Message):
         context_url = context.absolute_url()
         form = self.request.form
         if form.get('form.buttons.ConfirmOrder') is not None:
-            if IShoppingSite(self.context).get_brain_for_text('confirmation-terms-message') and form.get('accept-terms') is None:
+            if self.shopping_site.get_brain_for_text('confirmation-terms-message') and form.get('accept-terms') is None:
                 message = _(u'need_to_accept_terms', default=u"You need to accept the terms to process the order.")
                 IStatusMessage(self.request).addStatusMessage(message, type='info')
                 url = '{}/@@order-confirmation'.format(context_url)
                 return self.request.response.redirect(url)
             else:
-                self.cart_id = self.cart.id
+                cart = self.shopping_site.create_cart()
+                self.cart_id = cart.id
                 workflow = getToolByName(context, 'portal_workflow')
-                workflow.doActionFor(self.cart, 'ordered')
+                workflow.doActionFor(cart, 'ordered')
 
         elif form.get('form.buttons.back') is not None:
             url = '{}/@@billing-and-shipping'.format(context_url)
@@ -344,31 +349,33 @@ class ThanksView(BaseCheckoutView, Message):
             url = '{}/@@order-confirmation'.format(context_url)
             return self.request.response.redirect(url)
 
+    @property
     def order_url(self):
         membership = getToolByName(self.context, 'portal_membership')
         return '{}?order_number={}'.format(membership.getHomeUrl(), self.cart_id)
 
 
-class ArticleList(BaseView):
+class ArticleListingView(BaseView):
     """List for all the articles."""
     grok.context(IShoppingSiteRoot)
-    grok.name('article-list')
+    grok.name('article-listing')
     grok.require('cmf.ModifyPortalContent')
-    grok.template('article-list')
+    grok.template('article-listing')
 
     @property
+    @memoize_contextless
     def table_headers(self):
-        return [
+        return (
             _(u'SKU'),
             _(u'Name'),
             _(u'Price'),
             _(u'Stock'),
-            _(u'Subtotal')]
+            _(u'Subtotal'))
 
     @property
     def articles(self):
         res = []
-        for item in IBaseAdapter(self.context).get_content_listing(interface=IArticle, sort_on='sku'):
+        for item in IShoppingSite(self.context).get_content_listing(IArticle, sort_on='sku'):
             obj = item.getObject()
             article = IArticleAdapter(obj)
             sbehavior = IStockBehavior(obj)
@@ -377,8 +384,8 @@ class ArticleList(BaseView):
             if stocks:
                 price = stocks[-1].price
                 subtotal = price * stock
-                price = getUtility(IPrice, name="string")(price)
-                subtotal = getUtility(IPrice, name="string")(subtotal)
+                price = getUtility(IPriceUtility, name="string")(price)
+                subtotal = getUtility(IPriceUtility, name="string")(subtotal)
             else:
                 price = subtotal = 'N/A'
             res.append({
@@ -399,7 +406,7 @@ class ArticleList(BaseView):
         if self.request.form.get('form.buttons.Export', None) is not None:
             out = StringIO()
             writer = csv.writer(out, delimiter='|', quoting=csv.QUOTE_MINIMAL)
-            plone = getMultiAdapter((self.context, self.request), name="plone")
+            plone = self.context.restrictedTraverse('@@plone')
             encoding = plone.site_encoding()
             headers = [self.context.translate(_(header)).encode(encoding) for header in self.table_headers]
             writer.writerow(headers)
@@ -418,7 +425,7 @@ class ArticleList(BaseView):
             self.request.response.setHeader("Content-Disposition", cd)
             return out.getvalue()
         else:
-            return super(ArticleList, self).__call__()
+            return super(ArticleListingView, self).__call__()
 
 
 class CustomerInfoView(BaseView):

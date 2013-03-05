@@ -27,9 +27,8 @@ Add Article1::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <div id="add-to-cart">
-    <p class="sold-out">Sold Out</p>
-    </div>
+    <section id="add-to-cart"><p class="sold-out">Sold Out</p>
+    </section>
     >>> print browser.bycss('#add-subarticle-to-cart')
 
 Add Stock to Ärticle1::
@@ -46,16 +45,15 @@ Go to Ärticle1::
     >>> browser.open('/shop/article-container/article1')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <div id="add-to-cart">
-    <form method="post" action="http://nohost/plone/shop/article-container/article1">
+    <section id="add-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article1">
     <section id="money"><p id="price" class="gross">24.60 &#8364;</p>
     <p id="vat">Including VAT: 23.00 %</p>
     </section><label>Quantity</label>
-    <input id="quantity" name="quantity" type="text" value="1" maxlength="3" size="3"><span id="pcs">pcs</span>
+    <input id="quantity" min="1" name="quantity" required="required" type="number" value="1" max="100" maxlength="3" size="3"><span id="pcs">pcs</span>
     <span class="stock">Stock: 100 pcs</span>
     <button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </form>
-    </div>
+    </section>
     >>> print browser.bycss('#add-subarticle-to-cart')
 
 Edit Ärtilce1 and enable discount::
@@ -69,18 +67,17 @@ Edit Ärtilce1 and enable discount::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <div id="add-to-cart">
-    <form method="post" action="http://nohost/plone/shop/article-container/article1">
+    <section id="add-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article1">
     <section id="money"><p id="price" class="gross">12.30 &#8364;</p>
     <p id="vat">Including VAT: 23.00 %</p>
     </section><section id="discount"><p id="discount-message">(Discount valid till ...)</p>
     <p id="normal-price">Normal Price: 24.60 &#8364;</p>
     </section><label>Quantity</label>
-    <input id="quantity" name="quantity" type="text" value="1" maxlength="3" size="3"><span id="pcs">pcs</span>
+    <input id="quantity" min="1" name="quantity" required="required" type="number" value="1" max="100" maxlength="3" size="3"><span id="pcs">pcs</span>
     <span class="stock">Stock: 100 pcs</span>
     <button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </form>
-    </div>
+    </section>
     >>> print browser.bycss('#add-subarticle-to-cart')
 
 Edit Ärticle1 to use subarticle::
@@ -105,9 +102,8 @@ Add Ärticle11 under Ärticle1::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <div id="add-to-cart">
-    <p class="sold-out">Sold Out</p>
-    </div>
+    <section id="add-to-cart"><p class="sold-out">Sold Out</p>
+    </section>
     >>> print browser.bycss('#add-subarticle-to-cart')
 
 Go to Ärticle1::
@@ -145,7 +141,7 @@ Go to Ärticle1::
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
     <section id="add-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article1">
-    <input id="quantity" name="quantity" value="1" type="text" maxlength="3" size="3">
+    <input id="quantity" min="1" name="quantity" required="required" value="1" type="number" max="100" maxlength="3" size="3">
     &#160;&#215;&#160;
     <span class="gross">24.60 &#8364;</span>
     <br><span class="vat">Including VAT: 23.00 %</span>
@@ -167,7 +163,7 @@ Edit Ärticle1 to use subarticle::
     &#196;rticle11
     24.60 &#8364;
     </option></select><label>Quantity</label>
-    <input id="quantity" name="quantity" value="1" type="text" maxlength="3" size="3"><span id="pcs">pcs</span>
+    <input id="quantity" min="1" name="quantity" required="required" value="1" type="number" maxlength="3" size="3"><span id="pcs">pcs</span>
     <button class="shopping-button update" type="submit" name="form.buttons.AddToCart" value="form.buttons.AddToCart">Add To Cart</button>
     </form>
     </section>
@@ -192,7 +188,7 @@ Go to Ärticle1::
     &#196;rticle11
     6.15 &#8364;
     </option></select><label>Quantity</label>
-    <input id="quantity" name="quantity" value="1" type="text" maxlength="3" size="3"><span id="pcs">pcs</span>
+    <input id="quantity" min="1" name="quantity" required="required" value="1" type="number" maxlength="3" size="3"><span id="pcs">pcs</span>
     <button class="shopping-button update" type="submit" name="form.buttons.AddToCart" value="form.buttons.AddToCart">Add To Cart</button>
     </form>
     </section>
@@ -206,7 +202,7 @@ Edit Ärticle1 not to use subarticle::
     --- 1 ---
     <tr id="article11"><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1/article11" title="&#196;rticle11">
-    <img alt="Descripti&#246;n of &#196;rticle11." src="http://nohost/plone/++theme++slt.theme/images/fallback.png" title="&#196;rticle11"></a>
+    <img alt="Descripti&#246;n of &#196;rticle11." src="http://nohost/plone/fallback.png" title="&#196;rticle11"></a>
     </td>
     <td class="name">
     <h3>
@@ -216,7 +212,7 @@ Edit Ärticle1 not to use subarticle::
     </td>
     <td class="price-and-quantity">
     <section id="add-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article1">
-    <input id="quantity" name="quantity" value="1" type="text" maxlength="3" size="3">
+    <input id="quantity" min="1" name="quantity" required="required" value="1" type="number" max="100" maxlength="3" size="3">
     &#160;&#215;&#160;
     <span class="gross">6.15 &#8364;</span>
     <br><span class="vat">Including VAT: 23.00 %</span>
@@ -238,9 +234,8 @@ Add Ärticle111 to Ärticle11::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <div id="add-to-cart">
-    <p class="sold-out">Sold Out</p>
-    </div>
+    <section id="add-to-cart"><p class="sold-out">Sold Out</p>
+    </section>
     >>> print browser.bycss('#add-subarticle-to-cart')
 
 Go to Ärticle1::
@@ -250,7 +245,7 @@ Go to Ärticle1::
     --- 1 ---
     <tr id="article11"><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1/article11" title="&#196;rticle11">
-    <img alt="Descripti&#246;n of &#196;rticle11." src="http://nohost/plone/++theme++slt.theme/images/fallback.png" title="&#196;rticle11"></a>
+    <img alt="Descripti&#246;n of &#196;rticle11." src="http://nohost/plone/fallback.png" title="&#196;rticle11"></a>
     </td>
     <td class="name">
     <h3>
@@ -280,7 +275,7 @@ Go to Ärticle1::
     --- 1 ---
     <tr id="article11"><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1/article11" title="&#196;rticle11">
-    <img alt="Descripti&#246;n of &#196;rticle11." src="http://nohost/plone/++theme++slt.theme/images/fallback.png" title="&#196;rticle11"></a>
+    <img alt="Descripti&#246;n of &#196;rticle11." src="http://nohost/plone/fallback.png" title="&#196;rticle11"></a>
     </td>
     <td class="name">
     <h3>
@@ -313,7 +308,7 @@ Go to Ärticle11::
     &#196;rticle111
     36.90 &#8364;
     </option></select><label>Quantity</label>
-    <input id="quantity" name="quantity" value="1" type="text" maxlength="2" size="2"><span id="pcs">pcs</span>
+    <input id="quantity" min="1" name="quantity" required="required" value="1" type="number" maxlength="2" size="2"><span id="pcs">pcs</span>
     <button class="shopping-button update" type="submit" name="form.buttons.AddToCart" value="form.buttons.AddToCart">Add To Cart</button>
     </form>
     </section>
@@ -325,7 +320,7 @@ Go to Ärticle1::
     --- 1 ---
     <tr id="article11"><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1/article11" title="&#196;rticle11">
-    <img alt="Descripti&#246;n of &#196;rticle11." src="http://nohost/plone/++theme++slt.theme/images/fallback.png" title="&#196;rticle11"></a>
+    <img alt="Descripti&#246;n of &#196;rticle11." src="http://nohost/plone/fallback.png" title="&#196;rticle11"></a>
     </td>
     <td class="name">
     <h3>
@@ -338,7 +333,7 @@ Go to Ärticle1::
     <select id="subarticle" name="subarticle"><option value="...">
     &#196;rticle111
     36.90 &#8364;
-    </option></select><br><span class="vat">Including VAT: 23.00 %</span><br><input id="quantity" min="1" name="quantity" value="1" type="text" maxlength="2" size="2"><span id="pcs">pcs</span>
+    </option></select><br><span class="vat">Including VAT: 23.00 %</span><br><input id="quantity" min="1" name="quantity" required="required" value="1" type="number" maxlength="2" size="2"><span id="pcs">pcs</span>
     <button class="shopping-button update" type="submit" name="form.buttons.AddToCart" value="form.buttons.AddToCart">Add To Cart</button>
     </form>
     </section></td>
@@ -357,7 +352,7 @@ Go to Ärticle1::
     --- 1 ---
     <tr id="article11"><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1/article11" title="&#196;rticle11">
-    <img alt="Descripti&#246;n of &#196;rticle11." src="http://nohost/plone/++theme++slt.theme/images/fallback.png" title="&#196;rticle11"></a>
+    <img alt="Descripti&#246;n of &#196;rticle11." src="http://nohost/plone/fallback.png" title="&#196;rticle11"></a>
     </td>
     <td class="name">
     <h3>

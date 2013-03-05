@@ -3,9 +3,8 @@ from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from collective.behavior.discount.interfaces import IDiscount
-from collective.behavior.salable.interfaces import ISalable
 from collective.behavior.stock.interfaces import IStock
-from collective.cart import core
+from collective.cart.core.adapter.article import ArticleAdapter as BaseArticleAdapter
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
@@ -13,37 +12,28 @@ from datetime import date
 from datetime import datetime
 from datetime import time
 from five import grok
-from plone.memoize.instance import memoize
 from plone.uuid.interfaces import IUUID
-from zope.lifecycleevent import modified
 
 
-class ArticleAdapter(core.adapter.article.ArticleAdapter):
-
+class ArticleAdapter(BaseArticleAdapter):
+    """Adapter for Article"""
+    grok.context(IArticle)
     grok.provides(IArticleAdapter)
 
     @property
     def addable_to_cart(self):
         """True if the Article is addable to cart."""
-        context = aq_inner(self.context)
-        return IShoppingSite(context).shop and ISalable(
-            context).salable and not context.use_subarticle and not self.articles_in_article
+        return super(self.__class__, self).addable_to_cart and not self.context.use_subarticle and not self.articles_in_article
+
+    @property
+    def articles_in_article(self):
+        """Articles in Article which is not optional subarticle."""
+        brains = self.get_brains(IArticle, depth=1, salable=True, sort_on='getObjPositionInParent')
+        return not self.context.use_subarticle and brains or []
 
     @property
     def subarticles(self):
-        context = aq_inner(self.context)
-        catalog = getToolByName(context, 'portal_catalog')
-        brains = catalog({
-            'object_provides': IArticle.__identifier__,
-            'path': {
-                'query': '/'.join(context.getPhysicalPath()),
-                'depth': 1,
-            },
-            'salable': True,
-            'sort_on': 'getObjPositionInParent',
-            'use_subarticle': False,
-        })
-        return brains
+        return self.get_brains(IArticle, depth=1, salable=True, sort_on='getObjPositionInParent', use_subarticle=False)
 
     @property
     def subarticles_option(self):
@@ -64,27 +54,9 @@ class ArticleAdapter(core.adapter.article.ArticleAdapter):
         return res
 
     @property
-    def articles_in_article(self):
-        """Articles in Article which is not optional subarticle."""
-        context = aq_inner(self.context)
-        catalog = getToolByName(context, 'portal_catalog')
-        brains = catalog({
-            'object_provides': IArticle.__identifier__,
-            'path': {
-                'query': '/'.join(context.getPhysicalPath()),
-                'depth': 1,
-            },
-            'salable': True,
-            'sort_on': 'getObjPositionInParent',
-        })
-
-        return not self.context.use_subarticle and brains or []
-
-    @property
     def subarticle_addable_to_cart(self):
         """True if the SubArticle is addable to cart."""
-        return IShoppingSite(
-            self.context).shop and self.context.use_subarticle
+        return IShoppingSite(self.context).shop and self.context.use_subarticle
 
     @property
     def subarticle_soldout(self):
@@ -108,28 +80,24 @@ class ArticleAdapter(core.adapter.article.ArticleAdapter):
 
     @property
     def quantity_max(self):
-        """Max quantity which could be added to cart."""
-        if IStock(self.context).stock < IStock(self.context).reducible_quantity:
-            return IStock(self.context).stock
-        return IStock(self.context).reducible_quantity
+        """Maximum quantity which could be added to cart."""
+        stock = IStock(self.context).stock
+        reducible_quantity = IStock(self.context).reducible_quantity
 
-    def _update_existing_cart_article(self, carticle, **kwargs):
+        if stock > reducible_quantity:
+            stock = reducible_quantity
+
+        uuid = IUUID(self.context)
+        cart_article = IShoppingSite(self.context).get_cart_article(uuid)
+        if cart_article:
+            stock -= cart_article['quantity']
+
+        return stock
+
+    def _update_existing_cart_article(self, items, **kwargs):
         """Update cart article which already exists in current cart.
-
-        :param carticle: Cart Article.
-        :type carticle: collective.cart.core.CartArticle
         """
-        carticle.quantity += kwargs['quantity']
-        modified(carticle)
-
-    @memoize
-    def _ulocalized_time(self):
-        """Return ulocalized_time method.
-
-        :rtype: method
-        """
-        translation_service = getToolByName(self.context, 'translation_service')
-        return translation_service.ulocalized_time
+        items['quantity'] += kwargs['quantity']
 
     @property
     def discount_available(self):
@@ -144,14 +112,17 @@ class ArticleAdapter(core.adapter.article.ArticleAdapter):
                 return today >= start
             elif end:
                 return today <= end
+            else:
+                return False
+        else:
+            return False
 
     @property
     def discount_end(self):
         if self.discount_available:
             if IDiscount(self.context).discount_end:
-                ulocalized_time = self._ulocalized_time()
                 dt = datetime.combine(IDiscount(self.context).discount_end, time())
-                return ulocalized_time(dt, context=self.context)
+                return self.ulocalized_time(dt, context=self.context)
 
     @property
     def gross(self):
@@ -172,10 +143,6 @@ class ArticleAdapter(core.adapter.article.ArticleAdapter):
         return self.context.net_money
 
     @property
-    def _quantity_in_carts(self):
-        return sum([brain.quantity for brain in self.cart_articles])
-
-    @property
     def soldout(self):
         """Returns True if soldout else False."""
         return not self.addable_to_cart or not IStock(self.context).stock
@@ -183,7 +150,7 @@ class ArticleAdapter(core.adapter.article.ArticleAdapter):
     @property
     def image_url(self):
         """Returns image url of the article.
-        If the image does not exists then return from parent or fallback image.
+        If the image does not exists then returns from parent or fallback image.
         """
         url = '{}/@@images/image'
 
@@ -196,7 +163,7 @@ class ArticleAdapter(core.adapter.article.ArticleAdapter):
                 return url.format(parent.absolute_url())
 
         portal_url = getToolByName(self.context, 'portal_url')()
-        return '{}/++theme++slt.theme/images/fallback.png'.format(portal_url)
+        return '{}/fallback.png'.format(portal_url)
 
     @property
     def title(self):

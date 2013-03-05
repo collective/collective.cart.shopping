@@ -7,40 +7,27 @@
   xmlns:tal="http://xml.zope.org/namespaces/tal">
   <body>
     <metal:main fill-slot="main">
-      <section id="collective-cart-shopping-article">
-        <table>
-          <tbody>
-            <tr>
-              <td id="article-images">
-                <section id="image_wrap">
-                  <img tal:attributes="src string: ${context/@@plone_portal_state/portal_url}/++theme++slt.theme/images/transparent.gif">
-                </section>
-                <section id="scrollable" class="scrollable">
-                  <div class="items">
-                    <div>
-                      <img tal:attributes="
-                        alt context/Description;
-                        src view/image_url;
-                        title context/Title" />
-                      <img
-                        tal:repeat="item view/images"
-                        tal:attributes="
-                          alt item/description;
-                          src string:${item/url}/@@images/image;
-                          title item/title" />
-                    </div>
-                  </div>
-                </section>
-              </td>
-              <td id="information">
-                <h1 class="documentFirstHeading" tal:content="view/title" />
-                <p class="documentDescription" tal:content="context/description" />
-                <div tal:replace="structure provider:collective.cart.shopping.add.to.cart.manager" />
-              </td>
-            </tr>
-          </tbody>
-        </table>
 
+      <section id="article-images">
+        <section id="image_wrap">
+          <img tal:attributes="src string: ${context/@@plone_portal_state/portal_url}/++resource++collective.cart.shopping/transparent.gif">
+        </section>
+        <section id="scrollable" class="scrollable">
+          <div class="items">
+            <div>
+              <img tal:attributes="
+                alt context/Description;
+                src view/image_url;
+                title context/Title" />
+              <img
+                tal:repeat="item view/images"
+                tal:attributes="
+                  alt item/description;
+                  src string:${item/url}/@@images/image;
+                  title item/title" />
+            </div>
+          </div>
+        </section>
 <script>
 jq(function() {
 jq(".scrollable").scrollable();
@@ -69,12 +56,17 @@ jq(this).addClass("active");
 }).filter(":first").click();
 });
 </script>
+      </section>
 
+      <h1 class="documentFirstHeading" tal:content="view/title" />
+      <div class="documentDescription" tal:content="context/description" />
+      <div tal:replace="structure provider:collective.cart.shopping.add.to.cart.manager" />
+      <section id="article-text">
         <div
           tal:condition="context/text"
           tal:replace="structure context/text/output" />
-        <div tal:replace="structure provider:collective.cart.shopping.below.article" />
       </section>
+      <div tal:replace="structure provider:collective.cart.shopping.below.article" />
     </metal:main>
   </body>
 </html>

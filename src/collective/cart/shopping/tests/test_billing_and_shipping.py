@@ -1,3 +1,4 @@
+from Testing import ZopeTestCase as ztc
 from collective.cart.shopping.tests.base import FUNCTIONAL_TESTING
 from hexagonit.testing.browser import Browser
 from plone.app.testing import TEST_USER_ID
@@ -34,7 +35,7 @@ def setUp(self):
         'portal': portal,
         'browser': browser,
     })
-
+    ztc.utils.setupCoreSessions(layer['app'])
     browser.setBaseUrl(portal.absolute_url())
 
     browser.handleErrors = True

@@ -51,7 +51,7 @@ Relate Article1 to Article2::
     --- 1 ---
     <section id="related-articles"><p>We also recommend the following articles.</p>
     <article><a href="http://nohost/plone/shop/article-container/article1">
-    <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png" title="&#196;rticle1"></a>
+    <img src="http://nohost/plone/fallback.png" title="&#196;rticle1"></a>
     <h1>
     <a href="http://nohost/plone/shop/article-container/article1">&#196;rticle1</a>
     </h1>
@@ -71,7 +71,7 @@ Relate Article Container to Article2::
     --- 1 ---
     <section id="related-articles"><p>We also recommend the following articles.</p>
     <article><a href="http://nohost/plone/shop/article-container/article1">
-    <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png" title="&#196;rticle1"></a>
+    <img src="http://nohost/plone/fallback.png" title="&#196;rticle1"></a>
     <h1>
     <a href="http://nohost/plone/shop/article-container/article1">&#196;rticle1</a>
     </h1>

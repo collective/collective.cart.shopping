@@ -38,9 +38,11 @@
               tal:attributes="action context/@@plone_context_state/current_base_url">
               <input
                 id="quantity"
+                min="0"
                 name="quantity"
-                type="text"
+                type="number"
                 tal:attributes="
+                  max item/quantity_max;
                   maxlength item/quantity_size;
                   size item/quantity_size;
                   value item/quantity"

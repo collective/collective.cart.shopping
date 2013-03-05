@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from collective.cart.core.interfaces import ICartAdapter as IBaseCartAdapter
 from collective.cart.shopping.tests.base import IntegrationTestCase
 from decimal import Decimal
 from moneyed import Money
@@ -5,62 +7,26 @@ from plone.dexterity.utils import createContentInContainer
 from plone.uuid.interfaces import IUUID
 from zope.lifecycleevent import modified
 
-import unittest
-
-
-class ICartAdapterTestCase(unittest.TestCase):
-    """TestCase for collective.cart.shopping.interfaces.ICartAdapter"""
-
-    def test_subclass(self):
-        from collective.cart import core
-        from collective.cart.shopping.interfaces import ICartAdapter
-        self.assertTrue(issubclass(ICartAdapter, core.interfaces.ICartAdapter))
-
-    def get_field(self, name):
-        """Get field(attribute) based on name.
-
-        :param name: Name of field(attribute).
-        :type name: str"""
-        from collective.cart.shopping.interfaces import ICartAdapter
-        return ICartAdapter.get(name)
-
-    def test_shipping_method(self):
-        self.assertEqual(self.get_field('shipping_method').getDoc(),
-            'Brain of shipping method')
-
-    def test_shipping_gross_money(self):
-        self.assertEqual(self.get_field('shipping_gross_money').getDoc(),
-            'Gross money of shipping method')
-
-    def test_shipping_net_money(self):
-        self.assertEqual(self.get_field('shipping_net_money').getDoc(),
-            'Net money of shipping method')
-
-    def test_shipping_vat_money(self):
-        self.assertEqual(self.get_field('shipping_vat_money').getDoc(),
-            'VAT money of shipping method')
-
 
 class CartAdapterTestCase(IntegrationTestCase):
-    """TestCase for CartAdapter."""
+    """TestCase for CartAdapter"""
 
-    def setUp(self):
-        from plone.app.testing import TEST_USER_ID
-        from plone.app.testing import setRoles
-        self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
-
-    def test_subclass__CartAdapter(self):
-        from collective.cart import core
+    def test_subclass(self):
+        from collective.cart.core.adapter.cart import CartAdapter as BaseCartAdapter
         from collective.cart.shopping.adapter.cart import CartAdapter
-        self.assertTrue(issubclass(CartAdapter, core.adapter.cart.CartAdapter))
+        self.assertTrue(issubclass(CartAdapter, BaseCartAdapter))
+        from collective.cart.shopping.interfaces import ICartAdapter
+        self.assertTrue(issubclass(ICartAdapter, IBaseCartAdapter))
 
-    def create_shop(self):
-        """Create shop."""
-        shop = createContentInContainer(self.portal, 'collective.cart.shopping.Shop', id='shop',
-            checkConstraints=False, title='Shop')
-        modified(shop)
-        return shop
+    def test_context(self):
+        from collective.cart.shopping.adapter.cart import CartAdapter
+        from collective.cart.shopping.interfaces import ICart
+        self.assertEqual(getattr(CartAdapter, 'grokcore.component.directive.context'), ICart)
+
+    def test_provides(self):
+        from collective.cart.shopping.adapter.cart import CartAdapter
+        from collective.cart.shopping.interfaces import ICartAdapter
+        self.assertEqual(getattr(CartAdapter, 'grokcore.component.directive.provides'), ICartAdapter)
 
     def create_cart(self, shop=None):
         """Create cart."""
@@ -77,33 +43,107 @@ class CartAdapterTestCase(IntegrationTestCase):
         modified(cart)
         return cart
 
+    def create_cart_article(self, cart, uuid=None, gross=None):
+        title = 'Ärticle{}'.format(uuid)
+        description = 'Descriptiön of Ärticle{}'.format(uuid)
+        sku = u'SKÖ{}'.format(uuid)
+        if gross is None:
+            gross = self.money('12.40')
+        carticle = createContentInContainer(cart, 'collective.cart.core.CartArticle', id=uuid,
+            checkConstraints=False, title=title, description=description, gross=gross,
+            quantity=2, sku=sku, vat_rate=Decimal('24.00'))
+        modified(carticle)
+        return carticle
+
+    def create_article(self, context=None):
+        if context is None:
+            context = self.portal
+        article = createContentInContainer(self.portal, 'collective.cart.core.Article', id='article', checkConstraints=False,
+            money=self.money('12.40'), vat=Decimal('24.00'))
+        modified(article)
+        return article
+
     def test_instance(self):
         from collective.cart.shopping.adapter.cart import CartAdapter
         from collective.cart.shopping.interfaces import ICartAdapter
         cart = self.create_cart()
         self.assertIsInstance(ICartAdapter(cart), CartAdapter)
 
-    def test_shipping_method__None(self):
-        """Test cart containing no shipping methods."""
+    def test_articles(self):
         from collective.cart.shopping.interfaces import ICartAdapter
         cart = self.create_cart()
-        self.assertIsNone(ICartAdapter(cart).shipping_method)
+        self.assertEqual(len(ICartAdapter(cart).articles), 0)
+
+        article = self.create_article()
+        uuid = IUUID(article)
+        carticle = self.create_cart_article(cart, uuid)
+
+        description = u'Descriptiön of Ärticle{}'.format(uuid)
+        title = u'Ärticle{}'.format(uuid)
+        sku = u'SKÖ{}'.format(uuid)
+        self.assertEqual(ICartAdapter(cart).articles, [{
+            'description': description,
+            'gross': self.money('12.40'),
+            'gross_subtotal': self.money('24.80'),
+            'image_url': 'http://nohost/plone/fallback.png',
+            'obj': carticle,
+            'quantity': 2,
+            'sku': sku,
+            'title': title,
+            'url': 'http://nohost/plone/article',
+            'vat_rate': Decimal('24.00')
+        }])
+
+        self.portal.manage_delObjects(['article'])
+        self.assertEqual(ICartAdapter(cart).articles, [{
+            'description': description,
+            'gross': self.money('12.40'),
+            'gross_subtotal': self.money('24.80'),
+            'image_url': None,
+            'obj': carticle,
+            'quantity': 2,
+            'sku': sku,
+            'title': title,
+            'url': None,
+            'vat_rate': Decimal('24.00')
+        }])
+
+    def test_articles_total(self):
+        from collective.cart.shopping.interfaces import ICartAdapter
+        cart = self.create_cart()
+        adapter = ICartAdapter(cart)
+        self.assertEqual(adapter.articles_total, self.money('0.00'))
+
+        self.create_cart_article(cart, '1')
+        self.create_cart_article(cart, '2', gross=self.money('10.00'))
+        self.assertEqual(adapter.articles_total, self.money('44.80'))
+
+    def create_cart_shipping_method(self, cart, **kwargs):
+        shipping_method = createContentInContainer(cart, 'collective.cart.shipping.CartShippingMethod',
+            id='cart-shipping-method', checkConstraints=False, vat_rate=Decimal('24.00'), **kwargs)
+        modified(shipping_method)
+        return shipping_method
+
+    def test_total(self):
+        from collective.cart.shopping.interfaces import ICartAdapter
+        cart = self.create_cart()
+        adapter = ICartAdapter(cart)
+        self.assertEqual(adapter.total, self.money('0.00'))
+
+        self.create_cart_article(cart, '1')
+        self.create_cart_article(cart, '2', gross=self.money('10.00'))
+        self.assertEqual(adapter.total, self.money('44.80'))
+
+        self.create_cart_shipping_method(cart, gross=self.money('24.80'), net=self.money('20.00'),
+            vat=self.money('4.80'))
+        self.assertEqual(adapter.total, self.money('69.60'))
 
     def test_shipping_method(self):
-        """Test cart containing a shipping method."""
         from collective.cart.shopping.interfaces import ICartAdapter
         cart = self.create_cart()
-        shipping_method = createContentInContainer(cart, 'collective.cart.shipping.CartShippingMethod',
-            id='shippingmethod1', checkConstraints=False)
-        modified(shipping_method)
-        self.assertEqual(ICartAdapter(cart).shipping_method.UID, IUUID(shipping_method))
-
-    def test_update_shipping_method__without_any_shipping_methods(self):
-        """Test method: update_shopping_method even if there are no shipping methods available."""
-        from collective.cart.shopping.interfaces import ICartAdapter
-        cart = self.create_cart()
-        ICartAdapter(cart).update_shipping_method()
-        self.assertIsNone(ICartAdapter(cart).shipping_method)
+        adapter = ICartAdapter(cart)
+        shipping_method = self.create_cart_shipping_method(cart)
+        self.assertEqual(adapter.shipping_method.getObject(), shipping_method)
 
     def create_articles(self, cart):
         article1 = createContentInContainer(cart, 'collective.cart.core.CartArticle',
@@ -120,80 +160,66 @@ class CartAdapterTestCase(IntegrationTestCase):
         self.create_articles(cart)
         self.assertEqual(ICartAdapter(cart)._calculated_weight(), 0.5)
 
-    def test_shipping_gross_money__without_shipping_method(self):
+    def test_shipping_gross_money(self):
         from collective.cart.shopping.interfaces import ICartAdapter
         cart = self.create_cart()
-        self.assertIsNone(ICartAdapter(cart).shipping_gross_money)
+        adapter = ICartAdapter(cart)
+        gross = self.money('24.80')
+        vat = self.money('4.80')
+        net = self.money('20.00')
+        self.create_cart_shipping_method(cart, gross=gross, net=net, vat=vat)
+        self.assertEqual(adapter.shipping_gross_money, gross)
 
-    def create_shipping_methods(self, shop):
-        shipping_method_container = createContentInContainer(shop, 'collective.cart.shipping.ShippingMethodContainer',
-            id='shipping-method-container', checkConstraints=False)
-        modified(shipping_method_container)
-        shippingmethod1 = shipping_method_container[shipping_method_container.invokeFactory(
-            'ShippingMethod', 'shippingmethod1', title='ShippingMethod1',
-            min_delivery_days=5, max_delivery_days=10, vat=Decimal('10.00'))]
-        shippingmethod1.reindexObject()
-        shippingmethod2 = shipping_method_container[shipping_method_container.invokeFactory(
-            'ShippingMethod', 'shippingmethod2', title='ShippingMethod2',
-            min_delivery_days=1, max_delivery_days=2, vat=Decimal('20.00'))]
-        shippingmethod2.reindexObject()
-        return (shippingmethod1, shippingmethod2)
-
-    def create_shipping_method(self, cart, orig_uuid):
-        shipping_method = createContentInContainer(cart, 'collective.cart.shipping.CartShippingMethod',
-            id='cart-shipping-method', orig_uuid=orig_uuid, checkConstraints=False,
-            vat_rate=Decimal('10.00'))
-        modified(shipping_method)
-        return shipping_method
-
-    def test_shipping_gross_money__with_shipping_method(self):
+    def test_shipping_net_money(self):
         from collective.cart.shopping.interfaces import ICartAdapter
-        shop = self.create_shop()
-        cart = self.create_cart(shop=shop)
-        self.create_articles(cart)
-        shipping_methods = self.create_shipping_methods(shop)
-        self.create_shipping_method(cart, IUUID(shipping_methods[0]))
-        self.assertEqual(ICartAdapter(cart).shipping_gross_money, Money(0.50, currency='EUR'))
-        self.assertEqual(ICartAdapter(cart).shipping_net_money, Money(0.45, currency='EUR'))
-        self.assertEqual(ICartAdapter(cart).shipping_vat_money, Money(0.05, currency='EUR'))
+        cart = self.create_cart()
+        adapter = ICartAdapter(cart)
+        gross = self.money('24.80')
+        vat = self.money('4.80')
+        net = self.money('20.00')
+        self.create_cart_shipping_method(cart, gross=gross, net=net, vat=vat)
+        self.assertEqual(adapter.shipping_net_money, net)
 
-    def test_update_shipping_method(self):
-        """Test method: update_shipping_method."""
+    def test_shipping_vat_money(self):
         from collective.cart.shopping.interfaces import ICartAdapter
-        shop = self.create_shop()
-        shipping_methods = self.create_shipping_methods(shop)
-        cart = self.create_cart(shop)
-        self.create_articles(cart)
-        ICartAdapter(cart).update_shipping_method()
-        shipping_method = ICartAdapter(cart).shipping_method
-        sm = [sm for sm in shipping_methods if IUUID(sm) == shipping_method.orig_uuid][0]
-        self.assertEqual(shipping_method.Title, sm.Title())
-        self.assertEqual(shipping_method.min_delivery_days, sm.min_delivery_days)
-        self.assertEqual(shipping_method.max_delivery_days, sm.max_delivery_days)
-        self.assertEqual(shipping_method.vat_rate, sm.vat)
-        self.assertEqual(ICartAdapter(cart).shipping_gross_money, Money(0.50, currency='EUR'))
-        self.assertEqual(ICartAdapter(cart).shipping_net_money, Money(0.45, currency='EUR'))
-        self.assertEqual(ICartAdapter(cart).shipping_vat_money, Money(0.05, currency='EUR'))
+        cart = self.create_cart()
+        adapter = ICartAdapter(cart)
+        gross = self.money('24.80')
+        vat = self.money('4.80')
+        net = self.money('20.00')
+        self.create_cart_shipping_method(cart, gross=gross, net=net, vat=vat)
+        self.assertEqual(adapter.shipping_vat_money, vat)
 
-        # Add another article to cart.
-        article3 = createContentInContainer(cart, 'collective.cart.core.CartArticle',
-            id='article3', weight=300.0, quantity=3, gross=Money(30.0, currency=u'EUR'), orig_uuid='UUID')
-        modified(article3)
+    def create_customer_info(self, cart, name):
+        info = createContentInContainer(cart, 'collective.cart.shopping.CustomerInfo',
+            checkConstraints=False, id=name)
+        modified(info)
+        return info
 
-        # Update shipping method.
-        ICartAdapter(cart).update_shipping_method()
-        self.assertEqual(ICartAdapter(cart).shipping_gross_money, Money(1.40, currency='EUR'))
-        self.assertEqual(ICartAdapter(cart).shipping_net_money, Money(1.26, currency='EUR'))
-        self.assertEqual(ICartAdapter(cart).shipping_vat_money, Money(0.14, currency='EUR'))
+    def test_get_address(self):
+        from collective.cart.shopping.interfaces import ICartAdapter
+        cart = self.create_cart()
+        adapter = ICartAdapter(cart)
+        self.assertIsNone(adapter.get_address('something'))
+        self.assertIsNone(adapter.get_address('billing'))
+        self.assertIsNone(adapter.get_address('shipping'))
 
-        self.assertEqual(shipping_methods[1].Title(), 'ShippingMethod2')
-        ICartAdapter(cart).update_shipping_method(uuid=IUUID(shipping_methods[1]))
-        shipping_method = ICartAdapter(cart).shipping_method
-        sm = [smethod for smethod in shipping_methods if IUUID(smethod) == shipping_method.orig_uuid][0]
-        self.assertEqual(shipping_method.Title, sm.Title())
-        self.assertEqual(shipping_method.min_delivery_days, sm.min_delivery_days)
-        self.assertEqual(shipping_method.max_delivery_days, sm.max_delivery_days)
-        self.assertEqual(shipping_method.vat_rate, sm.vat)
-        self.assertEqual(ICartAdapter(cart).shipping_gross_money, Money(1.40, currency='EUR'))
-        self.assertEqual(ICartAdapter(cart).shipping_net_money, Money(1.12, currency='EUR'))
-        self.assertEqual(ICartAdapter(cart).shipping_vat_money, Money(0.28, currency='EUR'))
+        something = self.create_customer_info(cart, 'something')
+        self.assertEqual(adapter.get_address('something').getObject(), something)
+        self.assertIsNone(adapter.get_address('billing'))
+        self.assertIsNone(adapter.get_address('shipping'))
+
+        billing = self.create_customer_info(cart, 'billing')
+        self.assertEqual(adapter.get_address('something').getObject(), something)
+        self.assertEqual(adapter.get_address('billing').getObject(), billing)
+        self.assertEqual(adapter.get_address('shipping').getObject(), billing)
+
+        cart.billing_same_as_shipping = False
+        self.assertEqual(adapter.get_address('something').getObject(), something)
+        self.assertEqual(adapter.get_address('billing').getObject(), billing)
+        self.assertIsNone(adapter.get_address('shipping'))
+
+        shipping = self.create_customer_info(cart, 'shipping')
+        self.assertEqual(adapter.get_address('something').getObject(), something)
+        self.assertEqual(adapter.get_address('billing').getObject(), billing)
+        self.assertEqual(adapter.get_address('shipping').getObject(), shipping)

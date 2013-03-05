@@ -2,6 +2,7 @@ from collective.cart.shopping.interfaces import IShoppingSite
 
 
 class Message(object):
+    """Messages for shopping site root templates"""
 
     @property
     def message(self):

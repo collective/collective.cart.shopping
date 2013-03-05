@@ -21,7 +21,7 @@ Add Article1::
     >>> browser.open('/shop/article-container/++add++collective.cart.core.Article')
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
     >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Ärticle1'
-    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU1'
+    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKÖ1'
     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '24.60'
     >>> browser.getControl(name="form.widgets.ISize.weight").value = '100.0'
     >>> browser.getControl(name="form.buttons.save").click()
@@ -70,7 +70,7 @@ There should be one article in cart::
     --- 1 ---
     <section id="cart-articles"><table><tbody><tr><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
-    <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png"></a>
+    <img src="http://nohost/plone/fallback.png"></a>
     </td>
     <td class="name">
     <h3>
@@ -80,12 +80,12 @@ There should be one article in cart::
     </td>
     <td class="price-and-quantity">
     <form method="post" action="http://nohost/plone/shop/@@cart">
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="1">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="1">
     &#160;&#215;&#160;
     <span class="gross">24.60 &#8364;</span>
     <br><span class="vat">Including VAT: 23.00 %</span>
-    <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="1">Update</button>
-    <button class="shopping-button remove" name="form.delete.article" type="submit" value="1">Delete</button>
+    <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="...">Update</button>
+    <button class="shopping-button remove" name="form.delete.article" type="submit" value="...">Delete</button>
     </section></form>
     </td>
     </tr></tbody></table></section>
@@ -105,8 +105,6 @@ Back to Article1 and add more articles::
     >>> browser.getControl(name="quantity").value = '100'
     >>> browser.getControl(name="form.buttons.AddToCart").click()
     >>> print browser.bycss('.sold-out')
-    --- 1 ---
-    <p class="sold-out">Sold Out</p>
 
 Go to cart::
 
@@ -116,7 +114,7 @@ Go to cart::
     --- 1 ---
     <section id="cart-articles"><table><tbody><tr><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
-    <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png"></a>
+    <img src="http://nohost/plone/fallback.png"></a>
     </td>
     <td class="name">
     <h3>
@@ -126,12 +124,12 @@ Go to cart::
     </td>
     <td class="price-and-quantity">
     <form method="post" action="http://nohost/plone/shop/@@cart">
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="100">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="100">
     &#160;&#215;&#160;
     <span class="gross">24.60 &#8364;</span>
     <br><span class="vat">Including VAT: 23.00 %</span>
-    <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="1">Update</button>
-    <button class="shopping-button remove" name="form.delete.article" type="submit" value="1">Delete</button>
+    <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="...">Update</button>
+    <button class="shopping-button remove" name="form.delete.article" type="submit" value="...">Delete</button>
     </section></form>
     </td>
     </tr></tbody></table></section>
@@ -166,6 +164,15 @@ Adding more articles uses price which is already in cart::
     >>> browser.open('/shop/article-container/article1')
     >>> print browser.bycss('.stock')
     --- 1 ---
+    <span class="stock">Stock: 0 pcs</span>
+
+Change reducible quantity for Ärticle1::
+
+    >>> browser.open('/shop/article-container/article1/edit')
+    >>> browser.getControl(name="form.widgets.IStock.reducible_quantity").value = '150'
+    >>> browser.getControl(name="form.buttons.save").click()
+    >>> print browser.bycss('.stock')
+    --- 1 ---
     <span class="stock">Stock: 50 pcs</span>
 
     >>> browser.getControl(name="quantity").value = '10'
@@ -177,7 +184,7 @@ Adding more articles uses price which is already in cart::
     --- 1 ---
     <section id="cart-articles"><table><tbody><tr><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
-    <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png"></a>
+    <img src="http://nohost/plone/fallback.png"></a>
     </td>
     <td class="name">
     <h3>
@@ -187,12 +194,12 @@ Adding more articles uses price which is already in cart::
     </td>
     <td class="price-and-quantity">
     <form method="post" action="http://nohost/plone/shop/@@cart">
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="110">
+    <input id="quantity" min="0" name="quantity" type="number" max="150" maxlength="3" size="3" value="110">
     &#160;&#215;&#160;
     <span class="gross">24.60 &#8364;</span>
     <br><span class="vat">Including VAT: 23.00 %</span>
-    <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="1">Update</button>
-    <button class="shopping-button remove" name="form.delete.article" type="submit" value="1">Delete</button>
+    <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="...">Update</button>
+    <button class="shopping-button remove" name="form.delete.article" type="submit" value="...">Delete</button>
     </section></form>
     </td>
     </tr></tbody></table></section>
@@ -213,7 +220,7 @@ Update quantity which is not integer::
     </dl>
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="110">
+    <input id="quantity" min="0" name="quantity" type="number" max="150" maxlength="3" size="3" value="110">
     &#160;&#215;&#160;
 
 Update quantity with integer::
@@ -222,7 +229,7 @@ Update quantity with integer::
     >>> browser.getControl(name="form.update.article").click()
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="90">
+    <input id="quantity" min="0" name="quantity" type="number" max="150" maxlength="3" size="3" value="90">
     &#160;&#215;&#160;
     >>> print browser.bycss('#cart-total')
     --- 1 ---
@@ -247,7 +254,7 @@ Add Ärticle11 under Ärticle1::
     >>> browser.open('/shop/article-container/article1/++add++collective.cart.core.Article')
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle11'
     >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Ärticle11.'
-    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU11'
+    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKÖ11'
     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '10.00'
     >>> browser.getControl(name="form.widgets.ISize.weight").value = '200.0'
     >>> browser.getControl(name="form.buttons.save").click()
@@ -279,7 +286,7 @@ Go to cart::
     --- 1 ---
     <section id="cart-articles"><table><tbody><tr><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
-    <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png"></a>
+    <img src="http://nohost/plone/fallback.png"></a>
     </td>
     <td class="name">
     <h3>
@@ -289,17 +296,17 @@ Go to cart::
     </td>
     <td class="price-and-quantity">
     <form method="post" action="http://nohost/plone/shop/@@cart">
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="110">
+    <input id="quantity" min="0" name="quantity" type="number" max="150" maxlength="3" size="3" value="110">
     &#160;&#215;&#160;
     <span class="gross">24.60 &#8364;</span>
     <br><span class="vat">Including VAT: 23.00 %</span>
-    <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="1">Update</button>
-    <button class="shopping-button remove" name="form.delete.article" type="submit" value="1">Delete</button>
+    <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="...">Update</button>
+    <button class="shopping-button remove" name="form.delete.article" type="submit" value="...">Delete</button>
     </section></form>
     </td>
     </tr><tr><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1/article11" title="&#196;rticle11">
-    <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png"></a>
+    <img src="http://nohost/plone/fallback.png"></a>
     </td>
     <td class="name">
     <h3>
@@ -309,12 +316,12 @@ Go to cart::
     </td>
     <td class="price-and-quantity">
     <form method="post" action="http://nohost/plone/shop/@@cart">
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="10">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="10">
     &#160;&#215;&#160;
     <span class="gross">10.00 &#8364;</span>
     <br><span class="vat">Including VAT: 23.00 %</span>
-    <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="2">Update</button>
-    <button class="shopping-button remove" name="form.delete.article" type="submit" value="2">Delete</button>
+    <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="...">Update</button>
+    <button class="shopping-button remove" name="form.delete.article" type="submit" value="...">Delete</button>
     </section></form>
     </td>
     </tr></tbody></table></section>
@@ -347,10 +354,10 @@ Go to cart::
     >>> browser.open('/shop/@@cart')
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="110">
+    <input id="quantity" min="0" name="quantity" type="number" max="150" maxlength="3" size="3" value="110">
     &#160;&#215;&#160;
     --- 2 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="30">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="30">
     &#160;&#215;&#160;
 
     >>> print browser.bycss('#cart-total')
@@ -375,10 +382,10 @@ Go to cart::
     >>> browser.open('/shop/@@cart')
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="110">
+    <input id="quantity" min="0" name="quantity" type="number" max="150" maxlength="3" size="3" value="110">
     &#160;&#215;&#160;
     --- 2 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="40">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="40">
     &#160;&#215;&#160;
 
     >>> print browser.bycss('#cart-total')
@@ -411,7 +418,7 @@ Add Ärticle111 to Ärticle11::
     >>> browser.open('/shop/article-container/article1/article11/++add++collective.cart.core.Article')
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle111'
     >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Ärticle111.'
-    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU111'
+    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKÖ111'
     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '36.90'
     >>> browser.getControl(name="form.widgets.ISize.weight").value = '100.0'
     >>> browser.getControl(name="form.buttons.save").click()
@@ -439,13 +446,13 @@ Go to cart::
     >>> browser.open('/shop/@@cart')
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="110">
+    <input id="quantity" min="0" name="quantity" type="number" max="150" maxlength="3" size="3" value="110">
     &#160;&#215;&#160;
     --- 2 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="40">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="40">
     &#160;&#215;&#160;
     --- 3 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="10">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="10">
     &#160;&#215;&#160;
 
     >>> print browser.bycss('#cart-total')
@@ -460,10 +467,10 @@ Delete Article1::
 
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="40">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="40">
     &#160;&#215;&#160;
     --- 2 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="10">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="10">
     &#160;&#215;&#160;
 
     >>> print browser.bycss('#cart-total')
@@ -481,15 +488,15 @@ Update Article111 over the stock::
     ...
     --- 2 ---
     <dl class="portalMessage info"><dt>Info</dt>
-    <dd>No more than 100 can be added to cart for &#196;rticle111</dd>
+    <dd>No more than 100 can be added to cart for &#196;rticle11 &#196;rticle111</dd>
     </dl>
 
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="40">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="40">
     &#160;&#215;&#160;
     --- 2 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="100">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="100">
     &#160;&#215;&#160;
 
     >>> print browser.bycss('#cart-total')
@@ -515,10 +522,10 @@ Update Article111 with appropriate quantity::
 
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="40">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="40">
     &#160;&#215;&#160;
     --- 2 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="20">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="20">
     &#160;&#215;&#160;
 
     >>> print browser.bycss('#cart-total')
@@ -545,7 +552,7 @@ Update Article111 to zero should remove the article::
 
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="40">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="40">
     &#160;&#215;&#160;
 
     >>> print browser.bycss('#cart-total')
@@ -553,3 +560,17 @@ Update Article111 to zero should remove the article::
     <section id="cart-total"><span>Total</span>&#160;&#160;
     <span id="total">400.00 &#8364;</span>
     </section>
+
+Add Article11 to cart::
+
+    >>> browser.open('/shop/article-container/article1/article11/article111')
+    >>> browser.getControl(name="quantity").value = '10'
+    >>> browser.getControl(name="form.buttons.AddToCart").click()
+
+Go to cart and clear::
+
+    >>> browser.open('/shop/@@cart')
+    >>> browser.getControl(name="form.clear.cart").click()
+    >>> print browser.bycss('#cart-is-empty')
+    --- 1 ---
+    <p id="cart-is-empty">Cart is empty.</p>

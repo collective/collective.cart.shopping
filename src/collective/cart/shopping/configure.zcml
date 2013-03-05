@@ -22,6 +22,7 @@
   <i18n:registerTranslations directory="locales" />
 
   <include package=".browser" />
+  <include package=".utility" />
 
   <genericsetup:registerProfile
     description="Installs the collective.cart.shopping package"

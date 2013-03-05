@@ -34,7 +34,7 @@ Add Article::
     >>> browser.open('/shop/article-container/++add++collective.cart.core.Article')
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
     >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Description of Ärticle1'
-    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU1'
+    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKÖ1'
     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '12.30'
     >>> browser.getControl(name="form.widgets.ISize.weight").value = '100.0'
     >>> browser.getControl(name="form.buttons.save").click()
@@ -47,7 +47,7 @@ Add Article::
 
     >>> print browser.bycss('.documentDescription')
     --- 1 ---
-    <p class="documentDescription">Description of &#196;rticle1</p>
+    <div class="documentDescription">Description of &#196;rticle1</div>
 
     >>> print browser.bycss('.sold-out')
     --- 1 ---
@@ -68,16 +68,15 @@ Go to Ärticle1::
 
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <div id="add-to-cart">
-    <form method="post" action="http://nohost/plone/shop/article-container/article1/view">
+    <section id="add-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article1/view">
     <section id="money"><p id="price" class="gross">12.30 &#8364;</p>
     <p id="vat">Including VAT: 23.00 %</p>
     </section><label>Quantity</label>
-    <input id="quantity" name="quantity" type="text" value="1" maxlength="3" size="3"><span id="pcs">pcs</span>
+    <input id="quantity" min="1" name="quantity" required="required" type="number" value="1" max="100" maxlength="3" size="3"><span id="pcs">pcs</span>
     <span class="stock">Stock: 100 pcs</span>
     <button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </form>
-    </div>
+    </section>
 
     >>> print browser.bycss('.sold-out')
 
@@ -89,27 +88,36 @@ Go to Ärticle1::
     >>> article1.net_money
     10.00 EUR
 
+Go to cart::
+
+    >>> browser.open('/shop/@@cart')
+    >>> print browser.bycss('#cart-is-empty')
+    --- 1 ---
+    <p id="cart-is-empty">Cart is empty.</p>
+
+Go to Ärticle1 and add to cart::
+
+    >>> browser.open(article1_url)
     >>> browser.getControl(name="form.buttons.AddToCart").click()
 
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <div id="add-to-cart">
-    <form method="post" action="http://nohost/plone/shop/article-container/article1/view">
+    <section id="add-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article1/view">
     <section id="money"><p id="price" class="gross">12.30 &#8364;</p>
     <p id="vat">Including VAT: 23.00 %</p>
     </section><label>Quantity</label>
-    <input id="quantity" name="quantity" type="text" value="1" maxlength="2" size="2"><span id="pcs">pcs</span>
+    <input id="quantity" min="1" name="quantity" required="required" type="number" value="1" max="99" maxlength="2" size="2"><span id="pcs">pcs</span>
     <span class="stock">Stock: 99 pcs</span>
     <button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </form>
-    </div>
+    </section>
 
 Check Stöck1::
 
     >>> browser.open('/shop/article-container/article1/stock1')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
-    <span id="form-widgets-stock" class="text-widget required int-field">99</span>
+    <span id="form-widgets-stock" class="text-widget required int-field">100</span>
 
 Check Cart::
 
@@ -118,7 +126,7 @@ Check Cart::
     --- 1 ---
     <section class="checkout-content cart"><section id="cart-articles"><table><tbody><tr><td class="image">
     <a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
-    <img src="http://nohost/plone/++theme++slt.theme/images/fallback.png"></a>
+    <img src="http://nohost/plone/fallback.png"></a>
     </td>
     <td class="name">
     <h3>
@@ -128,15 +136,14 @@ Check Cart::
     </td>
     <td class="price-and-quantity">
     <form method="post" action="http://nohost/plone/shop/@@cart">
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="1">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="1">
     &#160;&#215;&#160;
     <span class="gross">12.30 &#8364;</span>
     <br><span class="vat">Including VAT: 23.00 %</span>
-    <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="1">Update</button>
-    <button class="shopping-button remove" name="form.delete.article" type="submit" value="1">Delete</button>
+    <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="...">Update</button>
+    <button class="shopping-button remove" name="form.delete.article" type="submit" value="...">Delete</button>
     </section></form>
-    </td>
-    </tr>...
+    ...
 
 Go to Ärticle1 and add more to cart::
 
@@ -145,30 +152,29 @@ Go to Ärticle1 and add more to cart::
     >>> browser.getControl(name="form.buttons.AddToCart").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <div id="add-to-cart">
-    <form method="post" action="http://nohost/plone/shop/article-container/article1/view">
+    <section id="add-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article1/view">
     <section id="money"><p id="price" class="gross">12.30 &#8364;</p>
     <p id="vat">Including VAT: 23.00 %</p>
     </section><label>Quantity</label>
-    <input id="quantity" name="quantity" type="text" value="1" maxlength="2" size="2"><span id="pcs">pcs</span>
+    <input id="quantity" min="1" name="quantity" required="required" type="number" value="1" max="90" maxlength="2" size="2"><span id="pcs">pcs</span>
     <span class="stock">Stock: 90 pcs</span>
     <button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </form>
-    </div>
+    </section>
 
 Check Stöck1::
 
     >>> browser.open('/shop/article-container/article1/stock1')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
-    <span id="form-widgets-stock" class="text-widget required int-field">90</span>
+    <span id="form-widgets-stock" class="text-widget required int-field">100</span>
 
 Check Cart::
 
     >>> browser.open('/shop/@@cart')
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="10">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="10">
     &#160;&#215;&#160;
 
 Add another Article::
@@ -207,16 +213,15 @@ Go to Ärtile2:
     >>> browser.open(article2_url)
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <div id="add-to-cart">
-    <form method="post" action="http://nohost/plone/shop/article-container/article2/view">
+    <section id="add-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article2/view">
     <section id="money"><p id="price" class="gross">24.60 &#8364;</p>
     <p id="vat">Including VAT: 23.00 %</p>
     </section><label>Quantity</label>
-    <input id="quantity" name="quantity" type="text" value="1" maxlength="2" size="2"><span id="pcs">pcs</span>
+    <input id="quantity" min="1" name="quantity" required="required" type="number" value="1" max="30" maxlength="2" size="2"><span id="pcs">pcs</span>
     <span class="stock">Stock: 30 pcs</span>
     <button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </form>
-    </div>
+    </section>
 
 Add to Cart::
 
@@ -224,23 +229,22 @@ Add to Cart::
     >>> browser.getControl(name="form.buttons.AddToCart").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <div id="add-to-cart">
-    <form method="post" action="http://nohost/plone/shop/article-container/article2/view">
+    <section id="add-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article2/view">
     <section id="money"><p id="price" class="gross">24.60 &#8364;</p>
     <p id="vat">Including VAT: 23.00 %</p>
     </section><label>Quantity</label>
-    <input id="quantity" name="quantity" type="text" value="1" maxlength="2" size="2"><span id="pcs">pcs</span>
+    <input id="quantity" min="1" name="quantity" required="required" type="number" value="1" max="25" maxlength="2" size="2"><span id="pcs">pcs</span>
     <span class="stock">Stock: 25 pcs</span>
     <button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </form>
-    </div>
+    </section>
 
 Check Stöck2::
 
     >>> browser.open('/shop/article-container/article2/stock2')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
-    <span id="form-widgets-stock" class="text-widget required int-field">15</span>
+    <span id="form-widgets-stock" class="text-widget required int-field">20</span>
 
 Check Stöck3::
 
@@ -281,12 +285,11 @@ Check Cart::
 
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="10">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="10">
     &#160;&#215;&#160;
     --- 2 ---
-    <input id="quantity" name="quantity" type="text" maxlength="2" size="2" value="5">
+    <input id="quantity" min="0" name="quantity" type="number" max="30" maxlength="2" size="2" value="5">
     &#160;&#215;&#160;
-
 
 Go to Ärticle2 and add more to cart::
 
@@ -294,38 +297,35 @@ Go to Ärticle2 and add more to cart::
     >>> browser.getControl(name="quantity").value = '25'
     >>> browser.getControl(name="form.buttons.AddToCart").click()
     >>> print browser.bycss('.sold-out')
-    --- 1 ---
-    <p class="sold-out">Sold Out</p>
 
 Check Stöck2::
 
     >>> browser.open('/shop/article-container/article2/stock2')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
-    <span id="form-widgets-stock" class="text-widget required int-field">0</span>
+    <span id="form-widgets-stock" class="text-widget required int-field">20</span>
 
 Check Stöck3::
 
     >>> browser.open('/shop/article-container/article2/stock3')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
-    <span id="form-widgets-stock" class="text-widget required int-field">0</span>
+    <span id="form-widgets-stock" class="text-widget required int-field">10</span>
 
 Check Cart::
 
     >>> browser.open('/shop/@@cart')
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" name="quantity" type="text" maxlength="3" size="3" value="10">
+    <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="10">
     &#160;&#215;&#160;
     --- 2 ---
-    <input id="quantity" name="quantity" type="text" maxlength="2" size="2" value="30">
+    <input id="quantity" min="0" name="quantity" type="number" max="30" maxlength="2" size="2" value="30">
     &#160;&#215;&#160;
 
 Delete Ärticle1::
 
-    >>> query = {'form.delete.article': '1'}
-    >>> browser.post(browser.url, query)
+    >>> browser.getControl(name="form.delete.article", index=0).click()
     >>> print browser.bycss('.name')
     --- 1 ---
     <td class="name">
@@ -348,16 +348,15 @@ Go to Ärticle1::
 
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <div id="add-to-cart">
-    <form method="post" action="http://nohost/plone/shop/article-container/article1/view">
+    <section id="add-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article1/view">
     <section id="money"><p id="price" class="gross">12.30 &#8364;</p>
     <p id="vat">Including VAT: 23.00 %</p>
     </section><label>Quantity</label>
-    <input id="quantity" name="quantity" type="text" value="1" maxlength="3" size="3"><span id="pcs">pcs</span>
+    <input id="quantity" min="1" name="quantity" required="required" type="number" value="1" max="100" maxlength="3" size="3"><span id="pcs">pcs</span>
     <span class="stock">Stock: 100 pcs</span>
     <button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </form>
-    </div>
+    </section>
 
 Go to Cart::
 
@@ -365,18 +364,18 @@ Go to Cart::
 
 Update Ärticle2 in Cart::
 
-    >>> query = {'form.update.article': '2'}
-    >>> browser.post(browser.url, query)
+    >>> browser.getControl(name="quantity").value = '2'
+    >>> browser.getControl(name="form.update.article").click()
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" name="quantity" type="text" maxlength="2" size="2" value="30">
+    <input id="quantity" min="0" name="quantity" type="number" max="30" maxlength="2" size="2" value="2">
     &#160;&#215;&#160;
 
-    >>> query = {'quantity': '20', 'form.update.article': '2'}
-    >>> browser.post(browser.url, query)
+    >>> browser.getControl(name="quantity").value = '20'
+    >>> browser.getControl(name="form.update.article").click()
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" name="quantity" type="text" maxlength="2" size="2" value="20">
+    <input id="quantity" min="0" name="quantity" type="number" max="30" maxlength="2" size="2" value="20">
     &#160;&#215;&#160;
 
 Check Stöck2::
@@ -384,7 +383,7 @@ Check Stöck2::
     >>> browser.open('/shop/article-container/article2/stock2')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
-    <span id="form-widgets-stock" class="text-widget required int-field">0</span>
+    <span id="form-widgets-stock" class="text-widget required int-field">20</span>
 
 Check Stöck3::
 
@@ -393,25 +392,13 @@ Check Stöck3::
     --- 1 ---
     <span id="form-widgets-stock" class="text-widget required int-field">10</span>
 
-Go to Cart Container:
+Delete Ärticle2 from cart by updating cart with value zero::
 
-    >>> browser.open('/shop/cart-container')
-    >>> print browser.bycss('#order-list')
+    >>> browser.open('/shop/@@cart')
+    >>> browser.getControl(name="quantity").value = '0'
+    >>> browser.getControl(name="form.update.article").click()
+    >>> print browser.bycss('#quantity')
+
+    >>> print browser.bycss('#cart-is-empty')
     --- 1 ---
-    <table class="listing" id="order-list"><thead><tr><th>No.</th>
-    <th>Updated</th>
-    <th>Owner</th>
-    <th>State</th>
-    <th>Change State</th>
-    </tr></thead><tbody><tr><td class="cart-id">
-    <a href="http://nohost/plone/shop/cart-container/1">1</a>
-    </td>
-    <td class="cart-updated">...</td>
-    <td class="cart-owner">test_user_1_</td>
-    <td class="cart-state">Created</td>
-    <td>
-    <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
-    <input name="cart-id" type="hidden" value="1"><button name="form.buttons.ChangeState" type="submit" value="canceled">Canceled</button>
-    </form>
-    </td>
-    </tr></tbody></table>
+    <p id="cart-is-empty">Cart is empty.</p>

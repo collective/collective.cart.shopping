@@ -1,0 +1,15 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <utility
+    component=".price.float_price"
+    name="float" />
+
+  <utility
+    component=".price.decimal_price"
+    name="decimal" />
+
+  <utility
+    component=".price.string_price"
+    name="string" />
+
+</configure>
