@@ -421,8 +421,7 @@ class BillingInfoViewlet(BaseShoppingSiteRootViewlet):
                     shopping_site.update_cart('billing_same_as_shipping', False)
                     url = '{}/@@shipping-info'.format(shop_url)
 
-                if shopping_site.shipping_method['uuid'] != shipping_method:
-                    shopping_site.update_shipping_method(shipping_method)
+                shopping_site.update_shipping_method(shipping_method)
 
                 # notify(BillingAddressConfirmedEvent(cart))
 
