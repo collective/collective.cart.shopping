@@ -265,6 +265,50 @@ class ShoppingSite(BaseShoppingSite):
         if brain:
             return self.get_brain(IATDocument, path=brain.getPath(), depth=1)
 
+    def update_address(self, name, data):
+        """Update address of cart in session.
+
+        :param name: Name of address, such as billing and shipping.
+        :type name: str
+
+        :param data: Form data.
+        :type data: dict
+
+        :rtype: unicode or None
+        """
+        message = None
+
+        if not data.get('first_name'):
+            message = _(u'First name is missing.')
+
+        elif not data.get('last_name'):
+            message = _(u'Last name is missing.')
+
+        elif not data.get('email') or validation.validatorFor('isEmail')(data.get('email')) != 1:
+            message = _(u'Invalid e-mail address.')
+
+        elif not data.get('street'):
+            message = _(u'Street address is missing.')
+
+        elif not data.get('city'):
+            message = _(u'City is missing.')
+
+        elif not data.get('phone'):
+            message = _(u'Phone number is missing.')
+
+        else:
+            address = self.get_address(name)
+            if address is not None:
+                for key in data:
+                    value = data.get(key)
+                    if address.get(key) != value:
+                        address[key] = value
+            else:
+                address = data
+            self.update_cart(name, address)
+
+        return message
+
 
 class ShoppingSiteMultiAdapter(grok.MultiAdapter):
 

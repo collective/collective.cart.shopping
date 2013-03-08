@@ -339,9 +339,14 @@ class ArticleAdapterTestCase(IntegrationTestCase):
         adapter = IArticleAdapter(article1)
         self.assertEqual(adapter.title, 'Ärticle1')
 
-        article2 = self.create_content('collective.cart.core.Article', article1, title='Ärticle2', sku='SKÖ1', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article2 = self.create_content('collective.cart.core.Article', article1, title='Ärticle2', sku='SKÖ2', money=self.money('12.40'), vat=self.decimal('24.00'))
         adapter = IArticleAdapter(article2)
-        self.assertEqual(adapter.title, 'Ärticle2')
-
-        article1.use_subarticle = True
         self.assertEqual(adapter.title, 'Ärticle1 Ärticle2')
+
+        article3 = self.create_content('collective.cart.core.Article', article2, title='Ärticle3', sku='SKÖ3', money=self.money('12.40'), vat=self.decimal('24.00'))
+        adapter = IArticleAdapter(article3)
+        self.assertEqual(adapter.title, 'Ärticle1 Ärticle2 Ärticle3')
+
+        article4 = self.create_content('collective.cart.core.Article', article3, title='Ärticle4', sku='SKÖ4', money=self.money('12.40'), vat=self.decimal('24.00'))
+        adapter = IArticleAdapter(article4)
+        self.assertEqual(adapter.title, 'Ärticle2 Ärticle3 Ärticle4')

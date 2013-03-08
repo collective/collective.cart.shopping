@@ -104,8 +104,8 @@ Should not be able to visit /@@order-confirmation::
 
 Fill billing info::
 
-    >>> browser.getControl(name="first-name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last-name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
     >>> browser.getControl(name="organization").value = 'Billing Örganization'
     >>> browser.getControl(name="vat").value = 'FI1234567890'
     >>> browser.getControl(name="email").value = 'first.last@email.bil'

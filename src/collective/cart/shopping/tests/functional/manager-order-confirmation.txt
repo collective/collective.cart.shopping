@@ -65,8 +65,8 @@ Check Out::
 
 Fill Billing Info::
 
-    >>> browser.getControl(name="first-name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last-name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
     >>> browser.getControl(name="organization").value = 'Billing Örganization'
     >>> browser.getControl(name="vat").value = 'Fı1234567890'
     >>> browser.getControl(name="email").value = 'first.last@email.bil'
@@ -94,7 +94,7 @@ Check the newest message sent::
     Content-Type: text/plain; charset="utf-8"
     Content-Transfer-Encoding: quoted-printable
     CC: email@from.address
-    Subject: =?utf-8?q?Ordered?=
+    Subject: =?utf-8?q?Order_Number=3A_1?=
     To: first.last@email.bil
     From: email@from.address
     Date: ...
@@ -153,8 +153,8 @@ Check Out::
 
 Fill Billing Info with different info for shipping address::
 
-    >>> browser.getControl(name="first-name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last-name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
     >>> browser.getControl(name="organization").value = 'Billing Örganization'
     >>> browser.getControl(name="vat").value = 'Fı1234567890'
     >>> browser.getControl(name="email").value = 'first.last@email.bil'
@@ -167,8 +167,8 @@ Fill Billing Info with different info for shipping address::
 
 Update Shipping Info::
 
-    >>> browser.getControl(name="first-name").value = 'Shipping First Näme'
-    >>> browser.getControl(name="last-name").value = 'Shipping Last Näme'
+    >>> browser.getControl(name="first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="last_name").value = 'Shipping Last Näme'
     >>> browser.getControl(name="organization").value = 'Shipping Örganization'
     >>> browser.getControl(name="vat").value = 'SHIPPING1234567890'
     >>> browser.getControl(name="email").value = 'first.last@email.shi'
@@ -193,7 +193,7 @@ Check the newest message sent::
     Content-Type: text/plain; charset="utf-8"
     Content-Transfer-Encoding: quoted-printable
     CC: email@from.address
-    Subject: =?utf-8?q?Ordered?=
+    Subject: =?utf-8?q?Order_Number=3A_2?=
     To: first.last@email.bil
     From: email@from.address
     Date: ...
@@ -228,10 +228,10 @@ Check the newest message sent::
     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
     =3D=3D=3D
     SKU: SK=C3=961
-    =C3=84rticle1 x 2 =3D 24.60 =E2=82=AC
+    =C3=84rticle1 x 1 =3D 12.30 =E2=82=AC
     <BLANKLINE>
-    Shipping Method: ShippingMeth=C3=B6d1  0.20 =E2=82=AC
+    Shipping Method: ShippingMeth=C3=B6d1  0.10 =E2=82=AC
     <BLANKLINE>
-    Total: 24.80 =E2=82=AC
+    Total: 12.40 =E2=82=AC
     <BLANKLINE>
     Link to the order: http://nohost/plone/shop/cart-container/2

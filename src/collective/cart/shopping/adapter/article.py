@@ -170,6 +170,9 @@ class ArticleAdapter(BaseArticleAdapter):
         """Title is inherited from parent if parent allow subarticles."""
         title = self.context.Title()
         parent = aq_parent(aq_inner(self.context))
-        if IArticle.providedBy(parent) and parent.use_subarticle:
-            return '{} {}'.format(parent.Title(), title)
+        if IArticle.providedBy(parent):
+            title = '{} {}'.format(parent.Title(), title)
+            parent = aq_parent(parent)
+            if IArticle.providedBy(parent):
+                return '{} {}'.format(parent.Title(), title)
         return title

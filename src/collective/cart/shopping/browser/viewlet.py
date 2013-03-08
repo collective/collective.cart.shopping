@@ -346,87 +346,38 @@ class BillingInfoViewlet(BaseShoppingSiteRootViewlet):
         shopping_site = IShoppingSite(self.context)
         shop_url = shopping_site.shop.absolute_url()
         if form.get('form.buttons.back') is not None:
-            IShoppingSite(self.context).shop
+            shopping_site.shop
             url = '{}/@@cart'.format(shop_url)
             return self.request.response.redirect(url)
         if form.get('form.to.confirmation') is not None:
+
+            data = form.copy()
+            del data['form.to.confirmation']
+
+            if data.pop('billing-and-shipping-same-or-different', 'different') == 'same':
+                shopping_site.update_cart('billing_same_as_shipping', True)
+                url = '{}/@@order-confirmation'.format(shop_url)
+            else:
+                shopping_site.update_cart('billing_same_as_shipping', False)
+                url = '{}/@@shipping-info'.format(shop_url)
+
             current_url = self.context.restrictedTraverse('@@plone_context_state').current_base_url()
-            first_name = form.get('first-name')
-            if not first_name:
-                message = _('First name is missing.')
-                IStatusMessage(self.request).addStatusMessage(message, type='warn')
-                return self.request.response.redirect(current_url)
-            last_name = form.get('last-name')
-            if not last_name:
-                message = _('Last name is missing.')
-                IStatusMessage(self.request).addStatusMessage(message, type='warn')
-                return self.request.response.redirect(current_url)
-            email = form.get('email')
-            email_validation = validation.validatorFor('isEmail')
-            if email_validation(email) != 1:
-                message = _('Invalid e-mail address.')
-                IStatusMessage(self.request).addStatusMessage(message, type='warn')
-                return self.request.response.redirect(current_url)
-            street = form.get('street')
-            if not street:
-                message = _('Street address is missing.')
-                IStatusMessage(self.request).addStatusMessage(message, type='warn')
-                return self.request.response.redirect(current_url)
-            city = form.get('city')
-            if not city:
-                message = _('City is missing.')
-                IStatusMessage(self.request).addStatusMessage(message, type='warn')
-                return self.request.response.redirect(current_url)
-            phone = form.get('phone')
-            if not phone:
-                message = _('Phone number is missing.')
-                IStatusMessage(self.request).addStatusMessage(message, type='warn')
-                return self.request.response.redirect(current_url)
-            shipping_method = form.get('shipping-method')
+            shipping_method = data.pop('shipping-method', None)
             if not self.single_shipping_method and not shipping_method:
                 message = _('Select one shipping method.')
                 IStatusMessage(self.request).addStatusMessage(message, type='warn')
                 return self.request.response.redirect(current_url)
 
-            else:
-                organization = form.get('organization')
-                vat = form.get('vat')
-                post = form.get('post')
+            message = shopping_site.update_address('billing', data)
+            if message is not None:
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                return self.request.response.redirect(current_url)
 
-                data = {
-                    'first_name': first_name,
-                    'last_name': last_name,
-                    'organization': organization,
-                    'vat': vat,
-                    'email': email,
-                    'street': street,
-                    'post': post,
-                    'city': city,
-                    'phone': phone,
-                }
+            shopping_site.update_shipping_method(shipping_method)
 
-                billing = shopping_site.get_info('billing')
-                if billing is None:
-                    shopping_site.update_cart('billing', data)
-                else:
-                    for key in data:
-                        if billing[key] != data[key]:
-                            billing[key] = data[key]
-                    shopping_site.update_cart('billing', billing)
+            # notify(BillingAddressConfirmedEvent(cart))
 
-                if form.get('billing-and-shipping-same-or-different') == 'same':
-                    shopping_site.update_cart('billing_same_as_shipping', True)
-                    url = '{}/@@order-confirmation'.format(shop_url)
-                else:
-                    shopping_site.update_cart('billing_same_as_shipping', False)
-                    url = '{}/@@shipping-info'.format(shop_url)
-
-                if shopping_site.shipping_method['uuid'] != shipping_method:
-                    shopping_site.update_shipping_method(shipping_method)
-
-                # notify(BillingAddressConfirmedEvent(cart))
-
-                return self.request.response.redirect(url)
+            return self.request.response.redirect(url)
 
 
 class OrderConfirmationViewletManager(BaseViewletManager):

@@ -7,14 +7,8 @@ from collective.cart.shopping.interfaces import IShoppingSiteMultiAdapter
 from collective.cart.shopping.tests.base import IntegrationTestCase
 from decimal import Decimal
 from moneyed import Money
-from plone.dexterity.utils import createContentInContainer
 from plone.uuid.interfaces import IUUID
-from zope.annotation.interfaces import IAttributeAnnotatable
-from zope.component import getMultiAdapter
 from zope.interface import alsoProvides
-from zope.interface import directlyProvides
-from zope.lifecycleevent import modified
-from zope.publisher.browser import TestRequest
 
 import mock
 
@@ -46,25 +40,10 @@ class ShoppingSiteMultiAdapterTestCase(IntegrationTestCase):
         from collective.cart.shopping.adapter.interface import ShoppingSiteMultiAdapter
         self.assertEqual(getattr(ShoppingSiteMultiAdapter, 'grokcore.component.directive.provides'), IShoppingSiteMultiAdapter)
 
-    def create_adapter(self):
-        request = TestRequest()
-        directlyProvides(request, IAttributeAnnotatable)
-        return getMultiAdapter((self.portal, request), IShoppingSiteMultiAdapter)
-
-    def create_article(self, **kwargs):
-        article = createContentInContainer(self.portal, 'collective.cart.core.Article', checkConstraints=False, **kwargs)
-        modified(article)
-        return article
-
-    def create_stock(self, parent, **kwargs):
-        stock = createContentInContainer(parent, 'collective.cart.stock.Stock', checkConstraints=False, **kwargs)
-        modified(stock)
-        return stock
-
     @mock.patch('collective.cart.shopping.adapter.interface.IStatusMessage')
     @mock.patch('collective.cart.shopping.adapter.interface.getMultiAdapter')
     def test_add_to_cart(self, getMultiAdapter, IStatusMessage):
-        adapter = self.create_adapter()
+        adapter = self.create_multiadapter(IShoppingSiteMultiAdapter)
         self.assertIsNone(adapter.add_to_cart())
 
         getMultiAdapter().current_base_url.return_value = 'URL'
@@ -94,8 +73,8 @@ class ShoppingSiteMultiAdapterTestCase(IntegrationTestCase):
         IStatusMessage().addStatusMessage.assert_called_with(u"Not available to add to cart.", type='warn')
         self.assertEqual(IStatusMessage().addStatusMessage.call_count, 5)
 
-        article1 = self.create_article(id='article1', money=Money(Decimal('12.40'), 'EUR'), vat=Decimal('24.00'), sku="SKÖ1",
-            reducible_quantity=100)
+        article1 = self.create_content('collective.cart.core.Article', id='article1',
+            money=Money(Decimal('12.40'), 'EUR'), vat=Decimal('24.00'), sku="SKÖ1", reducible_quantity=100)
         uuid1 = IUUID(article1)
 
         adapter.request.form = {'subarticle': uuid1, 'quantity': '2'}
@@ -105,7 +84,7 @@ class ShoppingSiteMultiAdapterTestCase(IntegrationTestCase):
 
         alsoProvides(self.portal, IShoppingSiteRoot)
         article1.salable = True
-        self.create_stock(article1, id='stock1', stock=100, reducible_quantity=100)
+        self.create_content('collective.cart.stock.Stock', article1, id='stock1', stock=100, reducible_quantity=100)
 
         self.assertEqual(adapter.add_to_cart(), 'URL')
         self.assertEqual(IStatusMessage().addStatusMessage.call_count, 6)

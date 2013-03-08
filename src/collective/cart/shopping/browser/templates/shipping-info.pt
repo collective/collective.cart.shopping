@@ -30,7 +30,7 @@
                 <span class="required" i18n:domain="plone" i18n:attributes="title" title="title_required"> </span>
               </dt>
               <dd>
-                <input name="first-name" type="text" required="required" tal:attributes="value info/first_name" />
+                <input name="first_name" type="text" required="required" tal:attributes="value info/first_name" />
               </dd>
             </dl>
             <dl class="field">
@@ -39,7 +39,7 @@
                 <span class="required" i18n:domain="plone" i18n:attributes="title" title="title_required"> </span>
               </dt>
               <dd>
-                <input name="last-name" type="text" required="required" tal:attributes="value info/last_name" />
+                <input name="last_name" type="text" required="required" tal:attributes="value info/last_name" />
               </dd>
             </dl>
             <dl class="field">

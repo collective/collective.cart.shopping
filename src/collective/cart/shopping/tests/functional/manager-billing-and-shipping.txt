@@ -59,7 +59,7 @@ Check the shipping method::
 
 Input first name::
 
-    >>> browser.getControl(name="first-name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="first_name").value = 'Shipping First Näme'
     >>> browser.getControl(name="form.to.confirmation").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
@@ -69,8 +69,8 @@ Input first name::
 
 Input first and last name::
 
-    >>> browser.getControl(name="first-name").value = 'Shipping First Näme'
-    >>> browser.getControl(name="last-name").value = 'Shipping Last Näme'
+    >>> browser.getControl(name="first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="last_name").value = 'Shipping Last Näme'
     >>> browser.getControl(name="form.to.confirmation").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
@@ -80,8 +80,8 @@ Input first and last name::
 
 Input first, last name and invalid email::
 
-    >>> browser.getControl(name="first-name").value = 'Shipping First Näme'
-    >>> browser.getControl(name="last-name").value = 'Shipping Last Näme'
+    >>> browser.getControl(name="first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="last_name").value = 'Shipping Last Näme'
     >>> browser.getControl(name="email").value = 'email'
     >>> browser.getControl(name="form.to.confirmation").click()
     >>> print browser.bycss('.warn')
@@ -92,8 +92,8 @@ Input first, last name and invalid email::
 
 Input first, last name and email::
 
-    >>> browser.getControl(name="first-name").value = 'Shipping First Näme'
-    >>> browser.getControl(name="last-name").value = 'Shipping Last Näme'
+    >>> browser.getControl(name="first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="last_name").value = 'Shipping Last Näme'
     >>> browser.getControl(name="email").value = 'shipping@email.email'
     >>> browser.getControl(name="form.to.confirmation").click()
     >>> print browser.bycss('.warn')
@@ -104,8 +104,8 @@ Input first, last name and email::
 
 Input first, last name, email and street::
 
-    >>> browser.getControl(name="first-name").value = 'Shipping First Näme'
-    >>> browser.getControl(name="last-name").value = 'Shipping Last Näme'
+    >>> browser.getControl(name="first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="last_name").value = 'Shipping Last Näme'
     >>> browser.getControl(name="email").value = 'shipping@email.email'
     >>> browser.getControl(name="street").value = 'Shipping Str€€t'
     >>> browser.getControl(name="form.to.confirmation").click()
@@ -117,8 +117,8 @@ Input first, last name, email and street::
 
 Input first, last name, email, street and city::
 
-    >>> browser.getControl(name="first-name").value = 'Shipping First Näme'
-    >>> browser.getControl(name="last-name").value = 'Shipping Last Näme'
+    >>> browser.getControl(name="first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="last_name").value = 'Shipping Last Näme'
     >>> browser.getControl(name="email").value = 'shipping@email.email'
     >>> browser.getControl(name="street").value = 'Shipping Str€€t'
     >>> browser.getControl(name="city").value = 'Shipping Cıty'
@@ -131,8 +131,8 @@ Input first, last name, email, street and city::
 
 Input first, last name, email, street, city and phone::
 
-    >>> browser.getControl(name="first-name").value = 'Shipping First Näme'
-    >>> browser.getControl(name="last-name").value = 'Shipping Last Näme'
+    >>> browser.getControl(name="first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="last_name").value = 'Shipping Last Näme'
     >>> browser.getControl(name="email").value = 'shipping@email.email'
     >>> browser.getControl(name="street").value = 'Shipping Str€€t'
     >>> browser.getControl(name="city").value = 'Shipping Cıty'
@@ -208,7 +208,7 @@ Chekout::
 
 Input first name::
 
-    >>> browser.getControl(name="first-name").value = 'Billing First Näme'
+    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
     >>> browser.getControl(name="form.to.confirmation").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
@@ -218,8 +218,8 @@ Input first name::
 
 Input first and last name::
 
-    >>> browser.getControl(name="first-name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last-name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
     >>> browser.getControl(name="form.to.confirmation").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
@@ -229,8 +229,8 @@ Input first and last name::
 
 Input first, last name and invalid email::
 
-    >>> browser.getControl(name="first-name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last-name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
     >>> browser.getControl(name="email").value = 'email'
     >>> browser.getControl(name="form.to.confirmation").click()
     >>> print browser.bycss('.warn')
@@ -241,8 +241,8 @@ Input first, last name and invalid email::
 
 Input first, last name and email::
 
-    >>> browser.getControl(name="first-name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last-name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
     >>> browser.getControl(name="email").value = 'billing@email.email'
     >>> browser.getControl(name="form.to.confirmation").click()
     >>> print browser.bycss('.warn')
@@ -253,8 +253,8 @@ Input first, last name and email::
 
 Input first, last name, email and street::
 
-    >>> browser.getControl(name="first-name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last-name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
     >>> browser.getControl(name="email").value = 'billing@email.email'
     >>> browser.getControl(name="street").value = 'Billing Str€€t'
     >>> browser.getControl(name="form.to.confirmation").click()
@@ -266,8 +266,8 @@ Input first, last name, email and street::
 
 Input first, last name, email, street and city::
 
-    >>> browser.getControl(name="first-name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last-name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
     >>> browser.getControl(name="email").value = 'billing@email.email'
     >>> browser.getControl(name="street").value = 'Billing Str€€t'
     >>> browser.getControl(name="city").value = 'Billing Cıty'
@@ -280,8 +280,8 @@ Input first, last name, email, street and city::
 
 Input first, last name, email, street, city and phone::
 
-    >>> browser.getControl(name="first-name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last-name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
     >>> browser.getControl(name="email").value = 'billing@email.email'
     >>> browser.getControl(name="street").value = 'Billing Str€€t'
     >>> browser.getControl(name="city").value = 'Billing Cıty'

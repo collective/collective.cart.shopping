@@ -174,6 +174,8 @@ class CartAdapterTestCase(IntegrationTestCase):
         from collective.cart.shopping.interfaces import ICartAdapter
         cart = self.create_cart()
         adapter = ICartAdapter(cart)
+        self.assertEqual(adapter.shipping_net_money, self.money('0.00'))
+
         gross = self.money('24.80')
         vat = self.money('4.80')
         net = self.money('20.00')
@@ -184,6 +186,8 @@ class CartAdapterTestCase(IntegrationTestCase):
         from collective.cart.shopping.interfaces import ICartAdapter
         cart = self.create_cart()
         adapter = ICartAdapter(cart)
+        self.assertEqual(adapter.shipping_vat_money, self.money('0.00'))
+
         gross = self.money('24.80')
         vat = self.money('4.80')
         net = self.money('20.00')

@@ -47,10 +47,9 @@
                 />
                 &nbsp;&times;&nbsp;
               <span class="gross" tal:content="item/gross" />
-              <br />
-              <span class="vat" i18n:translate="">
+              <section id="vat" i18n:translate="">
                 Including VAT: <span i18n:name="vat" tal:replace="item/vat" /> &#37;
-              </span>
+              </section>
               <section
                 id="discount"
                 tal:condition="item/discount_end">
@@ -61,7 +60,7 @@
                   Normal Price: <span i18n:name="normal-price" tal:replace="item/money" />
                 </p>
               </section>
-              <section class="stock" i18n:translate="">
+              <section id="stock" i18n:translate="">
                 Stock: <span i18n:name="stock" tal:replace="item/quantity_max" /> pcs
               </section>
               <section class="buttons">
@@ -96,24 +95,25 @@
                   <span tal:replace="sub/title" />
                   <span tal:replace="sub/gross" />
                 </option>
-              </select><br />
-              <span class="vat" i18n:translate="">
+              </select>
+              <section id="vat" i18n:translate="">
                 Including VAT: <span i18n:name="vat" tal:replace="item/vat" /> &#37;
-              </span><br />
-              <input
-                id="quantity"
-                min="1"
-                name="quantity"
-                required="required"
-                value="1"
-                type="number"
-                tal:attributes="
-                  maxlength item/quantity_size;
-                  size item/quantity_size"
-                />
-              <span
-                id="pcs"
-                i18n:translate="">pcs</span>
+              </section>
+              <section id="quantity">
+                <input
+                  min="1"
+                  name="quantity"
+                  required="required"
+                  value="1"
+                  type="number"
+                  tal:attributes="
+                    maxlength item/quantity_size;
+                    size item/quantity_size"
+                  />
+                <span
+                  id="pcs"
+                  i18n:translate="">pcs</span>
+              </section>
               <button
                 class="shopping-button update"
                 i18n:domain="collective.cart.core"

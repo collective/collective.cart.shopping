@@ -1,18 +1,15 @@
 from Products.CMFCore.utils import getToolByName
-from Testing import ZopeTestCase as ztc
+from collective.cart.core.tests.base import IntegrationTestCase as BaseIntegrationTestCase
 from decimal import Decimal
 from moneyed import Money
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import setRoles
-from plone.dexterity.utils import createContentInContainer
 from plone.testing import z2
 from zope.annotation.interfaces import IAttributeAnnotatable
+from zope.component import getMultiAdapter
 from zope.interface import directlyProvides
-from zope.lifecycleevent import modified
 from zope.publisher.browser import TestRequest
 
 import mock
@@ -63,22 +60,10 @@ FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(FIXTURE,), name="CollectiveCartShoppingLayer:Functional")
 
 
-class IntegrationTestCase(unittest.TestCase):
+class IntegrationTestCase(BaseIntegrationTestCase):
     """Base class for integration tests."""
 
     layer = INTEGRATION_TESTING
-
-    def setUp(self):
-        ztc.utils.setupCoreSessions(self.layer['app'])
-        self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
-
-    def create_content(self, ctype, parent=None, **kwargs):
-        if parent is None:
-            parent = self.portal
-        content = createContentInContainer(parent, ctype, checkConstraints=False, **kwargs)
-        modified(content)
-        return content
 
     def create_atcontent(self, ctype, parent=None, **kwargs):
         if parent is None:
@@ -87,21 +72,22 @@ class IntegrationTestCase(unittest.TestCase):
         content.reindexObject()
         return content
 
-    def create_view(self, view, context=None):
+    def create_viewlet(self, viewlet, context=None, view=None, manager=None):
         if context is None:
             context = self.portal
         request = TestRequest()
         directlyProvides(request, IAttributeAnnotatable)
         request.set = mock.Mock()
-        return view(context, request)
+        return viewlet(context, request, view, manager)
 
-    def create_viewlet(self, viewlet, context=None):
+    def create_multiadapter(self, interface, context=None, obj=None):
         if context is None:
             context = self.portal
-        request = TestRequest()
-        directlyProvides(request, IAttributeAnnotatable)
-        request.set = mock.Mock()
-        return viewlet(context, request, None, None)
+        if obj is None:
+            request = TestRequest()
+            directlyProvides(request, IAttributeAnnotatable)
+            obj = request
+        return getMultiAdapter((context, obj), interface)
 
     def decimal(self, value):
         return Decimal(value)

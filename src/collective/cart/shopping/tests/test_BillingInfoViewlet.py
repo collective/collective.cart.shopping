@@ -120,3 +120,7 @@ class BillingInfoViewletTestCase(IntegrationTestCase):
 
         session.set('collective.cart.core', {'billing_same_as_shipping': True})
         self.assertTrue(instance.billing_same_as_shipping)
+
+
+    # def test_update(self):
+    #

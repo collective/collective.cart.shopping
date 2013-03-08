@@ -18,6 +18,8 @@ from collective.cart.shopping.interfaces import ICart
 from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.interfaces import ICartArticleAdapter
 from collective.cart.shopping.interfaces import IShop
+from collective.cart.shopping.interfaces import IShoppingSite
+from collective.cart.shopping.interfaces import IUnicodeUtility
 from collective.cart.stock.interfaces import IStock as IStockContent
 from email import message_from_string
 from email.Header import Header
@@ -121,17 +123,21 @@ def add_shipping_methods_to_shop(context, event):
 @grok.subscribe(ICart, IActionSucceededEvent)
 def notify_ordered(context, event):
     if event.action == 'ordered':
-        portal = getToolByName(context, 'portal_url').getPortalObject()
+        shopping_site = IShoppingSite(context)
+        cadapter = ICartAdapter(context)
+        portal = shopping_site.portal
         email_from_address = getUtility(IRegistry)['collective.cart.shopping.notification_cc_email'] or portal.getProperty('email_from_address')
         # email_from_name = portal.getProperty('email_from_name')
 
-        cadapter = ICartAdapter(context)
-        billing_info = cadapter.get_address('billing')
-        email_to_address = billing_info.email
+        # billing_info = cadapter.get_address('billing')
+        billing = shopping_site.get_address('billing')
+        # email_to_address = billing_info.email
+        email_to_address = billing['email']
         # email_to_name = u'{} {}'.format(billing_info.first_name, billing_info.last_name)
         default_charset = getattr(getattr(getToolByName(context, 'portal_properties'), 'site_properties'), 'default_charset', 'utf-8')
-        encoding = getUtility(ISiteRoot).getProperty('email_charset', 'utf-8')
-        subject = context.translate(_(u'Ordered'))
+        # encoding = getUtility(ISiteRoot).getProperty('email_charset', 'utf-8')
+        email_charset = getUtility(ISiteRoot).getProperty('email_charset', 'utf-8')
+        subject = context.translate(_(u'order-number', u'Order Number: ${number}', mapping={'number': context.id}))
         mto = email_to_address
         mfrom = email_from_address
         host = getToolByName(context, 'MailHost')
@@ -144,43 +150,17 @@ def notify_ordered(context, event):
 
         # Billing address
         BILLING_ADDRESS = context.translate(_(u'Billing Address'))
-        BILLING_INFO = u"""{first_name} {last_name}  {organization}  {vat}
-{street}
-{post} {city}
-{phone}
-{email}
-""".format(
-            first_name=safe_unicode(billing_info.first_name, encoding=default_charset),
-            last_name=safe_unicode(billing_info.last_name, encoding=default_charset),
-            organization=safe_unicode(billing_info.organization, encoding=default_charset),
-            vat=safe_unicode(billing_info.vat, encoding=default_charset),
-            street=safe_unicode(billing_info.street, encoding=default_charset),
-            post=safe_unicode(billing_info.post, encoding=default_charset),
-            city=safe_unicode(billing_info.city, encoding=default_charset),
-            phone=safe_unicode(billing_info.phone, encoding=default_charset),
-            email=billing_info.email)
+        utility = getUtility(IUnicodeUtility)
+        BILLING_INFO = utility.address(billing)
 
         # Shipping address
-        if context.billing_same_as_shipping:
-            shipping_info = billing_info
-        else:
-            shipping_info = cadapter.get_address('shipping')
         SHIPPING_ADDRESS = context.translate(_(u'Shipping Address'))
-        SHIPPING_INFO = u"""{first_name} {last_name}  {organization}  {vat}
-{street}
-{post} {city}
-{phone}
-{email}
-""".format(
-            first_name=safe_unicode(shipping_info.first_name, encoding=default_charset),
-            last_name=safe_unicode(shipping_info.last_name, encoding=default_charset),
-            organization=safe_unicode(shipping_info.organization, encoding=default_charset),
-            vat=safe_unicode(shipping_info.vat, encoding=default_charset),
-            street=safe_unicode(shipping_info.street, encoding=default_charset),
-            post=safe_unicode(shipping_info.post, encoding=default_charset),
-            city=safe_unicode(shipping_info.city, encoding=default_charset),
-            phone=safe_unicode(shipping_info.phone, encoding=default_charset),
-            email=shipping_info.email)
+        if shopping_site.billing_same_as_shipping:
+            # shipping = billing
+            SHIPPING_INFO = BILLING_INFO
+        else:
+            shipping = shopping_site.get_address('shipping')
+            SHIPPING_INFO = utility.address(shipping)
 
         # Ordered contents
         ORDERED_CONTENTS = context.translate(_(u'Ordered contents'))
@@ -198,7 +178,7 @@ def notify_ordered(context, event):
 
         SHIPPING_METHOD = context.translate(_(u'Shipping Method'))
         shipping_method = hasattr(
-            cadapter.shipping_method, 'Title') and cadapter.shipping_method.Title.decode(encoding) or u''
+            cadapter.shipping_method, 'Title') and cadapter.shipping_method.Title.decode(default_charset) or u''
 
         TOTAL = context.translate(_(u'Total'))
 
@@ -243,13 +223,13 @@ def notify_ordered(context, event):
             total=cadapter.total,
             LINK=LINK)
 
-        message = message_from_string(mail_text.encode(encoding).strip())
-        message.set_charset(encoding)
+        message = message_from_string(mail_text.encode(default_charset).strip())
+        message.set_charset(email_charset)
         message['CC'] = Header(mfrom)
 
         try:
             host.send(message, mto, mfrom, subject=subject,
-                      charset=encoding)
+                      charset=email_charset)
         except SMTPRecipientsRefused:
             # Don't disclose email address on failure
             raise SMTPRecipientsRefused(

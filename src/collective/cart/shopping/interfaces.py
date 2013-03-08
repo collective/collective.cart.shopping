@@ -1,5 +1,3 @@
-# from Products.CMFPlone.utils import safe_unicode
-# from zope.component import getMultiAdapter
 from collective.behavior.price.interfaces import IPrice
 from collective.cart import core
 from collective.cart.core.interfaces import IArticleAdapter as IBaseArticleAdapter
@@ -62,6 +60,18 @@ class IShoppingSite(IBaseShoppingSite):
 
     def get_brain_for_text(name):  # pragma: no cover
         """Get brain for displaying texts based on view name."""
+
+    def update_address(name, data):  # pragma: no cover
+        """Update address of cart in session.
+
+        :param name: Name of address, such as billing and shipping.
+        :type name: str
+
+        :param data: Form data.
+        :type data: dict
+
+        :rtype: unicode or None
+        """
 
 
 class IShoppingSiteMultiAdapter(Interface):
@@ -315,6 +325,9 @@ class ISubArticle(core.interfaces.IArticle):
     """Schema interface for variable."""
 
 
+# Events
+
+
 class IArticleAddedToCartEvent(Interface):
     """Event signaling when article is added to cart."""
 
@@ -327,5 +340,34 @@ class IShippingAddressConfirmedEvent(Interface):
     """Event signaling when shipping address is confirmed."""
 
 
+# Utilities
+
+
 class IPriceUtility(Interface):
     """Utility interface for price."""
+
+
+class IUnicodeUtility(Interface):
+
+    def safe_unicode():  # pragma: no cover
+        """Returns unicode of value.
+
+        :param value: Basestring
+        :type value: basestring
+
+        :param encoding: Character set
+        :type encoding: str
+
+        :rtype: unicode
+        """
+
+    def address(address, encoding):  # pragma: no cover
+        """Format address
+
+        :param address: Address information
+        :type address: dictionary
+
+        :param encoding: Character set
+        :type encoding: str
+
+        :rtype: unicode"""

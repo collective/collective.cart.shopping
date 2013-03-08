@@ -7,10 +7,10 @@
     tal:attributes="action context/@@plone_context_state/current_base_url"
     tal:condition="not: viewlet/soldout">
     <section id="money">
-      <p id="price" class="gross" tal:content="view/gross" />
-      <p id="vat" i18n:translate="">
+      <section id="price" class="gross" tal:content="view/gross" />
+      <section id="vat" i18n:translate="">
         Including VAT: <span i18n:name="vat" tal:replace="context/vat" /> &#37;
-      </p>
+      </section>
     </section>
     <section id="discount" tal:condition="view/discount_end">
       <p id="discount-message" i18n:translate="">
@@ -20,25 +20,26 @@
         Normal Price: <span i18n:name="normal-price" tal:replace="context/money" />
       </p>
     </section>
-    <label i18n:translate="">Quantity</label>
-    <input
-      id="quantity"
-      min="1"
-      name="quantity"
-      required="required"
-      tal:attributes="
-        max viewlet/quantity_max;
-        maxlength viewlet/quantity_size;
-        size viewlet/quantity_size"
-      type="number"
-      value="1"
-      />
-    <span
-      id="pcs"
-      i18n:translate="">pcs</span>
-    <span class="stock" i18n:translate="">
+    <section id="quantity">
+      <label i18n:translate="">Quantity</label>
+      <input
+        min="1"
+        name="quantity"
+        required="required"
+        tal:attributes="
+          max viewlet/quantity_max;
+          maxlength viewlet/quantity_size;
+          size viewlet/quantity_size"
+        type="number"
+        value="1"
+        />
+      <span
+        id="pcs"
+        i18n:translate="">pcs</span>
+    </section>
+    <section id="stock" i18n:translate="">
       Stock: <span i18n:name="stock" tal:replace="viewlet/quantity_max" /> pcs
-    </span>
+    </section>
     <button
       class="shopping-button update"
       i18n:domain="collective.cart.core"

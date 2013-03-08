@@ -45,9 +45,9 @@ Add no integer number to cart::
     <dl class="portalMessage warn"><dt>Warn</dt>
     <dd>Input integer value to add to cart.</dd>
     </dl>
-    >>> print browser.bycss('.stock')
+    >>> print browser.bycss('#stock')
     --- 1 ---
-    <span class="stock">Stock: 100 pcs</span>
+    <section id="stock">Stock: 100 pcs</section>
 
 Cart should be empty::
 
@@ -98,9 +98,9 @@ There should be one article in cart::
 Back to Article1 and add more articles::
 
     >>> browser.open('/shop/article-container/article1')
-    >>> print browser.bycss('.stock')
+    >>> print browser.bycss('#stock')
     --- 1 ---
-    <span class="stock">Stock: 99 pcs</span>
+    <section id="stock">Stock: 99 pcs</section>
 
     >>> browser.getControl(name="quantity").value = '100'
     >>> browser.getControl(name="form.buttons.AddToCart").click()
@@ -162,18 +162,18 @@ Add Stock to Ärticle1::
 Adding more articles uses price which is already in cart::
 
     >>> browser.open('/shop/article-container/article1')
-    >>> print browser.bycss('.stock')
+    >>> print browser.bycss('#stock')
     --- 1 ---
-    <span class="stock">Stock: 0 pcs</span>
+    <section id="stock">Stock: 0 pcs</section>
 
 Change reducible quantity for Ärticle1::
 
     >>> browser.open('/shop/article-container/article1/edit')
     >>> browser.getControl(name="form.widgets.IStock.reducible_quantity").value = '150'
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> print browser.bycss('.stock')
+    >>> print browser.bycss('#stock')
     --- 1 ---
-    <span class="stock">Stock: 50 pcs</span>
+    <section id="stock">Stock: 50 pcs</section>
 
     >>> browser.getControl(name="quantity").value = '10'
     >>> browser.getControl(name="form.buttons.AddToCart").click()
@@ -240,9 +240,9 @@ Update quantity with integer::
 Go to Article1 and check stock::
 
     >>> browser.open('/shop/article-container/article1')
-    >>> print browser.bycss('.stock')
+    >>> print browser.bycss('#stock')
     --- 1 ---
-    <span class="stock">Stock: 60 pcs</span>
+    <section id="stock">Stock: 60 pcs</section>
 
 Add 20 Article1::
 
@@ -271,9 +271,9 @@ Add Stöck1 to Ärticle11::
 Go to Article1::
 
     >>> browser.open('/shop/article-container/article1')
-    >>> print browser.bycss('.stock')
+    >>> print browser.bycss('#stock')
     --- 1 ---
-    <section class="stock">Stock: 100 pcs</section>
+    <section id="stock">Stock: 100 pcs</section>
 
     >>> browser.getControl(name="quantity").value = '10'
     >>> browser.getControl(name="form.buttons.AddToCart").click()
@@ -305,12 +305,12 @@ Go to cart::
     </section></form>
     </td>
     </tr><tr><td class="image">
-    <a href="http://nohost/plone/shop/article-container/article1/article11" title="&#196;rticle11">
+    <a href="http://nohost/plone/shop/article-container/article1/article11" title="&#196;rticle1 &#196;rticle11">
     <img src="http://nohost/plone/fallback.png"></a>
     </td>
     <td class="name">
     <h3>
-    <a href="http://nohost/plone/shop/article-container/article1/article11">&#196;rticle11</a>
+    <a href="http://nohost/plone/shop/article-container/article1/article11">&#196;rticle1 &#196;rticle11</a>
     </h3>
     <p>Descripti&#246;n of &#196;rticle11.</p>
     </td>
@@ -335,9 +335,9 @@ Go to cart::
 Go to Article1::
 
     >>> browser.open('/shop/article-container/article1')
-    >>> print browser.bycss('.stock')
+    >>> print browser.bycss('#stock')
     --- 1 ---
-    <section class="stock">Stock: 90 pcs</section>
+    <section id="stock">Stock: 90 pcs</section>
 
     >>> browser.getControl(name="quantity").value = '20'
     >>> browser.getControl(name="form.buttons.AddToCart").click()
@@ -345,9 +345,9 @@ Go to Article1::
 Go to Article11::
 
     >>> browser.open('/shop/article-container/article1/article11')
-    >>> print browser.bycss('.stock')
+    >>> print browser.bycss('#stock')
     --- 1 ---
-    <span class="stock">Stock: 70 pcs</span>
+    <section id="stock">Stock: 70 pcs</section>
 
 Go to cart::
 
@@ -397,9 +397,9 @@ Go to cart::
 Go to Article11::
 
     >>> browser.open('/shop/article-container/article1/article11')
-    >>> print browser.bycss('.stock')
+    >>> print browser.bycss('#stock')
     --- 1 ---
-    <span class="stock">Stock: 60 pcs</span>
+    <section id="stock">Stock: 60 pcs</section>
 
 Edit Ärticle1 not to use subarticle::
 
@@ -488,7 +488,7 @@ Update Article111 over the stock::
     ...
     --- 2 ---
     <dl class="portalMessage info"><dt>Info</dt>
-    <dd>No more than 100 can be added to cart for &#196;rticle11 &#196;rticle111</dd>
+    <dd>No more than 100 can be added to cart for &#196;rticle1 &#196;rticle11 &#196;rticle111</dd>
     </dl>
 
     >>> print browser.bycss('#quantity')
@@ -537,9 +537,9 @@ Update Article111 with appropriate quantity::
 Go to Article111::
 
     >>> browser.open('/shop/article-container/article1/article11/article111')
-    >>> print browser.bycss('.stock')
+    >>> print browser.bycss('#stock')
     --- 1 ---
-    <span class="stock">Stock: 80 pcs</span>
+    <section id="stock">Stock: 80 pcs</section>
 
 Go to cart::
 

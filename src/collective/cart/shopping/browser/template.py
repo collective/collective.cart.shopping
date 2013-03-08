@@ -240,70 +240,21 @@ class ShippingInfoView(BaseCheckOutView, Message):
         if form.get('form.buttons.back') is not None:
             url = '{}/@@billing-and-shipping'.format(shop_url)
             return self.request.response.redirect(url)
+
         if form.get('form.to.confirmation') is not None:
-            current_url = self.context.restrictedTraverse('@@plone_context_state').current_base_url()
-            first_name = form.get('first-name')
-            if not first_name:
-                message = _('First name is missing.')
+            data = form.copy()
+            del data['form.to.confirmation']
+            message = self.shopping_site.update_address('shipping', data)
+            if message is not None:
+                current_url = self.context.restrictedTraverse('@@plone_context_state').current_base_url()
                 IStatusMessage(self.request).addStatusMessage(message, type='warn')
                 return self.request.response.redirect(current_url)
-            last_name = form.get('last-name')
-            if not last_name:
-                message = _('Last name is missing.')
-                IStatusMessage(self.request).addStatusMessage(message, type='warn')
-                return self.request.response.redirect(current_url)
-            email = form.get('email')
-            email_validation = validation.validatorFor('isEmail')
-            if email_validation(email) != 1:
-                message = _('Invalid e-mail address.')
-                IStatusMessage(self.request).addStatusMessage(message, type='warn')
-                return self.request.response.redirect(current_url)
-            street = form.get('street')
-            if not street:
-                message = _('Street address is missing.')
-                IStatusMessage(self.request).addStatusMessage(message, type='warn')
-                return self.request.response.redirect(current_url)
-            city = form.get('city')
-            if not city:
-                message = _('City is missing.')
-                IStatusMessage(self.request).addStatusMessage(message, type='warn')
-                return self.request.response.redirect(current_url)
-            phone = form.get('phone')
-            if not phone:
-                message = _('Phone number is missing.')
-                IStatusMessage(self.request).addStatusMessage(message, type='warn')
-                return self.request.response.redirect(current_url)
-            else:
-                organization = form.get('organization')
-                vat = form.get('vat')
-                post = form.get('post')
-
-                data = {
-                    'first_name': first_name,
-                    'last_name': last_name,
-                    'organization': organization,
-                    'vat': vat,
-                    'email': email,
-                    'street': street,
-                    'post': post,
-                    'city': city,
-                    'phone': phone,
-                }
-
-                shipping = self.shopping_site.get_address('shipping')
-                if shipping is None:
-                    self.shopping_site.update_cart('shipping', data)
-                else:
-                    for key in data:
-                        if shipping[key] != data[key]:
-                            shipping[key] = data[key]
-                    self.shopping_site.update_cart('shipping', shipping)
 
                 # cart = self.shopping_site.cart
                 # notify(ShippingAddressConfirmedEvent(cart))
 
-                url = '{}/@@order-confirmation'.format(shop_url)
-                return self.request.response.redirect(url)
+            url = '{}/@@order-confirmation'.format(shop_url)
+            return self.request.response.redirect(url)
 
 
 class OrderConfirmationView(BaseCheckOutView, Message):
@@ -340,6 +291,7 @@ class ThanksView(OrderConfirmationView, Message):
                 self.cart_id = cart.id
                 workflow = getToolByName(context, 'portal_workflow')
                 workflow.doActionFor(cart, 'ordered')
+                self.shopping_site.clear_cart('articles')
 
         elif form.get('form.buttons.back') is not None:
             url = '{}/@@billing-and-shipping'.format(context_url)

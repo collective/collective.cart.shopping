@@ -58,30 +58,30 @@ class ShippingInfoViewTestCase(IntegrationTestCase):
         IStatusMessage().addStatusMessage.assert_called_with(u'First name is missing.', type='warn')
         self.assertEqual(IStatusMessage().addStatusMessage.call_count, 1)
 
-        instance.request.form = {'form.to.confirmation': True, 'first-name': 'FIRST'}
+        instance.request.form = {'form.to.confirmation': True, 'first_name': 'FIRST'}
         self.assertEqual(instance.update(), 'current_base_url')
         IStatusMessage().addStatusMessage.assert_called_with(u'Last name is missing.', type='warn')
         self.assertEqual(IStatusMessage().addStatusMessage.call_count, 2)
 
-        instance.request.form = {'form.to.confirmation': True, 'first-name': 'FIRST', 'last-name': 'LAST'}
+        instance.request.form = {'form.to.confirmation': True, 'first_name': 'FIRST', 'last_name': 'LAST'}
         self.assertEqual(instance.update(), 'current_base_url')
         IStatusMessage().addStatusMessage.assert_called_with(u'Invalid e-mail address.', type='warn')
         self.assertEqual(IStatusMessage().addStatusMessage.call_count, 3)
 
-        instance.request.form = {'form.to.confirmation': True, 'first-name': 'FIRST', 'last-name': 'LAST',
+        instance.request.form = {'form.to.confirmation': True, 'first_name': 'FIRST', 'last_name': 'LAST',
             'email': 'fist.last@email.com'}
         self.assertEqual(instance.update(), 'current_base_url')
         IStatusMessage().addStatusMessage.assert_called_with(u'Street address is missing.', type='warn')
         self.assertEqual(IStatusMessage().addStatusMessage.call_count, 4)
 
-        instance.request.form = {'form.to.confirmation': True, 'first-name': 'FIRST', 'last-name': 'LAST',
+        instance.request.form = {'form.to.confirmation': True, 'first_name': 'FIRST', 'last_name': 'LAST',
             'email': 'fist.last@email.com',
             'street': 'STREET'}
         self.assertEqual(instance.update(), 'current_base_url')
         IStatusMessage().addStatusMessage.assert_called_with(u'City is missing.', type='warn')
         self.assertEqual(IStatusMessage().addStatusMessage.call_count, 5)
 
-        instance.request.form = {'form.to.confirmation': True, 'first-name': 'FIRST', 'last-name': 'LAST',
+        instance.request.form = {'form.to.confirmation': True, 'first_name': 'FIRST', 'last_name': 'LAST',
             'email': 'fist.last@email.com',
             'street': 'STREET',
             'city': 'CITY'}
@@ -89,7 +89,7 @@ class ShippingInfoViewTestCase(IntegrationTestCase):
         IStatusMessage().addStatusMessage.assert_called_with(u'Phone number is missing.', type='warn')
         self.assertEqual(IStatusMessage().addStatusMessage.call_count, 6)
 
-        instance.request.form = {'form.to.confirmation': True, 'first-name': 'FIRST', 'last-name': 'LAST',
+        instance.request.form = {'form.to.confirmation': True, 'first_name': 'FIRST', 'last_name': 'LAST',
             'email': 'fist.last@email.com',
             'street': 'STREET',
             'city': 'CITY',
@@ -107,14 +107,11 @@ class ShippingInfoViewTestCase(IntegrationTestCase):
             'email': 'fist.last@email.com',
             'first_name': 'FIRST',
             'last_name': 'LAST',
-            'organization': None,
             'phone': 'PHONE',
-            'post': None,
             'street': 'STREET',
-            'vat': None,
         })
 
-        instance.request.form = {'form.to.confirmation': True, 'first-name': 'FIRST', 'last-name': 'LAST',
+        instance.request.form = {'form.to.confirmation': True, 'first_name': 'FIRST', 'last_name': 'LAST',
             'email': 'fist.last@email.com',
             'street': 'STREET',
             'city': 'CITY',

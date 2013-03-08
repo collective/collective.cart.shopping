@@ -14,22 +14,26 @@
         <span tal:replace="item/gross" />
       </option>
     </select>
-    <label
-      i18n:translate="">Quantity</label>
-    <input
-      id="quantity"
-      min="1"
-      name="quantity"
-      required="required"
-      value="1"
-      type="number"
-      tal:attributes="
-        maxlength viewlet/quantity_size;
-        size viewlet/quantity_size"
-      />
-    <span
-      id="pcs"
-      i18n:translate="">pcs</span>
+    <section id="vat" i18n:translate="">
+      Including VAT: <span i18n:name="vat" tal:replace="context/vat" /> &#37;
+    </section>
+    <section id="quantity">
+      <label
+        i18n:translate="">Quantity</label>
+      <input
+        min="1"
+        name="quantity"
+        required="required"
+        value="1"
+        type="number"
+        tal:attributes="
+          maxlength viewlet/quantity_size;
+          size viewlet/quantity_size"
+        />
+      <span
+        id="pcs"
+        i18n:translate="">pcs</span>
+    </section>
     <button
       class="shopping-button update"
       type="submit"
