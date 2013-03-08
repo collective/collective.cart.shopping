@@ -76,6 +76,48 @@ Fill Billing Info::
     >>> browser.getControl(name="phone").value = 'Billing Phöne Number'
     >>> browser.getControl(name="form.to.confirmation").click()
 
+    >>> print browser.bycss('#cart-articles')
+    --- 1 ---
+    <section id="cart-articles"><table><tbody><tr><td class="image">
+    <a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
+    <img src="http://nohost/plone/fallback.png"></a>
+    </td>
+    <td class="name">
+    <h3>
+    <a href="http://nohost/plone/shop/article-container/article1">&#196;rticle1</a>
+    </h3>
+    <p>Description of &#196;rticle1</p>
+    </td>
+    <td class="price-and-quantity">
+    <span class="gross">12.30 &#8364;</span>
+    <br><span class="vat">Including VAT: 23.00 %</span>
+    </td>
+    </tr></tbody></table></section>
+
+    >>> print browser.bycss('#shipping-method')
+    --- 1 ---
+    <section id="shipping-method"><table><tbody><tr><td class="shipping-method-title">Shipping Method:</td>
+    <td>ShippingMeth&#246;d1</td>
+    <td class="price-and-quantity">
+    <span class="gross">0.10 &#8364;</span>
+    <br><span class="vat">Including VAT: 23.00 %</span>
+    </td>
+    </tr></tbody></table></section>
+
+    >>> print browser.bycss('#confirmation-total')
+    --- 1 ---
+    <section id="confirmation-total"><span>Total</span>&#160;&#160;
+    <span id="total">12.40 &#8364;</span>
+    </section>
+
+    >>> print browser.bycss('#confirmation-checkout')
+    --- 1 ---
+    <section id="confirmation-checkout"><form method="post" action="http://nohost/plone/shop/@@thanks">
+    <button class="buttons shopping-button back" name="form.buttons.back" value="form.buttons.back" type="submit">Back</button>
+    <button class="buttons shopping-button checkout" name="form.buttons.ConfirmOrder" value="form.buttons.ConfirmOrder" type="submit">Confirm Order</button>
+    </form>
+    </section>
+
 Confirm the order::
 
     >>> len(mailhost.messages)
