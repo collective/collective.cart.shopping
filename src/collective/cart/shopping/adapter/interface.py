@@ -56,20 +56,20 @@ class ShoppingSite(BaseShoppingSite):
         if self.cart:
             return self.cart.get('shipping_method')
 
-    def update_cart(self, name, items):
-        session = self.getSessionData(create=False)
-        if session:
-            cart = session.get('collective.cart.core')
-            cart[name] = items
-            session.set('collective.cart.core', cart)
+    # def update_cart(self, name, items):
+    #     session = self.getSessionData(create=False)
+    #     if session:
+    #         cart = session.get('collective.cart.core')
+    #         cart[name] = items
+    #         session.set('collective.cart.core', cart)
 
-    def remove_from_cart(self, name):
-        if self.cart:
-            cart = self.cart.copy()
-            values = cart.pop(name, None)
-            session = self.getSessionData(create=False)
-            session.set('collective.cart.core', cart)
-            return values
+    # def remove_from_cart(self, name):
+    #     if self.cart:
+    #         cart = self.cart.copy()
+    #         values = cart.pop(name, None)
+    #         session = self.getSessionData(create=False)
+    #         session.set('collective.cart.core', cart)
+    #         return values
 
     def _calculated_weight(self, rate=None):
         weight = 0.0

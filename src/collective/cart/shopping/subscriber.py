@@ -169,7 +169,7 @@ def notify_ordered(context, event):
         for article in cadapter.articles:
             article_line = u'{SKU}: {sku}\n{title} x {quantity} = {subtotal}'.format(
                 SKU=SKU,
-                sku=article['sku'],
+                sku=utility.safe_unicode(article['sku']),
                 title=article['title'],
                 quantity=article['quantity'],
                 subtotal=article['gross_subtotal'])

@@ -2,12 +2,18 @@
 from Products.CMFCore.utils import getToolByName
 from Testing import ZopeTestCase as ztc
 from collective.cart.shopping.tests.base import FUNCTIONAL_TESTING
+from decimal import Decimal
 from hexagonit.testing.browser import Browser
+from moneyed import Money
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
+from plone.dexterity.utils import createContentInContainer
+from plone.registry.interfaces import IRegistry
 from plone.testing import layered
+from plone.uuid.interfaces import IUUID
+from zope.component import getUtility
 from zope.lifecycleevent import modified
 from zope.testing import renormalizing
 
@@ -27,32 +33,87 @@ CHECKER = renormalizing.RENormalizing([
 ])
 
 
+def prink(e):
+    print eval('"""{0}"""'.format(str(e)))
+
+
 def setUp(self):
     layer = self.globs['layer']
     portal = layer['portal']
-    portal_url = portal.absolute_url()
-    # Update global variables within the tests.
+    app = layer['app']
+    browser = Browser(app)
     self.globs.update({
-        'portal': portal,
-        'portal_url': portal_url,
-        'browser': Browser(layer['app']),
         'TEST_USER_NAME': TEST_USER_NAME,
         'TEST_USER_PASSWORD': TEST_USER_PASSWORD,
+        'browser': browser,
+        'portal': portal,
+        'prink': prink,
     })
-    ztc.utils.setupCoreSessions(layer['app'])
-    browser = self.globs['browser']
-    browser.setBaseUrl(portal_url)
-
+    ztc.utils.setupCoreSessions(app)
+    browser.setBaseUrl(portal.absolute_url())
     browser.handleErrors = True
     portal.error_log._ignored_exceptions = ()
-
     setRoles(portal, TEST_USER_ID, ['Manager'])
 
-    # Create shop folder
-    shop = portal[portal.invokeFactory('Folder', 'shop', title='Shöp')]
-    modified(shop)
     workflow = getToolByName(portal, 'portal_workflow')
+
+    # Create Shop
+    shop = createContentInContainer(portal, 'collective.cart.shopping.Shop', checkConstraints=False, title='Shöp')
+    modified(shop)
     workflow.doActionFor(shop, 'publish')
+
+    # Create Cart Container
+    cart_container = createContentInContainer(shop, 'collective.cart.core.CartContainer', checkConstraints=False, id='cart-container')
+    modified(cart_container)
+
+    # Create Shipping Method Container
+    shipping_method_container = createContentInContainer(shop, 'collective.cart.shipping.ShippingMethodContainer',
+        checkConstraints=False, id='shipping-method-container')
+    modified(shipping_method_container)
+
+    # Add two shipping method
+    shipping_method1 = shipping_method_container[shipping_method_container.invokeFactory('ShippingMethod', 'shippingmethod1',
+        title='ShippingMethöd1', vat=24.0)]
+    modified(shipping_method1)
+    workflow.doActionFor(shipping_method1, 'publish')
+    shipping_method2 = shipping_method_container[shipping_method_container.invokeFactory('ShippingMethod', 'shippingmethod2',
+        title='ShippingMethöd2', vat=24.0)]
+    modified(shipping_method2)
+    workflow.doActionFor(shipping_method2, 'publish')
+
+    self.globs['shippingmethod2_uuid'] = IUUID(shipping_method2)
+
+    # Add Article
+    article1 = createContentInContainer(shop, 'collective.cart.core.Article', checkConstraints=False, title='Ärticle1',
+        money=Money(Decimal('12.40'), currency='EUR'), vat=Decimal('24.00'), reducible_quantity=100, sku='SKÖ1')
+    modified(article1)
+    workflow.doActionFor(article1, 'publish')
+
+    # Add Stock
+    stock1 = createContentInContainer(article1, 'collective.cart.stock.Stock', checkConstraints=False, title='Stöck1',
+        stock=10)
+    modified(stock1)
+
+    # # Create shop folder
+    # shop = portal[portal.invokeFactory('Folder', 'shop', title='Shöp')]
+    # modified(shop)
+    # workflow = getToolByName(portal, 'portal_workflow')
+    # workflow.doActionFor(shop, 'publish')
+
+    getUtility(IRegistry)['collective.cart.shopping.notification_cc_email'] = u'info@shop.com'
+
+    # ## Setup MockMailHost
+    from Products.CMFPlone.tests.utils import MockMailHost
+    from Products.MailHost.interfaces import IMailHost
+    from zope.component import getSiteManager
+    portal._original_MailHost = portal.MailHost
+    portal.MailHost = mailhost = MockMailHost('MailHost')
+    sm = getSiteManager(context=portal)
+    sm.unregisterUtility(provided=IMailHost)
+    sm.registerUtility(mailhost, provided=IMailHost)
+    self.globs.update({
+        'mailhost': portal.MailHost,
+    })
 
     transaction.commit()
 

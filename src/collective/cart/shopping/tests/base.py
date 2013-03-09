@@ -65,13 +65,6 @@ class IntegrationTestCase(BaseIntegrationTestCase):
 
     layer = INTEGRATION_TESTING
 
-    def create_atcontent(self, ctype, parent=None, **kwargs):
-        if parent is None:
-            parent = self.portal
-        content = parent[parent.invokeFactory(ctype, **kwargs)]
-        content.reindexObject()
-        return content
-
     def create_viewlet(self, viewlet, context=None, view=None, manager=None):
         if context is None:
             context = self.portal

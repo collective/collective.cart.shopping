@@ -13,7 +13,7 @@
         <p class="documentDescription" tal:condition="view/message" tal:content="view/message/description" />
         <p i18n:translate="">Your order number is <span id="number" i18n:name="number" tal:content="view/cart_id" />.</p>
         <div  tal:condition="view/message" tal:replace="structure view/message/text" />
-        <a class="button" tal:attributes="href view/order_url" i18n:translate="">Check the order</a>
+        <a tal:condition="not: context/@@plone_portal_state/anonymous" class="button" tal:attributes="href view/order_url" i18n:translate="">Check the order</a>
       </section>
     </metal:main>
   </body>

@@ -57,33 +57,6 @@ class ShoppingSiteTestCase(IntegrationTestCase):
         session.set('collective.cart.core', {'shipping_method': 'SHIPPINIG_METHOD'})
         self.assertEqual(adapter.shipping_method, 'SHIPPINIG_METHOD')
 
-    def test_update_cart(self):
-        adapter = IShoppingSite(self.portal)
-        adapter.update_cart('name', 'NAME')
-        self.assertIsNone(adapter.getSessionData(create=False))
-
-        session = adapter.getSessionData(create=True)
-        session.set('collective.cart.core', {})
-        adapter.update_cart('name', 'NAME')
-        self.assertEqual(session.get('collective.cart.core'), {'name': 'NAME'})
-
-    def test_remove_from_cart(self):
-        adapter = IShoppingSite(self.portal)
-        self.assertIsNone(adapter.cart)
-        self.assertIsNone(adapter.remove_from_cart('name'))
-        self.assertIsNone(adapter.cart)
-
-        session = adapter.getSessionData(create=True)
-        session.set('collective.cart.core', {})
-        self.assertEqual(adapter.cart, {})
-        self.assertIsNone(adapter.remove_from_cart('name'))
-        self.assertEqual(adapter.cart, {})
-
-        session.set('collective.cart.core', {'name': 'Name'})
-        self.assertEqual(adapter.cart, {'name': 'Name'})
-        self.assertEqual(adapter.remove_from_cart('name'), 'Name')
-        self.assertEqual(adapter.cart, {})
-
     def test__calculated_weight(self):
         adapter = IShoppingSite(self.portal)
         self.assertEqual(adapter._calculated_weight(), 0.0)

@@ -34,12 +34,6 @@ class IShoppingSite(IBaseShoppingSite):
     billing_same_as_shipping = Attribute('True if billing info in session cart is same as shipping info')
     is_addresses_filled = Attribute('True if addresses are filled')
 
-    def update_cart(name, items):  # pragma: no cover
-        """Update cart"""
-
-    def remove_from_cart(name):  # pragma: no cover
-        """Remove name from cart"""
-
     def get_shipping_gross_money(uuid):  # pragma: no cover
         """Get shipping gross money by uuid."""
 
@@ -54,9 +48,6 @@ class IShoppingSite(IBaseShoppingSite):
 
     def get_info(self, name):
         """Get address info which could be used directy in form."""
-
-    def create_cart(cart_id):  # pragma: no cover
-        """Create cart"""
 
     def get_brain_for_text(name):  # pragma: no cover
         """Get brain for displaying texts based on view name."""
@@ -208,87 +199,6 @@ class IBaseCustomerInfo(form.Schema):
 
     phone = TextLine(
         title=_(u'Phone Number'))
-
-
-# def get_cart_value(data):
-#     cart = IShoppingSite(data.context).cart
-#     if cart:
-#         info = ICartAdapter(cart).get_address(getattr(data.view, 'form_type', None))
-#         if info:
-#             return getattr(info, data.field.getName())
-
-
-# @form.default_value(field=IBaseCustomerInfo['first_name'])
-# def default_first_name(data):
-#     cart_value = get_cart_value(data)
-#     if cart_value:
-#         return cart_value
-
-#     portal_state = getMultiAdapter((data.context, data.request), name="plone_portal_state")
-#     if not portal_state.anonymous():
-#         member = portal_state.member()
-#         fullname = member.getProperty('fullname').strip()
-#         parts = [part for part in fullname.split(' ') if part != '']
-#         if len(parts) >= 1:
-#             parts = parts[:-1]
-#             return safe_unicode(' '.join(parts))
-
-
-# @form.default_value(field=IBaseCustomerInfo['last_name'])
-# def default_last_name(data):
-#     cart_value = get_cart_value(data)
-#     if cart_value:
-#         return cart_value
-
-#     portal_state = getMultiAdapter((data.context, data.request), name="plone_portal_state")
-#     if not portal_state.anonymous():
-#         member = portal_state.member()
-#         fullname = member.getProperty('fullname').strip()
-#         parts = [part for part in fullname.split(' ') if part != '']
-#         if len(parts) > 1:
-#             return safe_unicode(parts[-1])
-
-
-# @form.default_value(field=IBaseCustomerInfo['organization'])
-# def default_organization(data):
-#     return get_cart_value(data)
-
-
-# @form.default_value(field=IBaseCustomerInfo['vat'])
-# def default_vat(data):
-#     return get_cart_value(data) or u'FI'
-
-
-# @form.default_value(field=IBaseCustomerInfo['email'])
-# def default_email(data):
-#     cart_value = get_cart_value(data)
-#     if cart_value:
-#         return cart_value
-
-#     portal_state = getMultiAdapter((data.context, data.request), name="plone_portal_state")
-#     if not portal_state.anonymous():
-#         member = portal_state.member()
-#         return member.getProperty('email')
-
-
-# @form.default_value(field=IBaseCustomerInfo['street'])
-# def default_street(data):
-#     return get_cart_value(data)
-
-
-# @form.default_value(field=IBaseCustomerInfo['post'])
-# def default_post(data):
-#     return get_cart_value(data)
-
-
-# @form.default_value(field=IBaseCustomerInfo['city'])
-# def default_city(data):
-#     return get_cart_value(data)
-
-
-# @form.default_value(field=IBaseCustomerInfo['phone'])
-# def default_phone(data):
-#     return get_cart_value(data)
 
 
 info_types = SimpleVocabulary([
