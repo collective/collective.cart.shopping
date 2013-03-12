@@ -6,13 +6,12 @@ import os
 
 long_description = (
     open(os.path.join("src", "collective", "cart", "shopping", "docs", "README.rst")).read() + "\n" +
-    open(os.path.join("src", "collective", "cart", "shopping", "docs", "HISTORY.rst")).read() + "\n" +
-    open(os.path.join("src", "collective", "cart", "shopping", "docs", "CONTRIBUTORS.rst")).read())
+    open(os.path.join("src", "collective", "cart", "shopping", "docs", "HISTORY.rst")).read())
 
 
 setup(
     name='collective.cart.shopping',
-    version='0.2.2',
+    version='0.2.2.1',
     description="Shopping site suit for Plone.",
     long_description=long_description,
     classifiers=[

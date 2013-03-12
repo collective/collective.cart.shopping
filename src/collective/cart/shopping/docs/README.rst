@@ -7,4 +7,4 @@ collective.cart.shopping adds shop content type to Plone.
 Currently tested with
 ---------------------
 
-* Plone-4.2.4 [taito]
+* Plone-4.2.5 with Python-2.7.x
