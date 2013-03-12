@@ -64,6 +64,9 @@ class IShoppingSite(IBaseShoppingSite):
         :rtype: unicode or None
         """
 
+    def reduce_stocks():  # pragma: no cover
+        """Reduce stocks from articles"""
+
 
 class IShoppingSiteMultiAdapter(Interface):
     """Multi adapter interface for updating cart."""
@@ -255,6 +258,24 @@ class IShippingAddressConfirmedEvent(Interface):
 
 class IPriceUtility(Interface):
     """Utility interface for price."""
+
+
+class IMoneyUtility(Interface):
+    """Uitility interface for money."""
+
+    def __call__(money, currency=None, decimal=2):
+        """Convert money to the currency with proper decimal point.
+
+        :param money: Money object
+        :type money: moneyed.Money,
+
+        :param currency: Currency code or None
+        :type currency: str or None
+
+        :param decimal: Decimal point
+        :type decimal: int
+
+        :rtype: moneyed.Money"""
 
 
 class IUnicodeUtility(Interface):

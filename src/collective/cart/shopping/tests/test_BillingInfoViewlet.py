@@ -5,7 +5,6 @@ from collective.cart.shopping.browser.viewlet import BillingInfoViewlet
 from collective.cart.shopping.tests.base import IntegrationTestCase
 from plone.uuid.interfaces import IUUID
 from zope.interface import alsoProvides
-from zope.publisher.browser import TestRequest
 
 import mock
 
@@ -27,17 +26,13 @@ class BillingInfoViewletTestCase(IntegrationTestCase):
         from collective.cart.shopping.browser.viewlet import BillingAndShippingViewletManager
         self.assertTrue(getattr(BillingInfoViewlet, 'grokcore.viewlet.directive.viewletmanager'), BillingAndShippingViewletManager)
 
-    def create_viewlet(self):
-        request = TestRequest()
-        return BillingInfoViewlet(self.portal, request, None, None)
-
     @mock.patch('collective.cart.shopping.browser.viewlet.IShoppingSite')
     def test_billing_info(self, IShoppingSite):
-        instance = self.create_viewlet()
+        instance = self.create_viewlet(BillingInfoViewlet)
         self.assertEqual(instance.billing_info, IShoppingSite().get_info())
 
     def test_shipping_methods(self):
-        instance = self.create_viewlet()
+        instance = self.create_viewlet(BillingInfoViewlet)
         with self.assertRaises(TypeError):
             instance.shipping_methods
 
@@ -83,7 +78,7 @@ class BillingInfoViewletTestCase(IntegrationTestCase):
         }])
 
     def test_single_shipping_method(self):
-        instance = self.create_viewlet()
+        instance = self.create_viewlet(BillingInfoViewlet)
         with self.assertRaises(TypeError):
             instance.single_shipping_method
 
@@ -107,7 +102,7 @@ class BillingInfoViewletTestCase(IntegrationTestCase):
         self.assertFalse(instance.single_shipping_method)
 
     def test_billing_same_as_shipping(self):
-        instance = self.create_viewlet()
+        instance = self.create_viewlet(BillingInfoViewlet)
         with self.assertRaises(AttributeError):
             instance.billing_same_as_shipping
 
@@ -121,6 +116,21 @@ class BillingInfoViewletTestCase(IntegrationTestCase):
         session.set('collective.cart.core', {'billing_same_as_shipping': True})
         self.assertTrue(instance.billing_same_as_shipping)
 
+    @mock.patch('collective.cart.shopping.browser.viewlet.IStatusMessage')
+    def test_update(self, IStatusMessage):
+        alsoProvides(self.portal, IShoppingSiteRoot)
+        self.portal.absolute_url = mock.Mock(return_value='shop_url')
+        instance = self.create_viewlet(BillingInfoViewlet)
+        instance.request.form = {'form.buttons.back': True}
+        self.assertEqual(instance.update(), 'shop_url/@@cart')
 
-    # def test_update(self):
-    #
+        container = self.create_content('collective.cart.shipping.ShippingMethodContainer')
+        self.create_atcontent('ShippingMethod', container, id='shippingmethod1')
+        shippingmethod2 = self.create_atcontent('ShippingMethod', container, id='shippingmethod2')
+        instance.request.form = {'form.to.confirmation': True}
+        self.portal.restrictedTraverse = mock.Mock()
+        self.portal.restrictedTraverse().current_base_url = mock.Mock(return_value='current_base_url')
+        session = IShoppingSite(self.portal).getSessionData(create=True)
+        session.set('collective.cart.core', {'shipping_method': {'uuid': IUUID(shippingmethod2)}})
+        self.assertEqual(instance.update(), 'current_base_url')
+        IStatusMessage().addStatusMessage.assert_called_with(u'Select one shipping method.', type='warn')

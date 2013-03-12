@@ -16,13 +16,12 @@
   <include package="collective.behavior.stock"/>
   <include package="collective.behavior.vat"/>
   <include package="plone.app.relationfield"/>
+  <include package=".browser" />
+  <include file="upgrades.zcml"/>
 
   <grok:grok package="." />
   <five:registerPackage package="." initialize=".initialize" />
   <i18n:registerTranslations directory="locales" />
-
-  <include package=".browser" />
-  <include package=".utility" />
 
   <genericsetup:registerProfile
     description="Installs the collective.cart.shopping package"
@@ -61,7 +60,5 @@
     provides=".interfaces.IStockPrice"
     title="Stock Price"
     />
-
-  <include file="upgrades.zcml"/>
 
 </configure>

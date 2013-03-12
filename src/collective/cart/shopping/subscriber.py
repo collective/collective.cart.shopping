@@ -10,8 +10,7 @@ from Products.statusmessages.interfaces import IStatusMessage
 from collective.behavior.discount.interfaces import IDiscount
 from collective.behavior.stock.interfaces import IStock
 from collective.cart.core.interfaces import IArticle
-from collective.cart.core.interfaces import ICartArticle
-from collective.cart.core.interfaces import IMakeShoppingSiteEvent
+# from collective.cart.core.interfaces import IMakeShoppingSiteEvent
 from collective.cart.shopping import _
 from collective.cart.shopping.interfaces import IArticleAddedToCartEvent
 from collective.cart.shopping.interfaces import ICart
@@ -26,24 +25,20 @@ from email.Header import Header
 from five import grok
 from plone.dexterity.utils import createContentInContainer
 from plone.registry.interfaces import IRegistry
-from smtplib import SMTPRecipientsRefused
+# from smtplib import SMTPRecipientsRefused
 from zope.component import getUtility
 from zope.lifecycleevent import modified
 from zope.lifecycleevent.interfaces import IObjectAddedEvent
 from zope.lifecycleevent.interfaces import IObjectCreatedEvent
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
-from zope.lifecycleevent.interfaces import IObjectRemovedEvent
 
 
 def set_moneys(context):
-    if not hasattr(context, 'gross_money') or (
-        hasattr(context, 'gross_money') and context.gross_money != context.money):
-        gross = context.money
-        vat = gross * context.vat / (100 + context.vat)
-        net = gross - vat
-        setattr(context, 'gross_money', gross)
-        setattr(context, 'vat_money', vat)
-        setattr(context, 'net_money', net)
+    gross = context.money
+    vat = gross * context.vat / (100 + context.vat)
+    net = gross - vat
+    setattr(context, 'vat_money', vat)
+    setattr(context, 'net_money', net)
     discount_gross = IDiscount(context).discount_money
     if discount_gross:
         if not hasattr(context, 'discount_gross') or (
@@ -66,14 +61,6 @@ def update_moneys(context, event):
     set_moneys(context)
 
 
-@grok.subscribe(ICartArticle, IObjectRemovedEvent)
-def set_quantity_back_to_orig_article(context, event):
-    article = ICartArticleAdapter(context).orig_article
-    if article:
-        IStock(article).add_stock(context.quantity)
-        modified(article)
-
-
 @grok.subscribe(IATImage, IObjectCreatedEvent)
 def warn_number_of_images(context, event):
     if context == event.object:
@@ -93,15 +80,6 @@ def warn_number_of_images(context, event):
                 IStatusMessage(container.REQUEST).addStatusMessage(message, type='warn')
                 url = '{}/@@folder_contents'.format(container.absolute_url())
                 return container.REQUEST.RESPONSE.redirect(url)
-
-
-@grok.subscribe(IMakeShoppingSiteEvent)
-def add_shipping_methods(event):
-    context = event.context
-    if not context.get('shipping-methods'):
-        folder = context[context.invokeFactory('Folder', 'shipping-methods', title='Shipping Methods')]
-        folder.setExcludeFromNav(True)
-        folder.reindexObject()
 
 
 @grok.subscribe(IShop, IObjectAddedEvent)
@@ -166,13 +144,15 @@ def notify_ordered(context, event):
         ORDERED_CONTENTS = context.translate(_(u'Ordered contents'))
         SKU = context.translate(_(u'SKU'))
         articles = []
-        for article in cadapter.articles:
+        for article in shopping_site.cart_article_listing:
+            quantity = article['quantity']
+            subtotal = article['gross'] * quantity
             article_line = u'{SKU}: {sku}\n{title} x {quantity} = {subtotal}'.format(
                 SKU=SKU,
                 sku=utility.safe_unicode(article['sku']),
-                title=article['title'],
-                quantity=article['quantity'],
-                subtotal=article['gross_subtotal'])
+                title=utility.safe_unicode(article['title']),
+                quantity=quantity,
+                subtotal=subtotal)
             articles.append(article_line)
         article_lines = u'\n'.join(articles)
 
@@ -218,22 +198,24 @@ def notify_ordered(context, event):
             underline='=' * 28,
             SHIPPING_METHOD=SHIPPING_METHOD,
             shipping_method=shipping_method,
-            shipping_gross_momey=cadapter.shipping_gross_money,
+            shipping_gross_momey=shopping_site.shipping_gross_money,
             TOTAL=TOTAL,
-            total=cadapter.total,
+            total=shopping_site.total,
             LINK=LINK)
 
         message = message_from_string(mail_text.encode(default_charset).strip())
         message.set_charset(email_charset)
         message['CC'] = Header(mfrom)
 
-        try:
-            host.send(message, mto, mfrom, subject=subject,
-                      charset=email_charset)
-        except SMTPRecipientsRefused:
-            # Don't disclose email address on failure
-            raise SMTPRecipientsRefused(
-                _(u'Recipient address rejected by server.'))
+        host.send(message, mto, mfrom, subject=subject, charset=email_charset)
+
+        # try:
+        #     host.send(message, mto, mfrom, subject=subject,
+        #               charset=email_charset)
+        # except SMTPRecipientsRefused:
+        #     # Don't disclose email address on failure
+        #     raise SMTPRecipientsRefused(
+        #         _(u'Recipient address rejected by server.'))
 
 
 @grok.subscribe(IArticleAddedToCartEvent)

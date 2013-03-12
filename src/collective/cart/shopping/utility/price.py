@@ -1,11 +1,12 @@
 from collective.cart.shopping.interfaces import IPriceUtility
 from decimal import Decimal
 from decimal import ROUND_HALF_UP
+from five import grok
 from zope.interface import implements
 
 
-class Price(object):
-
+class PriceUtility(object):
+    """Utility for Price"""
     implements(IPriceUtility)
 
     def __init__(self, type_in_string):
@@ -40,6 +41,6 @@ class Price(object):
             if self.type == "float":
                 return float(price)
 
-float_price = Price("float")
-decimal_price = Price("decimal")
-string_price = Price("string")
+grok.global_utility(PriceUtility("float"), IPriceUtility, name="float", direct=True)
+grok.global_utility(PriceUtility("decimal"), IPriceUtility, name="decimal", direct=True)
+grok.global_utility(PriceUtility("string"), IPriceUtility, name="string", direct=True)

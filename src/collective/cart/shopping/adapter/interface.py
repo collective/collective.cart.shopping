@@ -7,7 +7,6 @@ from collective.behavior.price.interfaces import ICurrency
 from collective.behavior.size.interfaces import ISize
 from collective.behavior.stock.interfaces import IStock
 from collective.cart.core.adapter.interface import ShoppingSite as BaseShoppingSite
-from collective.cart.core.interfaces import IBaseAdapter
 from collective.cart.shipping.interfaces import IShippingMethod
 from collective.cart.shopping import _
 from collective.cart.shopping.event import ArticleAddedToCartEvent
@@ -55,21 +54,6 @@ class ShoppingSite(BaseShoppingSite):
     def shipping_method(self):
         if self.cart:
             return self.cart.get('shipping_method')
-
-    # def update_cart(self, name, items):
-    #     session = self.getSessionData(create=False)
-    #     if session:
-    #         cart = session.get('collective.cart.core')
-    #         cart[name] = items
-    #         session.set('collective.cart.core', cart)
-
-    # def remove_from_cart(self, name):
-    #     if self.cart:
-    #         cart = self.cart.copy()
-    #         values = cart.pop(name, None)
-    #         session = self.getSessionData(create=False)
-    #         session.set('collective.cart.core', cart)
-    #         return values
 
     def _calculated_weight(self, rate=None):
         weight = 0.0
@@ -309,6 +293,14 @@ class ShoppingSite(BaseShoppingSite):
 
         return message
 
+    def reduce_stocks(self):
+        for item in self.cart_article_listing:
+            uuid = item['id']
+            quantity = item['quantity']
+            obj = self.get_object(UID=uuid)
+            IStock(obj).sub_stock(quantity)
+            modified(obj)
+
 
 class ShoppingSiteMultiAdapter(grok.MultiAdapter):
 
@@ -331,8 +323,8 @@ class ShoppingSiteMultiAdapter(grok.MultiAdapter):
             if quantity is not None and validate(quantity) == 1:
                 quantity = int(quantity)
                 if quantity >= 0:
-                    base = IBaseAdapter(self.context)
-                    obj = base.get_object(UID=uuid)
+                    shopping_site = IShoppingSite(self.context)
+                    obj = shopping_site.get_object(UID=uuid)
                     if obj:
                         item = IArticleAdapter(obj)
                         if item.addable_to_cart:
@@ -340,7 +332,6 @@ class ShoppingSiteMultiAdapter(grok.MultiAdapter):
                                 quantity = item.quantity_max
                             if quantity > 0:
                                 size = ISize(obj)
-
                                 kwargs = {
                                     'depth': size.depth,
                                     'gross': item.gross,
@@ -382,7 +373,7 @@ class CartArticleMultiAdapter(grok.MultiAdapter):
     def orig_article(self):
         """Returns original Article object."""
         uuid = self.article['id']
-        return IBaseAdapter(self.context).get_object(UID=uuid)
+        return IShoppingSite(self.context).get_object(UID=uuid)
 
     @property
     def image_url(self):

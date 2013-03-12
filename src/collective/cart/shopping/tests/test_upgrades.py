@@ -1,15 +1,36 @@
 from Products.CMFCore.utils import getToolByName
 from collective.cart.shopping.tests.base import IntegrationTestCase
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import setRoles
+from collective.cart.shopping.upgrades import PROFILE_ID
+
+import mock
 
 
 class TestCase(IntegrationTestCase):
     """TestCase for upgrade steps."""
 
-    def setUp(self):
-        self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+    @mock.patch('collective.cart.shopping.upgrades.getToolByName')
+    def test_reimport_rolemap(self, getToolByName):
+        from collective.cart.shopping.upgrades import reimport_rolemap
+        reimport_rolemap(self.portal)
+        getToolByName().runImportStepFromProfile.assert_called_with(PROFILE_ID, 'rolemap', run_dependencies=False, purge_old=False)
+
+    @mock.patch('collective.cart.shopping.upgrades.getToolByName')
+    def test_reimport_propertiestool(self, getToolByName):
+        from collective.cart.shopping.upgrades import reimport_propertiestool
+        reimport_propertiestool(self.portal)
+        getToolByName().runImportStepFromProfile.assert_called_with(PROFILE_ID, 'propertiestool', run_dependencies=False, purge_old=False)
+
+    @mock.patch('collective.cart.shopping.upgrades.getToolByName')
+    def test_reimport_viewlets(self, getToolByName):
+        from collective.cart.shopping.upgrades import reimport_viewlets
+        reimport_viewlets(self.portal)
+        getToolByName().runImportStepFromProfile.assert_called_with(PROFILE_ID, 'viewlets', run_dependencies=False, purge_old=False)
+
+    @mock.patch('collective.cart.shopping.upgrades.getToolByName')
+    def test_reimport_registry(self, getToolByName):
+        from collective.cart.shopping.upgrades import reimport_registry
+        reimport_registry(self.portal)
+        getToolByName().runImportStepFromProfile.assert_called_with(PROFILE_ID, 'plone.app.registry', run_dependencies=False, purge_old=False)
 
     def test_reimport_typeinfo(self):
         types = getToolByName(self.portal, 'portal_types')
@@ -23,7 +44,7 @@ class TestCase(IntegrationTestCase):
         self.assertEqual(ctype.allowed_content_types, ('Image',
             'collective.cart.core.Article', 'collective.cart.stock.Stock'))
 
-    def test_update_catalog(self):
+    def test_reimport_catalog(self):
         from collective.cart.shopping.interfaces import ICustomerInfo
         from plone.dexterity.utils import createContentInContainer
         item = {
@@ -46,8 +67,8 @@ class TestCase(IntegrationTestCase):
         catalog.delColumn(column)
         self.assertNotIn(column, catalog.schema())
 
-        from collective.cart.shopping.upgrades import update_catalog
-        update_catalog(self.portal)
+        from collective.cart.shopping.upgrades import reimport_catalog
+        reimport_catalog(self.portal)
 
         self.assertIn(column, catalog.schema())
         self.assertNotEqual(len(catalog()), 0)

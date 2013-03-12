@@ -117,4 +117,5 @@ def test_suite():
         DocFileSuite('functional/manager-order-confirmation.txt'),
         DocFileSuite('functional/manager-shipping.txt'),
         DocFileSuite('functional/manager-stock.txt'),
-        DocFileSuite('functional/related-articles.txt')])
+        DocFileSuite('functional/related-articles.txt'),
+        DocFileSuite('functional/warn_number_of_images.txt')])

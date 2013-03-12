@@ -6,7 +6,7 @@
   <genericsetup:upgradeStep
     description=""
     destination="1"
-    handler="collective.cart.shopping.upgrades.update_typeinfo"
+    handler="collective.cart.shopping.upgrades.reimport_typeinfo"
     profile="collective.cart.shopping:default"
     sortkey="1"
     source="0"
@@ -16,7 +16,7 @@
   <genericsetup:upgradeStep
     description=""
     destination="3"
-    handler="collective.cart.shopping.upgrades.update_rolemap"
+    handler="collective.cart.shopping.upgrades.reimport_rolemap"
     profile="collective.cart.shopping:default"
     sortkey="1"
     source="2"
@@ -26,7 +26,7 @@
   <genericsetup:upgradeStep
     description=""
     destination="4"
-    handler="collective.cart.shopping.upgrades.update_catalog"
+    handler="collective.cart.shopping.upgrades.reimport_catalog"
     profile="collective.cart.shopping:default"
     sortkey="1"
     source="3"
@@ -36,7 +36,7 @@
   <genericsetup:upgradeStep
     description="Update for icon of collective.cart.shopping.CustomerInfo."
     destination="5"
-    handler="collective.cart.shopping.upgrades.update_typeinfo"
+    handler="collective.cart.shopping.upgrades.reimport_typeinfo"
     profile="collective.cart.shopping:default"
     sortkey="1"
     source="4"
@@ -46,7 +46,7 @@
   <genericsetup:upgradeStep
     description="Add use_subarticle to index."
     destination="6"
-    handler="collective.cart.shopping.upgrades.update_catalog"
+    handler="collective.cart.shopping.upgrades.reimport_catalog"
     profile="collective.cart.shopping:default"
     sortkey="1"
     source="5"
@@ -54,19 +54,9 @@
     />
 
   <genericsetup:upgradeStep
-    description="Update use_subarticle attribute for collective.cart.core.Article."
-    destination="7"
-    handler="collective.cart.shopping.upgrades.upgrade_6_to_7"
-    profile="collective.cart.shopping:default"
-    sortkey="1"
-    source="6"
-    title="Update collective.cart.core.Article"
-    />
-
-  <genericsetup:upgradeStep
     description="Fixes order of viewlets at @@billing-and-shipping view."
     destination="9"
-    handler="collective.cart.shopping.upgrades.update_viewlets"
+    handler="collective.cart.shopping.upgrades.reimport_viewlets"
     profile="collective.cart.shopping:default"
     sortkey="1"
     source="8"

@@ -78,7 +78,7 @@ Go to Ärticle1::
     >>> print browser.bycss('.sold-out')
 
     >>> article1 = portal['shop']['article-container']['article1']
-    >>> article1.gross_money
+    >>> article1.money
     12.30 EUR
     >>> article1.vat_money
     2.30 EUR

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# from zope.event import notify
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from Products.statusmessages.interfaces import IStatusMessage
@@ -13,6 +12,7 @@ from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.base import Message
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
+from collective.cart.shopping.event import BillingAddressConfirmedEvent
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
@@ -27,6 +27,7 @@ from plone.app.layout.viewlets.interfaces import IBelowContent
 from plone.app.viewletmanager.manager import OrderedViewletManager
 from plone.uuid.interfaces import IUUID
 from zope.component import getMultiAdapter
+from zope.event import notify
 
 
 grok.templatedir('viewlets')
@@ -375,7 +376,7 @@ class BillingInfoViewlet(BaseShoppingSiteRootViewlet):
 
             shopping_site.update_shipping_method(shipping_method)
 
-            # notify(BillingAddressConfirmedEvent(cart))
+            notify(BillingAddressConfirmedEvent(self.context))
 
             return self.request.response.redirect(url)
 

@@ -24,9 +24,9 @@ class ThanksViewTestCase(IntegrationTestCase):
         self.assertEqual(getattr(ThanksView, 'grokcore.view.directive.template'), 'thanks')
 
     @mock.patch('collective.cart.shopping.browser.template.getToolByName')
-    @mock.patch('collective.cart.shopping.browser.template.IStockBehavior')
     @mock.patch('collective.cart.shopping.browser.template.IStatusMessage')
-    def test_update(self, IStatusMessage, IStockBehavior, getToolByName):
+    def test_update(self, IStatusMessage, getToolByName):
+        from collective.behavior.stock.interfaces import IStock
         instance = self.create_view(ThanksView)
 
         adapter = IShoppingSite(self.portal)
@@ -52,13 +52,17 @@ class ThanksViewTestCase(IntegrationTestCase):
         alsoProvides(self.portal, IShoppingSiteRoot)
         container = self.create_content('collective.cart.core.CartContainer', id='cart-container')
         article = self.create_content('collective.cart.core.Article', id='article', money=self.money('12.40'), vat=self.decimal('24.00'))
-        IStockBehavior().stock = 10
+        self.create_content('collective.cart.stock.Stock', article, stock=10)
+        behavior = IStock(article)
+        self.assertEqual(behavior.stock, 10)
+
         uuid = IUUID(article)
-        adapter.update_cart('articles', {uuid: {'id': uuid}})
+        adapter.update_cart('articles', {uuid: {'id': uuid, 'quantity': 2}})
         instance.request.form = {'form.buttons.ConfirmOrder': True}
         self.assertIsNone(instance.update())
         getToolByName().doActionFor.assert_called_with(container['1'], 'ordered')
         self.assertEqual(instance.cart_id, '1')
+        self.assertEqual(behavior.stock, 8)
 
         confirmation_terms_message = self.create_atcontent('Folder', id='confirmation-terms-message')
         self.create_atcontent('Document', confirmation_terms_message, id='en')

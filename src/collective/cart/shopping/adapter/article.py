@@ -8,11 +8,13 @@ from collective.cart.core.adapter.article import ArticleAdapter as BaseArticleAd
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
+from collective.cart.shopping.interfaces import IMoneyUtility
 from datetime import date
 from datetime import datetime
 from datetime import time
 from five import grok
 from plone.uuid.interfaces import IUUID
+from zope.component import getUtility
 
 
 class ArticleAdapter(BaseArticleAdapter):
@@ -128,19 +130,23 @@ class ArticleAdapter(BaseArticleAdapter):
     def gross(self):
         if self.discount_available:
             return self.context.discount_gross
-        return self.context.gross_money
+        return self.context.money
 
     @property
     def vat(self):
         if self.discount_available:
-            return self.context.discount_vat
-        return self.context.vat_money
+            money = self.context.discount_vat
+        else:
+            money = self.context.vat_money
+        return getUtility(IMoneyUtility)(money)
 
     @property
     def net(self):
         if self.discount_available:
-            return self.context.discount_net
-        return self.context.net_money
+            money = self.context.discount_net
+        else:
+            money = self.context.net_money
+        return getUtility(IMoneyUtility)(money)
 
     @property
     def soldout(self):

@@ -1,0 +1,54 @@
+Log in as Manager::
+
+    >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+
+Add Article::
+
+    >>> browser.open('/++add++collective.cart.core.Article')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Article'
+    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU'
+    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '12.40'
+    >>> browser.getControl(name="form.widgets.ISize.weight").value = '100.0'
+    >>> browser.getControl(name="form.buttons.save").click()
+
+Add Image1::
+
+    >>> import StringIO
+    >>> browser.open('/article/createObject?type_name=Image')
+    >>> dummy_image1 = StringIO.StringIO('Dummy image1')
+    >>> browser.getControl(name='image_file').mech_control.add_file(dummy_image1, filename='dummy1.png')
+    >>> browser.getControl(name="form.button.save").click()
+    >>> browser.url
+    'http://nohost/plone/article/dummy1.png/view'
+    >>> print browser.bycss('.warn')
+
+Add Image2::
+
+    >>> browser.open('/article/createObject?type_name=Image')
+    >>> dummy_image2 = StringIO.StringIO('Dummy image2')
+    >>> browser.getControl(name='image_file').mech_control.add_file(dummy_image2, filename='dummy2.png')
+    >>> browser.getControl(name="form.button.save").click()
+    >>> browser.url
+    'http://nohost/plone/article/dummy2.png/view'
+    >>> print browser.bycss('.warn')
+
+Add Image3::
+
+    >>> browser.open('/article/createObject?type_name=Image')
+    >>> dummy_image3 = StringIO.StringIO('Dummy image3')
+    >>> browser.getControl(name='image_file').mech_control.add_file(dummy_image3, filename='dummy3.png')
+    >>> browser.getControl(name="form.button.save").click()
+    >>> browser.url
+    'http://nohost/plone/article/dummy3.png/view'
+    >>> print browser.bycss('.warn')
+
+Add Image4::
+
+    >>> browser.open('/article/createObject?type_name=Image')
+    >>> browser.url
+    'http://nohost/plone/article/@@folder_contents'
+    >>> print browser.bycss('.warn')
+    --- 1 ---
+    <dl class="portalMessage warn"><dt>Warn</dt>
+    <dd>You need to first remove some images to add here one.</dd>
+    </dl>

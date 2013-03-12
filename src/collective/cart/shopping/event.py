@@ -15,12 +15,12 @@ class ArticleAddedToCartEvent(object):
 class BillingAddressConfirmedEvent(object):
     implements(IBillingAddressConfirmedEvent)
 
-    def __init__(self, cart):
-        self.cart = cart
+    def __init__(self, context):
+        self.context = context
 
 
 class ShippingAddressConfirmedEvent(object):
     implements(IShippingAddressConfirmedEvent)
 
-    def __init__(self, cart):
-        self.cart = cart
+    def __init__(self, context):
+        self.context = context

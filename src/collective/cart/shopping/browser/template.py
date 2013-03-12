@@ -1,5 +1,3 @@
-# from collective.cart.shopping.event import ShippingAddressConfirmedEvent
-# from zope.event import notify
 from Acquisition import aq_inner
 from Products.ATContentTypes.interfaces.image import IATImage
 from Products.CMFCore.utils import getToolByName
@@ -13,6 +11,7 @@ from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.base import Message
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
+from collective.cart.shopping.event import ShippingAddressConfirmedEvent
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
@@ -26,6 +25,7 @@ from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 from zope.component import getMultiAdapter
 from zope.component import getUtility
+from zope.event import notify
 
 import csv
 
@@ -250,8 +250,7 @@ class ShippingInfoView(BaseCheckOutView, Message):
                 IStatusMessage(self.request).addStatusMessage(message, type='warn')
                 return self.request.response.redirect(current_url)
 
-                # cart = self.shopping_site.cart
-                # notify(ShippingAddressConfirmedEvent(cart))
+            notify(ShippingAddressConfirmedEvent(self.context))
 
             url = '{}/@@order-confirmation'.format(shop_url)
             return self.request.response.redirect(url)
@@ -287,10 +286,15 @@ class ThanksView(OrderConfirmationView, Message):
                 url = '{}/@@order-confirmation'.format(context_url)
                 return self.request.response.redirect(url)
             else:
+                # Create cart to cart container from session.
                 cart = self.shopping_site.create_cart()
                 self.cart_id = cart.id
+                # Change state of cart from created to ordered.
                 workflow = getToolByName(context, 'portal_workflow')
                 workflow.doActionFor(cart, 'ordered')
+                # Reduce stocks from ordered stocks.
+                self.shopping_site.reduce_stocks()
+                # Clear articles from session.
                 self.shopping_site.clear_cart('articles')
 
         elif form.get('form.buttons.back') is not None:

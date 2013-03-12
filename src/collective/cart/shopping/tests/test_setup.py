@@ -6,9 +6,6 @@ from collective.cart.shopping.tests.base import IntegrationTestCase
 class TestCase(IntegrationTestCase):
     """TestCase for Plone setup."""
 
-    def setUp(self):
-        self.portal = self.layer['portal']
-
     def test_is_package_installed(self):
         installer = getToolByName(self.portal, 'portal_quickinstaller')
         self.failUnless(installer.isProductInstalled('collective.cart.shopping'))
