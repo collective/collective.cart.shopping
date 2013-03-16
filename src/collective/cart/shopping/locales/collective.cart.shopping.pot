@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-03-12 11:49+0000\n"
+"POT-Creation-Date: 2013-03-16 07:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,7 +62,7 @@ msgstr ""
 msgid "Billing"
 msgstr ""
 
-#: ./subscriber.py:130
+#: ./browser/templates/order-mail-template.pt:21
 msgid "Billing Address"
 msgstr ""
 
@@ -200,7 +200,7 @@ msgstr ""
 msgid "Last name is missing."
 msgstr ""
 
-#: ./browser/template.py:326
+#: ./browser/template.py:327
 msgid "Name"
 msgstr ""
 
@@ -224,8 +224,8 @@ msgstr ""
 msgid "Only for organization customer"
 msgstr ""
 
-#: ./subscriber.py:144
-msgid "Ordered contents"
+#: ./browser/templates/order-mail-template.pt:28
+msgid "Order Contents"
 msgstr ""
 
 #: ./browser/templates/customer-info.pt:25
@@ -250,7 +250,7 @@ msgstr ""
 msgid "Post Code"
 msgstr ""
 
-#: ./browser/template.py:327
+#: ./browser/template.py:328
 msgid "Price"
 msgstr ""
 
@@ -279,8 +279,7 @@ msgstr ""
 msgid "Representative Image"
 msgstr ""
 
-#: ./browser/template.py:325
-#: ./subscriber.py:145
+#: ./browser/template.py:326
 msgid "SKU"
 msgstr ""
 
@@ -300,7 +299,7 @@ msgstr ""
 msgid "Shipping"
 msgstr ""
 
-#: ./subscriber.py:135
+#: ./browser/templates/order-mail-template.pt:24
 msgid "Shipping Address"
 msgstr ""
 
@@ -309,7 +308,6 @@ msgid "Shipping Info"
 msgstr ""
 
 #: ./browser/viewlets/billing-info.pt:96
-#: ./subscriber.py:159
 msgid "Shipping Method"
 msgstr ""
 
@@ -331,7 +329,7 @@ msgstr ""
 msgid "Sold Out"
 msgstr ""
 
-#: ./browser/template.py:328
+#: ./browser/template.py:329
 #: ./profiles/default/actions.xml
 msgid "Stock"
 msgstr ""
@@ -351,12 +349,11 @@ msgstr ""
 msgid "Street address is missing."
 msgstr ""
 
-#: ./browser/template.py:329
+#: ./browser/template.py:330
 msgid "Subtotal"
 msgstr ""
 
 #: ./browser/templates/thanks.pt:12
-#: ./subscriber.py:124
 msgid "Thank you for the order."
 msgstr ""
 
@@ -366,7 +363,6 @@ msgstr ""
 
 #: ./browser/viewlets/cart-total.pt:4
 #: ./browser/viewlets/confirmation-total.pt:4
-#: ./subscriber.py:163
 msgid "Total"
 msgstr ""
 
@@ -396,7 +392,7 @@ msgstr ""
 msgid "View Order"
 msgstr ""
 
-#: ./subscriber.py:79
+#: ./subscriber.py:75
 msgid "You need to first remove some images to add here one."
 msgstr ""
 
@@ -405,7 +401,7 @@ msgid "Your order number is ${number}."
 msgstr ""
 
 #. Default: "Add less than ${number}."
-#: ./browser/template.py:144
+#: ./browser/template.py:145
 msgid "add_less_than_number"
 msgstr ""
 
@@ -415,7 +411,7 @@ msgid "agree_with_terms"
 msgstr ""
 
 #. Default: "${title} is added to cart."
-#: ./subscriber.py:224
+#: ./subscriber.py:160
 msgid "article-added-to-cart"
 msgstr ""
 
@@ -430,17 +426,17 @@ msgid "description_no_stocks_available"
 msgstr ""
 
 #. Default: "Some information is missing from addresses."
-#: ./browser/template.py:265
+#: ./browser/template.py:266
 msgid "info_missing_from_addresses"
 msgstr ""
 
 #. Default: "Link to the order: ${url}"
-#: ./subscriber.py:167
+#: ./browser/templates/order-mail-template.pt:39
 msgid "link-to-order"
 msgstr ""
 
 #. Default: "You need to accept the terms to process the order."
-#: ./browser/template.py:284
+#: ./browser/template.py:285
 msgid "need_to_accept_terms"
 msgstr ""
 
@@ -449,9 +445,40 @@ msgstr ""
 msgid "no_more_than_quantity"
 msgstr ""
 
+#. Default: "${title} x ${quantity} = ${subtotal}"
+#: ./browser/templates/order-mail-template.pt:32
+msgid "order-contents-article"
+msgstr ""
+
+#. Default: "SKU: ${sku}"
+#: ./browser/templates/order-mail-template.pt:31
+msgid "order-contents-sku"
+msgstr ""
+
+#. Default: "Thank you for the order."
+#: ./browser/templates/order-mail-template.pt:15
+msgid "order-mail-template-thanks-message"
+msgstr ""
+
 #. Default: "Order Number: ${number}"
-#: ./subscriber.py:118
+#: ./browser/templates/order-mail-template.pt:18
+#: ./subscriber.py:108
 msgid "order-number"
+msgstr ""
+
+#. Default: "The order was processed but we could not send e-mail to you successfully. Please consult the shop owner."
+#: ./subscriber.py:152
+msgid "order-processed-but"
+msgstr ""
+
+#. Default: "Shipping Method: ${shipping-method-title} ${shipping-gross-money}"
+#: ./browser/templates/order-mail-template.pt:35
+msgid "order-shipping-method"
+msgstr ""
+
+#. Default: "Total: ${total}"
+#: ./browser/templates/order-mail-template.pt:37
+msgid "order-total"
 msgstr ""
 
 #: ./browser/viewlets/add-subarticle-to-cart.pt:33
@@ -471,17 +498,17 @@ msgid "stock_of_article"
 msgstr ""
 
 #. Default: "Subtract less than ${number}."
-#: ./browser/template.py:158
+#: ./browser/template.py:159
 msgid "subtract_less_than_number"
 msgstr ""
 
 #. Default: "Successfully added ${number} pc(s)."
-#: ./browser/template.py:148
+#: ./browser/template.py:149
 msgid "successfully_added_number"
 msgstr ""
 
 #. Default: "Successfully subtracted ${number} pc(s)."
-#: ./browser/template.py:162
+#: ./browser/template.py:163
 msgid "successfully_subtracted_number"
 msgstr ""
 

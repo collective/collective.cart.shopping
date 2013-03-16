@@ -128,17 +128,17 @@ Confirm the order::
 Check the newest message sent::
 
     >>> len(mailhost.messages)
-    1
+    2
 
-    >>> msg = mailhost.messages[-1]
+    >>> msg = mailhost.messages[-2]
     >>> prink(msg)
     MIME-Version: 1.0
     Content-Type: text/plain; charset="utf-8"
     Content-Transfer-Encoding: quoted-printable
-    CC: email@from.address
     Subject: =?utf-8?q?Order_Number=3A_1?=
-    To: first.last@email.bil
-    From: email@from.address
+    To: =?utf-8?q?Billing_First_N=C3=A4me_Billing_Last_N=C3=A4me?=
+     <first.last@email.bil>
+    From: =?utf-8?q?Sh=C3=B6p?= <email@from.address>
     Date: ...
     <BLANKLINE>
     Thank you for the order.
@@ -155,6 +155,53 @@ Check the newest message sent::
     Billing Ph=C3=B6ne Number
     first.last@email.bil
     <BLANKLINE>
+    Shipping Address
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    Billing First N=C3=A4me Billing Last N=C3=A4me  Billing =C3=96rganization  =
+    F=C4=B11234567890
+    Billing Street =C3=84ddress
+    Billing P=C3=B6st C=C3=B6de Billing =E2=82=ACity
+    Billing Ph=C3=B6ne Number
+    first.last@email.bil
+    <BLANKLINE>
+    <BLANKLINE>
+    Order Contents
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    SKU: SK=C3=961
+    =C3=84rticle1 x 1 =3D 12.30 =E2=82=AC
+    <BLANKLINE>
+    Shipping Method: ShippingMeth=C3=B6d1 0.10 =E2=82=AC
+    <BLANKLINE>
+    Total: 12.40 =E2=82=AC
+    <BLANKLINE>
+    <BLANKLINE>
+    Link to the order: http://nohost/plone/shop/cart-container/1
+    <BLANKLINE>
+
+    >>> msg = mailhost.messages[-1]
+    >>> prink(msg)
+    MIME-Version: 1.0
+    Content-Type: text/plain; charset="utf-8"
+    Content-Transfer-Encoding: quoted-printable
+    Subject: =?utf-8?q?Order_Number=3A_1?=
+    To: =?utf-8?q?Sh=C3=B6p?= <email@from.address>
+    From: =?utf-8?q?Sh=C3=B6p?= <email@from.address>
+    Date: ...
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Order Number: 1
+    Billing Address
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    Billing First N=C3=A4me Billing Last N=C3=A4me  Billing =C3=96rganization  =
+    F=C4=B11234567890
+    Billing Street =C3=84ddress
+    Billing P=C3=B6st C=C3=B6de Billing =E2=82=ACity
+    Billing Ph=C3=B6ne Number
+    first.last@email.bil
     <BLANKLINE>
     Shipping Address
     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
@@ -167,17 +214,33 @@ Check the newest message sent::
     first.last@email.bil
     <BLANKLINE>
     <BLANKLINE>
-    Ordered contents
+    <BLANKLINE>
+    Order Contents
     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
     =3D=3D=3D
+    <BLANKLINE>
     SKU: SK=C3=961
     =C3=84rticle1 x 1 =3D 12.30 =E2=82=AC
     <BLANKLINE>
-    Shipping Method: ShippingMeth=C3=B6d1  0.10 =E2=82=AC
+    <BLANKLINE>
+    Shipping Method: ShippingMeth=C3=B6d1 0.10 =E2=82=AC
     <BLANKLINE>
     Total: 12.40 =E2=82=AC
     <BLANKLINE>
+    <BLANKLINE>
     Link to the order: http://nohost/plone/shop/cart-container/1
+    <BLANKLINE>
+
+Add to-customer-order-mail-template-message:
+
+    >>> browser.open('/shop/createObject?type_name=Folder')
+    >>> browser.getControl(name="title").value = 'To Customer Order Mail Template Message'
+    >>> browser.getControl(name="form.button.save").click()
+    >>> browser.open('/shop/to-customer-order-mail-template-message/createObject?type_name=Document')
+    >>> browser.getControl(name="title").value = 'English'
+    >>> browser.getControl(name="description").value = 'Description öf English'
+    >>> browser.getControl(name="text").value = '<p>Text öf English.</p>'
+    >>> browser.getControl(name="form.button.save").click()
 
 Add Ärticle1 to Cart::
 
@@ -191,7 +254,6 @@ Go to Cart::
 Check Out::
 
     >>> browser.getControl(name="form.checkout").click()
-
 
 Fill Billing Info with different info for shipping address::
 
@@ -227,22 +289,25 @@ Confirm the order::
 Check the newest message sent::
 
     >>> len(mailhost.messages)
-    2
+    4
 
-    >>> msg = mailhost.messages[-1]
+    >>> msg = mailhost.messages[-2]
     >>> prink(msg)
     MIME-Version: 1.0
     Content-Type: text/plain; charset="utf-8"
     Content-Transfer-Encoding: quoted-printable
-    CC: email@from.address
     Subject: =?utf-8?q?Order_Number=3A_2?=
-    To: first.last@email.bil
-    From: email@from.address
+    To: =?utf-8?q?Billing_First_N=C3=A4me_Billing_Last_N=C3=A4me?=
+     <first.last@email.bil>
+    From: =?utf-8?q?Sh=C3=B6p?= <email@from.address>
     Date: ...
     <BLANKLINE>
     Thank you for the order.
+    Description =C3=B6f English
+    <BLANKLINE>
     <BLANKLINE>
     Order Number: 2
+    <BLANKLINE>
     <BLANKLINE>
     Billing Address
     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
@@ -253,7 +318,6 @@ Check the newest message sent::
     Billing P=C3=B6st C=C3=B6de Billing =E2=82=ACity
     Billing Ph=C3=B6ne Number
     first.last@email.bil
-    <BLANKLINE>
     <BLANKLINE>
     Shipping Address
     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
@@ -266,14 +330,77 @@ Check the newest message sent::
     first.last@email.shi
     <BLANKLINE>
     <BLANKLINE>
-    Ordered contents
+    <BLANKLINE>
+    Order Contents
     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
     =3D=3D=3D
+    <BLANKLINE>
     SKU: SK=C3=961
     =C3=84rticle1 x 1 =3D 12.30 =E2=82=AC
     <BLANKLINE>
-    Shipping Method: ShippingMeth=C3=B6d1  0.10 =E2=82=AC
+    <BLANKLINE>
+    Shipping Method: ShippingMeth=C3=B6d1 0.10 =E2=82=AC
     <BLANKLINE>
     Total: 12.40 =E2=82=AC
     <BLANKLINE>
+    <BLANKLINE>
     Link to the order: http://nohost/plone/shop/cart-container/2
+    <BLANKLINE>
+    Text =C3=B6f English.
+
+    >>> msg = mailhost.messages[-1]
+    >>> prink(msg)
+    MIME-Version: 1.0
+    Content-Type: text/plain; charset="utf-8"
+    Content-Transfer-Encoding: quoted-printable
+    Subject: =?utf-8?q?Order_Number=3A_2?=
+    To: =?utf-8?q?Sh=C3=B6p?= <email@from.address>
+    From: =?utf-8?q?Sh=C3=B6p?= <email@from.address>
+    Date: ...
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Order Number: 2
+    <BLANKLINE>
+    <BLANKLINE>
+    Billing Address
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    Billing First N=C3=A4me Billing Last N=C3=A4me  Billing =C3=96rganization  =
+    F=C4=B11234567890
+    Billing Street =C3=84ddress
+    Billing P=C3=B6st C=C3=B6de Billing =E2=82=ACity
+    Billing Ph=C3=B6ne Number
+    first.last@email.bil
+    <BLANKLINE>
+    Shipping Address
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    Shipping First N=C3=A4me Shipping Last N=C3=A4me  Shipping =C3=96rganizatio=
+    n  SHIPPING1234567890
+    Shipping Street =C3=84ddress
+    Shipping P=C3=B6st C=C3=B6de Shipping =E2=82=ACity
+    Shipping Ph=C3=B6ne Number
+    first.last@email.shi
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Order Contents
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    <BLANKLINE>
+    SKU: SK=C3=961
+    =C3=84rticle1 x 1 =3D 12.30 =E2=82=AC
+    <BLANKLINE>
+    <BLANKLINE>
+    Shipping Method: ShippingMeth=C3=B6d1 0.10 =E2=82=AC
+    <BLANKLINE>
+    Total: 12.40 =E2=82=AC
+    <BLANKLINE>
+    <BLANKLINE>
+    Link to the order: http://nohost/plone/shop/cart-container/2
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>

@@ -15,6 +15,7 @@ from collective.cart.shopping.event import ShippingAddressConfirmedEvent
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
+from collective.cart.shopping.interfaces import ICart
 from collective.cart.shopping.interfaces import ICustomerInfo
 from collective.cart.shopping.interfaces import IPriceUtility
 from collective.cart.shopping.interfaces import IShoppingSite
@@ -389,3 +390,43 @@ class CustomerInfoView(BaseView):
     grok.context(ICustomerInfo)
     grok.name('view')
     grok.template('customer-info')
+
+
+class BaseOrderMailTemplateView(BaseView, Message):
+    """Base view for order template used for sending e-mail"""
+    grok.baseclass()
+    grok.context(ICart)
+    grok.template('order-mail-template')
+
+    is_for_customer = True
+
+    def __call__(self, **items):
+        self.items = items
+        return super(BaseOrderMailTemplateView, self).__call__()
+
+    @property
+    def message(self):
+        if self.is_for_customer:
+            message = super(BaseOrderMailTemplateView, self).message
+            if message:
+                transforms = getToolByName(self.context, 'portal_transforms')
+                html = message['text']
+                message['text'] = transforms.convert('html_to_text', html).getData().strip()
+                return message
+
+    @property
+    def has_link_to_order(self):
+        if self.is_for_customer:
+            return not self.context.restrictedTraverse('plone_portal_state').anonymous()
+        return True
+
+
+class ToCustomerOrderMailTemplateView(BaseOrderMailTemplateView):
+    """Mail template used to send e-mail to customer"""
+    grok.name('to-customer-order-mail-template')
+
+
+class ToShopOrderMailTemplateView(BaseOrderMailTemplateView):
+    """Mail template used to send email to shop"""
+    grok.name('to-shop-order-mail-template')
+    is_for_customer = False

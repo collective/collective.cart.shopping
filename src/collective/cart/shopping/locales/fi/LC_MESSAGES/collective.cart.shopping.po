@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-03-12 11:49+0000\n"
+"POT-Creation-Date: 2013-03-16 07:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,7 +59,7 @@ msgstr "Edellinen"
 msgid "Billing"
 msgstr "Laskutus"
 
-#: ./subscriber.py:130
+#: ./browser/templates/order-mail-template.pt:21
 msgid "Billing Address"
 msgstr "Laskutusosoite"
 
@@ -197,7 +197,7 @@ msgstr "Sukunimi"
 msgid "Last name is missing."
 msgstr "Sukunimi puuttuu."
 
-#: ./browser/template.py:326
+#: ./browser/template.py:327
 msgid "Name"
 msgstr "Nimi"
 
@@ -221,9 +221,9 @@ msgstr "Ei pysty lisäämään ostoskoriin."
 msgid "Only for organization customer"
 msgstr "Vain yritysasiakkaille"
 
-#: ./subscriber.py:144
-msgid "Ordered contents"
-msgstr "Tilauksen sisältö"
+#: ./browser/templates/order-mail-template.pt:28
+msgid "Order Contents"
+msgstr "Tilaukset"
 
 #: ./browser/templates/customer-info.pt:25
 #: ./browser/templates/shipping-info.pt:47
@@ -247,7 +247,7 @@ msgstr "Puhelinnumero puuttuu."
 msgid "Post Code"
 msgstr "Postinumero"
 
-#: ./browser/template.py:327
+#: ./browser/template.py:328
 msgid "Price"
 msgstr "Hinta"
 
@@ -276,8 +276,7 @@ msgstr "Pikavähennys"
 msgid "Representative Image"
 msgstr "Tuotekuva"
 
-#: ./browser/template.py:325
-#: ./subscriber.py:145
+#: ./browser/template.py:326
 msgid "SKU"
 msgstr "Tuotetunnus"
 
@@ -297,7 +296,7 @@ msgstr "Valitse yksi toimitustapa."
 msgid "Shipping"
 msgstr "Toimitus"
 
-#: ./subscriber.py:135
+#: ./browser/templates/order-mail-template.pt:24
 msgid "Shipping Address"
 msgstr "Toimitusosoite"
 
@@ -306,7 +305,6 @@ msgid "Shipping Info"
 msgstr "Toimitusosoite"
 
 #: ./browser/viewlets/billing-info.pt:96
-#: ./subscriber.py:159
 msgid "Shipping Method"
 msgstr "Postituskulu"
 
@@ -328,7 +326,7 @@ msgstr "Näytä tuotelista."
 msgid "Sold Out"
 msgstr "Tuote tilapäisesti loppunut"
 
-#: ./browser/template.py:328
+#: ./browser/template.py:329
 #: ./profiles/default/actions.xml
 msgid "Stock"
 msgstr "Varasto"
@@ -348,12 +346,11 @@ msgstr "Katuosoite"
 msgid "Street address is missing."
 msgstr "Katuosoite puuttuu."
 
-#: ./browser/template.py:329
+#: ./browser/template.py:330
 msgid "Subtotal"
 msgstr "Yhteensä"
 
 #: ./browser/templates/thanks.pt:12
-#: ./subscriber.py:124
 msgid "Thank you for the order."
 msgstr "Kiitos tilauksesta."
 
@@ -363,7 +360,6 @@ msgstr "Tämä tuotteen edustava kuva."
 
 #: ./browser/viewlets/cart-total.pt:4
 #: ./browser/viewlets/confirmation-total.pt:4
-#: ./subscriber.py:163
 msgid "Total"
 msgstr "Yhteensä"
 
@@ -393,7 +389,7 @@ msgstr "VAT-numero"
 msgid "View Order"
 msgstr "Tarkista tilauksen"
 
-#: ./subscriber.py:79
+#: ./subscriber.py:75
 msgid "You need to first remove some images to add here one."
 msgstr "Lisätääkseen tähän uusi kuvaa, täytyy ensin poistaa tästä kuvia."
 
@@ -402,7 +398,7 @@ msgid "Your order number is ${number}."
 msgstr "Tilausnumero on ${number}."
 
 #. Default: "Add less than ${number}."
-#: ./browser/template.py:144
+#: ./browser/template.py:145
 msgid "add_less_than_number"
 msgstr "Lisää vähemmän kuin ${number} kpl."
 
@@ -412,7 +408,7 @@ msgid "agree_with_terms"
 msgstr "Hyväksyn toimitusehdot."
 
 #. Default: "${title} is added to cart."
-#: ./subscriber.py:224
+#: ./subscriber.py:160
 msgid "article-added-to-cart"
 msgstr "${title} on lisätty ostoskoriin."
 
@@ -427,17 +423,17 @@ msgid "description_no_stocks_available"
 msgstr "Tällä tuotteella ei ole varastoa."
 
 #. Default: "Some information is missing from addresses."
-#: ./browser/template.py:265
+#: ./browser/template.py:266
 msgid "info_missing_from_addresses"
 msgstr "Joku tieto puuttuu osoitteesta."
 
 #. Default: "Link to the order: ${url}"
-#: ./subscriber.py:167
+#: ./browser/templates/order-mail-template.pt:39
 msgid "link-to-order"
 msgstr "Tilauksen linkki: ${url}"
 
 #. Default: "You need to accept the terms to process the order."
-#: ./browser/template.py:284
+#: ./browser/template.py:285
 msgid "need_to_accept_terms"
 msgstr "Hyväksy toimitusehdot, että pystyisisimme käsittelemään tilausta."
 
@@ -446,10 +442,41 @@ msgstr "Hyväksy toimitusehdot, että pystyisisimme käsittelemään tilausta."
 msgid "no_more_than_quantity"
 msgstr "Ei tuoteeseen ${title} voi lisätä enemmän kun ${quantity} kpl."
 
+#. Default: "${title} x ${quantity} = ${subtotal}"
+#: ./browser/templates/order-mail-template.pt:32
+msgid "order-contents-article"
+msgstr "${title} x ${quantity} = ${subtotal}"
+
+#. Default: "SKU: ${sku}"
+#: ./browser/templates/order-mail-template.pt:31
+msgid "order-contents-sku"
+msgstr "Tuotetunnus: ${sku}"
+
+#. Default: "Thank you for the order."
+#: ./browser/templates/order-mail-template.pt:15
+msgid "order-mail-template-thanks-message"
+msgstr "Kiitos tilauksestasi!"
+
 #. Default: "Order Number: ${number}"
-#: ./subscriber.py:118
+#: ./browser/templates/order-mail-template.pt:18
+#: ./subscriber.py:108
 msgid "order-number"
 msgstr "Tilausnumero: ${number}"
+
+#. Default: "The order was processed but we could not send e-mail to you successfully. Please consult the shop owner."
+#: ./subscriber.py:152
+msgid "order-processed-but"
+msgstr "Tilaus meni käsittelyyn, mutta s-postin lähettäminen epäonnistui. Ota yhteyttä kaupalle!"
+
+#. Default: "Shipping Method: ${shipping-method-title} ${shipping-gross-money}"
+#: ./browser/templates/order-mail-template.pt:35
+msgid "order-shipping-method"
+msgstr "Toimitustapa: ${shipping-method-title} ${shipping-gross-money}"
+
+#. Default: "Total: ${total}"
+#: ./browser/templates/order-mail-template.pt:37
+msgid "order-total"
+msgstr "Yhteensä: ${total}"
 
 #: ./browser/viewlets/add-subarticle-to-cart.pt:33
 #: ./browser/viewlets/add-to-cart.pt:36
@@ -468,18 +495,18 @@ msgid "stock_of_article"
 msgstr "${title}: ${stock} kpl"
 
 #. Default: "Subtract less than ${number}."
-#: ./browser/template.py:158
+#: ./browser/template.py:159
 msgid "subtract_less_than_number"
 msgstr "Vähettnä vähemmän kuin ${number} kpl."
 
 #. Default: "Successfully added ${number} pc(s)."
-#: ./browser/template.py:148
+#: ./browser/template.py:149
 #, fuzzy
 msgid "successfully_added_number"
 msgstr "Onnistuneesti lisätty ${number} kpl."
 
 #. Default: "Successfully subtracted ${number} pc(s)."
-#: ./browser/template.py:162
+#: ./browser/template.py:163
 #, fuzzy
 msgid "successfully_subtracted_number"
 msgstr "Onnistuneesti vähennetty ${number} kpl."

@@ -22,6 +22,20 @@ class UnicodeUtility(grok.GlobalUtility):
             return safe_unicode(value, encoding)
         return safe_unicode(value)
 
+    def fullname(self, address, encoding=None):
+        """Format full name
+
+        :param address: Address information
+        :type address: dictionary
+
+        :param encoding: Character set
+        :type encoding: str
+
+        :rtype: unicode
+        """
+        return u'{} {}'.format(self.safe_unicode(address['first_name'], encoding=encoding),
+            self.safe_unicode(address['last_name'], encoding=encoding))
+
     def address(self, address, encoding=None):
         """Format address
 

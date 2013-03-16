@@ -6,9 +6,14 @@ Assign cart portlet to shop::
 
     >>> browser.open('/shop/++contextportlets++plone.leftcolumn/+/collective.cart.core.CartPortlet')
 
-# Log out::
+Log out::
 
-#     >>> browser.getLink('Log out').click()
+    >>> browser.getLink('Log out').click()
+
+
+Log in as member1::
+
+    >>> browser.login(member1, member1)
 
 Go to Ärticle1::
 
@@ -44,64 +49,71 @@ Confirm order::
 
     >>> browser.getControl(name="form.buttons.ConfirmOrder").click()
 
-# Thanks page::
+Check the newest message sent::
 
-#     >>> 'Check the order' not in browser.contents
-#     True
+    >>> len(mailhost.messages)
+    1
 
-# Check the newest message sent::
+    >>> msg = mailhost.messages[-1]
+    >>> prink(msg)
+    MIME-Version: 1.0
+    Content-Type: text/plain; charset="utf-8"
+    Content-Transfer-Encoding: quoted-printable
+    CC: info@shop.com
+    Subject: =?utf-8?q?Order_Number=3A_1?=
+    To: first.last@email.bil
+    From: info@shop.com
+    Date: ...
+    <BLANKLINE>
+    Thank you for the order.
+    <BLANKLINE>
+    Order Number: 1
+    <BLANKLINE>
+    Billing Address
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    B=C4=B1lling First B=C4=B1lling Last  B=C4=B1lling Organization  B=C4=B1lli=
+    ng VAT
+    B=C4=B1lling Street
+    B=C4=B1lling Post B=C4=B1lling City
+    B=C4=B1lling Phone
+    first.last@email.bil
+    <BLANKLINE>
+    <BLANKLINE>
+    Shipping Address
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    B=C4=B1lling First B=C4=B1lling Last  B=C4=B1lling Organization  B=C4=B1lli=
+    ng VAT
+    B=C4=B1lling Street
+    B=C4=B1lling Post B=C4=B1lling City
+    B=C4=B1lling Phone
+    first.last@email.bil
+    <BLANKLINE>
+    <BLANKLINE>
+    Ordered contents
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    SKU: SK=C3=961
+    =C3=84rticle1 x 1 =3D 12.40 =E2=82=AC
+    <BLANKLINE>
+    Shipping Method: ShippingMeth=C3=B6d2  0.00 =E2=82=AC
+    <BLANKLINE>
+    Total: 12.40 =E2=82=AC
+    <BLANKLINE>
+    Link to the order: http://nohost/plone/shop/cart-container/1
 
-#     >>> len(mailhost.messages)
-#     1
+Thanks page::
 
-#     >>> msg = mailhost.messages[-1]
-#     >>> prink(msg)
-#     MIME-Version: 1.0
-#     Content-Type: text/plain; charset="utf-8"
-#     Content-Transfer-Encoding: quoted-printable
-#     CC: info@shop.com
-#     Subject: =?utf-8?q?Order_Number=3A_1?=
-#     To: first.last@email.bil
-#     From: info@shop.com
-#     Date: ...
-#     <BLANKLINE>
-#     Thank you for the order.
-#     <BLANKLINE>
-#     Order Number: 1
-#     <BLANKLINE>
-#     Billing Address
-#     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-#     =3D=3D=3D
-#     B=C4=B1lling First B=C4=B1lling Last  B=C4=B1lling Organization  B=C4=B1lli=
-#     ng VAT
-#     B=C4=B1lling Street
-#     B=C4=B1lling Post B=C4=B1lling City
-#     B=C4=B1lling Phone
-#     first.last@email.bil
-#     <BLANKLINE>
-#     <BLANKLINE>
-#     Shipping Address
-#     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-#     =3D=3D=3D
-#     B=C4=B1lling First B=C4=B1lling Last  B=C4=B1lling Organization  B=C4=B1lli=
-#     ng VAT
-#     B=C4=B1lling Street
-#     B=C4=B1lling Post B=C4=B1lling City
-#     B=C4=B1lling Phone
-#     first.last@email.bil
-#     <BLANKLINE>
-#     <BLANKLINE>
-#     Ordered contents
-#     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-#     =3D=3D=3D
-#     SKU: SK=C3=961
-#     =C3=84rticle1 x 1 =3D 12.40 =E2=82=AC
-#     <BLANKLINE>
-#     Shipping Method:   0.00 =E2=82=AC
-#     <BLANKLINE>
-#     Total: 12.40 =E2=82=AC
-#     <BLANKLINE>
-#     Link to the order: http://nohost/plone/shop/cart-container/1
+    >>> 'Check the order' in browser.contents
+    True
+
+# Fix this!
+
+    >>> print browser.bycss('.button')
+
+    # >>> browser.open('/shop/cart-container/1')
+
 
 # Go to Ärticle1::
 
