@@ -68,10 +68,3 @@ class ThanksViewTestCase(IntegrationTestCase):
         self.create_atcontent('Document', confirmation_terms_message, id='en')
         self.assertEqual(instance.update(), 'portal_url/@@order-confirmation')
         IStatusMessage().addStatusMessage.assert_called_with(u"need_to_accept_terms", type='info')
-
-    @mock.patch('collective.cart.shopping.browser.template.getToolByName')
-    def test_order_url(self, getToolByName):
-        instance = self.create_view(ThanksView)
-        instance.cart_id = '1'
-        getToolByName().getHomeUrl.return_value = 'home_url'
-        self.assertEqual(instance.order_url, 'home_url?order_number=1')

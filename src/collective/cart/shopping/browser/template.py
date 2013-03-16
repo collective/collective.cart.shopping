@@ -306,11 +306,6 @@ class ThanksView(OrderConfirmationView, Message):
             url = '{}/@@order-confirmation'.format(context_url)
             return self.request.response.redirect(url)
 
-    @property
-    def order_url(self):
-        membership = getToolByName(self.context, 'portal_membership')
-        return '{}?order_number={}'.format(membership.getHomeUrl(), self.cart_id)
-
 
 class ArticleListingView(BaseView):
     """List for all the articles."""

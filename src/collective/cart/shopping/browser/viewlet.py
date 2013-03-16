@@ -441,6 +441,11 @@ class OrderConfirmationCheckoutViewlet(BaseOrderConfirmationViewlet):
     grok.template('confirmation-checkout')
 
 
+class ThanksBelowContentViewletManager(BaseViewletManager):
+    """Viewlet manager for thanks below content."""
+    grok.name('collective.cart.shopping.thanks.belowcontent.manager')
+
+
 class CartContentViewlet(BaseCartContentViewlet):
     """Viewlet to show customer info in cart."""
     grok.layer(ICollectiveCartShoppingLayer)

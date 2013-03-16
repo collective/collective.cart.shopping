@@ -6,9 +6,9 @@ Assign cart portlet to shop::
 
     >>> browser.open('/shop/++contextportlets++plone.leftcolumn/+/collective.cart.core.CartPortlet')
 
-# Log out::
+Log out::
 
-#     >>> browser.getLink('Log out').click()
+    >>> browser.getLink('Log out').click()
 
 Go to Ärticle1::
 
@@ -44,297 +44,425 @@ Confirm order::
 
     >>> browser.getControl(name="form.buttons.ConfirmOrder").click()
 
-# Thanks page::
+Thanks page::
 
-#     >>> 'Check the order' not in browser.contents
-#     True
+    >>> 'Check the order' not in browser.contents
+    True
 
-# Check the newest message sent::
+Check the newest message sent::
 
-#     >>> len(mailhost.messages)
-#     1
+    >>> len(mailhost.messages)
+    2
 
-#     >>> msg = mailhost.messages[-1]
-#     >>> prink(msg)
-#     MIME-Version: 1.0
-#     Content-Type: text/plain; charset="utf-8"
-#     Content-Transfer-Encoding: quoted-printable
-#     CC: info@shop.com
-#     Subject: =?utf-8?q?Order_Number=3A_1?=
-#     To: first.last@email.bil
-#     From: info@shop.com
-#     Date: ...
-#     <BLANKLINE>
-#     Thank you for the order.
-#     <BLANKLINE>
-#     Order Number: 1
-#     <BLANKLINE>
-#     Billing Address
-#     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-#     =3D=3D=3D
-#     B=C4=B1lling First B=C4=B1lling Last  B=C4=B1lling Organization  B=C4=B1lli=
-#     ng VAT
-#     B=C4=B1lling Street
-#     B=C4=B1lling Post B=C4=B1lling City
-#     B=C4=B1lling Phone
-#     first.last@email.bil
-#     <BLANKLINE>
-#     <BLANKLINE>
-#     Shipping Address
-#     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-#     =3D=3D=3D
-#     B=C4=B1lling First B=C4=B1lling Last  B=C4=B1lling Organization  B=C4=B1lli=
-#     ng VAT
-#     B=C4=B1lling Street
-#     B=C4=B1lling Post B=C4=B1lling City
-#     B=C4=B1lling Phone
-#     first.last@email.bil
-#     <BLANKLINE>
-#     <BLANKLINE>
-#     Ordered contents
-#     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-#     =3D=3D=3D
-#     SKU: SK=C3=961
-#     =C3=84rticle1 x 1 =3D 12.40 =E2=82=AC
-#     <BLANKLINE>
-#     Shipping Method:   0.00 =E2=82=AC
-#     <BLANKLINE>
-#     Total: 12.40 =E2=82=AC
-#     <BLANKLINE>
-#     Link to the order: http://nohost/plone/shop/cart-container/1
+    >>> msg = mailhost.messages[-2]
+    >>> prink(msg)
+    MIME-Version: 1.0
+    Content-Type: text/plain; charset="utf-8"
+    Content-Transfer-Encoding: quoted-printable
+    Subject: =?utf-8?q?Order_Number=3A_1?=
+    To: =?utf-8?q?B=C4=B1lling_First_B=C4=B1lling_Last?= <first.last@email.bil>
+    From: =?utf-8?q?Sh=C3=B6p?= <info@shop.com>
+    Date: ...
+    <BLANKLINE>
+    Thank you for the order.
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Order Number: 1
+    <BLANKLINE>
+    <BLANKLINE>
+    Billing Address
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    B=C4=B1lling First B=C4=B1lling Last  B=C4=B1lling Organization  B=C4=B1lli=
+    ng VAT
+    B=C4=B1lling Street
+    B=C4=B1lling Post B=C4=B1lling City
+    B=C4=B1lling Phone
+    first.last@email.bil
+    <BLANKLINE>
+    Shipping Address
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    B=C4=B1lling First B=C4=B1lling Last  B=C4=B1lling Organization  B=C4=B1lli=
+    ng VAT
+    B=C4=B1lling Street
+    B=C4=B1lling Post B=C4=B1lling City
+    B=C4=B1lling Phone
+    first.last@email.bil
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Order Contents
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    <BLANKLINE>
+    SKU: SK=C3=961
+    =C3=84rticle1 x 1 =3D 12.40 =E2=82=AC
+    <BLANKLINE>
+    <BLANKLINE>
+    Shipping Method:  0.00 =E2=82=AC
+    <BLANKLINE>
+    Total: 12.40 =E2=82=AC
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
 
-# Go to Ärticle1::
+    >>> msg = mailhost.messages[-1]
+    >>> prink(msg)
+    MIME-Version: 1.0
+    Content-Type: text/plain; charset="utf-8"
+    Content-Transfer-Encoding: quoted-printable
+    Subject: =?utf-8?q?Order_Number=3A_1?=
+    To: =?utf-8?q?Sh=C3=B6p?= <info@shop.com>
+    From: =?utf-8?q?Sh=C3=B6p?= <info@shop.com>
+    Date: ...
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Order Number: 1
+    <BLANKLINE>
+    <BLANKLINE>
+    Billing Address
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    B=C4=B1lling First B=C4=B1lling Last  B=C4=B1lling Organization  B=C4=B1lli=
+    ng VAT
+    B=C4=B1lling Street
+    B=C4=B1lling Post B=C4=B1lling City
+    B=C4=B1lling Phone
+    first.last@email.bil
+    <BLANKLINE>
+    Shipping Address
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    B=C4=B1lling First B=C4=B1lling Last  B=C4=B1lling Organization  B=C4=B1lli=
+    ng VAT
+    B=C4=B1lling Street
+    B=C4=B1lling Post B=C4=B1lling City
+    B=C4=B1lling Phone
+    first.last@email.bil
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Order Contents
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    <BLANKLINE>
+    SKU: SK=C3=961
+    =C3=84rticle1 x 1 =3D 12.40 =E2=82=AC
+    <BLANKLINE>
+    <BLANKLINE>
+    Shipping Method:  0.00 =E2=82=AC
+    <BLANKLINE>
+    Total: 12.40 =E2=82=AC
+    <BLANKLINE>
+    <BLANKLINE>
+    Link to the order: http://nohost/plone/shop/cart-container/1
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
 
-#     >>> browser.open('/shop/article1')
+Go to Ärticle1::
 
-# Add Ärticle1 to cart::
+    >>> browser.open('/shop/article1')
 
-#     >>> browser.getControl(name="form.buttons.AddToCart").click()
+Add Ärticle1 to cart::
 
-# Go to cart::
+    >>> browser.getControl(name="form.buttons.AddToCart").click()
 
-#     >>> browser.getLink('Go to cart').click()
+Go to cart::
 
-# Check out and there should be billing info filled::
+    >>> browser.getLink('Go to cart').click()
 
-#     >>> browser.getControl(name="form.checkout").click()
+Check out and there should be billing info filled::
 
-#     >>> 'value="Bılling First"' in browser.contents
-#     True
-#     >>> 'value="Bılling Last"' in browser.contents
-#     True
-#     >>> 'value="Bılling Organization"' in browser.contents
-#     True
-#     >>> 'value="Bılling VAT"' in browser.contents
-#     True
-#     >>> 'value="first.last@email.bil"' in browser.contents
-#     True
-#     >>> 'value="Bılling Street"' in browser.contents
-#     True
-#     >>> 'value="Bılling Post"' in browser.contents
-#     True
-#     >>> 'value="Bılling City"' in browser.contents
-#     True
-#     >>> 'value="Bılling Phone"' in browser.contents
-#     True
-#     >>> print browser.bycss('.shipping-methods')
-#         --- 1 ---
-#     ...
-#     <input name="shipping-method" type="radio" required="required" checked value="..."><span>ShippingMeth&#246;d2  0.00 EUR</span>
-#     ...
+    >>> browser.getControl(name="form.checkout").click()
 
-# With different shipping address::
+    >>> 'value="Bılling First"' in browser.contents
+    True
+    >>> 'value="Bılling Last"' in browser.contents
+    True
+    >>> 'value="Bılling Organization"' in browser.contents
+    True
+    >>> 'value="Bılling VAT"' in browser.contents
+    True
+    >>> 'value="first.last@email.bil"' in browser.contents
+    True
+    >>> 'value="Bılling Street"' in browser.contents
+    True
+    >>> 'value="Bılling Post"' in browser.contents
+    True
+    >>> 'value="Bılling City"' in browser.contents
+    True
+    >>> 'value="Bılling Phone"' in browser.contents
+    True
+    >>> print browser.bycss('.shipping-methods')
+        --- 1 ---
+    ...
+    <input name="shipping-method" type="radio" required="required" checked value="..."><span>ShippingMeth&#246;d2  0.00 EUR</span>
+    ...
 
-#     >>> browser.getControl(name="billing-and-shipping-same-or-different").value = ['different']
-#     >>> browser.getControl(name="form.to.confirmation").click()
+With different shipping address::
 
-# Input shipping info::
+    >>> browser.getControl(name="billing-and-shipping-same-or-different").value = ['different']
+    >>> browser.getControl(name="form.to.confirmation").click()
 
-#     >>> browser.getControl(name="first_name").value = 'Shıpping First'
-#     >>> browser.getControl(name="last_name").value = 'Shıpping Last'
-#     >>> browser.getControl(name="organization").value = 'Shıpping Organization'
-#     >>> browser.getControl(name="vat").value = 'Shıpping VAT'
-#     >>> browser.getControl(name="email").value = 'first.last@email.shi'
-#     >>> browser.getControl(name="street").value = 'Shıpping Street'
-#     >>> browser.getControl(name="post").value = 'Shıpping Post'
-#     >>> browser.getControl(name="city").value = 'Shıpping City'
-#     >>> browser.getControl(name="phone").value = 'Shıpping Phone'
-#     >>> browser.getControl(name="form.to.confirmation").click()
+Input shipping info::
 
-# Confirm order::
+    >>> browser.getControl(name="first_name").value = 'Shıpping First'
+    >>> browser.getControl(name="last_name").value = 'Shıpping Last'
+    >>> browser.getControl(name="organization").value = 'Shıpping Organization'
+    >>> browser.getControl(name="vat").value = 'Shıpping VAT'
+    >>> browser.getControl(name="email").value = 'first.last@email.shi'
+    >>> browser.getControl(name="street").value = 'Shıpping Street'
+    >>> browser.getControl(name="post").value = 'Shıpping Post'
+    >>> browser.getControl(name="city").value = 'Shıpping City'
+    >>> browser.getControl(name="phone").value = 'Shıpping Phone'
+    >>> browser.getControl(name="form.to.confirmation").click()
 
-#     >>> browser.getControl(name="form.buttons.ConfirmOrder").click()
+Confirm order::
 
-# Thanks page::
+    >>> browser.getControl(name="form.buttons.ConfirmOrder").click()
 
-#     >>> 'Check the order' not in browser.contents
-#     True
+Thanks page::
 
-# Check the newest message sent::
+    >>> 'Check the order' not in browser.contents
+    True
 
-#     >>> len(mailhost.messages)
-#     2
+Check the newest message sent::
 
-#     >>> msg = mailhost.messages[-1]
-#     >>> prink(msg)
-#     MIME-Version: 1.0
-#     Content-Type: text/plain; charset="utf-8"
-#     Content-Transfer-Encoding: quoted-printable
-#     CC: info@shop.com
-#     Subject: =?utf-8?q?Order_Number=3A_2?=
-#     To: first.last@email.bil
-#     From: info@shop.com
-#     Date: ...
-#     <BLANKLINE>
-#     Thank you for the order.
-#     <BLANKLINE>
-#     Order Number: 2
-#     <BLANKLINE>
-#     Billing Address
-#     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-#     =3D=3D=3D
-#     B=C4=B1lling First B=C4=B1lling Last  B=C4=B1lling Organization  B=C4=B1lli=
-#     ng VAT
-#     B=C4=B1lling Street
-#     B=C4=B1lling Post B=C4=B1lling City
-#     B=C4=B1lling Phone
-#     first.last@email.bil
-#     <BLANKLINE>
-#     <BLANKLINE>
-#     Shipping Address
-#     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-#     =3D=3D=3D
-#     Sh=C4=B1pping First Sh=C4=B1pping Last  Sh=C4=B1pping Organization  Sh=C4=
-#     =B1pping VAT
-#     Sh=C4=B1pping Street
-#     Sh=C4=B1pping Post Sh=C4=B1pping City
-#     Sh=C4=B1pping Phone
-#     first.last@email.shi
-#     <BLANKLINE>
-#     <BLANKLINE>
-#     Ordered contents
-#     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-#     =3D=3D=3D
-#     SKU: SK=C3=961
-#     =C3=84rticle1 x 1 =3D 12.40 =E2=82=AC
-#     <BLANKLINE>
-#     Shipping Method:   0.00 =E2=82=AC
-#     <BLANKLINE>
-#     Total: 12.40 =E2=82=AC
-#     <BLANKLINE>
-#     Link to the order: http://nohost/plone/shop/cart-container/2
+    >>> len(mailhost.messages)
+    4
 
-# Log in as Manager::
+    >>> msg = mailhost.messages[-2]
+    >>> prink(msg)
+    MIME-Version: 1.0
+    Content-Type: text/plain; charset="utf-8"
+    Content-Transfer-Encoding: quoted-printable
+    Subject: =?utf-8?q?Order_Number=3A_2?=
+    To: =?utf-8?q?B=C4=B1lling_First_B=C4=B1lling_Last?= <first.last@email.bil>
+    From: =?utf-8?q?Sh=C3=B6p?= <info@shop.com>
+    Date: ...
+    <BLANKLINE>
+    Thank you for the order.
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Order Number: 2
+    <BLANKLINE>
+    <BLANKLINE>
+    Billing Address
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    B=C4=B1lling First B=C4=B1lling Last  B=C4=B1lling Organization  B=C4=B1lli=
+    ng VAT
+    B=C4=B1lling Street
+    B=C4=B1lling Post B=C4=B1lling City
+    B=C4=B1lling Phone
+    first.last@email.bil
+    <BLANKLINE>
+    Shipping Address
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    Sh=C4=B1pping First Sh=C4=B1pping Last  Sh=C4=B1pping Organization  Sh=C4=
+    =B1pping VAT
+    Sh=C4=B1pping Street
+    Sh=C4=B1pping Post Sh=C4=B1pping City
+    Sh=C4=B1pping Phone
+    first.last@email.shi
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Order Contents
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    <BLANKLINE>
+    SKU: SK=C3=961
+    =C3=84rticle1 x 1 =3D 12.40 =E2=82=AC
+    <BLANKLINE>
+    <BLANKLINE>
+    Shipping Method:  0.00 =E2=82=AC
+    <BLANKLINE>
+    Total: 12.40 =E2=82=AC
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
 
-#     >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+    >>> msg = mailhost.messages[-1]
+    >>> prink(msg)
+    MIME-Version: 1.0
+    Content-Type: text/plain; charset="utf-8"
+    Content-Transfer-Encoding: quoted-printable
+    Subject: =?utf-8?q?Order_Number=3A_2?=
+    To: =?utf-8?q?Sh=C3=B6p?= <info@shop.com>
+    From: =?utf-8?q?Sh=C3=B6p?= <info@shop.com>
+    Date: ...
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Order Number: 2
+    <BLANKLINE>
+    <BLANKLINE>
+    Billing Address
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    B=C4=B1lling First B=C4=B1lling Last  B=C4=B1lling Organization  B=C4=B1lli=
+    ng VAT
+    B=C4=B1lling Street
+    B=C4=B1lling Post B=C4=B1lling City
+    B=C4=B1lling Phone
+    first.last@email.bil
+    <BLANKLINE>
+    Shipping Address
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    Sh=C4=B1pping First Sh=C4=B1pping Last  Sh=C4=B1pping Organization  Sh=C4=
+    =B1pping VAT
+    Sh=C4=B1pping Street
+    Sh=C4=B1pping Post Sh=C4=B1pping City
+    Sh=C4=B1pping Phone
+    first.last@email.shi
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Order Contents
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+    =3D=3D=3D
+    <BLANKLINE>
+    SKU: SK=C3=961
+    =C3=84rticle1 x 1 =3D 12.40 =E2=82=AC
+    <BLANKLINE>
+    <BLANKLINE>
+    Shipping Method:  0.00 =E2=82=AC
+    <BLANKLINE>
+    Total: 12.40 =E2=82=AC
+    <BLANKLINE>
+    <BLANKLINE>
+    Link to the order: http://nohost/plone/shop/cart-container/2
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
 
-# Check the stock of article1::
+Log in as Manager::
 
-#     >>> browser.open('/shop/article1/@@stock')
-#     >>> print browser.bycss('.documentFirstHeading')
-#     --- 1 ---
-#     <h1 class="documentFirstHeading">&#196;rticle1: 8 pcs</h1>
+    >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
 
-# Go to Cart Container::
+Check the stock of article1::
 
-#     >>> browser.open('/shop/cart-container')
-#     >>> print browser.bycss('#order-list')
-#     --- 1 ---
-#     ...
-#     <td class="cart-updated">...</td>
-#     <td class="cart-owner"></td>
-#     <td class="cart-state">Ordered</td>
-#     <td>
-#     <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
-#     <input name="cart-id" type="hidden" value="..."><button name="form.buttons.ChangeState" type="submit" value="canceled">Canceled</button>
-#     <button name="form.buttons.ChangeState" type="submit" value="paid">Paid</button>
-#     <button name="form.buttons.ChangeState" type="submit" value="charged">Charged</button>
-#     </form>
-#     </td>
-#     ...
-#     <td class="cart-updated">...</td>
-#     <td class="cart-owner"></td>
-#     <td class="cart-state">Ordered</td>
-#     <td>
-#     <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
-#     <input name="cart-id" type="hidden" value="..."><button name="form.buttons.ChangeState" type="submit" value="canceled">Canceled</button>
-#     <button name="form.buttons.ChangeState" type="submit" value="paid">Paid</button>
-#     <button name="form.buttons.ChangeState" type="submit" value="charged">Charged</button>
-#     ...
+    >>> browser.open('/shop/article1/@@stock')
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 class="documentFirstHeading">&#196;rticle1: 8 pcs</h1>
 
-# Cancel the order::
+Go to Cart Container::
 
-#     >>> browser.getControl(name="form.buttons.ChangeState", index=0).click()
-#     >>> browser.open('/shop/article1/@@stock')
-#     >>> print browser.bycss('.documentFirstHeading')
-#     --- 1 ---
-#     <h1 class="documentFirstHeading">&#196;rticle1: 9 pcs</h1>
+    >>> browser.open('/shop/cart-container')
+    >>> print browser.bycss('#order-list')
+    --- 1 ---
+    ...
+    <td class="cart-updated">...</td>
+    <td class="cart-owner"></td>
+    <td class="cart-state">Ordered</td>
+    <td>
+    <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
+    <input name="cart-id" type="hidden" value="..."><button name="form.buttons.ChangeState" type="submit" value="canceled">Canceled</button>
+    <button name="form.buttons.ChangeState" type="submit" value="paid">Paid</button>
+    <button name="form.buttons.ChangeState" type="submit" value="charged">Charged</button>
+    </form>
+    </td>
+    ...
+    <td class="cart-updated">...</td>
+    <td class="cart-owner"></td>
+    <td class="cart-state">Ordered</td>
+    <td>
+    <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
+    <input name="cart-id" type="hidden" value="..."><button name="form.buttons.ChangeState" type="submit" value="canceled">Canceled</button>
+    <button name="form.buttons.ChangeState" type="submit" value="paid">Paid</button>
+    <button name="form.buttons.ChangeState" type="submit" value="charged">Charged</button>
+    ...
 
-#     >>> browser.open('/shop/cart-container')
-#     >>> print browser.bycss('#order-list')
-#     --- 1 ---
-#     ...
-#     <td class="cart-updated">...</td>
-#     <td class="cart-owner">test_user_1_</td>
-#     <td class="cart-state">Canceled</td>
-#     <td>
-#     <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
-#     <input name="cart-id" type="hidden" value="..."><button name="form.buttons.RemoveCart" value="form.buttons.RemoveCart" type="submit">Remove</button>
-#     </form>
-#     </td>
-#     ...
-#     <td class="cart-updated">...</td>
-#     <td class="cart-owner"></td>
-#     <td class="cart-state">Ordered</td>
-#     <td>
-#     <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
-#     <input name="cart-id" type="hidden" value="..."><button name="form.buttons.ChangeState" type="submit" value="canceled">Canceled</button>
-#     <button name="form.buttons.ChangeState" type="submit" value="paid">Paid</button>
-#     <button name="form.buttons.ChangeState" type="submit" value="charged">Charged</button>
-#     ...
+Cancel the order::
 
-#     >>> browser.getControl(name="form.buttons.ChangeState", index=0).click()
-#     >>> browser.open('/shop/article1/@@stock')
-#     >>> print browser.bycss('.documentFirstHeading')
-#     --- 1 ---
-#     <h1 class="documentFirstHeading">&#196;rticle1: 10 pcs</h1>
+    >>> browser.getControl(name="form.buttons.ChangeState", index=0).click()
+    >>> browser.open('/shop/article1/@@stock')
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 class="documentFirstHeading">&#196;rticle1: 9 pcs</h1>
 
-# Remove carts::
+    >>> browser.open('/shop/cart-container')
+    >>> print browser.bycss('#order-list')
+    --- 1 ---
+    ...
+    <td class="cart-updated">...</td>
+    <td class="cart-owner">test_user_1_</td>
+    <td class="cart-state">Canceled</td>
+    <td>
+    <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
+    <input name="cart-id" type="hidden" value="..."><button name="form.buttons.RemoveCart" value="form.buttons.RemoveCart" type="submit">Remove</button>
+    </form>
+    </td>
+    ...
+    <td class="cart-updated">...</td>
+    <td class="cart-owner"></td>
+    <td class="cart-state">Ordered</td>
+    <td>
+    <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
+    <input name="cart-id" type="hidden" value="..."><button name="form.buttons.ChangeState" type="submit" value="canceled">Canceled</button>
+    <button name="form.buttons.ChangeState" type="submit" value="paid">Paid</button>
+    <button name="form.buttons.ChangeState" type="submit" value="charged">Charged</button>
+    ...
 
-#     >>> browser.open('/shop/cart-container')
-#     >>> print browser.bycss('#order-list')
-#     --- 1 ---
-#     ...
-#     <td class="cart-updated">...</td>
-#     <td class="cart-owner">test_user_1_</td>
-#     <td class="cart-state">Canceled</td>
-#     <td>
-#     <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
-#     <input name="cart-id" type="hidden" value="..."><button name="form.buttons.RemoveCart" value="form.buttons.RemoveCart" type="submit">Remove</button>
-#     </form>
-#     </td>
-#     ...
-#     <td class="cart-updated">...</td>
-#     <td class="cart-owner">test_user_1_</td>
-#     <td class="cart-state">Canceled</td>
-#     <td>
-#     <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
-#     <input name="cart-id" type="hidden" value="..."><button name="form.buttons.RemoveCart" value="form.buttons.RemoveCart" type="submit">Remove</button>
-#     ...
+    >>> browser.getControl(name="form.buttons.ChangeState", index=0).click()
+    >>> browser.open('/shop/article1/@@stock')
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 class="documentFirstHeading">&#196;rticle1: 10 pcs</h1>
 
-#     >>> browser.getControl(name="form.buttons.RemoveCart", index=0).click()
-#     >>> print browser.bycss('#order-list')
-#     --- 1 ---
-#     ...
-#     <td class="cart-updated">...</td>
-#     <td class="cart-owner">test_user_1_</td>
-#     <td class="cart-state">Canceled</td>
-#     <td>
-#     <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
-#     <input name="cart-id" type="hidden" value="..."><button name="form.buttons.RemoveCart" value="form.buttons.RemoveCart" type="submit">Remove</button>
-#     ...
+Remove carts::
 
-#     >>> browser.getControl(name="form.buttons.RemoveCart", index=0).click()
-#     >>> print browser.bycss('#order-list')
+    >>> browser.open('/shop/cart-container')
+    >>> print browser.bycss('#order-list')
+    --- 1 ---
+    ...
+    <td class="cart-updated">...</td>
+    <td class="cart-owner">test_user_1_</td>
+    <td class="cart-state">Canceled</td>
+    <td>
+    <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
+    <input name="cart-id" type="hidden" value="..."><button name="form.buttons.RemoveCart" value="form.buttons.RemoveCart" type="submit">Remove</button>
+    </form>
+    </td>
+    ...
+    <td class="cart-updated">...</td>
+    <td class="cart-owner">test_user_1_</td>
+    <td class="cart-state">Canceled</td>
+    <td>
+    <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
+    <input name="cart-id" type="hidden" value="..."><button name="form.buttons.RemoveCart" value="form.buttons.RemoveCart" type="submit">Remove</button>
+    ...
 
-    >>> browser.openBrowser()
+    >>> browser.getControl(name="form.buttons.RemoveCart", index=0).click()
+    >>> print browser.bycss('#order-list')
+    --- 1 ---
+    ...
+    <td class="cart-updated">...</td>
+    <td class="cart-owner">test_user_1_</td>
+    <td class="cart-state">Canceled</td>
+    <td>
+    <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
+    <input name="cart-id" type="hidden" value="..."><button name="form.buttons.RemoveCart" value="form.buttons.RemoveCart" type="submit">Remove</button>
+    ...
+
+    >>> browser.getControl(name="form.buttons.RemoveCart", index=0).click()
+    >>> print browser.bycss('#order-list')

@@ -106,11 +106,11 @@ def notify_ordered(context, event):
         default_charset = getattr(getattr(getToolByName(context, 'portal_properties'), 'site_properties'), 'default_charset', 'utf-8')
         email_charset = getUtility(ISiteRoot).getProperty('email_charset', 'utf-8')
         subject = context.translate(_(u'order-number', u'Order Number: ${number}', mapping={'number': context.id}))
-        mfrom = u'"{}" <{}>'.format(shopping_site.shop.title, email_from_address)
+        utility = getUtility(IUnicodeUtility)
+        mfrom = u'"{}" <{}>'.format(utility.safe_unicode(shopping_site.shop.title), email_from_address)
         host = getToolByName(context, 'MailHost')
 
         underline = '=' * 28
-        utility = getUtility(IUnicodeUtility)
         billing_address = utility.address(billing)
         if shopping_site.billing_same_as_shipping:
             shipping_address = billing_address
@@ -136,11 +136,11 @@ def notify_ordered(context, event):
             'link_to_order': context.absolute_url()
         }
 
-        message_to_customer = context.restrictedTraverse('to-customer-order-mail-template')(**items)
+        message_to_customer = context.unrestrictedTraverse('to-customer-order-mail-template')(**items)
         mto_customer = u'"{}" <{}>'.format(utility.fullname(billing), billing['email'])
         subject_to_customer = subject
 
-        message_to_shop = context.restrictedTraverse('to-shop-order-mail-template')(**items)
+        message_to_shop = context.unrestrictedTraverse('to-shop-order-mail-template')(**items)
         mto_shop = mfrom
         subject_to_shop = subject
 
