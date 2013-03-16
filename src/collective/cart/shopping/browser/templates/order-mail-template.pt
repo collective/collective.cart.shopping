@@ -14,17 +14,17 @@
   tal:omit-tag="">
 <span tal:condition="view/is_for_customer" tal:omit-tag="" i18n:translate="order-mail-template-thanks-message">Thank you for the order.</span>
 <span tal:condition="message" tal:replace="message/description" />
-\n
+
 <span tal:omit-tag="" i18n:translate="order-number">Order Number: <span i18n:name="number" tal:replace="item/number" />
 </span>
-\n
+
 <span tal:omit-tag="" i18n:translate="">Billing Address</span>
 <span tal:replace="item/underline" />
 <span tal:replace="item/billing_address" />
 <span tal:omit-tag="" i18n:translate="">Shipping Address</span>
 <span tal:replace="item/underline" />
 <span tal:replace="item/shipping_address" />
-\n
+
 <span tal:omit-tag="" i18n:translate="">Order Contents</span>
 <span tal:replace="item/underline" />
 <span tal:omit-tag="" tal:repeat="article item/articles">
@@ -35,7 +35,7 @@
 <span tal:omit-tag="" i18n:translate="order-shipping-method">Shipping Method: <span i18n:name="shipping-method-title" tal:replace="item/shipping_method_title" />  <span i18n:name="shipping-gross-money" tal:replace="item/shipping_gross_money" /></span>
 
 <span tal:omit-tag="" i18n:translate="order-total">Total: <span i18n:name="total" tal:replace="item/total" /></span>
-\n
+
 <span tal:condition="view/has_link_to_order" tal:omit-tag="" i18n:translate="link-to-order">Link to the order: <span i18n:name="url" tal:replace="item/link_to_order" /></span>
-\n
+
 <span tal:condition="message" tal:replace="message/text" /></div>
