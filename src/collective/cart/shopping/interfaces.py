@@ -67,6 +67,15 @@ class IShoppingSite(IBaseShoppingSite):
     def reduce_stocks():  # pragma: no cover
         """Reduce stocks from articles"""
 
+    def link_to_order_for_customer(number):  # pragma: no cover
+        """Link to order for customer
+
+        :param number: Cart ID
+        :type number: int
+
+        :rtype: str
+        """
+
 
 class IShoppingSiteMultiAdapter(Interface):
     """Multi adapter interface for updating cart."""

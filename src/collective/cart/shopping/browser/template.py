@@ -409,11 +409,21 @@ class BaseOrderMailTemplateView(BaseView, Message):
                 message['text'] = transforms.convert('html_to_text', html).getData().strip()
                 return message
 
+    # @property
+    # def has_link_to_order(self):
+    #     if self.is_for_customer:
+    #         return not self.context.restrictedTraverse('plone_portal_state').anonymous()
+    #     return True
+
     @property
-    def has_link_to_order(self):
+    def link_to_order(self):
         if self.is_for_customer:
-            return not self.context.restrictedTraverse('plone_portal_state').anonymous()
-        return True
+            if self.context.restrictedTraverse('plone_portal_state').anonymous():
+                return False
+            else:
+                return IShoppingSite(self.context).link_to_order_for_customer(self.items['number'])
+        else:
+            return IShoppingSite(self.context).get_cart(self.items['number']).absolute_url()
 
 
 class ToCustomerOrderMailTemplateView(BaseOrderMailTemplateView):

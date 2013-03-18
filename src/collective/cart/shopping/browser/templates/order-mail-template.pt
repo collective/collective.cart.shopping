@@ -36,6 +36,6 @@
 
 <span tal:omit-tag="" i18n:translate="order-total">Total: <span i18n:name="total" tal:replace="item/total" /></span>
 
-<span tal:condition="view/has_link_to_order" tal:omit-tag="" i18n:translate="link-to-order">Link to the order: <span i18n:name="url" tal:replace="item/link_to_order" /></span>
+<span tal:condition="view/link_to_order" tal:omit-tag="" i18n:translate="link-to-order">Link to the order: <span i18n:name="url" tal:replace="view/link_to_order" /></span>
 
 <span tal:condition="message" tal:replace="message/text" /></div>

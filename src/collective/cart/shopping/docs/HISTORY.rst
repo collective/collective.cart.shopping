@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+0.4 (2013-03-18)
+================
+
+- Added method: link_to_order_for_customer to adapter ShippingMethod. [taito]
+
 0.3 (2013-03-16)
 ================
 

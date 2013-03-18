@@ -133,9 +133,7 @@ def notify_ordered(context, event):
             'shipping_method_title': shipping_method_title,
             'shipping_gross_money': shopping_site.shipping_gross_money,
             'total': shopping_site.total,
-            'link_to_order': context.absolute_url()
         }
-
         message_to_customer = context.unrestrictedTraverse('to-customer-order-mail-template')(**items)
         mto_customer = u'"{}" <{}>'.format(utility.fullname(billing), billing['email'])
         subject_to_customer = subject

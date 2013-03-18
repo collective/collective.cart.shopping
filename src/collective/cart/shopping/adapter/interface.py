@@ -226,7 +226,7 @@ class ShoppingSite(BaseShoppingSite):
 
     def create_cart(self, cart_id=None):
         """Create cart"""
-        cart = super(self.__class__, self).create_cart(cart_id=cart_id)
+        cart = super(ShoppingSite, self).create_cart(cart_id=cart_id)
         if cart is not None:
             if self.shipping_method:
                 shipping_method = createContentInContainer(cart, 'collective.cart.shipping.CartShippingMethod',
@@ -300,6 +300,16 @@ class ShoppingSite(BaseShoppingSite):
             obj = self.get_object(UID=uuid)
             IStock(obj).sub_stock(quantity)
             modified(obj)
+
+    def link_to_order_for_customer(self, number):
+        """Link to order for customer
+
+        :param number: Cart ID
+        :type number: int
+
+        :rtype: str
+        """
+        return self.get_cart(number).absolute_url()
 
 
 class ShoppingSiteMultiAdapter(grok.MultiAdapter):
