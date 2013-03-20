@@ -7,7 +7,7 @@
     tal:attributes="action context/@@plone_context_state/current_base_url"
     tal:condition="not: viewlet/soldout">
     <section id="money">
-      <section id="price" class="gross" tal:content="view/gross" />
+      <section id="price" class="gross" tal:content="viewlet/locale_gross" />
       <section id="vat" i18n:translate="">
         Including VAT: <span i18n:name="vat" tal:replace="context/vat" /> &#37;
       </section>
@@ -17,7 +17,7 @@
         (Discount valid till <span i18n:name="discount_end" tal:replace="view/discount_end" />)
       </p>
       <p id="normal-price" i18n:translate="">
-        Normal Price: <span i18n:name="normal-price" tal:replace="context/money" />
+        Normal Price: <span i18n:name="normal-price" tal:replace="viewlet/locale_money" />
       </p>
     </section>
     <section id="quantity">

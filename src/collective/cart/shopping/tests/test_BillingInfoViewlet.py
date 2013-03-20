@@ -55,12 +55,12 @@ class BillingInfoViewletTestCase(IntegrationTestCase):
         self.assertEqual(instance.shipping_methods, [{
             'checked': False,
             'description': 'Description of Shippingmethöd1',
-            'title': 'ShippingMethöd1  0.00 EUR',
+            'title': 'ShippingMethöd1  0.00 €',
             'uuid': uuid1,
         }, {
             'checked': False,
             'description': 'Description of Shippingmethöd2',
-            'title': 'ShippingMethöd2  0.00 EUR',
+            'title': 'ShippingMethöd2  0.00 €',
             'uuid': uuid2,
         }])
 
@@ -68,12 +68,12 @@ class BillingInfoViewletTestCase(IntegrationTestCase):
         self.assertEqual(instance.shipping_methods, [{
             'checked': True,
             'description': 'Description of Shippingmethöd1',
-            'title': 'ShippingMethöd1  0.00 EUR',
+            'title': 'ShippingMethöd1  0.00 €',
             'uuid': uuid1,
         }, {
             'checked': False,
             'description': 'Description of Shippingmethöd2',
-            'title': 'ShippingMethöd2  0.00 EUR',
+            'title': 'ShippingMethöd2  0.00 €',
             'uuid': uuid2,
         }])
 

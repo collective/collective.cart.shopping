@@ -32,7 +32,7 @@
 <span tal:omit-tag="" i18n:translate="order-contents-article"><span tal:omit-tag="" i18n:name="title" tal:replace="article/title" /> x <span tal:omit-tag="" i18n:name="quantity" tal:replace="article/quantity" /> = <span tal:omit-tag="" i18n:name="subtotal" tal:replace="article/subtotal" /></span>
 </span>
 
-<span tal:omit-tag="" i18n:translate="order-shipping-method">Shipping Method: <span i18n:name="shipping-method-title" tal:replace="item/shipping_method_title" />  <span i18n:name="shipping-gross-money" tal:replace="item/shipping_gross_money" /></span>
+<span tal:omit-tag="" i18n:translate="order-shipping-method">Shipping Method: <span i18n:name="shipping-method-title" tal:replace="item/shipping_method_title" />  <span i18n:name="shipping-gross-money" tal:replace="item/shipping_gross" /></span>
 
 <span tal:omit-tag="" i18n:translate="order-total">Total: <span i18n:name="total" tal:replace="item/total" /></span>
 

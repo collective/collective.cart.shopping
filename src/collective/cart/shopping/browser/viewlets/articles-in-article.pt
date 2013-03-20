@@ -46,7 +46,7 @@
                   size item/quantity_size"
                 />
                 &nbsp;&times;&nbsp;
-              <span class="gross" tal:content="item/gross" />
+              <span class="gross" tal:content="item/locale_gross" />
               <section id="vat" i18n:translate="">
                 Including VAT: <span i18n:name="vat" tal:replace="item/vat" /> &#37;
               </section>
@@ -57,7 +57,7 @@
                   (Discount valid till <span i18n:name="discount_end" tal:replace="item/discount_end" />)
                 </p>
                 <p id="normal-price" i18n:translate="">
-                  Normal Price: <span i18n:name="normal-price" tal:replace="item/money" />
+                  Normal Price: <span i18n:name="normal-price" tal:replace="item/locale_money" />
                 </p>
               </section>
               <section id="stock" i18n:translate="">
@@ -93,7 +93,7 @@
                   tal:attributes="value sub/uuid"
                   tal:repeat="sub item/subarticles">
                   <span tal:replace="sub/title" />
-                  <span tal:replace="sub/gross" />
+                  <span tal:replace="sub/locale_gross" />
                 </option>
               </select>
               <section id="vat" i18n:translate="">

@@ -13,12 +13,15 @@ from collective.cart.shopping.event import ArticleAddedToCartEvent
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IBaseCustomerInfo
 from collective.cart.shopping.interfaces import ICartArticleMultiAdapter
+from collective.cart.shopping.interfaces import ILocaleUtility
 from collective.cart.shopping.interfaces import IPriceUtility
 from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.shopping.interfaces import IShoppingSiteMultiAdapter
 from decimal import Decimal
 from five import grok
 from moneyed import Money
+from moneyed.localization import DEFAULT
+from moneyed.localization import format_money
 from plone.dexterity.utils import createContentInContainer
 from plone.registry.interfaces import IRegistry
 from zope.component import getMultiAdapter
@@ -35,6 +38,20 @@ class ShoppingSite(BaseShoppingSite):
     """Adapter for shopping site"""
     grok.provides(IShoppingSite)
 
+    def locale(self):
+        """Returns locale for localizing money"""
+        code = self.context.restrictedTraverse('@@plone_portal_state').locale().getLocaleID()
+        return getUtility(ILocaleUtility)(code) or DEFAULT
+
+    def format_money(self, money):
+        """Returns locale formated money
+
+        :param money: Money
+        :type money: moneyed.Money
+
+        :rtype: unicode"""
+        return format_money(money, locale=self.locale())
+
     @property
     def articles_total(self):
         """Total money of articles"""
@@ -44,6 +61,10 @@ class ShoppingSite(BaseShoppingSite):
         for item in self.cart_article_listing:
             res += item['gross'] * item['quantity']
         return res
+
+    def locale_articles_total(self):
+        """Localized total money amount and currency of articles"""
+        return self.format_money(self.articles_total)
 
     @property
     def shipping_methods(self):
@@ -93,6 +114,13 @@ class ShoppingSite(BaseShoppingSite):
         if self.shipping_method:
             return self.get_shipping_gross_money(self.shipping_method['uuid'])
 
+    def locale_shipping_gross(self):
+        """Localized money amount and currency for shipping gross cost
+
+        :rtype: unicode
+        """
+        return self.format_money(self.shipping_gross_money)
+
     @property
     def shipping_vat_money(self):
         if self.shipping_gross_money:
@@ -112,6 +140,10 @@ class ShoppingSite(BaseShoppingSite):
         if self.shipping_gross_money:
             total += self.shipping_gross_money
         return total
+
+    def locale_total(self):
+        """Localized total amount and currency"""
+        return self.format_money(self.total)
 
     def update_shipping_method(self, uuid=None):
         if self.cart_articles:
@@ -391,6 +423,18 @@ class CartArticleMultiAdapter(grok.MultiAdapter):
         If the image does not exists then return from parent or fallback image.
         """
         return IArticleAdapter(self.orig_article).image_url
+
+    @property
+    def locale_gross(self):
+        code = self.context.restrictedTraverse('@@plone_portal_state').locale().getLocaleID()
+        locale = getUtility(ILocaleUtility)(code) or DEFAULT
+        return format_money(self.article['gross'], locale=locale)
+
+    @property
+    def locale_gross_subtotal(self):
+        code = self.context.restrictedTraverse('@@plone_portal_state').locale().getLocaleID()
+        locale = getUtility(ILocaleUtility)(code) or DEFAULT
+        return format_money((self.article['gross'] * self.article['quantity']), locale=locale)
 
     @property
     def gross_subtotal(self):

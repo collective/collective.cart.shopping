@@ -28,4 +28,8 @@ class OrderConfirmationShippingMethodViewletTestCase(IntegrationTestCase):
     @mock.patch('collective.cart.shopping.browser.viewlet.IShoppingSite')
     def test_shipping_method(self, IShoppingSite):
         instance = self.create_viewlet()
-        self.assertEqual(instance.shipping_method, IShoppingSite().shipping_method)
+        IShoppingSite().shipping_method = {'gross': self.money('12.40')}
+        self.assertEqual(instance.shipping_method, {
+            'gross': self.money('12.40'),
+            'locale_gross': IShoppingSite().format_money(),
+        })

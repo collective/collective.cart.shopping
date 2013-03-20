@@ -18,10 +18,10 @@
       <p>
         <a
           tal:attributes="href item/url"
-          tal:content="item/gross" />
+          tal:content="item/locale_gross" />
         <span class="original-money"
           tal:condition="item/discount-available"
-          tal:content="item/money" />
+          tal:content="item/locale_money" />
       </p>
     </div>
   </article>

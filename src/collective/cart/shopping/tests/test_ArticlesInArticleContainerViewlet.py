@@ -34,12 +34,13 @@ class ArticlesInArticleContainerViewletTestCase(IntegrationTestCase):
         self.create_content('collective.cart.core.Article', container, id='article1', title='Ärticle1',
             money=self.money('12.40'), vat=self.decimal('24.00'))
         IArticleAdapter().discount_available = False
-        IArticleAdapter().gross = 'GROSS'
+        IArticleAdapter().locale_gross = 'LOCALE_GROSS'
+        IArticleAdapter().locale_money = 'LOCALE_MONEY'
         self.assertEqual(instance.articles, [{
             'class': 'normal',
             'discount-available': False,
-            'gross': 'GROSS',
-            'money': self.money('12.40'),
+            'locale_gross': 'LOCALE_GROSS',
+            'locale_money': 'LOCALE_MONEY',
             'title': 'Ärticle1',
             'url': 'http://nohost/plone/article-container/article1'
         }])
@@ -48,8 +49,8 @@ class ArticlesInArticleContainerViewletTestCase(IntegrationTestCase):
         self.assertEqual(instance.articles, [{
             'class': 'discount',
             'discount-available': True,
-            'gross': 'GROSS',
-            'money': self.money('12.40'),
+            'locale_gross': 'LOCALE_GROSS',
+            'locale_money': 'LOCALE_MONEY',
             'title': 'Ärticle1',
             'url': 'http://nohost/plone/article-container/article1'
         }])

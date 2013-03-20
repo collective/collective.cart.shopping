@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from collective.cart.core.interfaces import ICartAdapter as IBaseCartAdapter
+from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.tests.base import IntegrationTestCase
 from decimal import Decimal
 from moneyed import Money
@@ -15,7 +16,6 @@ class CartAdapterTestCase(IntegrationTestCase):
         from collective.cart.core.adapter.cart import CartAdapter as BaseCartAdapter
         from collective.cart.shopping.adapter.cart import CartAdapter
         self.assertTrue(issubclass(CartAdapter, BaseCartAdapter))
-        from collective.cart.shopping.interfaces import ICartAdapter
         self.assertTrue(issubclass(ICartAdapter, IBaseCartAdapter))
 
     def test_context(self):
@@ -25,7 +25,6 @@ class CartAdapterTestCase(IntegrationTestCase):
 
     def test_provides(self):
         from collective.cart.shopping.adapter.cart import CartAdapter
-        from collective.cart.shopping.interfaces import ICartAdapter
         self.assertEqual(getattr(CartAdapter, 'grokcore.component.directive.provides'), ICartAdapter)
 
     def create_cart(self, shop=None):
@@ -65,12 +64,10 @@ class CartAdapterTestCase(IntegrationTestCase):
 
     def test_instance(self):
         from collective.cart.shopping.adapter.cart import CartAdapter
-        from collective.cart.shopping.interfaces import ICartAdapter
         cart = self.create_cart()
         self.assertIsInstance(ICartAdapter(cart), CartAdapter)
 
     def test_articles(self):
-        from collective.cart.shopping.interfaces import ICartAdapter
         cart = self.create_cart()
         self.assertEqual(len(ICartAdapter(cart).articles), 0)
 
@@ -85,6 +82,7 @@ class CartAdapterTestCase(IntegrationTestCase):
             'description': description,
             'gross': self.money('12.40'),
             'gross_subtotal': self.money('24.80'),
+            'locale_gross_subtotal': u'24.80 €',
             'image_url': 'http://nohost/plone/fallback.png',
             'obj': carticle,
             'quantity': 2,
@@ -100,6 +98,7 @@ class CartAdapterTestCase(IntegrationTestCase):
             'gross': self.money('12.40'),
             'gross_subtotal': self.money('24.80'),
             'image_url': None,
+            'locale_gross_subtotal': u'24.80 €',
             'obj': carticle,
             'quantity': 2,
             'sku': sku,
@@ -109,7 +108,6 @@ class CartAdapterTestCase(IntegrationTestCase):
         }])
 
     def test_articles_total(self):
-        from collective.cart.shopping.interfaces import ICartAdapter
         cart = self.create_cart()
         adapter = ICartAdapter(cart)
         self.assertEqual(adapter.articles_total, self.money('0.00'))
@@ -118,14 +116,7 @@ class CartAdapterTestCase(IntegrationTestCase):
         self.create_cart_article(cart, '2', gross=self.money('10.00'))
         self.assertEqual(adapter.articles_total, self.money('44.80'))
 
-    def create_cart_shipping_method(self, cart, **kwargs):
-        shipping_method = createContentInContainer(cart, 'collective.cart.shipping.CartShippingMethod',
-            id='cart-shipping-method', checkConstraints=False, vat_rate=Decimal('24.00'), **kwargs)
-        modified(shipping_method)
-        return shipping_method
-
     def test_total(self):
-        from collective.cart.shopping.interfaces import ICartAdapter
         cart = self.create_cart()
         adapter = ICartAdapter(cart)
         self.assertEqual(adapter.total, self.money('0.00'))
@@ -134,16 +125,25 @@ class CartAdapterTestCase(IntegrationTestCase):
         self.create_cart_article(cart, '2', gross=self.money('10.00'))
         self.assertEqual(adapter.total, self.money('44.80'))
 
-        self.create_cart_shipping_method(cart, gross=self.money('24.80'), net=self.money('20.00'),
+        self.create_content('collective.cart.shipping.CartShippingMethod', cart, id='cart-shipping-method', vat_rate=Decimal('24.00'), gross=self.money('24.80'), net=self.money('20.00'),
             vat=self.money('4.80'))
         self.assertEqual(adapter.total, self.money('69.60'))
 
     def test_shipping_method(self):
-        from collective.cart.shopping.interfaces import ICartAdapter
         cart = self.create_cart()
         adapter = ICartAdapter(cart)
-        shipping_method = self.create_cart_shipping_method(cart)
+        shipping_method = self.create_content('collective.cart.shipping.CartShippingMethod', cart, id='cart-shipping-method', vat_rate=Decimal('24.00'))
         self.assertEqual(adapter.shipping_method.getObject(), shipping_method)
+
+    def test_locale_shipping_method(self):
+        cart = self.create_cart()
+        adapter = ICartAdapter(cart)
+        self.create_content('collective.cart.shipping.CartShippingMethod', cart, id='cart-shipping-method', vat_rate=Decimal('24.00'), gross=self.money('24.80'))
+        self.assertEqual(adapter.locale_shipping_method(), {
+            'gross': u'24.80 €',
+            'title': '',
+            'vat_rate': self.decimal('24.00'),
+        })
 
     def create_articles(self, cart):
         article1 = createContentInContainer(cart, 'collective.cart.core.CartArticle',
@@ -155,23 +155,20 @@ class CartAdapterTestCase(IntegrationTestCase):
         return (article1, article2)
 
     def test__calculated_weight(self):
-        from collective.cart.shopping.interfaces import ICartAdapter
         cart = self.create_cart()
         self.create_articles(cart)
         self.assertEqual(ICartAdapter(cart)._calculated_weight(), 0.5)
 
     def test_shipping_gross_money(self):
-        from collective.cart.shopping.interfaces import ICartAdapter
         cart = self.create_cart()
         adapter = ICartAdapter(cart)
         gross = self.money('24.80')
         vat = self.money('4.80')
         net = self.money('20.00')
-        self.create_cart_shipping_method(cart, gross=gross, net=net, vat=vat)
+        self.create_content('collective.cart.shipping.CartShippingMethod', cart, id='cart-shipping-method', vat_rate=Decimal('24.00'), gross=gross, net=net, vat=vat)
         self.assertEqual(adapter.shipping_gross_money, gross)
 
     def test_shipping_net_money(self):
-        from collective.cart.shopping.interfaces import ICartAdapter
         cart = self.create_cart()
         adapter = ICartAdapter(cart)
         self.assertEqual(adapter.shipping_net_money, self.money('0.00'))
@@ -179,11 +176,10 @@ class CartAdapterTestCase(IntegrationTestCase):
         gross = self.money('24.80')
         vat = self.money('4.80')
         net = self.money('20.00')
-        self.create_cart_shipping_method(cart, gross=gross, net=net, vat=vat)
+        self.create_content('collective.cart.shipping.CartShippingMethod', cart, id='cart-shipping-method', vat_rate=Decimal('24.00'), gross=gross, net=net, vat=vat)
         self.assertEqual(adapter.shipping_net_money, net)
 
     def test_shipping_vat_money(self):
-        from collective.cart.shopping.interfaces import ICartAdapter
         cart = self.create_cart()
         adapter = ICartAdapter(cart)
         self.assertEqual(adapter.shipping_vat_money, self.money('0.00'))
@@ -191,7 +187,7 @@ class CartAdapterTestCase(IntegrationTestCase):
         gross = self.money('24.80')
         vat = self.money('4.80')
         net = self.money('20.00')
-        self.create_cart_shipping_method(cart, gross=gross, net=net, vat=vat)
+        self.create_content('collective.cart.shipping.CartShippingMethod', cart, id='cart-shipping-method', vat_rate=Decimal('24.00'), gross=gross, net=net, vat=vat)
         self.assertEqual(adapter.shipping_vat_money, vat)
 
     def create_customer_info(self, cart, name):
@@ -201,7 +197,6 @@ class CartAdapterTestCase(IntegrationTestCase):
         return info
 
     def test_get_address(self):
-        from collective.cart.shopping.interfaces import ICartAdapter
         cart = self.create_cart()
         adapter = ICartAdapter(cart)
         self.assertIsNone(adapter.get_address('something'))

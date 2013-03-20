@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from collective.cart.shopping.browser.viewlet import CartContentViewlet
 from collective.cart.shopping.tests.base import IntegrationTestCase
 
@@ -26,6 +27,6 @@ class CartContentViewletTestCase(IntegrationTestCase):
             'shipping_method': None,
             'state_title': 'Created',
             'title': '',
-            'total': self.money('0.00'),
+            'total': u'0.00 €',
             'url': 'http://nohost/plone/collective-cart-core.cart'
         })

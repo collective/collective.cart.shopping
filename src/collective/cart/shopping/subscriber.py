@@ -120,7 +120,7 @@ def notify_ordered(context, event):
         articles = shopping_site.cart_article_listing
         for article in articles:
             subtotal = article['gross'] * article['quantity']
-            article.update({'subtotal': subtotal})
+            article.update({'subtotal': shopping_site.format_money(subtotal)})
         shipping_method_title = hasattr(
             cadapter.shipping_method, 'Title') and cadapter.shipping_method.Title.decode(default_charset) or u''
 
@@ -131,8 +131,8 @@ def notify_ordered(context, event):
             'shipping_address': shipping_address,
             'articles': articles,
             'shipping_method_title': shipping_method_title,
-            'shipping_gross_money': shopping_site.shipping_gross_money,
-            'total': shopping_site.total,
+            'shipping_gross': shopping_site.locale_shipping_gross(),
+            'total': shopping_site.locale_total(),
         }
         message_to_customer = context.unrestrictedTraverse('to-customer-order-mail-template')(**items)
         mto_customer = u'"{}" <{}>'.format(utility.fullname(billing), billing['email'])

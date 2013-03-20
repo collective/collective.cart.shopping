@@ -210,7 +210,7 @@ Check out and there should be billing info filled::
     >>> print browser.bycss('.shipping-methods')
         --- 1 ---
     ...
-    <input name="shipping-method" type="radio" required="required" checked value="..."><span>ShippingMeth&#246;d2  0.00 EUR</span>
+    <input name="shipping-method" type="radio" required="required" checked value="..."><span>ShippingMeth&#246;d2  0.00 &#8364;</span>
     ...
 
 With different shipping address::

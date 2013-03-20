@@ -100,10 +100,8 @@ class ArticleAdapterTestCase(IntegrationTestCase):
         self.assertEqual(len(adapter.subarticles_option), 0)
 
         IStock().stock = 10
-        from decimal import Decimal
-        from moneyed import Money
         self.assertEqual(adapter.subarticles_option, [{
-            'gross': Money(Decimal('12.40'), 'EUR'),
+            'locale_gross': u'12.40 €',
             'title': u'Ärticle2',
             'uuid': IUUID(article2)
         }])

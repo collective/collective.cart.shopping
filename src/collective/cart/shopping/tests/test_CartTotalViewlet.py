@@ -26,5 +26,4 @@ class CartTotalViewletTestCase(IntegrationTestCase):
     @mock.patch('collective.cart.shopping.browser.viewlet.IShoppingSite')
     def test_available(self, IShoppingSite):
         instance = self.create_viewlet()
-        IShoppingSite().articles_total = 'TOTAL'
-        self.assertEqual(instance.cart_total, 'TOTAL')
+        self.assertEqual(instance.cart_total, IShoppingSite().locale_articles_total())

@@ -34,8 +34,31 @@ class IShoppingSite(IBaseShoppingSite):
     billing_same_as_shipping = Attribute('True if billing info in session cart is same as shipping info')
     is_addresses_filled = Attribute('True if addresses are filled')
 
+    def locale():  # pragma: no cover
+        """Returns locale for localizing money"""
+
+    def format_money(money):  # pragma: no cover
+        """Returns locale formated money
+
+        :param money: Money
+        :type money: moneyed.Money
+
+        :rtype: unicode"""
+
+    def locale_articles_total():  # pragma: no cover
+        """Localized total money amount and currency of articles"""
+
     def get_shipping_gross_money(uuid):  # pragma: no cover
         """Get shipping gross money by uuid."""
+
+    def locale_shipping_gross():  # pragma: no cover
+        """Localized money amount and currency for shipping gross cost
+
+        :rtype: unicode
+        """
+
+    def locale_total():  # pragma: no cover
+        """Localized total amount and currency"""
 
     def update_shipping_method(uuid=None):  # pragma: no cover
         """Update shipping method of cart in session."""
@@ -270,7 +293,7 @@ class IPriceUtility(Interface):
 
 
 class IMoneyUtility(Interface):
-    """Uitility interface for money."""
+    """Utility interface for money."""
 
     def __call__(money, currency=None, decimal=2):
         """Convert money to the currency with proper decimal point.
@@ -288,6 +311,7 @@ class IMoneyUtility(Interface):
 
 
 class IUnicodeUtility(Interface):
+    """Utility interface for unicode."""
 
     def safe_unicode():  # pragma: no cover
         """Returns unicode of value.
@@ -310,4 +334,18 @@ class IUnicodeUtility(Interface):
         :param encoding: Character set
         :type encoding: str
 
-        :rtype: unicode"""
+        :rtype: unicode
+        """
+
+
+class ILocaleUtility(Interface):
+    """Utility interface for locale code"""
+
+    def __call__(code):  # pragma: no cover
+        """Returns combined language code from single code.
+
+        :param code: Single lower case language code
+        :type code: str
+
+        :rtype: str or None
+        """

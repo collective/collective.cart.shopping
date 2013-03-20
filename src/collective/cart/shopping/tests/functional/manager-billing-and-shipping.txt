@@ -50,7 +50,7 @@ Check the shipping method::
     <dd>
     <div>
     <label>
-    <span>ShippingMeth&#246;d1  0.10 EUR</span>
+    <span>ShippingMeth&#246;d1  0.10 &#8364;</span>
     </label>
     <p>Descripti&#246;n of ShippingMeth&#246;d1</p>
     </div>

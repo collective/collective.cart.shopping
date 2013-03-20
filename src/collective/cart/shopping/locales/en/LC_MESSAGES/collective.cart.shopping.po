@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-03-18 11:41+0000\n"
+"POT-Creation-Date: 2013-03-20 07:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,8 +50,8 @@ msgid "Article List"
 msgstr ""
 
 #: ./browser/templates/shipping-info.pt:105
-#: ./browser/viewlets/billing-and-shipping-checkout.pt:8
 #: ./browser/viewlets/billing-info.pt:121
+#: ./browser/viewlets/confirmation-checkout.pt:8
 msgid "Back"
 msgstr ""
 
@@ -60,6 +60,7 @@ msgid "Billing"
 msgstr ""
 
 #: ./browser/templates/order-mail-template.pt:21
+#: ./browser/viewlets/cart-content.pt:85
 msgid "Billing Address"
 msgstr ""
 
@@ -89,7 +90,7 @@ msgstr ""
 msgid "City"
 msgstr ""
 
-#: ./adapter/interface.py:278
+#: ./adapter/interface.py:309
 msgid "City is missing."
 msgstr ""
 
@@ -145,7 +146,7 @@ msgstr ""
 msgid "First Name"
 msgstr ""
 
-#: ./adapter/interface.py:266
+#: ./adapter/interface.py:297
 msgid "First name is missing."
 msgstr ""
 
@@ -163,11 +164,11 @@ msgstr ""
 msgid "Initial Stock"
 msgstr ""
 
-#: ./adapter/interface.py:365
+#: ./adapter/interface.py:396
 msgid "Input integer value to add to cart."
 msgstr ""
 
-#: ./adapter/interface.py:363
+#: ./adapter/interface.py:394
 msgid "Input positive integer value to add to cart."
 msgstr ""
 
@@ -175,11 +176,11 @@ msgstr ""
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr ""
 
-#: ./adapter/interface.py:272
+#: ./adapter/interface.py:303
 msgid "Invalid e-mail address."
 msgstr ""
 
-#: ./browser/viewlet.py:247
+#: ./browser/viewlet.py:257
 msgid "Invalid quantity."
 msgstr ""
 
@@ -189,7 +190,7 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-#: ./adapter/interface.py:269
+#: ./adapter/interface.py:300
 msgid "Last name is missing."
 msgstr ""
 
@@ -198,7 +199,6 @@ msgid "Name"
 msgstr ""
 
 #: ./browser/templates/shipping-info.pt:114
-#: ./browser/viewlets/billing-and-shipping-checkout.pt:16
 #: ./browser/viewlets/billing-info.pt:130
 msgid "Next"
 msgstr ""
@@ -208,7 +208,7 @@ msgstr ""
 msgid "Normal Price: ${normal-price}"
 msgstr ""
 
-#: ./adapter/interface.py:361
+#: ./adapter/interface.py:392
 msgid "Not available to add to cart."
 msgstr ""
 
@@ -233,7 +233,7 @@ msgstr ""
 msgid "Phone Number"
 msgstr ""
 
-#: ./adapter/interface.py:281
+#: ./adapter/interface.py:312
 msgid "Phone number is missing."
 msgstr ""
 
@@ -284,7 +284,7 @@ msgstr ""
 msgid "Select one if this information is used only for billing or shipping."
 msgstr ""
 
-#: ./browser/viewlet.py:368
+#: ./browser/viewlet.py:381
 msgid "Select one shipping method."
 msgstr ""
 
@@ -293,6 +293,7 @@ msgid "Shipping"
 msgstr ""
 
 #: ./browser/templates/order-mail-template.pt:24
+#: ./browser/viewlets/cart-content.pt:94
 msgid "Shipping Address"
 msgstr ""
 
@@ -304,6 +305,7 @@ msgstr ""
 msgid "Shipping Method"
 msgstr ""
 
+#: ./browser/viewlets/cart-content.pt:62
 #: ./browser/viewlets/confirmation-shipping-method.pt:9
 msgid "Shipping Method:"
 msgstr ""
@@ -322,6 +324,10 @@ msgstr ""
 msgid "Sold Out"
 msgstr ""
 
+#: ./browser/viewlets/cart-content.pt:7
+msgid "State:"
+msgstr ""
+
 #: ./browser/template.py:324
 #: ./profiles/default/actions.xml
 msgid "Stock"
@@ -338,7 +344,7 @@ msgstr ""
 msgid "Street Address"
 msgstr ""
 
-#: ./adapter/interface.py:275
+#: ./adapter/interface.py:306
 msgid "Street address is missing."
 msgstr ""
 
@@ -354,6 +360,7 @@ msgstr ""
 msgid "The representative image of this article."
 msgstr ""
 
+#: ./browser/viewlets/cart-content.pt:79
 #: ./browser/viewlets/cart-total.pt:4
 #: ./browser/viewlets/confirmation-total.pt:4
 msgid "Total"
@@ -365,10 +372,6 @@ msgstr ""
 
 #: ./browser/viewlets/cart-articles.pt:57
 msgid "Update"
-msgstr ""
-
-#: ./browser/viewlets/billing-and-shipping-shipping-method.pt:27
-msgid "Update Shipping Method"
 msgstr ""
 
 #: ./interfaces.py:104
@@ -434,7 +437,7 @@ msgid "need_to_accept_terms"
 msgstr ""
 
 #. Default: "No more than ${quantity} can be added to cart for ${title}"
-#: ./browser/viewlet.py:238
+#: ./browser/viewlet.py:248
 msgid "no_more_than_quantity"
 msgstr ""
 
@@ -455,6 +458,7 @@ msgstr ""
 
 #. Default: "Order Number: ${number}"
 #: ./browser/templates/order-mail-template.pt:18
+#: ./browser/viewlets/cart-content.pt:5
 #: ./subscriber.py:108
 msgid "order-number"
 msgstr ""
@@ -472,6 +476,11 @@ msgstr ""
 #. Default: "Total: ${total}"
 #: ./browser/templates/order-mail-template.pt:37
 msgid "order-total"
+msgstr ""
+
+#. Default: "Updated: ${date}"
+#: ./browser/viewlets/cart-content.pt:10
+msgid "order-updated"
 msgstr ""
 
 #: ./browser/viewlets/add-subarticle-to-cart.pt:33

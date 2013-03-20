@@ -28,4 +28,4 @@ class OrderConfirmationTotalViewletTestCase(IntegrationTestCase):
     @mock.patch('collective.cart.shopping.browser.viewlet.IShoppingSite')
     def test_total(self, IShoppingSite):
         instance = self.create_viewlet()
-        self.assertEqual(instance.total, IShoppingSite().total)
+        self.assertEqual(instance.total(), IShoppingSite().locale_total())

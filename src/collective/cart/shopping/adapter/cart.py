@@ -1,4 +1,3 @@
-from Products.CMFCore.interfaces import ISiteRoot
 from collective.behavior.price.interfaces import ICurrency
 from collective.behavior.size.interfaces import ISize
 from collective.cart.core.adapter.cart import CartAdapter as BaseCartAdapter
@@ -9,6 +8,8 @@ from collective.cart.shopping.interfaces import ICartAdapter
 from collective.cart.shopping.interfaces import ICartArticle
 from collective.cart.shopping.interfaces import ICartArticleAdapter
 from collective.cart.shopping.interfaces import ICustomerInfo
+from collective.cart.shopping.interfaces import IShoppingSite
+from collective.cart.shopping.interfaces import IUnicodeUtility
 from decimal import Decimal
 from five import grok
 from moneyed import Money
@@ -25,19 +26,20 @@ class CartAdapter(BaseCartAdapter):
     @property
     def articles(self):
         """List of dictionary of Articles within cart."""
-        encoding = getUtility(ISiteRoot).getProperty('email_charset', 'utf-8')
+        utility = getUtility(IUnicodeUtility)
         res = []
         for item in self.get_content_listing(ICartArticle):
             obj = item.getObject()
             items = {
-                'description': item.Description().decode(encoding),
+                'description': utility.safe_unicode(item.Description()),
                 'gross': item.gross,
                 'gross_subtotal': ICartArticleAdapter(obj).gross_subtotal,
+                'locale_gross_subtotal': ICartArticleAdapter(obj).locale_gross_subtotal(),
                 'image_url': None,
                 'obj': obj,
                 'quantity': item.quantity,
                 'sku': item.sku,
-                'title': item.Title().decode(encoding),
+                'title': utility.safe_unicode(item.Title()),
                 'url': None,
                 'vat_rate': item.vat_rate,
             }
@@ -65,10 +67,22 @@ class CartAdapter(BaseCartAdapter):
             total += self.shipping_gross_money
         return total
 
+    def locale_total(self):
+        return IShoppingSite(self.context).format_money(self.total)
+
     @property
     def shipping_method(self):
         """Brain of shipping method of the cart."""
         return self.get_brain(ICartShippingMethod, depth=1)
+
+    def locale_shipping_method(self):
+        """Returns dictionary of shipping method containing localized cost of it."""
+        if self.shipping_method:
+            return {
+                'gross': IShoppingSite(self.context).format_money(self.shipping_method.gross),
+                'title': self.shipping_method.Title,
+                'vat_rate': self.shipping_method.vat_rate,
+            }
 
     def _calculated_weight(self, rate=None):
         weight = 0

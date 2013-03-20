@@ -11,7 +11,7 @@
         tal:attributes="value item/uuid"
         tal:repeat="item viewlet/subarticles">
         <span tal:replace="item/title" />
-        <span tal:replace="item/gross" />
+        <span tal:replace="item/locale_gross" />
       </option>
     </select>
     <section id="vat" i18n:translate="">

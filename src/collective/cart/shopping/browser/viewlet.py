@@ -128,6 +128,16 @@ class AddToCartViewlet(BaseAddToCartViewlet):
     def uuid(self):
         return IUUID(self.context)
 
+    @property
+    def locale_gross(self):
+        """Local discount money or original gross money"""
+        return IArticleAdapter(self.context).locale_gross
+
+    @property
+    def locale_money(self):
+        """Local original gross money"""
+        return IArticleAdapter(self.context).locale_money
+
 
 class AddSubArticleToCartViewlet(BaseAddToCartViewlet):
     """Viewlet to show add to cart form for subarticles."""
@@ -185,10 +195,10 @@ class ArticlesInArticleViewlet(BaseArticleViewlet):
                 'subarticle_addable_to_cart': subarticle_addable_to_cart,
                 'description': item.Description(),
                 'discount_end': article.discount_end,
-                'gross': article.gross,
+                'locale_gross': article.locale_gross,
                 'id': item.getId(),
                 'image_url': article.image_url,
-                'money': item.money,
+                'locale_money': article.locale_money,
                 'numbers': numbers,
                 'quantity_max': quantity_max,
                 'quantity_size': quantity_size,
@@ -260,6 +270,8 @@ class CartArticlesViewlet(BaseCartArticlesViewlet):
             article.update({
                 'gross_subtotal': adapter.gross_subtotal,
                 'image_url': adapter.image_url,
+                'locale_gross': adapter.locale_gross,
+                'locale_gross_subtotal': adapter.locale_gross_subtotal,
                 'quantity_max': adapter.quantity_max,
                 'quantity_size': adapter.quantity_size,
             })
@@ -280,7 +292,7 @@ class CartTotalViewlet(BaseCartViewlet):
 
     @property
     def cart_total(self):
-        return IShoppingSite(self.context).articles_total
+        return IShoppingSite(self.context).locale_articles_total()
 
 
 class CheckOutViewlet(BaseCartViewlet):
@@ -318,6 +330,7 @@ class BillingInfoViewlet(BaseShoppingSiteRootViewlet):
     @property
     def shipping_methods(self):
         shopping_site = IShoppingSite(self.context)
+        default_charset = getattr(getattr(getToolByName(self.context, 'portal_properties'), 'site_properties'), 'default_charset', 'utf-8')
         res = []
         for brain in shopping_site.shipping_methods:
             uuid = brain.UID
@@ -329,7 +342,7 @@ class BillingInfoViewlet(BaseShoppingSiteRootViewlet):
             res.append({
                 'description': brain.Description,
                 'checked': uuid == orig_uuid,
-                'title': '{}  {} {}'.format(brain.Title, shipping_gross_money.amount, shipping_gross_money.currency),
+                'title': '{}  {}'.format(brain.Title, shopping_site.format_money(shipping_gross_money).encode(default_charset)),
                 'uuid': uuid,
             })
         return res
@@ -410,7 +423,10 @@ class OrderConfirmationShippingMethodViewlet(BaseOrderConfirmationViewlet):
 
     @property
     def shipping_method(self):
-        return IShoppingSite(self.context).shipping_method
+        shopping_site = IShoppingSite(self.context)
+        items = shopping_site.shipping_method.copy()
+        items['locale_gross'] = shopping_site.format_money(items['gross'])
+        return items
 
 
 class OrderConfirmationTotalViewlet(BaseOrderConfirmationViewlet):
@@ -418,9 +434,8 @@ class OrderConfirmationTotalViewlet(BaseOrderConfirmationViewlet):
     grok.name('collective.cart.shopping.confirmation-total')
     grok.template('confirmation-total')
 
-    @property
     def total(self):
-        return IShoppingSite(self.context).total
+        return IShoppingSite(self.context).locale_total()
 
 
 class TermsViewletManager(BaseViewletManager):
@@ -458,10 +473,10 @@ class CartContentViewlet(BaseCartContentViewlet):
             'articles': cart.articles,
             'id': self.context.id,
             'modified': cart.ulocalized_time(self.context.modified()),
-            'shipping_method': cart.shipping_method,
+            'shipping_method': cart.locale_shipping_method(),
             'state_title': workflow.getTitleForStateOnType(workflow.getInfoFor(self.context, 'review_state'), self.context.portal_type),
             'title': self.context.Title(),
-            'total': cart.total,
+            'total': cart.locale_total(),
             'url': self.context.absolute_url(),
             'billing_info': cart.get_address('billing'),
             'shipping_info': cart.get_address('shipping'),
@@ -498,13 +513,14 @@ class ArticlesInArticleContainerViewlet(BaseArticleContainerViewlet):
         for item in IShoppingSite(self.context).get_content_listing(IArticle, depth=1, sort_on='getObjPositionInParent'):
             style_class = 'normal'
             obj = item.getObject()
-            discount_available = IArticleAdapter(obj).discount_available
+            adapter = IArticleAdapter(obj)
+            discount_available = adapter.discount_available
             if discount_available:
                 style_class = 'discount'
             res.append({
                 'discount-available': discount_available,
-                'gross': IArticleAdapter(obj).gross,
-                'money': item.money,
+                'locale_gross': adapter.locale_gross,
+                'locale_money': adapter.locale_money,
                 'class': style_class,
                 'title': item.Title(),
                 'url': item.getURL(),

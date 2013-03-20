@@ -7,8 +7,8 @@ from collective.behavior.stock.interfaces import IStock
 from collective.cart.core.adapter.article import ArticleAdapter as BaseArticleAdapter
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
-from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.shopping.interfaces import IMoneyUtility
+from collective.cart.shopping.interfaces import IShoppingSite
 from datetime import date
 from datetime import datetime
 from datetime import time
@@ -30,7 +30,7 @@ class ArticleAdapter(BaseArticleAdapter):
     @property
     def articles_in_article(self):
         """Articles in Article which is not optional subarticle."""
-        brains = self.get_brains(IArticle, depth=1, salable=True, sort_on='getObjPositionInParent')
+        brains = self.get_brains(IArticle, depth=1, sort_on='getObjPositionInParent')
         return not self.context.use_subarticle and brains or []
 
     @property
@@ -50,7 +50,7 @@ class ArticleAdapter(BaseArticleAdapter):
             article = IArticleAdapter(obj)
             res.append({
                 'title': safe_unicode(obj.Title()),
-                'gross': article.gross,
+                'locale_gross': article.locale_gross,
                 'uuid': IUUID(obj),
             })
         return res
@@ -147,6 +147,16 @@ class ArticleAdapter(BaseArticleAdapter):
         else:
             money = self.context.net_money
         return getUtility(IMoneyUtility)(money)
+
+    @property
+    def locale_money(self):
+        """Localized money"""
+        return IShoppingSite(self.context).format_money(self.context.money)
+
+    @property
+    def locale_gross(self):
+        """Localized gross money"""
+        return IShoppingSite(self.context).format_money(self.gross)
 
     @property
     def soldout(self):
