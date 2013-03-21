@@ -73,13 +73,14 @@ class CartAdapter(BaseCartAdapter):
     @property
     def shipping_method(self):
         """Brain of shipping method of the cart."""
-        return self.get_brain(ICartShippingMethod, depth=1)
+        return self.get_brain(ICartShippingMethod, depth=1, unrestricted=True)
 
     def locale_shipping_method(self):
         """Returns dictionary of shipping method containing localized cost of it."""
         if self.shipping_method:
             return {
                 'gross': IShoppingSite(self.context).format_money(self.shipping_method.gross),
+                'is_free': self.shipping_method.gross.amount == 0.0,
                 'title': self.shipping_method.Title,
                 'vat_rate': self.shipping_method.vat_rate,
             }

@@ -134,13 +134,15 @@ Back to billing-and-shipping::
     <dd>
     <div>
     <label>
-    <input name="shipping-method" type="radio" required="required" checked value="..."><span>ShippingMeth&#246;d1  0.10 &#8364;</span>
+    <input name="shipping-method" type="radio" required="required" checked value="...">
+    ShippingMeth&#246;d1  0.10 &#8364;
     </label>
     <p>Descripti&#246;n of ShippingMeth&#246;d1</p>
     </div>
     <div>
     <label>
-    <input name="shipping-method" type="radio" required="required" value="..."><span>ShippingMeth&#246;d2  0.20 &#8364;</span>
+    <input name="shipping-method" type="radio" required="required" value="...">
+    ShippingMeth&#246;d2  0.20 &#8364;
     </label>
     <p>Descripti&#246;n of ShippingMeth&#246;d2</p>
     </div>
@@ -164,13 +166,15 @@ Back to billing-and-shipping::
     <dd>
     <div>
     <label>
-    <input name="shipping-method" type="radio" required="required" value="..."><span>ShippingMeth&#246;d1  0.10 &#8364;</span>
+    <input name="shipping-method" type="radio" required="required" value="...">
+    ShippingMeth&#246;d1  0.10 &#8364;
     </label>
     <p>Descripti&#246;n of ShippingMeth&#246;d1</p>
     </div>
     <div>
     <label>
-    <input name="shipping-method" type="radio" required="required" checked value="..."><span>ShippingMeth&#246;d2  0.20 &#8364;</span>
+    <input name="shipping-method" type="radio" required="required" checked value="...">
+    ShippingMeth&#246;d2  0.20 &#8364;
     </label>
     <p>Descripti&#246;n of ShippingMeth&#246;d2</p>
     </div>

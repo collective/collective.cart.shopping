@@ -112,7 +112,7 @@
                 checked item/checked;
                 value item/uuid"
               tal:condition="not: viewlet/single_shipping_method" />
-            <span tal:content="item/title" />
+            <span tal:replace="item/title" />
           </label>
           <p tal:condition="item/description" tal:content="item/description" />
         </div>

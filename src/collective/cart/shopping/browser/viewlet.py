@@ -335,16 +335,24 @@ class BillingInfoViewlet(BaseShoppingSiteRootViewlet):
         for brain in shopping_site.shipping_methods:
             uuid = brain.UID
             orig_uuid = shopping_site.shipping_method['uuid']
+
             if uuid == orig_uuid:
                 shipping_gross_money = shopping_site.shipping_gross_money
             else:
                 shipping_gross_money = shopping_site.get_shipping_gross_money(uuid)
+
+            if shipping_gross_money.amount == 0.0:
+                title = brain.Title
+            else:
+                title = '{}  {}'.format(brain.Title, shopping_site.format_money(shipping_gross_money).encode(default_charset))
+
             res.append({
                 'description': brain.Description,
                 'checked': uuid == orig_uuid,
-                'title': '{}  {}'.format(brain.Title, shopping_site.format_money(shipping_gross_money).encode(default_charset)),
+                'title': title,
                 'uuid': uuid,
             })
+
         return res
 
     @property
@@ -426,6 +434,10 @@ class OrderConfirmationShippingMethodViewlet(BaseOrderConfirmationViewlet):
         shopping_site = IShoppingSite(self.context)
         items = shopping_site.shipping_method.copy()
         items['locale_gross'] = shopping_site.format_money(items['gross'])
+        if items['gross'].amount == 0.0:
+            items['is_free'] = True
+        else:
+            items['is_free'] = False
         return items
 
 

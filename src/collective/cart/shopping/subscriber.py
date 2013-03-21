@@ -131,6 +131,7 @@ def notify_ordered(context, event):
             'shipping_address': shipping_address,
             'articles': articles,
             'shipping_method_title': shipping_method_title,
+            'is_shipping_free': shopping_site.shipping_gross_money.amount == 0.0,
             'shipping_gross': shopping_site.locale_shipping_gross(),
             'total': shopping_site.locale_total(),
         }

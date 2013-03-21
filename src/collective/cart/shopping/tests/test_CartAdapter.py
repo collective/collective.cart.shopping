@@ -141,6 +141,7 @@ class CartAdapterTestCase(IntegrationTestCase):
         self.create_content('collective.cart.shipping.CartShippingMethod', cart, id='cart-shipping-method', vat_rate=Decimal('24.00'), gross=self.money('24.80'))
         self.assertEqual(adapter.locale_shipping_method(), {
             'gross': u'24.80 €',
+            'is_free': False,
             'title': '',
             'vat_rate': self.decimal('24.00'),
         })

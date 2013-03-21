@@ -64,11 +64,13 @@
               </td>
               <td tal:content="item/title" />
               <td class="price-and-quantity">
-                <span class="gross" tal:content="item/gross" />
-                <br />
-                <span class="vat" i18n:translate="">
-                  Including VAT: <span i18n:name="vat" tal:replace="item/vat_rate" /> &#37;
-                </span>
+                <tal:block tal:condition="not: item/is_free">
+                  <span class="gross" tal:content="item/gross" />
+                  <br />
+                  <span class="vat" i18n:translate="">
+                    Including VAT: <span i18n:name="vat" tal:replace="item/vat_rate" /> &#37;
+                  </span>
+                </tal:block>
               </td>
             </tr>
           </tbody>

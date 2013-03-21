@@ -101,7 +101,7 @@ Check the newest message sent::
     =C3=84rticle1 x 1 =3D 12.40 =E2=82=AC
     <BLANKLINE>
     <BLANKLINE>
-    Shipping Method: ShippingMeth=C3=B6d2 0.00 =E2=82=AC
+    Shipping Method: ShippingMeth=C3=B6d2
     <BLANKLINE>
     Total: 12.40 =E2=82=AC
     <BLANKLINE>
@@ -158,7 +158,7 @@ Check the newest message sent::
     =C3=84rticle1 x 1 =3D 12.40 =E2=82=AC
     <BLANKLINE>
     <BLANKLINE>
-    Shipping Method: ShippingMeth=C3=B6d2 0.00 =E2=82=AC
+    Shipping Method: ShippingMeth=C3=B6d2
     <BLANKLINE>
     Total: 12.40 =E2=82=AC
     <BLANKLINE>
@@ -210,7 +210,8 @@ Check out and there should be billing info filled::
     >>> print browser.bycss('.shipping-methods')
         --- 1 ---
     ...
-    <input name="shipping-method" type="radio" required="required" checked value="..."><span>ShippingMeth&#246;d2  0.00 &#8364;</span>
+    <input name="shipping-method" type="radio" required="required" checked value="...">
+    ShippingMeth&#246;d2
     ...
 
 With different shipping address::
@@ -292,7 +293,7 @@ Check the newest message sent::
     =C3=84rticle1 x 1 =3D 12.40 =E2=82=AC
     <BLANKLINE>
     <BLANKLINE>
-    Shipping Method: ShippingMeth=C3=B6d2 0.00 =E2=82=AC
+    Shipping Method: ShippingMeth=C3=B6d2
     <BLANKLINE>
     Total: 12.40 =E2=82=AC
     <BLANKLINE>
@@ -349,7 +350,7 @@ Check the newest message sent::
     =C3=84rticle1 x 1 =3D 12.40 =E2=82=AC
     <BLANKLINE>
     <BLANKLINE>
-    Shipping Method: ShippingMeth=C3=B6d2 0.00 =E2=82=AC
+    Shipping Method: ShippingMeth=C3=B6d2
     <BLANKLINE>
     Total: 12.40 =E2=82=AC
     <BLANKLINE>

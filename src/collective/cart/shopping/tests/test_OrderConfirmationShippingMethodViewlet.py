@@ -31,5 +31,6 @@ class OrderConfirmationShippingMethodViewletTestCase(IntegrationTestCase):
         IShoppingSite().shipping_method = {'gross': self.money('12.40')}
         self.assertEqual(instance.shipping_method, {
             'gross': self.money('12.40'),
+            'is_free': False,
             'locale_gross': IShoppingSite().format_money(),
         })
