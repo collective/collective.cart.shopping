@@ -1,16 +1,11 @@
 Changelog
 ---------
 
-0.4.0.2 (2013-03-xx)
-====================
+0.5 (2013-03-26)
+================
 
 - Hidden shipping cost when it is free. [taito]
-- Localized vat rate. [taito]
-
-0.4.0.1 (2013-03-20)
-====================
-
-- Added localization to money. [taito]
+- Localized money and vat rate. [taito]
 
 0.4 (2013-03-18)
 ================
