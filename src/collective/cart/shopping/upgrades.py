@@ -85,3 +85,24 @@ def reimport_actions(context, logger=None):
     logger.info('Reimporting actions.')
     setup.runImportStepFromProfile(
         PROFILE_ID, 'actions', run_dependencies=False, purge_old=False)
+
+
+def upgrade_14_to_15(context, logger=None):
+    """Set article attribute: vat_rate"""
+    if logger is None:
+        logger = logging.getLogger(__name__)
+    from collective.base.interfaces import IAdapter
+    from collective.cart.shopping.interfaces import IArticle
+    from zope.lifecycleevent import modified
+    adapter = IAdapter(context)
+    for brain in adapter.get_brains(IArticle, path=adapter.portal_path):
+        obj = brain.getObject()
+        setattr(obj, 'vat_rate', obj.vat)
+        modified(obj)
+        # obj.reindexObject(idxs=['vat_rate'])
+
+    from collective.cart.shipping.interfaces import IShippingMethod
+    for brain in adapter.get_brains(IShippingMethod, path=adapter.portal_path):
+        obj = brain.getObject()
+        setattr(obj, 'vat', obj.vat)
+        obj.reindexObject(idxs=['vat'])

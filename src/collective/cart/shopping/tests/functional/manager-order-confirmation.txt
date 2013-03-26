@@ -90,7 +90,7 @@ Fill Billing Info::
     </td>
     <td class="price-and-quantity">
     <span class="gross">12.30 &#8364;</span>
-    <br><span class="vat">Including VAT: 23.00 %</span>
+    <br><span class="vat">Including VAT: 24%</span>
     </td>
     </tr></tbody></table></section>
 
@@ -100,7 +100,7 @@ Fill Billing Info::
     <td>ShippingMeth&#246;d1</td>
     <td class="price-and-quantity">
     <span class="gross">0.10 &#8364;</span>
-    <br><span class="vat">Including VAT: 23.00 %</span>
+    <br><span class="vat">Including VAT: 24%</span>
     </td>
     </tr></tbody></table></section>
 

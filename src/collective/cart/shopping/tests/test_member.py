@@ -85,7 +85,7 @@ def setUp(self):
 
     # Add Article
     article1 = createContentInContainer(shop, 'collective.cart.core.Article', checkConstraints=False, title='Ärticle1',
-        money=Money(Decimal('12.40'), currency='EUR'), vat=Decimal('24.00'), reducible_quantity=100, sku='SKÖ1')
+        money=Money(Decimal('12.40'), currency='EUR'), vat_rate=Decimal('24.00'), reducible_quantity=100, sku='SKÖ1')
     modified(article1)
     workflow.doActionFor(article1, 'publish')
 

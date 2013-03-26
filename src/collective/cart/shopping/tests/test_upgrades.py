@@ -108,3 +108,22 @@ class TestCase(IntegrationTestCase):
         reimport_actions(self.portal)
 
         self.assertIsNotNone(get_action(self.portal, 'object', 'article-list'))
+
+    def test_upgrade_14_to_15(self):
+        article = self.create_content('collective.cart.core.Article', id='article',
+            money=self.money('12.40'), vat=self.decimal('24.00'), vat_rate=24.0)
+        del article.vat_rate
+
+        self.assertEqual(article.vat, self.decimal('24.00'))
+        with self.assertRaises(AttributeError):
+            article.vat_rate
+
+        shipping_method = self.create_atcontent('ShippingMethod', id='shipping-method')
+        setattr(shipping_method, 'vat', '24.00')
+
+        from collective.cart.shopping.upgrades import upgrade_14_to_15
+        upgrade_14_to_15(self.portal)
+
+        self.assertEqual(article.vat, self.decimal('24.00'))
+        self.assertEqual(article.vat_rate, 24.0)
+        self.assertEqual(shipping_method.vat, 24.0)

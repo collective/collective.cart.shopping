@@ -6,6 +6,7 @@ from Products.validation import validation
 from collective.behavior.price.interfaces import ICurrency
 from collective.behavior.size.interfaces import ISize
 from collective.behavior.stock.interfaces import IStock
+from collective.behavior.vat.interfaces import IAdapter
 from collective.cart.core.adapter.interface import ShoppingSite as BaseShoppingSite
 from collective.cart.shipping.interfaces import IShippingMethod
 from collective.cart.shopping import _
@@ -51,6 +52,17 @@ class ShoppingSite(BaseShoppingSite):
 
         :rtype: unicode"""
         return format_money(money, locale=self.locale())
+
+    @property
+    def cart_article_listing(self):
+        """List of cart articles in session for views."""
+        res = []
+        vat_adapter = IAdapter(self.context)
+        for article in super(ShoppingSite, self).cart_article_listing:
+            article = article.copy()
+            article['vat_rate'] = vat_adapter.percent(article['vat_rate'])
+            res.append(article)
+        return res
 
     @property
     def articles_total(self):
@@ -383,7 +395,7 @@ class ShoppingSiteMultiAdapter(grok.MultiAdapter):
                                     'title': item.title,
                                     'sku': obj.sku,
                                     'vat': item.vat,
-                                    'vat_rate': item.context.vat,
+                                    'vat_rate': item.context.vat_rate,
                                     'weight': size.weight,
                                     'width': size.width,
                                 }

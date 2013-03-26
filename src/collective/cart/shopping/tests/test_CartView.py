@@ -32,7 +32,7 @@ class CartViewTestCase(IntegrationTestCase):
         self.assertIsNone(shopping_site.shipping_method)
 
         article = self.create_content('collective.cart.core.Article', id='article',
-            money=self.money('12.40'), vat=self.decimal('24.00'))
+            money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         self.create_content('collective.cart.stock.Stock', article, stock=10)
         IArticleAdapter(article).add_to_cart()
         instance.update()

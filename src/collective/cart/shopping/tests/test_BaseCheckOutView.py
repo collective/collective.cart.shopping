@@ -74,7 +74,7 @@ class BaseCheckOutViewTestCase(IntegrationTestCase):
     def test_update(self):
         self.portal.absolute_url = mock.Mock(return_value='portal_url')
         instance = self.create_view()
-        article1 = self.create_article(id='article1', money=Money(Decimal('12.40'), currency='EUR'), vat=Decimal('24.00'))
+        article1 = self.create_article(id='article1', money=Money(Decimal('12.40'), currency='EUR'), vat_rate=Decimal('24.00'))
         self.assertIsNone(instance.update())
 
         IArticleAdapter(article1).add_to_cart()

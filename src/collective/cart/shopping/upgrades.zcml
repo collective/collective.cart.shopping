@@ -123,4 +123,14 @@
     title="Reimport actions"
     />
 
+  <genericsetup:upgradeStep
+    description=""
+    destination="15"
+    handler="collective.cart.shopping.upgrades.upgrade_14_to_15"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="14"
+    title="Set article attribute: vat_rate"
+    />
+
 </configure>

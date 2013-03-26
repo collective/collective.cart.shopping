@@ -28,7 +28,7 @@ class MiscellaneousTestCase(IntegrationTestCase):
 
     def create_article(self):
         article = createContentInContainer(self.portal, 'collective.cart.core.Article',
-            checkConstraints=False, money=Money(Decimal('12.40'), currency='EUR'), vat=Decimal('24.00'))
+            checkConstraints=False, money=Money(Decimal('12.40'), currency='EUR'), vat_rate=Decimal('24.00'))
         modified(article)
         return article
 

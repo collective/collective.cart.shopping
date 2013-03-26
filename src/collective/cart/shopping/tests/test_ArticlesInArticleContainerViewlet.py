@@ -32,7 +32,7 @@ class ArticlesInArticleContainerViewletTestCase(IntegrationTestCase):
         self.assertEqual(len(instance.articles), 0)
 
         self.create_content('collective.cart.core.Article', container, id='article1', title='Ärticle1',
-            money=self.money('12.40'), vat=self.decimal('24.00'))
+            money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         IArticleAdapter().discount_available = False
         IArticleAdapter().locale_gross = 'LOCALE_GROSS'
         IArticleAdapter().locale_money = 'LOCALE_MONEY'

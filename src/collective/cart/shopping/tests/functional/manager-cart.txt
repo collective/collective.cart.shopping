@@ -83,7 +83,7 @@ There should be one article in cart::
     <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="1">
     &#160;&#215;&#160;
     <span class="gross">24.60 &#8364;</span>
-    <br><span class="vat">Including VAT: 23.00 %</span>
+    <br><span class="vat">Including VAT: 24%</span>
     <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="...">Update</button>
     <button class="shopping-button remove" name="form.delete.article" type="submit" value="...">Delete</button>
     </section></form>
@@ -127,7 +127,7 @@ Go to cart::
     <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="100">
     &#160;&#215;&#160;
     <span class="gross">24.60 &#8364;</span>
-    <br><span class="vat">Including VAT: 23.00 %</span>
+    <br><span class="vat">Including VAT: 24%</span>
     <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="...">Update</button>
     <button class="shopping-button remove" name="form.delete.article" type="submit" value="...">Delete</button>
     </section></form>
@@ -197,7 +197,7 @@ Change reducible quantity for Ärticle1::
     <input id="quantity" min="0" name="quantity" type="number" max="150" maxlength="3" size="3" value="110">
     &#160;&#215;&#160;
     <span class="gross">24.60 &#8364;</span>
-    <br><span class="vat">Including VAT: 23.00 %</span>
+    <br><span class="vat">Including VAT: 24%</span>
     <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="...">Update</button>
     <button class="shopping-button remove" name="form.delete.article" type="submit" value="...">Delete</button>
     </section></form>
@@ -299,7 +299,7 @@ Go to cart::
     <input id="quantity" min="0" name="quantity" type="number" max="150" maxlength="3" size="3" value="110">
     &#160;&#215;&#160;
     <span class="gross">24.60 &#8364;</span>
-    <br><span class="vat">Including VAT: 23.00 %</span>
+    <br><span class="vat">Including VAT: 24%</span>
     <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="...">Update</button>
     <button class="shopping-button remove" name="form.delete.article" type="submit" value="...">Delete</button>
     </section></form>
@@ -319,7 +319,7 @@ Go to cart::
     <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="10">
     &#160;&#215;&#160;
     <span class="gross">10.00 &#8364;</span>
-    <br><span class="vat">Including VAT: 23.00 %</span>
+    <br><span class="vat">Including VAT: 24%</span>
     <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="...">Update</button>
     <button class="shopping-button remove" name="form.delete.article" type="submit" value="...">Delete</button>
     </section></form>

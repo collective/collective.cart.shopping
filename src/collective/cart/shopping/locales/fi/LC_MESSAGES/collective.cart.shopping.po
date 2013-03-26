@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-03-21 11:02+0000\n"
+"POT-Creation-Date: 2013-03-26 11:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,7 +90,7 @@ msgstr "Hyväksymällä pääsee tilauksen eteenpäin."
 msgid "City"
 msgstr "Kaupunki"
 
-#: ./adapter/interface.py:310
+#: ./adapter/interface.py:322
 msgid "City is missing."
 msgstr "Kaupunki puuttuu."
 
@@ -146,7 +146,7 @@ msgstr "Export"
 msgid "First Name"
 msgstr "Etunimi"
 
-#: ./adapter/interface.py:298
+#: ./adapter/interface.py:310
 msgid "First name is missing."
 msgstr "Etunimi puuttuu."
 
@@ -157,18 +157,18 @@ msgstr "Kirjoita tuotteen lisätiedot tähän."
 #: ./browser/viewlets/add-subarticle-to-cart.pt:18
 #: ./browser/viewlets/add-to-cart.pt:12
 #: ./browser/viewlets/articles-in-article.pt:51
-msgid "Including VAT: ${vat} &#37;"
-msgstr "sis alv. ${vat} &#37;"
+msgid "Including VAT: ${vat}"
+msgstr "sis alv.${vat} "
 
 #: ./browser/templates/stock.pt:79
 msgid "Initial Stock"
 msgstr "Alkuvarasto"
 
-#: ./adapter/interface.py:397
+#: ./adapter/interface.py:409
 msgid "Input integer value to add to cart."
 msgstr "Syötä määrä lisätääkseen ostoskoriin."
 
-#: ./adapter/interface.py:395
+#: ./adapter/interface.py:407
 msgid "Input positive integer value to add to cart."
 msgstr "Syötä positiivinen numero."
 
@@ -176,11 +176,11 @@ msgstr "Syötä positiivinen numero."
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr "Kansainvälinen VAT-numero. Suomessa alkaa 'FI' kirjaimella."
 
-#: ./adapter/interface.py:304
+#: ./adapter/interface.py:316
 msgid "Invalid e-mail address."
 msgstr "Ei toimiva sähköpostiosoite."
 
-#: ./browser/viewlet.py:257
+#: ./browser/viewlet.py:264
 msgid "Invalid quantity."
 msgstr "Väärä numero"
 
@@ -190,7 +190,7 @@ msgstr "Väärä numero"
 msgid "Last Name"
 msgstr "Sukunimi"
 
-#: ./adapter/interface.py:301
+#: ./adapter/interface.py:313
 msgid "Last name is missing."
 msgstr "Sukunimi puuttuu."
 
@@ -208,7 +208,7 @@ msgstr "Seuraava"
 msgid "Normal Price: ${normal-price}"
 msgstr "Normaali hinta: ${normal-price}"
 
-#: ./adapter/interface.py:393
+#: ./adapter/interface.py:405
 msgid "Not available to add to cart."
 msgstr "Ei pysty lisäämään ostoskoriin."
 
@@ -233,7 +233,7 @@ msgstr "Organisaatio"
 msgid "Phone Number"
 msgstr "Puhelinnumero"
 
-#: ./adapter/interface.py:313
+#: ./adapter/interface.py:325
 msgid "Phone number is missing."
 msgstr "Puhelinnumero puuttuu."
 
@@ -284,7 +284,7 @@ msgstr "Sama"
 msgid "Select one if this information is used only for billing or shipping."
 msgstr "Valitse yksi jos nämä tiedot käytetään vain laskutus- tai toimitustietona."
 
-#: ./browser/viewlet.py:389
+#: ./browser/viewlet.py:396
 msgid "Select one shipping method."
 msgstr "Valitse yksi toimitustapa."
 
@@ -344,7 +344,7 @@ msgstr "Varastossa: ${stock} kpl"
 msgid "Street Address"
 msgstr "Katuosoite"
 
-#: ./adapter/interface.py:307
+#: ./adapter/interface.py:319
 msgid "Street address is missing."
 msgstr "Katuosoite puuttuu."
 
@@ -388,7 +388,7 @@ msgstr "VAT-numero"
 msgid "View Order"
 msgstr "Tarkista tilauksen"
 
-#: ./subscriber.py:75
+#: ./subscriber.py:78
 msgid "You need to first remove some images to add here one."
 msgstr "Lisätääkseen tähän uusi kuvaa, täytyy ensin poistaa tästä kuvia."
 
@@ -407,7 +407,7 @@ msgid "agree_with_terms"
 msgstr "Hyväksyn toimitusehdot."
 
 #. Default: "${title} is added to cart."
-#: ./subscriber.py:159
+#: ./subscriber.py:162
 msgid "article-added-to-cart"
 msgstr "${title} on lisätty ostoskoriin."
 
@@ -437,7 +437,7 @@ msgid "need_to_accept_terms"
 msgstr "Hyväksy toimitusehdot, että pystyisisimme käsittelemään tilausta."
 
 #. Default: "No more than ${quantity} can be added to cart for ${title}"
-#: ./browser/viewlet.py:248
+#: ./browser/viewlet.py:255
 msgid "no_more_than_quantity"
 msgstr "Ei tuoteeseen ${title} voi lisätä enemmän kun ${quantity} kpl."
 
@@ -459,12 +459,12 @@ msgstr "Kiitos tilauksestasi!"
 #. Default: "Order Number: ${number}"
 #: ./browser/templates/order-mail-template.pt:18
 #: ./browser/viewlets/cart-content.pt:5
-#: ./subscriber.py:108
+#: ./subscriber.py:111
 msgid "order-number"
 msgstr "Tilausnumero: ${number}"
 
 #. Default: "The order was processed but we could not send e-mail to you successfully. Please consult the shop owner."
-#: ./subscriber.py:151
+#: ./subscriber.py:154
 msgid "order-processed-but"
 msgstr "Tilaus meni käsittelyyn, mutta s-postin lähettäminen epäonnistui. Ota yhteyttä kaupalle!"
 

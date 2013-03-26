@@ -15,7 +15,7 @@
       </option>
     </select>
     <section id="vat" i18n:translate="">
-      Including VAT: <span i18n:name="vat" tal:replace="context/vat" /> &#37;
+      Including VAT: <span i18n:name="vat" tal:replace="viewlet/vat" />
     </section>
     <section id="quantity">
       <label

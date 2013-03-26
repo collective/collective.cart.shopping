@@ -74,7 +74,7 @@ class ShoppingSiteMultiAdapterTestCase(IntegrationTestCase):
         self.assertEqual(IStatusMessage().addStatusMessage.call_count, 5)
 
         article1 = self.create_content('collective.cart.core.Article', id='article1',
-            money=Money(Decimal('12.40'), 'EUR'), vat=Decimal('24.00'), sku="SKÖ1", reducible_quantity=100)
+            money=Money(Decimal('12.40'), 'EUR'), vat_rate=Decimal('24.00'), sku="SKÖ1", reducible_quantity=100)
         uuid1 = IUUID(article1)
 
         adapter.request.form = {'subarticle': uuid1, 'quantity': '2'}

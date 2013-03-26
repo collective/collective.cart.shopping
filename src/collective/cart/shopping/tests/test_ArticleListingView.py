@@ -37,7 +37,7 @@ class ArticleListingViewTestCase(IntegrationTestCase):
         IStockBehavior().stocks.return_value = None
         IStockBehavior().stock = 0
         self.create_content('collective.cart.core.Article', id='article1', title='Ärticle1',
-            money=self.money('12.40'), vat=self.decimal('24.00'), sku='1')
+            money=self.money('12.40'), vat_rate=self.decimal('24.00'), sku='1')
         self.assertEqual(instance.articles, [
             {'sku': '1', 'title': 'Ärticle1', 'url': 'http://nohost/plone/article1', 'price': 'N/A', 'subtotal': 'N/A', 'stock': 0}])
 
@@ -65,5 +65,5 @@ class ArticleListingViewTestCase(IntegrationTestCase):
         self.assertTrue(instance.request.response.getHeader("Content-Disposition").endswith('.csv"'))
 
         self.create_content('collective.cart.core.Article', id='article1', sku=u'SKÖ1',
-            money=self.money('12.40'), vat=self.decimal('24.00'))
+            money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         self.assertEqual(instance(), 'SKU|Name|Price|Stock|Subtotal\r\nSKÖ1||N/A|0|N/A\r\n')

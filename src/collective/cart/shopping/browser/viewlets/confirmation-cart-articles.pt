@@ -36,7 +36,7 @@
           <span class="gross" tal:content="item/locale_gross_subtotal" />
           <br />
           <span class="vat" i18n:translate="">
-            Including VAT: <span i18n:name="vat" tal:replace="item/vat_rate" /> &#37;
+            Including VAT: <span i18n:name="vat" tal:replace="item/vat_rate" />
           </span>
         </td>
       </tr>

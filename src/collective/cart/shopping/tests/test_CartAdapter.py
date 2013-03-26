@@ -58,7 +58,7 @@ class CartAdapterTestCase(IntegrationTestCase):
         if context is None:
             context = self.portal
         article = createContentInContainer(self.portal, 'collective.cart.core.Article', id='article', checkConstraints=False,
-            money=self.money('12.40'), vat=Decimal('24.00'))
+            money=self.money('12.40'), vat_rate=24.0)
         modified(article)
         return article
 
@@ -89,7 +89,7 @@ class CartAdapterTestCase(IntegrationTestCase):
             'sku': sku,
             'title': title,
             'url': 'http://nohost/plone/article',
-            'vat_rate': Decimal('24.00')
+            'vat_rate': u'24%',
         }])
 
         self.portal.manage_delObjects(['article'])
@@ -104,7 +104,7 @@ class CartAdapterTestCase(IntegrationTestCase):
             'sku': sku,
             'title': title,
             'url': None,
-            'vat_rate': Decimal('24.00')
+            'vat_rate': u'24%',
         }])
 
     def test_articles_total(self):
@@ -148,10 +148,10 @@ class CartAdapterTestCase(IntegrationTestCase):
 
     def create_articles(self, cart):
         article1 = createContentInContainer(cart, 'collective.cart.core.CartArticle',
-            id='article1', weight=100.0, quantity=1, gross=Money(10.0, currency=u'EUR'), orig_uuid='UUID')
+            id='article1', weight=100.0, quantity=1, gross=Money(10.0, currency=u'EUR'), orig_uuid='UUID', vat_rate=24.0)
         modified(article1)
         article2 = createContentInContainer(cart, 'collective.cart.core.CartArticle',
-            id='article2', weight=200.0, quantity=2, gross=Money(20.0, currency=u'EUR'), orig_uuid='UUID')
+            id='article2', weight=200.0, quantity=2, gross=Money(20.0, currency=u'EUR'), orig_uuid='UUID', vat_rate=24.0)
         modified(article2)
         return (article1, article2)
 

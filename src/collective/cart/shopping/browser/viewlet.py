@@ -4,6 +4,7 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.validation import validation
 from collective.behavior.stock.interfaces import IStock
+from collective.behavior.vat.interfaces import IAdapter
 from collective.cart.core.browser.viewlet import AddToCartViewlet as BaseBaseAddToCartViewlet
 from collective.cart.core.browser.viewlet import CartArticlesViewlet as BaseBaseCartArticlesViewlet
 from collective.cart.core.browser.viewlet import CartContentViewlet as BaseCartContentViewlet
@@ -138,6 +139,9 @@ class AddToCartViewlet(BaseAddToCartViewlet):
         """Local original gross money"""
         return IArticleAdapter(self.context).locale_money
 
+    def vat(self):
+        return IAdapter(self.context).percent(self.context.vat_rate)
+
 
 class AddSubArticleToCartViewlet(BaseAddToCartViewlet):
     """Viewlet to show add to cart form for subarticles."""
@@ -160,6 +164,9 @@ class AddSubArticleToCartViewlet(BaseAddToCartViewlet):
     @property
     def subarticles(self):
         return IArticleAdapter(self.context).subarticles_option
+
+    def vat(self):
+        return IAdapter(self.context).percent(self.context.vat_rate)
 
 
 class BelowArticleViewletManager(BaseViewletManager):
@@ -207,7 +214,7 @@ class ArticlesInArticleViewlet(BaseArticleViewlet):
                 'title': article.title,
                 'url': item.getURL(),
                 'uuid': item.uuid(),
-                'vat': item.vat,
+                'vat': IAdapter(self.context).percent(item.vat_rate)
             })
         return res
 
@@ -265,7 +272,7 @@ class CartArticlesViewlet(BaseCartArticlesViewlet):
     def articles(self):
         """Returns list of articles to show in cart."""
         res = []
-        for article in super(CartArticlesViewlet, self).articles:
+        for article in IShoppingSite(self.context).cart_article_listing:
             adapter = getMultiAdapter((self.context, article), ICartArticleMultiAdapter)
             article.update({
                 'gross_subtotal': adapter.gross_subtotal,
@@ -413,15 +420,10 @@ class BaseOrderConfirmationViewlet(BaseShoppingSiteRootViewlet):
     grok.viewletmanager(OrderConfirmationViewletManager)
 
 
-class OrderConfirmationCartArticlesViewlet(BaseOrderConfirmationViewlet, BaseCartArticlesViewlet):
+class OrderConfirmationCartArticlesViewlet(BaseOrderConfirmationViewlet, CartArticlesViewlet):
     """Cart Articles Viewlet for OrderConfirmationViewletManager."""
     grok.name('collective.cart.shopping.confirmation-articles')
     grok.template('confirmation-cart-articles')
-
-    @property
-    def articles(self):
-        """Returns list of articles to show in cart."""
-        return IShoppingSite(self.context).cart_article_listing
 
 
 class OrderConfirmationShippingMethodViewlet(BaseOrderConfirmationViewlet):
@@ -438,6 +440,7 @@ class OrderConfirmationShippingMethodViewlet(BaseOrderConfirmationViewlet):
             items['is_free'] = True
         else:
             items['is_free'] = False
+        items['vat_rate'] = IAdapter(self.context).percent(items['vat_rate'])
         return items
 
 

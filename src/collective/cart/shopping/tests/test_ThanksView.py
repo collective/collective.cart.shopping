@@ -51,13 +51,13 @@ class ThanksViewTestCase(IntegrationTestCase):
 
         alsoProvides(self.portal, IShoppingSiteRoot)
         container = self.create_content('collective.cart.core.CartContainer', id='cart-container')
-        article = self.create_content('collective.cart.core.Article', id='article', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article = self.create_content('collective.cart.core.Article', id='article', money=self.money('12.40'), vat_rate=24.0)
         self.create_content('collective.cart.stock.Stock', article, stock=10)
         behavior = IStock(article)
         self.assertEqual(behavior.stock, 10)
 
         uuid = IUUID(article)
-        adapter.update_cart('articles', {uuid: {'id': uuid, 'quantity': 2}})
+        adapter.update_cart('articles', {uuid: {'id': uuid, 'quantity': 2, 'vat_rate': 24.0}})
         instance.request.form = {'form.buttons.ConfirmOrder': True}
         self.assertIsNone(instance.update())
         getToolByName().doActionFor.assert_called_with(container['1'], 'ordered')

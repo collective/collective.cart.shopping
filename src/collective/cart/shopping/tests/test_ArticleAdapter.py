@@ -30,16 +30,16 @@ class ArticleAdapterTestCase(IntegrationTestCase):
 
     def test_instance(self):
         from collective.cart.shopping.adapter.article import ArticleAdapter
-        article = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         self.assertIsInstance(IArticleAdapter(article), ArticleAdapter)
 
     def test_instance__provides(self):
-        article = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         self.assertEqual(getattr(IArticleAdapter(article), 'grokcore.component.directive.provides'), IArticleAdapter)
 
     def test_addable_to_cart(self):
         article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1',
-            money=self.money('12.40'), vat=self.decimal('24.00'))
+            money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article1)
         self.assertFalse(adapter.addable_to_cart)
 
@@ -51,17 +51,17 @@ class ArticleAdapterTestCase(IntegrationTestCase):
 
         adapter.context.use_subarticle = False
         self.create_content('collective.cart.core.Article', article1, title='Ärticle2', sku='SKÖ1',
-            money=self.money('12.40'), vat=self.decimal('24.00'))
+            money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         self.assertFalse(adapter.addable_to_cart)
 
     def test_articles_in_article(self):
         article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1',
-            money=self.money('12.40'), vat=self.decimal('24.00'))
+            money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article1)
         self.assertEqual(len(adapter.articles_in_article), 0)
 
         self.create_content('collective.cart.core.Article', article1, title='Ärticle2', sku='SKÖ2',
-            money=self.money('12.40'), vat=self.decimal('24.00'), salable=True)
+            money=self.money('12.40'), vat_rate=self.decimal('24.00'), salable=True)
         self.assertEqual(len(adapter.articles_in_article), 1)
 
         adapter.context.use_subarticle = True
@@ -69,14 +69,14 @@ class ArticleAdapterTestCase(IntegrationTestCase):
 
     def test_subarticles__zero(self):
         article = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1',
-            money=self.money('12.40'), vat=self.decimal('24.00'))
+            money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         self.assertEqual(len(IArticleAdapter(article).subarticles), 0)
 
     def test_subarticles__one(self):
         article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1',
-            money=self.money('12.40'), vat=self.decimal('24.00'), salable=True)
+            money=self.money('12.40'), vat_rate=self.decimal('24.00'), salable=True)
         article2 = self.create_content('collective.cart.core.Article', article1, title='Ärticle2', sku='SKÖ2',
-            money=self.money('12.40'), vat=self.decimal('24.00'), salable=True)
+            money=self.money('12.40'), vat_rate=self.decimal('24.00'), salable=True)
         self.assertEqual(len(IArticleAdapter(article1).subarticles), 1)
 
         article2.salable = False
@@ -90,12 +90,12 @@ class ArticleAdapterTestCase(IntegrationTestCase):
         from zope.interface import alsoProvides
         alsoProvides(self.portal, IShoppingSiteRoot)
         article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1',
-            money=self.money('12.40'), vat=self.decimal('24.00'))
+            money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article1)
         self.assertEqual(len(adapter.subarticles_option), 0)
 
         article2 = self.create_content('collective.cart.core.Article', article1, title='Ärticle2', sku='SKÖ1',
-            money=self.money('12.40'), vat=self.decimal('24.00'), salable=True)
+            money=self.money('12.40'), vat_rate=self.decimal('24.00'), salable=True)
         IStock().stock = 0
         self.assertEqual(len(adapter.subarticles_option), 0)
 
@@ -107,7 +107,7 @@ class ArticleAdapterTestCase(IntegrationTestCase):
         }])
 
     def test_subarticle_addable_to_cart(self):
-        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article1)
         self.assertFalse(adapter.subarticle_addable_to_cart)
 
@@ -125,7 +125,7 @@ class ArticleAdapterTestCase(IntegrationTestCase):
 
     @mock.patch('collective.cart.shopping.adapter.article.IStock')
     def test_subarticle_soldout(self, IStock):
-        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article1)
         self.assertTrue(adapter.subarticle_soldout)
 
@@ -133,7 +133,7 @@ class ArticleAdapterTestCase(IntegrationTestCase):
         self.assertTrue(adapter.subarticle_soldout)
 
         self.create_content('collective.cart.core.Article', article1, title='Ärticle2', sku='SKÖ1',
-            money=self.money('12.40'), vat=self.decimal('24.00'), salable=True)
+            money=self.money('12.40'), vat_rate=self.decimal('24.00'), salable=True)
         self.assertFalse(adapter.subarticle_soldout)
 
         IStock().stock = 0
@@ -141,12 +141,12 @@ class ArticleAdapterTestCase(IntegrationTestCase):
 
     @mock.patch('collective.cart.shopping.adapter.article.IStock')
     def test_subarticle_quantity_max(self, IStock):
-        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article1)
         self.assertEqual(adapter.subarticle_quantity_max, 0)
 
         self.create_content('collective.cart.core.Article', article1, title='Ärticle2', sku='SKÖ1',
-            money=self.money('12.40'), vat=self.decimal('24.00'), salable=True)
+            money=self.money('12.40'), vat_rate=self.decimal('24.00'), salable=True)
         IStock().stock = 0
         self.assertEqual(adapter.subarticle_quantity_max, 0)
 
@@ -155,7 +155,7 @@ class ArticleAdapterTestCase(IntegrationTestCase):
 
     @mock.patch('collective.cart.shopping.adapter.article.IStock')
     def test_quantity_max(self, IStock):
-        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article1)
         IStock().stock = 0
         IStock().reducible_quantity = 0
@@ -180,7 +180,7 @@ class ArticleAdapterTestCase(IntegrationTestCase):
         self.assertEqual(adapter.quantity_max, 8)
 
     def test__update_existing_cart_article(self):
-        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article1)
         items = {'quantity': 0}
         kwargs = {'quantity': 0}
@@ -193,7 +193,7 @@ class ArticleAdapterTestCase(IntegrationTestCase):
         self.assertEqual(items['quantity'], 3)
 
     def test_discount_available(self):
-        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article1)
         self.assertFalse(adapter.discount_available)
 
@@ -228,7 +228,7 @@ class ArticleAdapterTestCase(IntegrationTestCase):
         self.assertFalse(adapter.discount_available)
 
     def test_discount_end(self):
-        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article1)
         self.assertIsNone(adapter.discount_end)
 
@@ -246,7 +246,7 @@ class ArticleAdapterTestCase(IntegrationTestCase):
         self.assertEqual(adapter.discount_end, getToolByName(self.portal, 'translation_service').ulocalized_time(dt))
 
     def test_gross(self):
-        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article1)
         from decimal import Decimal
         from moneyed import Money
@@ -265,7 +265,7 @@ class ArticleAdapterTestCase(IntegrationTestCase):
         self.assertEqual(adapter.gross, self.money('10.00'))
 
     def test_vat(self):
-        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article1)
         from decimal import Decimal
         from moneyed import Money
@@ -284,7 +284,7 @@ class ArticleAdapterTestCase(IntegrationTestCase):
         self.assertEqual(adapter.vat, Money(Decimal('1.20'), 'EUR'))
 
     def test_net(self):
-        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article1)
         from decimal import Decimal
         from moneyed import Money
@@ -304,7 +304,7 @@ class ArticleAdapterTestCase(IntegrationTestCase):
 
     @mock.patch('collective.cart.shopping.adapter.article.IStock')
     def test_soldout(self, IStock):
-        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article1)
         self.assertTrue(adapter.soldout)
 
@@ -318,11 +318,11 @@ class ArticleAdapterTestCase(IntegrationTestCase):
         self.assertFalse(adapter.soldout)
 
     def test_image_url(self):
-        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article1)
         self.assertEqual(adapter.image_url, 'http://nohost/plone/fallback.png')
 
-        article2 = self.create_content('collective.cart.core.Article', article1, title='Ärticle2', sku='SKÖ1', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article2 = self.create_content('collective.cart.core.Article', article1, title='Ärticle2', sku='SKÖ1', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article2)
         self.assertEqual(adapter.image_url, 'http://nohost/plone/fallback.png')
 
@@ -333,18 +333,18 @@ class ArticleAdapterTestCase(IntegrationTestCase):
         self.assertEqual(adapter.image_url, 'http://nohost/plone/article1/article2/@@images/image')
 
     def test_title(self):
-        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article1 = self.create_content('collective.cart.core.Article', title='Ärticle1', sku='SKÖ1', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article1)
         self.assertEqual(adapter.title, 'Ärticle1')
 
-        article2 = self.create_content('collective.cart.core.Article', article1, title='Ärticle2', sku='SKÖ2', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article2 = self.create_content('collective.cart.core.Article', article1, title='Ärticle2', sku='SKÖ2', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article2)
         self.assertEqual(adapter.title, 'Ärticle1 Ärticle2')
 
-        article3 = self.create_content('collective.cart.core.Article', article2, title='Ärticle3', sku='SKÖ3', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article3 = self.create_content('collective.cart.core.Article', article2, title='Ärticle3', sku='SKÖ3', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article3)
         self.assertEqual(adapter.title, 'Ärticle1 Ärticle2 Ärticle3')
 
-        article4 = self.create_content('collective.cart.core.Article', article3, title='Ärticle4', sku='SKÖ4', money=self.money('12.40'), vat=self.decimal('24.00'))
+        article4 = self.create_content('collective.cart.core.Article', article3, title='Ärticle4', sku='SKÖ4', money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         adapter = IArticleAdapter(article4)
         self.assertEqual(adapter.title, 'Ärticle2 Ärticle3 Ärticle4')

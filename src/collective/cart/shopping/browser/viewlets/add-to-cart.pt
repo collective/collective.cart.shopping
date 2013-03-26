@@ -9,7 +9,7 @@
     <section id="money">
       <section id="price" class="gross" tal:content="viewlet/locale_gross" />
       <section id="vat" i18n:translate="">
-        Including VAT: <span i18n:name="vat" tal:replace="context/vat" /> &#37;
+        Including VAT: <span i18n:name="vat" tal:replace="viewlet/vat" />
       </section>
     </section>
     <section id="discount" tal:condition="view/discount_end">

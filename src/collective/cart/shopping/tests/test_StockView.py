@@ -30,7 +30,7 @@ class StockViewTestCase(IntegrationTestCase):
 
     def test_stocks(self):
         article = self.create_content('collective.cart.core.Article', id='article',
-            money=self.money('12.40'), vat=self.decimal('24.00'))
+            money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         instance = self.create_view(StockView, article)
         self.assertEqual(len(instance.stocks), 0)
 
@@ -81,7 +81,7 @@ class StockViewTestCase(IntegrationTestCase):
     @mock.patch('collective.cart.shopping.browser.template.getMultiAdapter')
     def test_update(self, getMultiAdapter, IStockBehavior, IStatusMessage):
         article = self.create_content('collective.cart.core.Article', id='article',
-            money=self.money('12.40'), vat=self.decimal('24.00'))
+            money=self.money('12.40'), vat_rate=self.decimal('24.00'))
         instance = self.create_view(StockView, article)
         getMultiAdapter().current_base_url.return_value = 'URL'
         self.assertIsNone(instance.update())

@@ -35,7 +35,7 @@ Add Article::
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
     >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Description of Ärticle1'
     >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKÖ1'
-    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '12.30'
+    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '12.40'
     >>> browser.getControl(name="form.widgets.ISize.weight").value = '100.0'
     >>> browser.getControl(name="form.buttons.save").click()
 
@@ -69,7 +69,7 @@ Go to Ärticle1::
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
     <section id="add-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article1/view">
-    <section id="money"><section id="price" class="gross">12.30 &#8364;</section><section id="vat">Including VAT: 23.00 %</section></section><section id="quantity"><label>Quantity</label>
+    <section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat">Including VAT: 24%</section></section><section id="quantity"><label>Quantity</label>
     <input min="1" name="quantity" required="required" type="number" value="1" max="100" maxlength="3" size="3"><span id="pcs">pcs</span>
     </section><section id="stock">Stock: 100 pcs</section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </form>
@@ -79,9 +79,9 @@ Go to Ärticle1::
 
     >>> article1 = portal['shop']['article-container']['article1']
     >>> article1.money
-    12.30 EUR
+    12.40 EUR
     >>> article1.vat_money
-    2.30 EUR
+    2.40 EUR
     >>> article1.net_money
     10.00 EUR
 
@@ -100,7 +100,7 @@ Go to Ärticle1 and add to cart::
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
     <section id="add-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article1/view">
-    <section id="money"><section id="price" class="gross">12.30 &#8364;</section><section id="vat">Including VAT: 23.00 %</section></section><section id="quantity"><label>Quantity</label>
+    <section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat">Including VAT: 24%</section></section><section id="quantity"><label>Quantity</label>
     <input min="1" name="quantity" required="required" type="number" value="1" max="99" maxlength="2" size="2"><span id="pcs">pcs</span>
     </section><section id="stock">Stock: 99 pcs</section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </form>
@@ -132,8 +132,8 @@ Check Cart::
     <form method="post" action="http://nohost/plone/shop/@@cart">
     <input id="quantity" min="0" name="quantity" type="number" max="100" maxlength="3" size="3" value="1">
     &#160;&#215;&#160;
-    <span class="gross">12.30 &#8364;</span>
-    <br><span class="vat">Including VAT: 23.00 %</span>
+    <span class="gross">12.40 &#8364;</span>
+    <br><span class="vat">Including VAT: 24%</span>
     <section class="buttons"><button class="shopping-button update" name="form.update.article" type="submit" value="...">Update</button>
     <button class="shopping-button remove" name="form.delete.article" type="submit" value="...">Delete</button>
     </section></form>
@@ -147,7 +147,7 @@ Go to Ärticle1 and add more to cart::
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
     <section id="add-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article1/view">
-    <section id="money"><section id="price" class="gross">12.30 &#8364;</section><section id="vat">Including VAT: 23.00 %</section></section><section id="quantity"><label>Quantity</label>
+    <section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat">Including VAT: 24%</section></section><section id="quantity"><label>Quantity</label>
     <input min="1" name="quantity" required="required" type="number" value="1" max="90" maxlength="2" size="2"><span id="pcs">pcs</span>
     </section><section id="stock">Stock: 90 pcs</section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </form>
@@ -205,7 +205,7 @@ Go to Ärtile2:
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
     <section id="add-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article2/view">
-    <section id="money"><section id="price" class="gross">24.60 &#8364;</section><section id="vat">Including VAT: 23.00 %</section></section><section id="quantity"><label>Quantity</label>
+    <section id="money"><section id="price" class="gross">24.60 &#8364;</section><section id="vat">Including VAT: 24%</section></section><section id="quantity"><label>Quantity</label>
     <input min="1" name="quantity" required="required" type="number" value="1" max="30" maxlength="2" size="2"><span id="pcs">pcs</span>
     </section><section id="stock">Stock: 30 pcs</section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </form>
@@ -218,7 +218,7 @@ Add to Cart::
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
     <section id="add-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article2/view">
-    <section id="money"><section id="price" class="gross">24.60 &#8364;</section><section id="vat">Including VAT: 23.00 %</section></section><section id="quantity"><label>Quantity</label>
+    <section id="money"><section id="price" class="gross">24.60 &#8364;</section><section id="vat">Including VAT: 24%</section></section><section id="quantity"><label>Quantity</label>
     <input min="1" name="quantity" required="required" type="number" value="1" max="25" maxlength="2" size="2"><span id="pcs">pcs</span>
     </section><section id="stock">Stock: 25 pcs</section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </form>
@@ -259,14 +259,14 @@ Check Cart::
 
     >>> print browser.bycss('.gross')
     --- 1 ---
-    <span class="gross">12.30 &#8364;</span>
+    <span class="gross">12.40 &#8364;</span>
     --- 2 ---
     <span class="gross">24.60 &#8364;</span>
     >>> print browser.bycss('.vat')
     --- 1 ---
-    <span class="vat">Including VAT: 23.00 %</span>
+    <span class="vat">Including VAT: 24%</span>
     --- 2 ---
-    <span class="vat">Including VAT: 23.00 %</span>
+    <span class="vat">Including VAT: 24%</span>
 
     >>> print browser.bycss('#quantity')
     --- 1 ---
@@ -334,7 +334,7 @@ Go to Ärticle1::
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
     <section id="add-to-cart"><form method="post" action="http://nohost/plone/shop/article-container/article1/view">
-    <section id="money"><section id="price" class="gross">12.30 &#8364;</section><section id="vat">Including VAT: 23.00 %</section></section><section id="quantity"><label>Quantity</label>
+    <section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat">Including VAT: 24%</section></section><section id="quantity"><label>Quantity</label>
     <input min="1" name="quantity" required="required" type="number" value="1" max="100" maxlength="3" size="3"><span id="pcs">pcs</span>
     </section><section id="stock">Stock: 100 pcs</section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </form>

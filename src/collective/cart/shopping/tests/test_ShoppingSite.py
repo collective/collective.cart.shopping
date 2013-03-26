@@ -29,12 +29,12 @@ class ShoppingSiteTestCase(IntegrationTestCase):
 
         session = adapter.getSessionData(create=True)
         session.set('collective.cart.core', {'articles': {
-            '1': {'gross': self.money('10.00'), 'quantity': 2}
+            '1': {'gross': self.money('10.00'), 'quantity': 2, 'vat_rate': 24.0}
         }})
         self.assertEqual(adapter.articles_total, self.money('20.00'))
         session.set('collective.cart.core', {'articles': {
-            '1': {'gross': self.money('10.00'), 'quantity': 2},
-            '2': {'gross': self.money('5.00'), 'quantity': 4},
+            '1': {'gross': self.money('10.00'), 'quantity': 2, 'vat_rate': 24.0},
+            '2': {'gross': self.money('5.00'), 'quantity': 4, 'vat_rate': 24.0},
         }})
         self.assertEqual(adapter.articles_total, self.money('40.00'))
 
@@ -71,19 +71,19 @@ class ShoppingSiteTestCase(IntegrationTestCase):
 
         cart = session.get('collective.cart.core')
         cart.update({'articles': {
-            '1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1}
+            '1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1, 'vat_rate': 24.0}
         }})
         session.set('collective.cart.core', cart)
         self.assertEqual(adapter._calculated_weight(10.0), 0.1)
 
         cart.update({'articles': {
-            '1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1},
-            '2': {'weight': 10.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1},
+            '1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1, 'vat_rate': 24.0},
+            '2': {'weight': 10.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1, 'vat_rate': 24.0},
         }})
         self.assertEqual(adapter._calculated_weight(10.0), 0.16)
 
         cart.update({'articles': {
-            '1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 2}
+            '1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 2, 'vat_rate': 24.0}
         }})
         self.assertEqual(adapter._calculated_weight(10.0), 0.2)
 
@@ -103,7 +103,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
         self.assertEqual(adapter.get_shipping_gross_money(uuid1), self.money('0.00'))
         cart = session.get('collective.cart.core')
         cart.update({'articles': {
-            '1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1}
+            '1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1, 'vat_rate': 24.0}
         }})
         session.set('collective.cart.core', cart)
         self.assertEqual(adapter.get_shipping_gross_money(uuid1), self.money('1.50'))
@@ -127,7 +127,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
 
         cart = session.get('collective.cart.core')
         cart.update({'articles': {
-            '1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1}
+            '1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1, 'vat_rate': 24.0}
         }})
         session.set('collective.cart.core', cart)
         self.assertEqual(adapter.shipping_gross_money, self.money('1.50'))
@@ -146,7 +146,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
         session = adapter.getSessionData(create=True)
         session.set('collective.cart.core', {
             'shipping_method': {'uuid': uuid1, 'vat_rate': self.decimal('24.00')},
-            'articles': {'1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1}},
+            'articles': {'1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1, 'vat_rate': 24.0}},
         })
         self.assertEqual(adapter.shipping_vat_money, self.money('0.36'))
 
@@ -161,7 +161,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
         session = adapter.getSessionData(create=True)
         session.set('collective.cart.core', {
             'shipping_method': {'uuid': uuid1, 'vat_rate': self.decimal('24.00')},
-            'articles': {'1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1}},
+            'articles': {'1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1, 'vat_rate': 24.0}},
         })
         self.assertEqual(adapter.shipping_net_money, self.money('1.14'))
 
@@ -171,7 +171,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
 
         session = adapter.getSessionData(create=True)
         session.set('collective.cart.core', {'articles': {
-            '1': {'gross': self.money('10.00'), 'quantity': 2}
+            '1': {'gross': self.money('10.00'), 'quantity': 2, 'vat_rate': 24.0}
         }})
         self.assertEqual(adapter.total, self.money('20.00'))
 
@@ -181,7 +181,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
         uuid1 = IUUID(shippingmethod1)
         session.set('collective.cart.core', {
             'shipping_method': {'uuid': uuid1},
-            'articles': {'1': {'gross': self.money('10.00'), 'quantity': 2, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0}},
+            'articles': {'1': {'gross': self.money('10.00'), 'quantity': 2, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'vat_rate': 24.0}},
         })
         self.assertEqual(adapter.total, self.money('23.00'))
 
@@ -194,7 +194,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
 
         session = adapter.getSessionData(create=True)
         session.set('collective.cart.core', {'articles': {
-            '1': {'gross': self.money('10.00'), 'quantity': 2}
+            '1': {'gross': self.money('10.00'), 'quantity': 2, 'vat_rate': 24.0}
         }})
         adapter.update_shipping_method()
         self.assertIsNone(adapter.shipping_method)
@@ -216,7 +216,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
             'weight_dimension_rate': 250.0
         })
 
-        articles = {'1': {'gross': self.money('10.00'), 'quantity': 2, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0}}
+        articles = {'1': {'gross': self.money('10.00'), 'quantity': 2, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'vat_rate': 24.0}}
         adapter.update_cart('articles', articles)
         adapter.update_shipping_method()
 
@@ -232,7 +232,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
             'weight_dimension_rate': 250.0
         })
 
-        articles = {'1': {'gross': self.money('10.00'), 'quantity': 4, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0}}
+        articles = {'1': {'gross': self.money('10.00'), 'quantity': 4, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'vat_rate': 24.0}}
         adapter.update_cart('articles', articles)
         adapter.update_shipping_method(uuid1)
         self.assertEqual(adapter.shipping_method, {
@@ -247,7 +247,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
             'weight_dimension_rate': 250.0
         })
 
-        articles = {'1': {'gross': self.money('10.00'), 'quantity': 2, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0}}
+        articles = {'1': {'gross': self.money('10.00'), 'quantity': 2, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'vat_rate': 24.0}}
         adapter.update_cart('articles', articles)
         adapter.update_shipping_method('UUID')
         self.assertEqual(adapter.shipping_method, {
@@ -262,7 +262,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
             'weight_dimension_rate': 250.0
         })
 
-        articles = {'1': {'gross': self.money('10.00'), 'quantity': 4, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0}}
+        articles = {'1': {'gross': self.money('10.00'), 'quantity': 4, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'vat_rate': 24.0}}
         adapter.update_cart('articles', articles)
         adapter.update_shipping_method(uuid1)
         self.assertEqual(adapter.shipping_method, {
@@ -279,7 +279,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
 
         shippingmethod2 = self.create_atcontent('ShippingMethod', container, id='shippingmethod2', vat=self.decimal('24.00'), weight_dimension_rate=1.0)
         uuid2 = IUUID(shippingmethod2)
-        articles = {'1': {'gross': self.money('10.00'), 'quantity': 2, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0}}
+        articles = {'1': {'gross': self.money('10.00'), 'quantity': 2, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'vat_rate': 24.0}}
         adapter.update_cart('articles', articles)
         adapter.update_shipping_method(uuid2)
         self.assertEqual(adapter.shipping_method, {
@@ -294,7 +294,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
             'weight_dimension_rate': 1.0
         })
 
-        articles = {'1': {'gross': self.money('10.00'), 'quantity': 4, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0}}
+        articles = {'1': {'gross': self.money('10.00'), 'quantity': 4, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'vat_rate': 24.0}}
         adapter.update_cart('articles', articles)
         adapter.update_shipping_method(uuid1)
         self.assertEqual(adapter.shipping_method, {

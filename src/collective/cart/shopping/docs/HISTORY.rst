@@ -5,6 +5,7 @@ Changelog
 ====================
 
 - Hidden shipping cost when it is free. [taito]
+- Localized vat rate. [taito]
 
 0.4.0.1 (2013-03-20)
 ====================

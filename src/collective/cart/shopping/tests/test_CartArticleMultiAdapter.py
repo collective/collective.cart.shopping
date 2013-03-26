@@ -54,7 +54,7 @@ class CartArticleMultiAdapterTestCase(IntegrationTestCase):
         with self.assertRaises(KeyError):
             adapter.orig_article
 
-        article = self.create_article(id="article", money=Money(Decimal('12.40'), 'EUR'), vat=Decimal('24.00'))
+        article = self.create_article(id="article", money=Money(Decimal('12.40'), 'EUR'), vat_rate=Decimal('24.00'))
         uuid = IUUID(article)
 
         session = IShoppingSite(self.portal).getSessionData(create=True)

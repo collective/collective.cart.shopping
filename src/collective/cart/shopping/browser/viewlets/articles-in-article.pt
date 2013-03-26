@@ -48,7 +48,7 @@
                 &nbsp;&times;&nbsp;
               <span class="gross" tal:content="item/locale_gross" />
               <section id="vat" i18n:translate="">
-                Including VAT: <span i18n:name="vat" tal:replace="item/vat" /> &#37;
+                Including VAT: <span i18n:name="vat" tal:replace="item/vat" />
               </section>
               <section
                 id="discount"
@@ -97,7 +97,7 @@
                 </option>
               </select>
               <section id="vat" i18n:translate="">
-                Including VAT: <span i18n:name="vat" tal:replace="item/vat" /> &#37;
+                Including VAT: <span i18n:name="vat" tal:replace="item/vat" />
               </section>
               <section id="quantity">
                 <input

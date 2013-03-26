@@ -1,5 +1,6 @@
 from collective.behavior.price.interfaces import ICurrency
 from collective.behavior.size.interfaces import ISize
+from collective.behavior.vat.interfaces import IAdapter
 from collective.cart.core.adapter.cart import CartAdapter as BaseCartAdapter
 from collective.cart.shipping.interfaces import ICartShippingMethod
 from collective.cart.shopping.interfaces import IArticleAdapter
@@ -41,7 +42,7 @@ class CartAdapter(BaseCartAdapter):
                 'sku': item.sku,
                 'title': utility.safe_unicode(item.Title()),
                 'url': None,
-                'vat_rate': item.vat_rate,
+                'vat_rate': IAdapter(self.context).percent(item.vat_rate),
             }
             orig_article = ICartArticleAdapter(obj).orig_article
             if orig_article:
