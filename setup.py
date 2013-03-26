@@ -11,7 +11,7 @@ long_description = (
 
 setup(
     name='collective.cart.shopping',
-    version='0.4.0.1',
+    version='0.5',
     description="Shopping site suit for Plone.",
     long_description=long_description,
     classifiers=[
