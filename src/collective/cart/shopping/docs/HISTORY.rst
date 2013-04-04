@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+0.5.0.1 (2013-04-04)
+====================
+
+- Removed subscriber: update_path_for_intId which was temporary. [taito]
+
 0.5 (2013-03-26)
 ================
 

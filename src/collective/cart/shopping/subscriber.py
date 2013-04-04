@@ -5,7 +5,6 @@ from Products.ATContentTypes.interfaces import IATImage
 from Products.CMFCore.interfaces import IActionSucceededEvent
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
 from Products.statusmessages.interfaces import IStatusMessage
 from collective.behavior.discount.interfaces import IDiscount
@@ -28,7 +27,6 @@ from zope.lifecycleevent import modified
 from zope.lifecycleevent.interfaces import IObjectAddedEvent
 from zope.lifecycleevent.interfaces import IObjectCreatedEvent
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
-from zope.lifecycleevent.interfaces import IObjectMovedEvent
 
 
 def set_moneys(context):
@@ -179,17 +177,3 @@ def redirect_to_stock(context, event):
         parent = aq_parent(aq_inner(context))
         url = '{}/@@stock'.format(parent.absolute_url())
         return context.REQUEST.RESPONSE.redirect(url)
-
-
-# Temporary solution for initid error happens after changing id of plone instance.
-# Remember to recatalog.
-
-@grok.subscribe(IPloneSiteRoot, IObjectMovedEvent)
-def update_path_for_intId(context, event):
-    from five.intid import site
-    for intid in site.get_intids(context).items():
-        wrapped_obj = intid[1]
-        if wrapped_obj.path is not None:
-            path_components = wrapped_obj.path.split('/')
-            path_components[1] = context.id
-            wrapped_obj.path = '/'.join(path_components)
