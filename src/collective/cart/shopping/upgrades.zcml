@@ -133,4 +133,14 @@
     title="Set article attribute: vat_rate"
     />
 
+  <genericsetup:upgradeStep
+    description=""
+    destination="16"
+    handler="collective.cart.shopping.upgrades.reimport_viewlets"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="15"
+    title="Reimport viewlets"
+    />
+
 </configure>

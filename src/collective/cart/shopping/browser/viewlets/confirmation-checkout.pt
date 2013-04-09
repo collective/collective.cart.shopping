@@ -4,6 +4,7 @@
   <form
     method="post"
     tal:attributes="action string: ${context/absolute_url}/@@thanks">
+    <span tal:replace="structure context/@@authenticator/authenticator" />
     <div tal:replace="structure provider:collective.cart.shopping.terms.manager" />
     <button
       class="buttons shopping-button back"

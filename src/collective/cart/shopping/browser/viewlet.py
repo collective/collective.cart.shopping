@@ -14,6 +14,7 @@ from collective.cart.shopping import _
 from collective.cart.shopping.browser.base import Message
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
 from collective.cart.shopping.event import BillingAddressConfirmedEvent
+from collective.cart.shopping.event import ShippingAddressConfirmedEvent
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
@@ -27,6 +28,7 @@ from plone.app.layout.globals.interfaces import IViewView
 from plone.app.layout.viewlets.interfaces import IBelowContent
 from plone.app.viewletmanager.manager import OrderedViewletManager
 from plone.uuid.interfaces import IUUID
+from zExceptions import Forbidden
 from zope.component import getMultiAdapter
 from zope.event import notify
 
@@ -233,6 +235,11 @@ class CartArticlesViewlet(BaseCartArticlesViewlet):
         form = self.request.form
         uuid = form.get('form.update.article', None)
         if uuid is not None:
+
+            authenticator = self.context.restrictedTraverse('@@authenticator')
+            if not authenticator.verify():
+                raise Forbidden()
+
             quantity = form.get('quantity', None)
             validate = validation.validatorFor('isInt')
             if quantity is not None and validate(quantity) == 1 and int(quantity) >= 0:
@@ -310,9 +317,19 @@ class CheckOutViewlet(BaseCartViewlet):
     def update(self):
         form = self.request.form
         if form.get('form.checkout') is not None:
+
+            authenticator = self.context.restrictedTraverse('@@authenticator')
+            if not authenticator.verify():
+                raise Forbidden()
+
             url = '{}/@@billing-and-shipping'.format(self.context.absolute_url())
             return self.request.response.redirect(url)
         if form.get('form.clear.cart') is not None:
+
+            authenticator = self.context.restrictedTraverse('@@authenticator')
+            if not authenticator.verify():
+                raise Forbidden()
+
             uuids = IShoppingSite(self.context).cart_articles.keys()
             IShoppingSite(self.context).remove_cart_articles(uuids)
             url = self.context.restrictedTraverse('plone_context_state').current_base_url()
@@ -324,20 +341,81 @@ class BillingAndShippingViewletManager(BaseViewletManager):
     grok.name('collective.cart.shopping.billing.shipping.manager')
 
 
-class BillingInfoViewlet(BaseShoppingSiteRootViewlet):
+class BillingAndShippingBillingAddressViewlet(BaseShoppingSiteRootViewlet):
     """Viewlet class to show form to update billing address"""
-    grok.name('collective.cart.shopping.billing.info')
-    grok.template('billing-info')
+    grok.name('collective.cart.shopping.billing-and-shipping-billing-address')
+    grok.template('billing-and-shipping-billing-address')
     grok.viewletmanager(BillingAndShippingViewletManager)
 
     @property
     def billing_info(self):
         return IShoppingSite(self.context).get_info('billing')
 
+    def update(self):
+        form = self.request.form
+        shopping_site = IShoppingSite(self.context)
+
+        if form.get('form.to.confirmation') is not None:
+
+            current_url = self.context.restrictedTraverse('@@plone_context_state').current_base_url()
+
+            message = shopping_site.update_address('billing', form)
+            if message is not None:
+                IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                return self.request.response.redirect(current_url)
+            notify(BillingAddressConfirmedEvent(self.context))
+
+
+class BillingAndShippingShippingAddressViewlet(BaseShoppingSiteRootViewlet):
+    """Viewlet class to show form component of shipping address"""
+    grok.name('collective.cart.shopping.billing-and-shipping-shipping-address')
+    grok.template('billing-and-shipping-shipping-address')
+    grok.viewletmanager(BillingAndShippingViewletManager)
+
+    validated = False
+
+    def shipping_info(self):
+        return IShoppingSite(self.context).get_info('shipping')
+
+    @property
+    def billing_same_as_shipping(self):
+        return IShoppingSite(self.context).cart.get('billing_same_as_shipping', True)
+
+    def update(self):
+        form = self.request.form
+        shopping_site = IShoppingSite(self.context)
+
+        if form.get('form.to.confirmation') is not None:
+
+            current_url = self.context.restrictedTraverse('@@plone_context_state').current_base_url()
+
+            if form.get('billing-and-shipping-same-or-different', 'different') == 'same':
+                shopping_site.update_cart('billing_same_as_shipping', True)
+            else:
+                shopping_site.update_cart('billing_same_as_shipping', False)
+
+                message = shopping_site.update_address('shipping', form)
+                if message is not None:
+                    IStatusMessage(self.request).addStatusMessage(message, type='warn')
+                    return self.request.response.redirect(current_url)
+
+                notify(ShippingAddressConfirmedEvent(self.context))
+
+
+class BillingAndShippingShippingMethodsViewlet(BaseShoppingSiteRootViewlet):
+    """Viewlet class to show form to update billing address"""
+    grok.name('collective.cart.shopping.billing-and-shipping-shipping-methods')
+    grok.template('billing-and-shipping-shipping-methods')
+    grok.viewletmanager(BillingAndShippingViewletManager)
+
+    message = None
+    validated = False
+
     @property
     def shipping_methods(self):
         shopping_site = IShoppingSite(self.context)
-        default_charset = getattr(getattr(getToolByName(self.context, 'portal_properties'), 'site_properties'), 'default_charset', 'utf-8')
+        default_charset = getattr(getattr(getToolByName(
+            self.context, 'portal_properties'), 'site_properties'), 'default_charset', 'utf-8')
         res = []
         for brain in shopping_site.shipping_methods:
             uuid = brain.UID
@@ -366,46 +444,48 @@ class BillingInfoViewlet(BaseShoppingSiteRootViewlet):
     def single_shipping_method(self):
         return len(self.shipping_methods) == 1
 
-    @property
-    def billing_same_as_shipping(self):
-        return IShoppingSite(self.context).cart.get('billing_same_as_shipping', True)
+    def update(self):
+        form = self.request.form
+        shopping_site = IShoppingSite(self.context)
+
+        if form.get('form.to.confirmation') is not None:
+
+            shipping_method = form.get('shipping-method', None)
+            if not self.single_shipping_method and not shipping_method:
+                self.message = _(u'Select one shipping method.')
+
+            else:
+                shopping_site.update_shipping_method(shipping_method)
+                self.validated = True
+
+
+class BillingAndShippingCheckOutViewlet(BaseShoppingSiteRootViewlet):
+    """Viewlet class to show form to update billing address"""
+    grok.name('collective.cart.shopping.billing-and-shipping-check-out')
+    grok.template('billing-and-shipping-check-out')
+    grok.viewletmanager(BillingAndShippingViewletManager)
 
     def update(self):
         form = self.request.form
         shopping_site = IShoppingSite(self.context)
         shop_url = shopping_site.shop.absolute_url()
+
         if form.get('form.buttons.back') is not None:
-            shopping_site.shop
+
+            authenticator = self.context.restrictedTraverse('@@authenticator')
+            if not authenticator.verify():
+                raise Forbidden()
+
             url = '{}/@@cart'.format(shop_url)
             return self.request.response.redirect(url)
+
         if form.get('form.to.confirmation') is not None:
 
-            data = form.copy()
-            del data['form.to.confirmation']
+            authenticator = self.context.restrictedTraverse('@@authenticator')
+            if not authenticator.verify():
+                raise Forbidden()
 
-            if data.pop('billing-and-shipping-same-or-different', 'different') == 'same':
-                shopping_site.update_cart('billing_same_as_shipping', True)
-                url = '{}/@@order-confirmation'.format(shop_url)
-            else:
-                shopping_site.update_cart('billing_same_as_shipping', False)
-                url = '{}/@@shipping-info'.format(shop_url)
-
-            current_url = self.context.restrictedTraverse('@@plone_context_state').current_base_url()
-            shipping_method = data.pop('shipping-method', None)
-            if not self.single_shipping_method and not shipping_method:
-                message = _('Select one shipping method.')
-                IStatusMessage(self.request).addStatusMessage(message, type='warn')
-                return self.request.response.redirect(current_url)
-
-            message = shopping_site.update_address('billing', data)
-            if message is not None:
-                IStatusMessage(self.request).addStatusMessage(message, type='warn')
-                return self.request.response.redirect(current_url)
-
-            shopping_site.update_shipping_method(shipping_method)
-
-            notify(BillingAddressConfirmedEvent(self.context))
-
+            url = '{}/@@order-confirmation'.format(shop_url)
             return self.request.response.redirect(url)
 
 

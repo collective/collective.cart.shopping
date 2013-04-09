@@ -6,6 +6,7 @@
     method="post"
     tal:attributes="action context/@@plone_context_state/current_base_url"
     tal:condition="not: viewlet/soldout">
+    <span tal:replace="structure context/@@authenticator/authenticator" />
     <select id="subarticle" name="subarticle">
       <option
         tal:attributes="value item/uuid"

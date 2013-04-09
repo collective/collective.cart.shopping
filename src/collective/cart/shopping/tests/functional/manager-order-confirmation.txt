@@ -65,15 +65,15 @@ Check Out::
 
 Fill Billing Info::
 
-    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
-    >>> browser.getControl(name="organization").value = 'Billing Örganization'
-    >>> browser.getControl(name="vat").value = 'Fı1234567890'
-    >>> browser.getControl(name="email").value = 'first.last@email.bil'
-    >>> browser.getControl(name="street").value = 'Billing Street Äddress'
-    >>> browser.getControl(name="post").value = 'Billing Pöst Cöde'
-    >>> browser.getControl(name="city").value = 'Billing €ity'
-    >>> browser.getControl(name="phone").value = 'Billing Phöne Number'
+    >>> browser.getControl(name="billing_first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="billing_last_name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="billing_organization").value = 'Billing Örganization'
+    >>> browser.getControl(name="billing_vat").value = 'Fı1234567890'
+    >>> browser.getControl(name="billing_email").value = 'first.last@email.bil'
+    >>> browser.getControl(name="billing_street").value = 'Billing Street Äddress'
+    >>> browser.getControl(name="billing_post").value = 'Billing Pöst Cöde'
+    >>> browser.getControl(name="billing_city").value = 'Billing €ity'
+    >>> browser.getControl(name="billing_phone").value = 'Billing Phöne Number'
     >>> browser.getControl(name="form.to.confirmation").click()
 
     >>> print browser.bycss('#cart-articles')
@@ -113,7 +113,7 @@ Fill Billing Info::
     >>> print browser.bycss('#confirmation-checkout')
     --- 1 ---
     <section id="confirmation-checkout"><form method="post" action="http://nohost/plone/shop/@@thanks">
-    <button class="buttons shopping-button back" name="form.buttons.back" value="form.buttons.back" type="submit">Back</button>
+    <input type="hidden" name="_authenticator" value="..."><button class="buttons shopping-button back" name="form.buttons.back" value="form.buttons.back" type="submit">Back</button>
     <button class="buttons shopping-button checkout" name="form.buttons.ConfirmOrder" value="form.buttons.ConfirmOrder" type="submit">Confirm Order</button>
     </form>
     </section>
@@ -257,29 +257,29 @@ Check Out::
 
 Fill Billing Info with different info for shipping address::
 
-    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
-    >>> browser.getControl(name="organization").value = 'Billing Örganization'
-    >>> browser.getControl(name="vat").value = 'Fı1234567890'
-    >>> browser.getControl(name="email").value = 'first.last@email.bil'
-    >>> browser.getControl(name="street").value = 'Billing Street Äddress'
-    >>> browser.getControl(name="post").value = 'Billing Pöst Cöde'
-    >>> browser.getControl(name="city").value = 'Billing €ity'
-    >>> browser.getControl(name="phone").value = 'Billing Phöne Number'
+    >>> browser.getControl(name="billing_first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="billing_last_name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="billing_organization").value = 'Billing Örganization'
+    >>> browser.getControl(name="billing_vat").value = 'Fı1234567890'
+    >>> browser.getControl(name="billing_email").value = 'first.last@email.bil'
+    >>> browser.getControl(name="billing_street").value = 'Billing Street Äddress'
+    >>> browser.getControl(name="billing_post").value = 'Billing Pöst Cöde'
+    >>> browser.getControl(name="billing_city").value = 'Billing €ity'
+    >>> browser.getControl(name="billing_phone").value = 'Billing Phöne Number'
     >>> browser.getControl(name="billing-and-shipping-same-or-different").value = ['different']
     >>> browser.getControl(name="form.to.confirmation").click()
 
 Update Shipping Info::
 
-    >>> browser.getControl(name="first_name").value = 'Shipping First Näme'
-    >>> browser.getControl(name="last_name").value = 'Shipping Last Näme'
-    >>> browser.getControl(name="organization").value = 'Shipping Örganization'
-    >>> browser.getControl(name="vat").value = 'SHIPPING1234567890'
-    >>> browser.getControl(name="email").value = 'first.last@email.shi'
-    >>> browser.getControl(name="street").value = 'Shipping Street Äddress'
-    >>> browser.getControl(name="post").value = 'Shipping Pöst Cöde'
-    >>> browser.getControl(name="city").value = 'Shipping €ity'
-    >>> browser.getControl(name="phone").value = 'Shipping Phöne Number'
+    >>> browser.getControl(name="shipping_first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="shipping_last_name").value = 'Shipping Last Näme'
+    >>> browser.getControl(name="shipping_organization").value = 'Shipping Örganization'
+    >>> browser.getControl(name="shipping_vat").value = 'SHIPPING1234567890'
+    >>> browser.getControl(name="shipping_email").value = 'first.last@email.shi'
+    >>> browser.getControl(name="shipping_street").value = 'Shipping Street Äddress'
+    >>> browser.getControl(name="shipping_post").value = 'Shipping Pöst Cöde'
+    >>> browser.getControl(name="shipping_city").value = 'Shipping €ity'
+    >>> browser.getControl(name="shipping_phone").value = 'Shipping Phöne Number'
     >>> browser.getControl(name="form.to.confirmation").click()
 
 Confirm the order::

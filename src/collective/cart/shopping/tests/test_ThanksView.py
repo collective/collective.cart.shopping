@@ -23,9 +23,10 @@ class ThanksViewTestCase(IntegrationTestCase):
     def test_template(self):
         self.assertEqual(getattr(ThanksView, 'grokcore.view.directive.template'), 'thanks')
 
+    @mock.patch('plone.protect.authenticator.AuthenticatorView.verify')
     @mock.patch('collective.cart.shopping.browser.template.getToolByName')
     @mock.patch('collective.cart.shopping.browser.template.IStatusMessage')
-    def test_update(self, IStatusMessage, getToolByName):
+    def test_update(self, IStatusMessage, getToolByName, verify):
         from collective.behavior.stock.interfaces import IStock
         instance = self.create_view(ThanksView)
 
@@ -44,6 +45,12 @@ class ThanksViewTestCase(IntegrationTestCase):
         adapter.update_cart('shipping', address)
 
         self.portal.absolute_url = mock.Mock(return_value='portal_url')
+        verify.return_value = False
+        from zExceptions import Forbidden
+        with self.assertRaises(Forbidden):
+            instance.update()
+
+        verify.return_value = True
         self.assertEqual(instance.update(), 'portal_url/@@order-confirmation')
 
         instance.request.form = {'form.buttons.back': True}
@@ -59,6 +66,7 @@ class ThanksViewTestCase(IntegrationTestCase):
         uuid = IUUID(article)
         adapter.update_cart('articles', {uuid: {'id': uuid, 'quantity': 2, 'vat_rate': 24.0}})
         instance.request.form = {'form.buttons.ConfirmOrder': True}
+
         self.assertIsNone(instance.update())
         getToolByName().doActionFor.assert_called_with(container['1'], 'ordered')
         self.assertEqual(instance.cart_id, '1')

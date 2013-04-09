@@ -59,7 +59,7 @@ Check the shipping method::
 
 Input first name::
 
-    >>> browser.getControl(name="first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="billing_first_name").value = 'Billing First Näme'
     >>> browser.getControl(name="form.to.confirmation").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
@@ -69,8 +69,8 @@ Input first name::
 
 Input first and last name::
 
-    >>> browser.getControl(name="first_name").value = 'Shipping First Näme'
-    >>> browser.getControl(name="last_name").value = 'Shipping Last Näme'
+    >>> browser.getControl(name="billing_first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="billing_last_name").value = 'Billing Last Näme'
     >>> browser.getControl(name="form.to.confirmation").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
@@ -80,9 +80,9 @@ Input first and last name::
 
 Input first, last name and invalid email::
 
-    >>> browser.getControl(name="first_name").value = 'Shipping First Näme'
-    >>> browser.getControl(name="last_name").value = 'Shipping Last Näme'
-    >>> browser.getControl(name="email").value = 'email'
+    >>> browser.getControl(name="billing_first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="billing_last_name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="billing_email").value = 'email'
     >>> browser.getControl(name="form.to.confirmation").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
@@ -92,9 +92,9 @@ Input first, last name and invalid email::
 
 Input first, last name and email::
 
-    >>> browser.getControl(name="first_name").value = 'Shipping First Näme'
-    >>> browser.getControl(name="last_name").value = 'Shipping Last Näme'
-    >>> browser.getControl(name="email").value = 'shipping@email.email'
+    >>> browser.getControl(name="billing_first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="billing_last_name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="billing_email").value = 'billing@email.email'
     >>> browser.getControl(name="form.to.confirmation").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
@@ -104,10 +104,24 @@ Input first, last name and email::
 
 Input first, last name, email and street::
 
-    >>> browser.getControl(name="first_name").value = 'Shipping First Näme'
-    >>> browser.getControl(name="last_name").value = 'Shipping Last Näme'
-    >>> browser.getControl(name="email").value = 'shipping@email.email'
-    >>> browser.getControl(name="street").value = 'Shipping Str€€t'
+    >>> browser.getControl(name="billing_first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="billing_last_name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="billing_email").value = 'billing@email.email'
+    >>> browser.getControl(name="billing_street").value = 'Billing Str€€t'
+    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> print browser.bycss('.warn')
+    --- 1 ---
+    <dl class="portalMessage warn"><dt>Warn</dt>
+    <dd>Post code is missing.</dd>
+    </dl>
+
+Input first, last name, email, street, and post::
+
+    >>> browser.getControl(name="billing_first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="billing_last_name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="billing_email").value = 'billing@email.email'
+    >>> browser.getControl(name="billing_street").value = 'Billing Str€€t'
+    >>> browser.getControl(name="billing_post").value = 'Billing Pöst'
     >>> browser.getControl(name="form.to.confirmation").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
@@ -115,13 +129,14 @@ Input first, last name, email and street::
     <dd>City is missing.</dd>
     </dl>
 
-Input first, last name, email, street and city::
+Input first, last name, email, street, post and city::
 
-    >>> browser.getControl(name="first_name").value = 'Shipping First Näme'
-    >>> browser.getControl(name="last_name").value = 'Shipping Last Näme'
-    >>> browser.getControl(name="email").value = 'shipping@email.email'
-    >>> browser.getControl(name="street").value = 'Shipping Str€€t'
-    >>> browser.getControl(name="city").value = 'Shipping Cıty'
+    >>> browser.getControl(name="billing_first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="billing_last_name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="billing_email").value = 'billing@email.email'
+    >>> browser.getControl(name="billing_street").value = 'Billing Str€€t'
+    >>> browser.getControl(name="billing_post").value = 'Billing Pöst'
+    >>> browser.getControl(name="billing_city").value = 'Billing Cıty'
     >>> browser.getControl(name="form.to.confirmation").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
@@ -129,14 +144,15 @@ Input first, last name, email, street and city::
     <dd>Phone number is missing.</dd>
     </dl>
 
-Input first, last name, email, street, city and phone::
+Input first, last name, email, street, post, city and phone::
 
-    >>> browser.getControl(name="first_name").value = 'Shipping First Näme'
-    >>> browser.getControl(name="last_name").value = 'Shipping Last Näme'
-    >>> browser.getControl(name="email").value = 'shipping@email.email'
-    >>> browser.getControl(name="street").value = 'Shipping Str€€t'
-    >>> browser.getControl(name="city").value = 'Shipping Cıty'
-    >>> browser.getControl(name="phone").value = 'Shipping Phöne Number'
+    >>> browser.getControl(name="billing_first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="billing_last_name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="billing_email").value = 'billing@email.email'
+    >>> browser.getControl(name="billing_street").value = 'Billing Str€€t'
+    >>> browser.getControl(name="billing_post").value = 'Billing Pöst'
+    >>> browser.getControl(name="billing_city").value = 'Billing Cıty'
+    >>> browser.getControl(name="billing_phone").value = 'Billing Phöne Number'
     >>> browser.getControl(name="form.to.confirmation").click()
 
     >>> browser.url
@@ -145,156 +161,6 @@ Input first, last name, email, street, city and phone::
 Back to billing-and-shipping::
 
     >>> browser.getControl(name="form.buttons.back").click()
-
-    >>> 'value="Shipping First Näme"' in browser.contents
-    True
-    >>> 'value="Shipping Last Näme"' in browser.contents
-    True
-    >>> 'value="shipping@email.email"' in browser.contents
-    True
-    >>> 'value="Shipping Str€€t"' in browser.contents
-    True
-    >>> 'value="Shipping Cıty"' in browser.contents
-    True
-    >>> 'value="Shipping Phöne Number"' in browser.contents
-    True
-
-Input also organization, vat and post code::
-
-    >>> browser.getControl(name="organization").value = 'Shipping Örgänizätiön'
-    >>> browser.getControl(name="vat").value = 'Shipping VÄT'
-    >>> browser.getControl(name="post").value = 'Shipping Pöst'
-    >>> browser.getControl(name="form.to.confirmation").click()
-
-Back to billing-and-shipping::
-
-    >>> browser.getControl(name="form.buttons.back").click()
-
-    >>> 'value="Shipping First Näme"' in browser.contents
-    True
-    >>> 'value="Shipping Last Näme"' in browser.contents
-    True
-    >>> 'value="shipping@email.email"' in browser.contents
-    True
-    >>> 'value="Shipping Str€€t"' in browser.contents
-    True
-    >>> 'value="Shipping Cıty"' in browser.contents
-    True
-    >>> 'value="Shipping Phöne Number"' in browser.contents
-    True
-    >>> 'value="Shipping Örgänizätiön"' in browser.contents
-    True
-    >>> 'value="Shipping VÄT"' in browser.contents
-    True
-    >>> 'value="Shipping Pöst"' in browser.contents
-    True
-
-Billing info not same as shipping info::
-
-    >>> browser.getControl(name="billing-and-shipping-same-or-different").value = ['different']
-    >>> browser.getControl(name="form.to.confirmation").click()
-    >>> browser.url
-    'http://nohost/plone/@@shipping-info'
-
-Back to billing-and-shipping::
-
-    >>> browser.getControl(name="form.buttons.back").click()
-
-Chekout::
-
-    >>> browser.getControl(name="form.to.confirmation").click()
-    >>> browser.url
-    'http://nohost/plone/@@shipping-info'
-
-Input first name::
-
-    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
-    >>> browser.getControl(name="form.to.confirmation").click()
-    >>> print browser.bycss('.warn')
-    --- 1 ---
-    <dl class="portalMessage warn"><dt>Warn</dt>
-    <dd>Last name is missing.</dd>
-    </dl>
-
-Input first and last name::
-
-    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
-    >>> browser.getControl(name="form.to.confirmation").click()
-    >>> print browser.bycss('.warn')
-    --- 1 ---
-    <dl class="portalMessage warn"><dt>Warn</dt>
-    <dd>Invalid e-mail address.</dd>
-    </dl>
-
-Input first, last name and invalid email::
-
-    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
-    >>> browser.getControl(name="email").value = 'email'
-    >>> browser.getControl(name="form.to.confirmation").click()
-    >>> print browser.bycss('.warn')
-    --- 1 ---
-    <dl class="portalMessage warn"><dt>Warn</dt>
-    <dd>Invalid e-mail address.</dd>
-    </dl>
-
-Input first, last name and email::
-
-    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
-    >>> browser.getControl(name="email").value = 'billing@email.email'
-    >>> browser.getControl(name="form.to.confirmation").click()
-    >>> print browser.bycss('.warn')
-    --- 1 ---
-    <dl class="portalMessage warn"><dt>Warn</dt>
-    <dd>Street address is missing.</dd>
-    </dl>
-
-Input first, last name, email and street::
-
-    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
-    >>> browser.getControl(name="email").value = 'billing@email.email'
-    >>> browser.getControl(name="street").value = 'Billing Str€€t'
-    >>> browser.getControl(name="form.to.confirmation").click()
-    >>> print browser.bycss('.warn')
-    --- 1 ---
-    <dl class="portalMessage warn"><dt>Warn</dt>
-    <dd>City is missing.</dd>
-    </dl>
-
-Input first, last name, email, street and city::
-
-    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
-    >>> browser.getControl(name="email").value = 'billing@email.email'
-    >>> browser.getControl(name="street").value = 'Billing Str€€t'
-    >>> browser.getControl(name="city").value = 'Billing Cıty'
-    >>> browser.getControl(name="form.to.confirmation").click()
-    >>> print browser.bycss('.warn')
-    --- 1 ---
-    <dl class="portalMessage warn"><dt>Warn</dt>
-    <dd>Phone number is missing.</dd>
-    </dl>
-
-Input first, last name, email, street, city and phone::
-
-    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
-    >>> browser.getControl(name="email").value = 'billing@email.email'
-    >>> browser.getControl(name="street").value = 'Billing Str€€t'
-    >>> browser.getControl(name="city").value = 'Billing Cıty'
-    >>> browser.getControl(name="phone").value = 'Billing Phöne Number'
-    >>> browser.getControl(name="form.to.confirmation").click()
-
-    >>> browser.url
-    'http://nohost/plone/@@order-confirmation'
-
-Back to billing-and-shipping::
-
-    >>> browser.getControl(name="form.buttons.back").click()
-    >>> browser.getControl(name="form.to.confirmation").click()
 
     >>> 'value="Billing First Näme"' in browser.contents
     True
@@ -304,6 +170,8 @@ Back to billing-and-shipping::
     True
     >>> 'value="Billing Str€€t"' in browser.contents
     True
+    >>> 'value="Billing Pöst"' in browser.contents
+    True
     >>> 'value="Billing Cıty"' in browser.contents
     True
     >>> 'value="Billing Phöne Number"' in browser.contents
@@ -311,10 +179,192 @@ Back to billing-and-shipping::
 
 Input also organization, vat and post code::
 
-    >>> browser.getControl(name="organization").value = 'Billing Örgänizätiön'
-    >>> browser.getControl(name="vat").value = 'Billing VÄT'
-    >>> browser.getControl(name="post").value = 'Billing Pöst'
+    >>> browser.getControl(name="billing_organization").value = 'Billing Örgänizätiön'
+    >>> browser.getControl(name="billing_vat").value = 'Billing VÄT'
+    >>> browser.getControl(name="billing_post").value = 'Billing Pöst'
+    >>> browser.getControl(name="form.to.confirmation").click()
+
+Back to billing-and-shipping::
+
+    >>> browser.getControl(name="form.buttons.back").click()
+
+    >>> 'value="Billing First Näme"' in browser.contents
+    True
+    >>> 'value="Billing Last Näme"' in browser.contents
+    True
+    >>> 'value="billing@email.email"' in browser.contents
+    True
+    >>> 'value="Billing Str€€t"' in browser.contents
+    True
+    >>> 'value="Billing Pöst"' in browser.contents
+    True
+    >>> 'value="Billing Cıty"' in browser.contents
+    True
+    >>> 'value="Billing Phöne Number"' in browser.contents
+    True
+    >>> 'value="Billing Örgänizätiön"' in browser.contents
+    True
+    >>> 'value="Billing VÄT"' in browser.contents
+    True
+    >>> 'value="Billing Pöst"' in browser.contents
+    True
+
+Billing info not same as shipping info::
+
+    >>> browser.getControl(name="billing-and-shipping-same-or-different").value = ['different']
+    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.url
+    'http://nohost/plone/@@billing-and-shipping'
+
+
+Input shipping first name::
+
+    >>> browser.getControl(name="shipping_first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> print browser.bycss('.warn')
+    --- 1 ---
+    <dl class="portalMessage warn"><dt>Warn</dt>
+    <dd>Last name is missing.</dd>
+    </dl>
+
+Input shipping first and last name::
+
+    >>> browser.getControl(name="shipping_first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="shipping_last_name").value = 'Shipping Last Näme'
+    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> print browser.bycss('.warn')
+    --- 1 ---
+    <dl class="portalMessage warn"><dt>Warn</dt>
+    <dd>Invalid e-mail address.</dd>
+    </dl>
+
+Input shipping first, last name and invalid email::
+
+    >>> browser.getControl(name="shipping_first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="shipping_last_name").value = 'Shipping Last Näme'
+    >>> browser.getControl(name="shipping_email").value = 'email'
+    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> print browser.bycss('.warn')
+    --- 1 ---
+    <dl class="portalMessage warn"><dt>Warn</dt>
+    <dd>Invalid e-mail address.</dd>
+    </dl>
+
+Input shipping first, last name and email::
+
+    >>> browser.getControl(name="shipping_first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="shipping_last_name").value = 'Shipping Last Näme'
+    >>> browser.getControl(name="shipping_email").value = 'billing@email.email'
+    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> print browser.bycss('.warn')
+    --- 1 ---
+    <dl class="portalMessage warn"><dt>Warn</dt>
+    <dd>Street address is missing.</dd>
+    </dl>
+
+Input shipping first, last name, email and street::
+
+    >>> browser.getControl(name="shipping_first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="shipping_last_name").value = 'Shipping Last Näme'
+    >>> browser.getControl(name="shipping_email").value = 'billing@email.email'
+    >>> browser.getControl(name="shipping_street").value = 'Shipping Str€€t'
+    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> print browser.bycss('.warn')
+    --- 1 ---
+    <dl class="portalMessage warn"><dt>Warn</dt>
+    <dd>Post code is missing.</dd>
+    </dl>
+
+Input shipping first, last name, email, street and post::
+
+    >>> browser.getControl(name="shipping_first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="shipping_last_name").value = 'Shipping Last Näme'
+    >>> browser.getControl(name="shipping_email").value = 'billing@email.email'
+    >>> browser.getControl(name="shipping_street").value = 'Shipping Str€€t'
+    >>> browser.getControl(name="shipping_post").value = 'Shipping Pöst'
+    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> print browser.bycss('.warn')
+    --- 1 ---
+    <dl class="portalMessage warn"><dt>Warn</dt>
+    <dd>City is missing.</dd>
+    </dl>
+
+Input shipping first, last name, email, street, post and city::
+
+    >>> browser.getControl(name="shipping_first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="shipping_last_name").value = 'Shipping Last Näme'
+    >>> browser.getControl(name="shipping_email").value = 'billing@email.email'
+    >>> browser.getControl(name="shipping_street").value = 'Shipping Str€€t'
+    >>> browser.getControl(name="shipping_post").value = 'Shipping Pöst'
+    >>> browser.getControl(name="shipping_city").value = 'Shipping Cıty'
+    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> print browser.bycss('.warn')
+    --- 1 ---
+    <dl class="portalMessage warn"><dt>Warn</dt>
+    <dd>Phone number is missing.</dd>
+    </dl>
+
+Input first, last name, email, street, city and phone::
+
+    >>> browser.getControl(name="shipping_first_name").value = 'Shipping First Näme'
+    >>> browser.getControl(name="shipping_last_name").value = 'Shipping Last Näme'
+    >>> browser.getControl(name="shipping_email").value = 'billing@email.email'
+    >>> browser.getControl(name="shipping_street").value = 'Shipping Str€€t'
+    >>> browser.getControl(name="shipping_city").value = 'Shipping Cıty'
+    >>> browser.getControl(name="shipping_post").value = 'Shipping Pöst'
+    >>> browser.getControl(name="shipping_phone").value = 'Shipping Phöne Number'
     >>> browser.getControl(name="form.to.confirmation").click()
 
     >>> browser.url
     'http://nohost/plone/@@order-confirmation'
+
+Back to billing-and-shipping::
+
+    >>> browser.getControl(name="form.buttons.back").click()
+
+    >>> 'value="Shipping First Näme"' in browser.contents
+    True
+    >>> 'value="Shipping Last Näme"' in browser.contents
+    True
+    >>> 'value="billing@email.email"' in browser.contents
+    True
+    >>> 'value="Shipping Str€€t"' in browser.contents
+    True
+    >>> 'value="Shipping Pöst"' in browser.contents
+    True
+    >>> 'value="Shipping Cıty"' in browser.contents
+    True
+    >>> 'value="Shipping Phöne Number"' in browser.contents
+    True
+
+Input also organization, vat and post code::
+
+    >>> browser.getControl(name="shipping_organization").value = 'Shipping Örgänizätiön'
+    >>> browser.getControl(name="shipping_vat").value = 'Shipping VÄT'
+    >>> browser.getControl(name="form.to.confirmation").click()
+
+    >>> browser.url
+    'http://nohost/plone/@@order-confirmation'
+
+Back to billing-and-shipping::
+
+    >>> browser.getControl(name="form.buttons.back").click()
+
+    >>> 'value="Shipping First Näme"' in browser.contents
+    True
+    >>> 'value="Shipping Last Näme"' in browser.contents
+    True
+    >>> 'value="billing@email.email"' in browser.contents
+    True
+    >>> 'value="Shipping Str€€t"' in browser.contents
+    True
+    >>> 'value="Shipping Pöst"' in browser.contents
+    True
+    >>> 'value="Shipping Cıty"' in browser.contents
+    True
+    >>> 'value="Shipping Phöne Number"' in browser.contents
+    True
+    >>> 'value="Shipping Örgänizätiön"' in browser.contents
+    True
+    >>> 'value="Shipping VÄT"' in browser.contents
+    True

@@ -104,15 +104,15 @@ Should not be able to visit /@@order-confirmation::
 
 Fill billing info::
 
-    >>> browser.getControl(name="first_name").value = 'Billing First Näme'
-    >>> browser.getControl(name="last_name").value = 'Billing Last Näme'
-    >>> browser.getControl(name="organization").value = 'Billing Örganization'
-    >>> browser.getControl(name="vat").value = 'FI1234567890'
-    >>> browser.getControl(name="email").value = 'first.last@email.bil'
-    >>> browser.getControl(name="street").value = 'Billing Street Äddress'
-    >>> browser.getControl(name="post").value = 'Billing Pöst Cöde'
-    >>> browser.getControl(name="city").value = 'Billing €ity'
-    >>> browser.getControl(name="phone").value = 'Billing Phöne Number'
+    >>> browser.getControl(name="billing_first_name").value = 'Billing First Näme'
+    >>> browser.getControl(name="billing_last_name").value = 'Billing Last Näme'
+    >>> browser.getControl(name="billing_organization").value = 'Billing Örganization'
+    >>> browser.getControl(name="billing_vat").value = 'FI1234567890'
+    >>> browser.getControl(name="billing_email").value = 'first.last@email.bil'
+    >>> browser.getControl(name="billing_street").value = 'Billing Street Äddress'
+    >>> browser.getControl(name="billing_post").value = 'Billing Pöst Cöde'
+    >>> browser.getControl(name="billing_city").value = 'Billing €ity'
+    >>> browser.getControl(name="billing_phone").value = 'Billing Phöne Number'
     >>> browser.getControl(name="form.to.confirmation").click()
     >>> browser.url
     'http://nohost/plone/shop/@@order-confirmation'

@@ -40,15 +40,22 @@ class ShoppingSiteMultiAdapterTestCase(IntegrationTestCase):
         from collective.cart.shopping.adapter.interface import ShoppingSiteMultiAdapter
         self.assertEqual(getattr(ShoppingSiteMultiAdapter, 'grokcore.component.directive.provides'), IShoppingSiteMultiAdapter)
 
+    @mock.patch('plone.protect.authenticator.AuthenticatorView.verify')
     @mock.patch('collective.cart.shopping.adapter.interface.IStatusMessage')
     @mock.patch('collective.cart.shopping.adapter.interface.getMultiAdapter')
-    def test_add_to_cart(self, getMultiAdapter, IStatusMessage):
+    def test_add_to_cart(self, getMultiAdapter, IStatusMessage, verify):
         adapter = self.create_multiadapter(IShoppingSiteMultiAdapter)
         self.assertIsNone(adapter.add_to_cart())
 
         getMultiAdapter().current_base_url.return_value = 'URL'
 
         adapter.request.form = {'subarticle': 'UUID'}
+        verify.return_value = False
+        from zExceptions import Forbidden
+        with self.assertRaises(Forbidden):
+            adapter.add_to_cart()
+
+        verify.return_value = True
         self.assertEqual(adapter.add_to_cart(), 'URL')
         IStatusMessage().addStatusMessage.assert_called_with(u"Input integer value to add to cart.", type='warn')
         self.assertEqual(IStatusMessage().addStatusMessage.call_count, 1)

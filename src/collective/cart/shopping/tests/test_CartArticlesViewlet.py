@@ -24,5 +24,11 @@ class CartArticlesViewletTestCase(IntegrationTestCase):
         IStock().stock = 4
         IStock().reducible_quantity = 3
         getMultiAdapter().current_base_url.return_value = 'current_base_url'
+
+        from zExceptions import Forbidden
+        with self.assertRaises(Forbidden):
+            instance.update()
+
+        instance.context.restrictedTraverse = mock.Mock()
         self.assertEqual(instance.update(), 'current_base_url')
         self.assertEqual(carticle['quantity'], 2)

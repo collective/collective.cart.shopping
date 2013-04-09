@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
 <object>
   <order manager="collective.cart.shopping.billing.shipping.manager" skinname="*">
-    <viewlet name="collective.cart.shopping.billing.info" />
+    <viewlet name="collective.cart.shopping.billing-and-shipping-billing-address" />
+    <viewlet name="collective.cart.shopping.billing-and-shipping-shipping-address" />
+    <viewlet name="collective.cart.shopping.billing-and-shipping-shipping-methods" />
+    <viewlet name="collective.cart.shopping.billing-and-shipping-check-out" />
   </order>
   <order manager="collective.cart.shopping.order.confirmation.manager" skinname="*">
     <viewlet name="collective.cart.shopping.confirmation-articles" />

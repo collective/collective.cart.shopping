@@ -335,7 +335,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
     def fill_address(self, key):
         adapter = IShoppingSite(self.portal)
         session = adapter.getSessionData(create=True)
-        names = ['city', 'last_name', 'first_name', 'email', 'phone', 'street']
+        names = ['city', 'last_name', 'first_name', 'email', 'phone', 'post', 'street']
         address = {}
         for name in names:
             address[name] = name.upper()
@@ -441,15 +441,15 @@ class ShoppingSiteTestCase(IntegrationTestCase):
 
         self.fill_address('billing')
         self.assertEqual(adapter.get_info('billing'), {
+            'city': 'CITY',
+            'email': 'EMAIL',
             'first_name': 'FIRST_NAME',
             'last_name': 'LAST_NAME',
             'organization': '',
-            'vat': '',
-            'email': 'EMAIL',
-            'street': 'STREET',
-            'post': '',
-            'city': 'CITY',
             'phone': 'PHONE',
+            'post': 'POST',
+            'street': 'STREET',
+            'vat': '',
         })
 
     def create_cart_container(self):
@@ -573,37 +573,41 @@ class ShoppingSiteTestCase(IntegrationTestCase):
         data = {}
         self.assertEqual(adapter.update_address('address', data), u'First name is missing.')
 
-        data = {'first_name': 'F|RST'}
+        data = {'address_first_name': 'F|RST'}
         self.assertEqual(adapter.update_address('address', data), u'Last name is missing.')
 
-        data = {'first_name': 'F|RST', 'last_name': 'LÄST'}
+        data = {'address_first_name': 'F|RST', 'address_last_name': 'LÄST'}
         self.assertEqual(adapter.update_address('address', data), u'Invalid e-mail address.')
 
-        data = {'first_name': 'F|RST', 'last_name': 'LÄST', 'email': 'EMAIL'}
+        data = {'address_first_name': 'F|RST', 'address_last_name': 'LÄST', 'address_email': 'EMAIL'}
         self.assertEqual(adapter.update_address('address', data), u'Invalid e-mail address.')
 
-        data = {'first_name': 'F|RST', 'last_name': 'LÄST', 'email': 'first.last@email.com'}
+        data = {'address_first_name': 'F|RST', 'address_last_name': 'LÄST', 'address_email': 'first.last@email.com'}
         self.assertEqual(adapter.update_address('address', data), u'Street address is missing.')
 
-        data = {'first_name': 'F|RST', 'last_name': 'LÄST', 'email': 'first.last@email.com', 'street': 'STR€€T'}
+        data = {'address_first_name': 'F|RST', 'address_last_name': 'LÄST', 'address_email': 'first.last@email.com', 'address_street': 'STR€€T'}
+        self.assertEqual(adapter.update_address('address', data), u'Post code is missing.')
+
+        data = {'address_first_name': 'F|RST', 'address_last_name': 'LÄST', 'address_email': 'first.last@email.com', 'address_street': 'STR€€T',
+            'address_post': 'PÖST'}
         self.assertEqual(adapter.update_address('address', data), u'City is missing.')
 
-        data = {'first_name': 'F|RST', 'last_name': 'LÄST', 'email': 'first.last@email.com', 'street': 'STR€€T',
-            'city': 'C|TY'}
+        data = {'address_first_name': 'F|RST', 'address_last_name': 'LÄST', 'address_email': 'first.last@email.com', 'address_street': 'STR€€T',
+            'address_post': 'PÖST', 'address_city': 'C|TY'}
         self.assertEqual(adapter.update_address('address', data), u'Phone number is missing.')
 
-        data = {'first_name': 'F|RST', 'last_name': 'LÄST', 'email': 'first.last@email.com', 'street': 'STR€€T',
-            'city': 'C|TY', 'phone': 'PHÖNE'}
+        data = {'address_first_name': 'F|RST', 'address_last_name': 'LÄST', 'address_email': 'first.last@email.com', 'address_street': 'STR€€T',
+            'address_city': 'C|TY', 'address_post': 'PÖST', 'address_phone': 'PHÖNE'}
         self.assertIsNone(adapter.update_address('address', data))
 
         session = adapter.getSessionData(create=True)
         session.set('collective.cart.core', {})
         self.assertIsNone(adapter.update_address('address', data))
         self.assertEqual(adapter.get_address('address'), {'first_name': 'F|RST', 'last_name': 'LÄST',
-            'email': 'first.last@email.com', 'street': 'STR€€T', 'city': 'C|TY', 'phone': 'PHÖNE'})
+            'email': 'first.last@email.com', 'street': 'STR€€T', 'post': 'PÖST', 'city': 'C|TY', 'phone': 'PHÖNE'})
 
-        data = {'first_name': 'FIRST', 'last_name': 'LAST', 'email': 'first.last@email.com', 'street': 'STR€€T',
-            'city': 'C|TY', 'phone': 'PHÖNE'}
+        data = {'address_first_name': 'FIRST', 'address_last_name': 'LAST', 'address_email': 'first.last@email.com', 'address_street': 'STR€€T',
+            'address_post': 'PÖST', 'address_city': 'C|TY', 'address_phone': 'PHÖNE'}
         self.assertIsNone(adapter.update_address('address', data))
         self.assertEqual(adapter.get_address('address'), {'first_name': 'FIRST', 'last_name': 'LAST',
-            'email': 'first.last@email.com', 'street': 'STR€€T', 'city': 'C|TY', 'phone': 'PHÖNE'})
+            'email': 'first.last@email.com', 'street': 'STR€€T', 'post': 'PÖST', 'city': 'C|TY', 'phone': 'PHÖNE'})

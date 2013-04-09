@@ -33,15 +33,15 @@ Check out::
 
 Fill Billing Info and select Shipping Methöd 2::
 
-    >>> browser.getControl(name="first_name").value = 'Bılling First'
-    >>> browser.getControl(name="last_name").value = 'Bılling Last'
-    >>> browser.getControl(name="organization").value = 'Bılling Organization'
-    >>> browser.getControl(name="vat").value = 'Bılling VAT'
-    >>> browser.getControl(name="email").value = 'first.last@email.bil'
-    >>> browser.getControl(name="street").value = 'Bılling Street'
-    >>> browser.getControl(name="post").value = 'Bılling Post'
-    >>> browser.getControl(name="city").value = 'Bılling City'
-    >>> browser.getControl(name="phone").value = 'Bılling Phone'
+    >>> browser.getControl(name="billing_first_name").value = 'Bılling First'
+    >>> browser.getControl(name="billing_last_name").value = 'Bılling Last'
+    >>> browser.getControl(name="billing_organization").value = 'Bılling Organization'
+    >>> browser.getControl(name="billing_vat").value = 'Bılling VAT'
+    >>> browser.getControl(name="billing_email").value = 'first.last@email.bil'
+    >>> browser.getControl(name="billing_street").value = 'Bılling Street'
+    >>> browser.getControl(name="billing_post").value = 'Bılling Post'
+    >>> browser.getControl(name="billing_city").value = 'Bılling City'
+    >>> browser.getControl(name="billing_phone").value = 'Bılling Phone'
     >>> browser.getControl(name="shipping-method").value = [shippingmethod2_uuid]
     >>> browser.getControl(name="form.to.confirmation").click()
 
@@ -221,15 +221,15 @@ With different shipping address::
 
 Input shipping info::
 
-    >>> browser.getControl(name="first_name").value = 'Shıpping First'
-    >>> browser.getControl(name="last_name").value = 'Shıpping Last'
-    >>> browser.getControl(name="organization").value = 'Shıpping Organization'
-    >>> browser.getControl(name="vat").value = 'Shıpping VAT'
-    >>> browser.getControl(name="email").value = 'first.last@email.shi'
-    >>> browser.getControl(name="street").value = 'Shıpping Street'
-    >>> browser.getControl(name="post").value = 'Shıpping Post'
-    >>> browser.getControl(name="city").value = 'Shıpping City'
-    >>> browser.getControl(name="phone").value = 'Shıpping Phone'
+    >>> browser.getControl(name="shipping_first_name").value = 'Shıpping First'
+    >>> browser.getControl(name="shipping_last_name").value = 'Shıpping Last'
+    >>> browser.getControl(name="shipping_organization").value = 'Shıpping Organization'
+    >>> browser.getControl(name="shipping_vat").value = 'Shıpping VAT'
+    >>> browser.getControl(name="shipping_email").value = 'first.last@email.shi'
+    >>> browser.getControl(name="shipping_street").value = 'Shıpping Street'
+    >>> browser.getControl(name="shipping_post").value = 'Shıpping Post'
+    >>> browser.getControl(name="shipping_city").value = 'Shıpping City'
+    >>> browser.getControl(name="shipping_phone").value = 'Shıpping Phone'
     >>> browser.getControl(name="form.to.confirmation").click()
 
 Confirm order::

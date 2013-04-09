@@ -20,7 +20,14 @@
           <p tal:content="view/message/description" />
         </section>
         <section class="checkout-content billing-and-shipping">
-          <div tal:replace="structure provider:collective.cart.shopping.billing.shipping.manager" />
+          <section id="customer-info" i18n:domain="collective.cart.shopping">
+            <form
+              method="post"
+              tal:attributes="action context/plone_context_state/current_base_url">
+              <span tal:replace="structure context/@@authenticator/authenticator" />
+              <div tal:replace="structure provider:collective.cart.shopping.billing.shipping.manager" />
+            </form>
+          </section>
         </section>
         <section class="text" tal:condition="view/message">
           <div tal:replace="structure view/message/text" />

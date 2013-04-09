@@ -1,0 +1,121 @@
+<script type="text/javascript">
+  jQuery(function(){
+    $('#different').click(different);
+    $('#same').click(same);
+    if($('#different').attr('selected')) {
+      $('#shipping-address').css('display', 'block');
+    };
+  });
+  function different(){
+    $('#shipping-address').css('display', 'block');
+    $('#shipping-address span').css('display', 'inline');
+    $('#shipping-address input.required').attr('required', 'required');
+  }
+  function same(){
+    $('#shipping-address').css('display', 'none');
+    $('#shipping-address span').css('display', 'none');
+    $('#shipping-address input.required').removeAttr('required');
+  }
+</script>
+
+<section id="billing-and-shipping-same-or-different">
+  <span i18n:translate="billing-and-shipping-same-or-different">
+    Are billing and shipping addresses same or different?
+  </span>
+  <select
+    name="billing-and-shipping-same-or-different">
+    <option
+      i18n:translate=""
+      id="same"
+      tal:attributes="selected viewlet/billing_same_as_shipping"
+      value="same">Same</option>
+    <option
+      i18n:translate=""
+      id="different"
+      tal:attributes="selected not:viewlet/billing_same_as_shipping"
+      value="different">Different</option>
+  </select>
+</section>
+
+<section id="shipping-address" i18n:domain="collective.cart.shopping" tal:define="info viewlet/shipping_info">
+  <h1 i18n:translate="">Shipping Address</h1>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">First Name</tal:label>
+      <span class="required" i18n:domain="plone" i18n:attributes="title" title="title_required"> </span>
+    </dt>
+    <dd>
+      <input name="shipping_first_name" type="text" class="required" tal:attributes="value info/first_name" />
+    </dd>
+  </dl>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">Last Name</tal:label>
+      <span class="required" i18n:domain="plone" i18n:attributes="title" title="title_required"> </span>
+    </dt>
+    <dd>
+      <input name="shipping_last_name" type="text" class="required" tal:attributes="value info/last_name" />
+    </dd>
+  </dl>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">Organization</tal:label>
+    </dt>
+    <dd>
+      <input name="shipping_organization" type="text" tal:attributes="value info/organization" />
+    </dd>
+  </dl>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">VAT Number</tal:label>
+    </dt>
+    <dd>
+      <input name="shipping_vat" type="text" placeholder="Only for organization customer" tal:attributes="value info/vat" i18n:attributes="placeholder" />
+    </dd>
+  </dl>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">E-mail</tal:label>
+      <span class="required" i18n:domain="plone" i18n:attributes="title" title="title_required"> </span>
+    </dt>
+    <dd>
+      <input name="shipping_email" type="email" class="required" tal:attributes="value info/email" />
+    </dd>
+  </dl>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">Street Address</tal:label>
+      <span class="required" i18n:domain="plone" i18n:attributes="title" title="title_required"> </span>
+    </dt>
+    <dd>
+      <input name="shipping_street" type="text" class="required" tal:attributes="value info/street" />
+    </dd>
+  </dl>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">Post Code</tal:label>
+      <span class="required" i18n:domain="plone" i18n:attributes="title" title="title_required"> </span>
+    </dt>
+    <dd>
+      <input name="shipping_post" type="text" class="required" tal:attributes="value info/post" />
+    </dd>
+  </dl>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">City</tal:label>
+      <span class="required" i18n:domain="plone" i18n:attributes="title" title="title_required"> </span>
+    </dt>
+    <dd>
+      <input name="shipping_city" type="text" class="required" tal:attributes="value info/city" />
+    </dd>
+  </dl>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">Phone Number</tal:label>
+      <span class="required" i18n:domain="plone" i18n:attributes="title" title="title_required"> </span>
+    </dt>
+    <dd>
+      <input name="shipping_phone" type="tel" class="required" tal:attributes="value info/phone" />
+    </dd>
+  </dl>
+</section>

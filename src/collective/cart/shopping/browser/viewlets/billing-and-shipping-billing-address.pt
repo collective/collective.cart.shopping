@@ -1,0 +1,82 @@
+<section id="billing-address" tal:define="info viewlet/billing_info">
+  <h1 i18n:translate="">Billing Address</h1>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">First Name</tal:label>
+      <span class="required" i18n:domain="plone" i18n:attributes="title" title="title_required"> </span>
+    </dt>
+    <dd>
+      <input name="billing_first_name" type="text" required="required" tal:attributes="value info/first_name" />
+    </dd>
+  </dl>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">Last Name</tal:label>
+      <span class="required" i18n:domain="plone" i18n:attributes="title" title="title_required"> </span>
+    </dt>
+    <dd>
+      <input name="billing_last_name" type="text" required="required" tal:attributes="value info/last_name" />
+    </dd>
+  </dl>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">Organization</tal:label>
+    </dt>
+    <dd>
+      <input name="billing_organization" type="text" tal:attributes="value info/organization" />
+    </dd>
+  </dl>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">VAT Number</tal:label>
+    </dt>
+    <dd>
+      <input name="billing_vat" type="text" placeholder="Only for organization customer" tal:attributes="value info/vat" i18n:attributes="placeholder" />
+    </dd>
+  </dl>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">E-mail</tal:label>
+      <span class="required" i18n:domain="plone" i18n:attributes="title" title="title_required"> </span>
+    </dt>
+    <dd>
+      <input name="billing_email" type="email" required="required" tal:attributes="value info/email" />
+    </dd>
+  </dl>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">Street Address</tal:label>
+      <span class="required" i18n:domain="plone" i18n:attributes="title" title="title_required"> </span>
+    </dt>
+    <dd>
+      <input name="billing_street" type="text" required="required" tal:attributes="value info/street" />
+    </dd>
+  </dl>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">Post Code</tal:label>
+      <span class="required" i18n:domain="plone" i18n:attributes="title" title="title_required"> </span>
+    </dt>
+    <dd>
+      <input name="billing_post" type="text" required="required" tal:attributes="value info/post" />
+    </dd>
+  </dl>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">City</tal:label>
+      <span class="required" i18n:domain="plone" i18n:attributes="title" title="title_required"> </span>
+    </dt>
+    <dd>
+      <input name="billing_city" type="text" required="required" tal:attributes="value info/city" />
+    </dd>
+  </dl>
+  <dl class="field">
+    <dt>
+      <tal:label i18n:translate="">Phone Number</tal:label>
+      <span class="required" i18n:domain="plone" i18n:attributes="title" title="title_required"> </span>
+    </dt>
+    <dd>
+      <input name="billing_phone" type="tel" required="required" tal:attributes="value info/phone" />
+    </dd>
+  </dl>
+</section>

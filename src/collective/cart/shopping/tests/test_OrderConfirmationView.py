@@ -59,4 +59,4 @@ class OrderConfirmationViewTestCase(IntegrationTestCase):
         adapter.update_cart('billing', address)
         adapter.update_cart('shipping', address)
 
-        self.assertIsNone(instance.update())
+        self.assertEqual(instance.update(), 'portal_url/@@billing-and-shipping')

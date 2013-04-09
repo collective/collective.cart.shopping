@@ -35,7 +35,8 @@
           <td class="price-and-quantity">
             <form
               method="post"
-              tal:attributes="action context/@@plone_context_state/current_base_url">
+              tal:attributes="action context/plone_context_state/current_base_url">
+              <span tal:replace="structure context/@@authenticator/authenticator" />
               <input
                 id="quantity"
                 min="0"

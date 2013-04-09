@@ -83,6 +83,13 @@ section#collective-cart-shopping-order section#addresses dt {
 section#customer-info p#billing-and-shipping-same-or-different {
   border-bottom: 1px solid #CCCCCC;
 }
+section#customer-info section#shipping-address {
+  display: none;
+}
+section#customer-info section#shipping-address span {
+  display: none;
+}
+
 
 @media screen and (max-width: 800px) {
     #related-articles article {

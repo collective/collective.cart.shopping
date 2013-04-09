@@ -25,6 +25,7 @@ from moneyed.localization import DEFAULT
 from moneyed.localization import format_money
 from plone.dexterity.utils import createContentInContainer
 from plone.registry.interfaces import IRegistry
+from zExceptions import Forbidden
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.event import notify
@@ -306,6 +307,13 @@ class ShoppingSite(BaseShoppingSite):
         """
         message = None
 
+        items = data
+        data = {}
+        for key in items:
+            text = '{}_'.format(name)
+            if key.startswith(text):
+                data[key[len(text):]] = items.get(key)
+
         if not data.get('first_name'):
             message = _(u'First name is missing.')
 
@@ -317,6 +325,9 @@ class ShoppingSite(BaseShoppingSite):
 
         elif not data.get('street'):
             message = _(u'Street address is missing.')
+
+        elif not data.get('post'):
+            message = _(u'Post code is missing.')
 
         elif not data.get('city'):
             message = _(u'City is missing.')
@@ -368,7 +379,13 @@ class ShoppingSiteMultiAdapter(grok.MultiAdapter):
     def add_to_cart(self):
         form = self.request.form
         uuid = form.get('subarticle') or form.get('form.buttons.AddToCart')
+
         if uuid is not None:
+
+            authenticator = self.context.restrictedTraverse('@@authenticator')
+            if not authenticator.verify():
+                raise Forbidden()
+
             quantity = form.get('quantity')
             validate = validation.validatorFor('isInt')
             url = getMultiAdapter(

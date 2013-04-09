@@ -226,8 +226,7 @@ class IBaseCustomerInfo(form.Schema):
         title=_(u'Street Address'))
 
     post = TextLine(
-        title=_(u'Post Code'),
-        required=False)
+        title=_(u'Post Code'))
 
     city = TextLine(
         title=_(u'City'))

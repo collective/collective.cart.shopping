@@ -4,7 +4,8 @@
   i18n:domain="collective.cart.shopping">
   <form
     method="post"
-    tal:attributes="action context/@@plone_context_state/current_base_url">
+    tal:attributes="action context/plone_context_state/current_base_url">
+    <span tal:replace="structure context/@@authenticator/authenticator" />
     <button
       class="shopping-button clear"
       i18n:translate=""

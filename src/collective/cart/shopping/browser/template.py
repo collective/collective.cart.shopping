@@ -11,7 +11,6 @@ from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.base import Message
 from collective.cart.shopping.browser.interfaces import ICollectiveCartShoppingLayer
-from collective.cart.shopping.event import ShippingAddressConfirmedEvent
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleContainer
@@ -24,9 +23,9 @@ from datetime import datetime
 from five import grok
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
+from zExceptions import Forbidden
 from zope.component import getMultiAdapter
 from zope.component import getUtility
-from zope.event import notify
 
 import csv
 
@@ -226,37 +225,6 @@ class BillingAndShippingView(BaseCheckOutView, Message):
     grok.template('billing-and-shipping')
 
 
-class ShippingInfoView(BaseCheckOutView, Message):
-    """View for editing shipping info which checkout"""
-    grok.name('shipping-info')
-    grok.template('shipping-info')
-
-    @property
-    def shipping_info(self):
-        return self.shopping_site.get_info('shipping')
-
-    def update(self):
-        form = self.request.form
-        shop_url = self.context.absolute_url()
-        if form.get('form.buttons.back') is not None:
-            url = '{}/@@billing-and-shipping'.format(shop_url)
-            return self.request.response.redirect(url)
-
-        if form.get('form.to.confirmation') is not None:
-            data = form.copy()
-            del data['form.to.confirmation']
-            message = self.shopping_site.update_address('shipping', data)
-            if message is not None:
-                current_url = self.context.restrictedTraverse('@@plone_context_state').current_base_url()
-                IStatusMessage(self.request).addStatusMessage(message, type='warn')
-                return self.request.response.redirect(current_url)
-
-            notify(ShippingAddressConfirmedEvent(self.context))
-
-            url = '{}/@@order-confirmation'.format(shop_url)
-            return self.request.response.redirect(url)
-
-
 class OrderConfirmationView(BaseCheckOutView, Message):
     grok.name('order-confirmation')
     grok.template('order-confirmation')
@@ -277,6 +245,11 @@ class ThanksView(OrderConfirmationView, Message):
 
     def update(self):
         super(ThanksView, self).update()
+
+        authenticator = self.context.restrictedTraverse('@@authenticator')
+        if not authenticator.verify():
+            raise Forbidden()
+
         context = aq_inner(self.context)
         context_url = context.absolute_url()
         form = self.request.form
