@@ -1,4 +1,4 @@
-<section id="shipping-methods">
+<section i18n:domain="collective.cart.shopping" id="shipping-methods">
   <dl class="field shipping-methods" tal:condition="viewlet/shipping_methods">
     <dt>
       <tal:label i18n:translate="">Shipping Method</tal:label>

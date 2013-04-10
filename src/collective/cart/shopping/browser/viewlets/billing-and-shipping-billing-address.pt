@@ -1,4 +1,4 @@
-<section id="billing-address" tal:define="info viewlet/billing_info">
+<section i18n:domain="collective.cart.shopping" id="billing-address" tal:define="info viewlet/billing_info">
   <h1 i18n:translate="">Billing Address</h1>
   <dl class="field">
     <dt>

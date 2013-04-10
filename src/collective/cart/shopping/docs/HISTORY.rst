@@ -1,7 +1,7 @@
 Changelog
 ---------
 
-0.5.0.2 (2013-04-xx)
+0.5.0.2 (2013-04-10)
 ====================
 
 - Added SCRF autenticator. [taito]

@@ -23,6 +23,7 @@ class CartContentViewletTestCase(IntegrationTestCase):
             'billing_info': None,
             'id': 'collective-cart-core.cart',
             'modified': self.ulocalized_time(self.portal.modified()),
+            'registration_number': None,
             'shipping_info': None,
             'shipping_method': None,
             'state_title': 'Created',

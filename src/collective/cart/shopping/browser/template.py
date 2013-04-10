@@ -382,12 +382,6 @@ class BaseOrderMailTemplateView(BaseView, Message):
                 message['text'] = transforms.convert('html_to_text', html).getData().strip()
                 return message
 
-    # @property
-    # def has_link_to_order(self):
-    #     if self.is_for_customer:
-    #         return not self.context.restrictedTraverse('plone_portal_state').anonymous()
-    #     return True
-
     @property
     def link_to_order(self):
         if self.is_for_customer:

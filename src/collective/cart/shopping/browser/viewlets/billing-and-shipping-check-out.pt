@@ -1,4 +1,4 @@
-<section id="check-out">
+<section i18n:domain="collective.cart.shopping" id="check-out">
   <button
     class="buttons shopping-button back"
     formnovalidate

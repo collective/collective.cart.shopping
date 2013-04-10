@@ -1,11 +1,27 @@
 <section
   id="confirmation-checkout"
   i18n:domain="collective.cart.shopping">
+
+  <script type="text/javascript">
+    jQuery(
+      function(){
+        $('.checkout').click(wait_processing);
+      }
+    );
+    function wait_processing(){
+      if($('#accept-terms').attr('checked')) {
+        $('#processing_message').css('display', 'block');
+        $('.checkout').attr("disabled");
+      }
+    }
+  </script>
+
   <form
     method="post"
     tal:attributes="action string: ${context/absolute_url}/@@thanks">
     <span tal:replace="structure context/@@authenticator/authenticator" />
     <div tal:replace="structure provider:collective.cart.shopping.terms.manager" />
+    <p id="processing_message" i18n:translate="processing_message">Please wait while processing your order...</p>
     <button
       class="buttons shopping-button back"
       i18n:translate=""

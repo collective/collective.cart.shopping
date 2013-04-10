@@ -18,7 +18,7 @@
   }
 </script>
 
-<section id="billing-and-shipping-same-or-different">
+<section i18n:domain="collective.cart.shopping" id="billing-and-shipping-same-or-different">
   <span i18n:translate="billing-and-shipping-same-or-different">
     Are billing and shipping addresses same or different?
   </span>

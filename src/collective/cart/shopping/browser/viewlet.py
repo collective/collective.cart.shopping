@@ -372,8 +372,6 @@ class BillingAndShippingShippingAddressViewlet(BaseShoppingSiteRootViewlet):
     grok.template('billing-and-shipping-shipping-address')
     grok.viewletmanager(BillingAndShippingViewletManager)
 
-    validated = False
-
     def shipping_info(self):
         return IShoppingSite(self.context).get_info('shipping')
 
@@ -407,9 +405,6 @@ class BillingAndShippingShippingMethodsViewlet(BaseShoppingSiteRootViewlet):
     grok.name('collective.cart.shopping.billing-and-shipping-shipping-methods')
     grok.template('billing-and-shipping-shipping-methods')
     grok.viewletmanager(BillingAndShippingViewletManager)
-
-    message = None
-    validated = False
 
     @property
     def shipping_methods(self):
@@ -456,7 +451,6 @@ class BillingAndShippingShippingMethodsViewlet(BaseShoppingSiteRootViewlet):
 
             else:
                 shopping_site.update_shipping_method(shipping_method)
-                self.validated = True
 
 
 class BillingAndShippingCheckOutViewlet(BaseShoppingSiteRootViewlet):
@@ -575,6 +569,7 @@ class CartContentViewlet(BaseCartContentViewlet):
             'url': self.context.absolute_url(),
             'billing_info': cart.get_address('billing'),
             'shipping_info': cart.get_address('shipping'),
+            'registration_number': getattr(self.context, 'registration_number', None)
         }
 
 

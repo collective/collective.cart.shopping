@@ -124,7 +124,12 @@ def notify_ordered(context, event):
         shipping_method_title = hasattr(
             cadapter.shipping_method, 'Title') and cadapter.shipping_method.Title.decode(default_charset) or u''
 
-        items = {
+        items = shopping_site.cart.copy()
+        for key in ['articles', 'billing_same_as_shipping', 'shipping_method', 'billing', 'shipping']:
+            if key in items:
+                del items[key]
+
+        items.update({
             'number': context.id,
             'underline': underline,
             'billing_address': billing_address,
@@ -134,12 +139,13 @@ def notify_ordered(context, event):
             'is_shipping_free': shopping_site.shipping_gross_money.amount == 0.0,
             'shipping_gross': shopping_site.locale_shipping_gross(),
             'total': shopping_site.locale_total(),
-        }
-        message_to_customer = context.unrestrictedTraverse('to-customer-order-mail-template')(**items)
+        })
+
+        message_to_customer = context.unrestrictedTraverse('@@to-customer-order-mail-template')(**items)
         mto_customer = u'"{}" <{}>'.format(utility.fullname(billing), billing['email'])
         subject_to_customer = subject
 
-        message_to_shop = context.unrestrictedTraverse('to-shop-order-mail-template')(**items)
+        message_to_shop = context.unrestrictedTraverse('@@to-shop-order-mail-template')(**items)
         mto_shop = mfrom
         subject_to_shop = subject
 

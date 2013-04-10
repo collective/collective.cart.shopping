@@ -1,6 +1,5 @@
 from collective.cart.shopping.browser.viewlet import BillingAndShippingCheckOutViewlet
 from collective.cart.shopping.tests.base import IntegrationTestCase
-from zope.publisher.browser import TestRequest
 
 import mock
 
@@ -35,7 +34,6 @@ class BillingAndShippingCheckOutViewletTestCase(IntegrationTestCase):
         IShoppingSite().shop.absolute_url.return_value = 'SHOP_URL'
         verify.return_value = True
         self.assertEqual(instance.update(), 'SHOP_URL/@@cart')
-
 
         instance.request.form = {'form.to.confirmation': True}
         verify.return_value = False

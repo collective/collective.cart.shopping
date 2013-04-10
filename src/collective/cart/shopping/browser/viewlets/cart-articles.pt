@@ -37,20 +37,21 @@
               method="post"
               tal:attributes="action context/plone_context_state/current_base_url">
               <span tal:replace="structure context/@@authenticator/authenticator" />
-              <input
-                id="quantity"
-                min="0"
-                name="quantity"
-                type="number"
-                tal:attributes="
-                  max item/quantity_max;
-                  maxlength item/quantity_size;
-                  size item/quantity_size;
-                  value item/quantity"
-                />
-                &nbsp;&times;&nbsp;
-              <span class="gross" tal:content="item/locale_gross" />
-              <br />
+              <section>
+                <input
+                  id="quantity"
+                  min="0"
+                  name="quantity"
+                  type="number"
+                  tal:attributes="
+                    max item/quantity_max;
+                    maxlength item/quantity_size;
+                    size item/quantity_size;
+                    value item/quantity"
+                  />
+                  &nbsp;&times;&nbsp;
+                <span class="gross" tal:content="item/locale_gross" />
+              </section>
               <span class="vat" i18n:translate="">
                 Including VAT: <span i18n:name="vat" tal:replace="item/vat_rate" />
               </span>

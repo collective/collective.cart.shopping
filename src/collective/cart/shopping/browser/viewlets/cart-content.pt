@@ -82,6 +82,16 @@
         <span id="total" tal:content="cart/total" />
       </section>
 
+      <dl
+        id="registration-number"
+        i18n:domain="slt.theme"
+        tal:condition="cart/registration_number">
+        <dt i18n:translate="">
+          Registration Number
+        </dt>
+        <dd tal:content="cart/registration_number" />
+      </dl>
+
       <section id="addresses">
         <dl>
           <dt i18n:translate="">Billing Address</dt>

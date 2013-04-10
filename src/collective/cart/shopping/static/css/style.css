@@ -79,9 +79,15 @@ section#collective-cart-shopping-order section#addresses dt {
     color: #0084A7;
 }
 
+/* Cart */
+
+.gross {
+  display: inline-block;
+}
+
 /* Billing and shipping */
-section#customer-info p#billing-and-shipping-same-or-different {
-  border-bottom: 1px solid #CCCCCC;
+section#customer-info section#billing-and-shipping-same-or-different select {
+  font-size: 80%;
 }
 section#customer-info section#shipping-address {
   display: none;
@@ -89,7 +95,20 @@ section#customer-info section#shipping-address {
 section#customer-info section#shipping-address span {
   display: none;
 }
+section#customer-info section#shipping-methods {
+  margin: 1em 0;
+}
 
+/* Order confirmation */
+
+p#processing_message {
+  background-color: #FFFFE3;
+  border: 1px solid #999966;
+  border-radius: 5px;
+  clear: both;
+  display: none;
+  padding: 1em;
+}
 
 @media screen and (max-width: 800px) {
     #related-articles article {

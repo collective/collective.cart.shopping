@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-03-26 11:33+0000\n"
+"POT-Creation-Date: 2013-04-10 13:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.cart.shopping\n"
 
-#: ./browser/viewlets/add-to-cart.pt:17
-#: ./browser/viewlets/articles-in-article.pt:57
+#: ./browser/viewlets/add-to-cart.pt:18
+#: ./browser/viewlets/articles-in-article.pt:58
 msgid "(Discount valid till ${discount_end})"
 msgstr ""
 
@@ -52,18 +52,18 @@ msgstr ""
 msgid "Article List"
 msgstr ""
 
-#: ./browser/templates/shipping-info.pt:105
-#: ./browser/viewlets/billing-info.pt:121
-#: ./browser/viewlets/confirmation-checkout.pt:8
+#: ./browser/viewlets/billing-and-shipping-check-out.pt:2
+#: ./browser/viewlets/confirmation-checkout.pt:25
 msgid "Back"
 msgstr ""
 
-#: ./interfaces.py:240
+#: ./interfaces.py:239
 msgid "Billing"
 msgstr ""
 
 #: ./browser/templates/order-mail-template.pt:21
-#: ./browser/viewlets/cart-content.pt:87
+#: ./browser/viewlets/billing-and-shipping-billing-address.pt:2
+#: ./browser/viewlets/cart-content.pt:97
 msgid "Billing Address"
 msgstr ""
 
@@ -75,7 +75,7 @@ msgstr ""
 msgid "Billing info same as shipping info"
 msgstr ""
 
-#: ./browser/viewlets/cart-checkout.pt:16
+#: ./browser/viewlets/cart-checkout.pt:17
 msgid "Check Out"
 msgstr ""
 
@@ -88,20 +88,20 @@ msgid "Check this box to process your order."
 msgstr ""
 
 #: ./browser/templates/customer-info.pt:45
-#: ./browser/templates/shipping-info.pt:89
-#: ./browser/viewlets/billing-info.pt:68
+#: ./browser/viewlets/billing-and-shipping-billing-address.pt:66
+#: ./browser/viewlets/billing-and-shipping-shipping-address.pt:105
 msgid "City"
 msgstr ""
 
-#: ./adapter/interface.py:322
+#: ./adapter/interface.py:333
 msgid "City is missing."
 msgstr ""
 
-#: ./browser/viewlets/cart-checkout.pt:8
+#: ./browser/viewlets/cart-checkout.pt:9
 msgid "Clear"
 msgstr ""
 
-#: ./browser/viewlets/confirmation-checkout.pt:16
+#: ./browser/viewlets/confirmation-checkout.pt:33
 msgid "Confirm Order"
 msgstr ""
 
@@ -117,7 +117,7 @@ msgstr ""
 msgid "Customer Info"
 msgstr ""
 
-#: ./browser/viewlets/cart-articles.pt:67
+#: ./browser/viewlets/cart-articles.pt:69
 msgid "Delete"
 msgstr ""
 
@@ -125,7 +125,7 @@ msgstr ""
 msgid "Detailed information"
 msgstr ""
 
-#: ./browser/viewlets/billing-info.pt:91
+#: ./browser/viewlets/billing-and-shipping-shipping-address.pt:32
 msgid "Different"
 msgstr ""
 
@@ -134,8 +134,8 @@ msgid "Discount"
 msgstr ""
 
 #: ./browser/templates/customer-info.pt:33
-#: ./browser/templates/shipping-info.pt:63
-#: ./browser/viewlets/billing-info.pt:42
+#: ./browser/viewlets/billing-and-shipping-billing-address.pt:39
+#: ./browser/viewlets/billing-and-shipping-shipping-address.pt:78
 msgid "E-mail"
 msgstr ""
 
@@ -144,12 +144,12 @@ msgid "Export"
 msgstr ""
 
 #: ./browser/templates/customer-info.pt:17
-#: ./browser/templates/shipping-info.pt:29
-#: ./browser/viewlets/billing-info.pt:8
+#: ./browser/viewlets/billing-and-shipping-billing-address.pt:5
+#: ./browser/viewlets/billing-and-shipping-shipping-address.pt:44
 msgid "First Name"
 msgstr ""
 
-#: ./adapter/interface.py:310
+#: ./adapter/interface.py:318
 msgid "First name is missing."
 msgstr ""
 
@@ -157,9 +157,9 @@ msgstr ""
 msgid "Further detailed information comes here."
 msgstr ""
 
-#: ./browser/viewlets/add-subarticle-to-cart.pt:18
-#: ./browser/viewlets/add-to-cart.pt:12
-#: ./browser/viewlets/articles-in-article.pt:51
+#: ./browser/viewlets/add-subarticle-to-cart.pt:19
+#: ./browser/viewlets/add-to-cart.pt:13
+#: ./browser/viewlets/articles-in-article.pt:52
 msgid "Including VAT: ${vat}"
 msgstr ""
 
@@ -167,11 +167,11 @@ msgstr ""
 msgid "Initial Stock"
 msgstr ""
 
-#: ./adapter/interface.py:409
+#: ./adapter/interface.py:426
 msgid "Input integer value to add to cart."
 msgstr ""
 
-#: ./adapter/interface.py:407
+#: ./adapter/interface.py:424
 msgid "Input positive integer value to add to cart."
 msgstr ""
 
@@ -179,44 +179,43 @@ msgstr ""
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr ""
 
-#: ./adapter/interface.py:316
+#: ./adapter/interface.py:324
 msgid "Invalid e-mail address."
 msgstr ""
 
-#: ./browser/viewlet.py:264
+#: ./browser/viewlet.py:271
 msgid "Invalid quantity."
 msgstr ""
 
 #: ./browser/templates/customer-info.pt:21
-#: ./browser/templates/shipping-info.pt:38
-#: ./browser/viewlets/billing-info.pt:17
+#: ./browser/viewlets/billing-and-shipping-billing-address.pt:14
+#: ./browser/viewlets/billing-and-shipping-shipping-address.pt:53
 msgid "Last Name"
 msgstr ""
 
-#: ./adapter/interface.py:313
+#: ./adapter/interface.py:321
 msgid "Last name is missing."
 msgstr ""
 
-#: ./browser/template.py:322
+#: ./browser/template.py:295
 msgid "Name"
 msgstr ""
 
-#: ./browser/templates/shipping-info.pt:114
-#: ./browser/viewlets/billing-info.pt:130
+#: ./browser/viewlets/billing-and-shipping-check-out.pt:11
 msgid "Next"
 msgstr ""
 
-#: ./browser/viewlets/add-to-cart.pt:20
-#: ./browser/viewlets/articles-in-article.pt:60
+#: ./browser/viewlets/add-to-cart.pt:21
+#: ./browser/viewlets/articles-in-article.pt:61
 msgid "Normal Price: ${normal-price}"
 msgstr ""
 
-#: ./adapter/interface.py:405
+#: ./adapter/interface.py:422
 msgid "Not available to add to cart."
 msgstr ""
 
-#: ./browser/templates/shipping-info.pt:58
-#: ./browser/viewlets/billing-info.pt:37
+#: ./browser/viewlets/billing-and-shipping-billing-address.pt:34
+#: ./browser/viewlets/billing-and-shipping-shipping-address.pt:73
 msgid "Only for organization customer"
 msgstr ""
 
@@ -225,32 +224,36 @@ msgid "Order Contents"
 msgstr ""
 
 #: ./browser/templates/customer-info.pt:25
-#: ./browser/templates/shipping-info.pt:47
-#: ./browser/viewlets/billing-info.pt:26
+#: ./browser/viewlets/billing-and-shipping-billing-address.pt:23
+#: ./browser/viewlets/billing-and-shipping-shipping-address.pt:62
 msgid "Organization"
 msgstr ""
 
 #: ./browser/templates/customer-info.pt:49
-#: ./browser/templates/shipping-info.pt:98
-#: ./browser/viewlets/billing-info.pt:77
+#: ./browser/viewlets/billing-and-shipping-billing-address.pt:75
+#: ./browser/viewlets/billing-and-shipping-shipping-address.pt:114
 msgid "Phone Number"
 msgstr ""
 
-#: ./adapter/interface.py:325
+#: ./adapter/interface.py:336
 msgid "Phone number is missing."
 msgstr ""
 
 #: ./browser/templates/customer-info.pt:41
-#: ./browser/templates/shipping-info.pt:81
-#: ./browser/viewlets/billing-info.pt:60
+#: ./browser/viewlets/billing-and-shipping-billing-address.pt:57
+#: ./browser/viewlets/billing-and-shipping-shipping-address.pt:96
 msgid "Post Code"
 msgstr ""
 
-#: ./browser/template.py:323
+#: ./adapter/interface.py:330
+msgid "Post code is missing."
+msgstr ""
+
+#: ./browser/template.py:296
 msgid "Price"
 msgstr ""
 
-#: ./interfaces.py:262
+#: ./interfaces.py:261
 msgid "Price excluding VAT"
 msgstr ""
 
@@ -258,8 +261,8 @@ msgstr ""
 msgid "Purchase Price VAT 0%"
 msgstr ""
 
-#: ./browser/viewlets/add-subarticle-to-cart.pt:21
-#: ./browser/viewlets/add-to-cart.pt:24
+#: ./browser/viewlets/add-subarticle-to-cart.pt:22
+#: ./browser/viewlets/add-to-cart.pt:25
 msgid "Quantity"
 msgstr ""
 
@@ -275,28 +278,29 @@ msgstr ""
 msgid "Representative Image"
 msgstr ""
 
-#: ./browser/template.py:321
+#: ./browser/template.py:294
 msgid "SKU"
 msgstr ""
 
-#: ./browser/viewlets/billing-info.pt:90
+#: ./browser/viewlets/billing-and-shipping-shipping-address.pt:27
 msgid "Same"
 msgstr ""
 
-#: ./interfaces.py:250
+#: ./interfaces.py:249
 msgid "Select one if this information is used only for billing or shipping."
 msgstr ""
 
-#: ./browser/viewlet.py:396
+#: ./browser/viewlet.py:450
 msgid "Select one shipping method."
 msgstr ""
 
-#: ./interfaces.py:240
+#: ./interfaces.py:239
 msgid "Shipping"
 msgstr ""
 
 #: ./browser/templates/order-mail-template.pt:24
-#: ./browser/viewlets/cart-content.pt:96
+#: ./browser/viewlets/billing-and-shipping-shipping-address.pt:41
+#: ./browser/viewlets/cart-content.pt:106
 msgid "Shipping Address"
 msgstr ""
 
@@ -304,7 +308,7 @@ msgstr ""
 msgid "Shipping Info"
 msgstr ""
 
-#: ./browser/viewlets/billing-info.pt:96
+#: ./browser/viewlets/billing-and-shipping-shipping-methods.pt:4
 msgid "Shipping Method"
 msgstr ""
 
@@ -321,9 +325,9 @@ msgstr ""
 msgid "Show list of articles."
 msgstr ""
 
-#: ./browser/viewlets/add-subarticle-to-cart.pt:46
-#: ./browser/viewlets/add-to-cart.pt:52
-#: ./browser/viewlets/articles-in-article.pt:77
+#: ./browser/viewlets/add-subarticle-to-cart.pt:47
+#: ./browser/viewlets/add-to-cart.pt:53
+#: ./browser/viewlets/articles-in-article.pt:78
 msgid "Sold Out"
 msgstr ""
 
@@ -331,27 +335,27 @@ msgstr ""
 msgid "State:"
 msgstr ""
 
-#: ./browser/template.py:324
+#: ./browser/template.py:297
 #: ./profiles/default/actions.xml
 msgid "Stock"
 msgstr ""
 
-#: ./browser/viewlets/add-to-cart.pt:41
-#: ./browser/viewlets/articles-in-article.pt:64
+#: ./browser/viewlets/add-to-cart.pt:42
+#: ./browser/viewlets/articles-in-article.pt:65
 msgid "Stock: ${stock} pcs"
 msgstr ""
 
 #: ./browser/templates/customer-info.pt:37
-#: ./browser/templates/shipping-info.pt:72
-#: ./browser/viewlets/billing-info.pt:51
+#: ./browser/viewlets/billing-and-shipping-billing-address.pt:48
+#: ./browser/viewlets/billing-and-shipping-shipping-address.pt:87
 msgid "Street Address"
 msgstr ""
 
-#: ./adapter/interface.py:319
+#: ./adapter/interface.py:327
 msgid "Street address is missing."
 msgstr ""
 
-#: ./browser/template.py:325
+#: ./browser/template.py:298
 msgid "Subtotal"
 msgstr ""
 
@@ -369,11 +373,11 @@ msgstr ""
 msgid "Total"
 msgstr ""
 
-#: ./interfaces.py:249
+#: ./interfaces.py:248
 msgid "Type"
 msgstr ""
 
-#: ./browser/viewlets/cart-articles.pt:57
+#: ./browser/viewlets/cart-articles.pt:59
 msgid "Update"
 msgstr ""
 
@@ -382,8 +386,8 @@ msgid "Use Subarticle"
 msgstr ""
 
 #: ./browser/templates/customer-info.pt:29
-#: ./browser/templates/shipping-info.pt:55
-#: ./browser/viewlets/billing-info.pt:34
+#: ./browser/viewlets/billing-and-shipping-billing-address.pt:31
+#: ./browser/viewlets/billing-and-shipping-shipping-address.pt:70
 msgid "VAT Number"
 msgstr ""
 
@@ -391,7 +395,7 @@ msgstr ""
 msgid "View Order"
 msgstr ""
 
-#: ./subscriber.py:78
+#: ./subscriber.py:75
 msgid "You need to first remove some images to add here one."
 msgstr ""
 
@@ -400,7 +404,7 @@ msgid "Your order number is ${number}."
 msgstr ""
 
 #. Default: "Add less than ${number}."
-#: ./browser/template.py:145
+#: ./browser/template.py:144
 msgid "add_less_than_number"
 msgstr ""
 
@@ -410,12 +414,12 @@ msgid "agree_with_terms"
 msgstr ""
 
 #. Default: "${title} is added to cart."
-#: ./subscriber.py:162
+#: ./subscriber.py:165
 msgid "article-added-to-cart"
 msgstr ""
 
 #. Default: "Are billing and shipping addresses same or different?"
-#: ./browser/viewlets/billing-info.pt:85
+#: ./browser/viewlets/billing-and-shipping-shipping-address.pt:22
 msgid "billing-and-shipping-same-or-different"
 msgstr ""
 
@@ -425,7 +429,7 @@ msgid "description_no_stocks_available"
 msgstr ""
 
 #. Default: "Some information is missing from addresses."
-#: ./browser/template.py:266
+#: ./browser/template.py:234
 msgid "info_missing_from_addresses"
 msgstr ""
 
@@ -435,12 +439,12 @@ msgid "link-to-order"
 msgstr ""
 
 #. Default: "You need to accept the terms to process the order."
-#: ./browser/template.py:285
+#: ./browser/template.py:258
 msgid "need_to_accept_terms"
 msgstr ""
 
 #. Default: "No more than ${quantity} can be added to cart for ${title}"
-#: ./browser/viewlet.py:255
+#: ./browser/viewlet.py:262
 msgid "no_more_than_quantity"
 msgstr ""
 
@@ -462,12 +466,12 @@ msgstr ""
 #. Default: "Order Number: ${number}"
 #: ./browser/templates/order-mail-template.pt:18
 #: ./browser/viewlets/cart-content.pt:5
-#: ./subscriber.py:111
+#: ./subscriber.py:108
 msgid "order-number"
 msgstr ""
 
 #. Default: "The order was processed but we could not send e-mail to you successfully. Please consult the shop owner."
-#: ./subscriber.py:154
+#: ./subscriber.py:157
 msgid "order-processed-but"
 msgstr ""
 
@@ -491,10 +495,15 @@ msgstr ""
 msgid "order-updated"
 msgstr ""
 
-#: ./browser/viewlets/add-subarticle-to-cart.pt:33
-#: ./browser/viewlets/add-to-cart.pt:36
-#: ./browser/viewlets/articles-in-article.pt:113
+#: ./browser/viewlets/add-subarticle-to-cart.pt:34
+#: ./browser/viewlets/add-to-cart.pt:37
+#: ./browser/viewlets/articles-in-article.pt:115
 msgid "pcs"
+msgstr ""
+
+#. Default: "Please wait while processing your order..."
+#: ./browser/viewlets/confirmation-checkout.pt:24
+msgid "processing_message"
 msgstr ""
 
 #. Default: "We also recommend the following articles."
@@ -508,17 +517,17 @@ msgid "stock_of_article"
 msgstr ""
 
 #. Default: "Subtract less than ${number}."
-#: ./browser/template.py:159
+#: ./browser/template.py:158
 msgid "subtract_less_than_number"
 msgstr ""
 
 #. Default: "Successfully added ${number} pc(s)."
-#: ./browser/template.py:149
+#: ./browser/template.py:148
 msgid "successfully_added_number"
 msgstr ""
 
 #. Default: "Successfully subtracted ${number} pc(s)."
-#: ./browser/template.py:163
+#: ./browser/template.py:162
 msgid "successfully_subtracted_number"
 msgstr ""
 

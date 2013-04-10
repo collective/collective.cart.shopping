@@ -1,6 +1,5 @@
 from collective.cart.shopping.browser.viewlet import BillingAndShippingShippingMethodsViewlet
 from collective.cart.shopping.tests.base import IntegrationTestCase
-from zope.publisher.browser import TestRequest
 
 import mock
 
