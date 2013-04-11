@@ -41,12 +41,12 @@ setup(
         'collective.cart.shipping',
         'five.grok',
         'five.pt',
-        'hexagonit.testing',
         'plone.app.relationfield',
         'plone.app.textfield',
         'plone.directives.form',
         'plone.namedfile [blobs]',
         'setuptools'],
+    extras_require={'test': ['hexagonit.testing']},
     entry_points="""
     # -*- Entry points: -*-
 
