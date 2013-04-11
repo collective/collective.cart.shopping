@@ -113,17 +113,17 @@ Fill Billing Info::
     >>> print browser.bycss('#confirmation-checkout')
     --- 1 ---
     <section id="confirmation-checkout"><script type="text/javascript">
-    jQuery(
-    function(){
+    (function($) {
+    $(document).ready(function() {
     $('.checkout').click(wait_processing);
-    }
-    );
+    });
     function wait_processing(){
     if($('#accept-terms').attr('checked')) {
     $('#processing_message').css('display', 'block');
     $('.checkout').attr("disabled");
     }
     }
+    })(jQuery);
     </script><form method="post" action="http://nohost/plone/shop/@@thanks">
     <input type="hidden" name="_authenticator" value="..."><p id="processing_message">Please wait while processing your order...</p>
     <button class="buttons shopping-button back" name="form.buttons.back" value="form.buttons.back" type="submit">Back</button>

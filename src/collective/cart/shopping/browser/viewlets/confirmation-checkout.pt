@@ -3,17 +3,17 @@
   i18n:domain="collective.cart.shopping">
 
   <script type="text/javascript">
-    jQuery(
-      function(){
+    (function($) {
+      $(document).ready(function() {
         $('.checkout').click(wait_processing);
+      });
+      function wait_processing(){
+        if($('#accept-terms').attr('checked')) {
+          $('#processing_message').css('display', 'block');
+          $('.checkout').attr("disabled");
+        }
       }
-    );
-    function wait_processing(){
-      if($('#accept-terms').attr('checked')) {
-        $('#processing_message').css('display', 'block');
-        $('.checkout').attr("disabled");
-      }
-    }
+    })(jQuery);
   </script>
 
   <form

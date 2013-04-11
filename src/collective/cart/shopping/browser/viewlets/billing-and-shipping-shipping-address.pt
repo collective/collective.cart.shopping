@@ -1,21 +1,24 @@
 <script type="text/javascript">
-  jQuery(function(){
-    $('#different').click(different);
-    $('#same').click(same);
-    if($('#different').attr('selected')) {
-      $('#shipping-address').css('display', 'block');
-    };
-  });
-  function different(){
-    $('#shipping-address').css('display', 'block');
-    $('#shipping-address span').css('display', 'inline');
-    $('#shipping-address input.required').attr('required', 'required');
-  }
-  function same(){
-    $('#shipping-address').css('display', 'none');
-    $('#shipping-address span').css('display', 'none');
-    $('#shipping-address input.required').removeAttr('required');
-  }
+  (function($) {
+    $(document).ready(function() {
+      $('#billing-and-shipping-same-or-different > select').change(function(){
+        var value = $('#billing-and-shipping-same-or-different > select').val();
+        if (value == 'different') {
+          $('#shipping-address').css('display', 'block');
+          $('#shipping-address span').css('display', 'inline');
+          $('#shipping-address input.required').attr('required', 'required');
+        }
+        if (value == 'same') {
+          $('#shipping-address').css('display', 'none');
+          $('#shipping-address span').css('display', 'none');
+          $('#shipping-address input.required').removeAttr('required');
+        }
+      });
+      if($('#different').attr('selected')) {
+        $('#shipping-address').css('display', 'block');
+      };
+    })
+  })(jQuery);
 </script>
 
 <section i18n:domain="collective.cart.shopping" id="billing-and-shipping-same-or-different">
