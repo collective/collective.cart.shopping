@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-04-10 13:03+0000\n"
+"POT-Creation-Date: 2013-04-11 10:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,6 +42,10 @@ msgstr ""
 
 #: ./browser/templates/stock.pt:64
 msgid "Add New Stock"
+msgstr ""
+
+#: ./browser/viewlets/add-to-cart.pt:44
+msgid "Add To Cart"
 msgstr ""
 
 #: ./profiles/default/types/collective.cart.shopping.ArticleContainer.xml
@@ -326,7 +330,7 @@ msgid "Show list of articles."
 msgstr ""
 
 #: ./browser/viewlets/add-subarticle-to-cart.pt:47
-#: ./browser/viewlets/add-to-cart.pt:53
+#: ./browser/viewlets/add-to-cart.pt:52
 #: ./browser/viewlets/articles-in-article.pt:78
 msgid "Sold Out"
 msgstr ""

@@ -43,7 +43,6 @@
     </section>
     <button
       class="shopping-button update"
-      i18n:domain="collective.cart.core"
       i18n:translate=""
       name="form.buttons.AddToCart"
       tal:attributes="value viewlet/uuid"
