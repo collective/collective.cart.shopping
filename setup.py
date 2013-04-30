@@ -11,7 +11,7 @@ long_description = (
 
 setup(
     name='collective.cart.shopping',
-    version='0.5.0.5',
+    version='0.5.0.6',
     description="Shopping site suit for Plone.",
     long_description=long_description,
     classifiers=[
@@ -31,7 +31,6 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'Products.CMFPlone',
         'collective.behavior.discount',
         'collective.behavior.size',
         'collective.behavior.sku',
