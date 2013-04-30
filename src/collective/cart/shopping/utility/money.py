@@ -1,13 +1,12 @@
 from collective.cart.shopping.interfaces import IMoneyUtility
 from collective.cart.shopping.interfaces import IPriceUtility
 from decimal import Decimal
-from five import grok
 from moneyed import Money
 from zope.component import getUtility
 from zope.interface import implements
 
 
-class MoneyUtility(grok.GlobalUtility):
+class MoneyUtility(object):
     """Utility for Money"""
     implements(IMoneyUtility)
 

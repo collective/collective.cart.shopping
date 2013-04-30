@@ -1,0 +1,15 @@
+<section
+  id="check-out-buttons"
+  i18n:domain="collective.cart.shopping"
+  tal:condition="view/available">
+  <button
+    tal:attributes="
+      class button/class;
+      name button/name;
+      value button/value;
+    "
+    tal:content="button/title"
+    tal:repeat="button view/buttons"
+    type="submit"
+    />
+</section>

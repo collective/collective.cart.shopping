@@ -10,9 +10,9 @@ class TestCase(unittest.TestCase):
     @mock.patch('collective.cart.shopping.subscriber.IStatusMessage')
     @mock.patch('collective.cart.shopping.subscriber.getToolByName')
     @mock.patch('collective.cart.shopping.subscriber.getUtility')
-    @mock.patch('collective.cart.shopping.subscriber.ICartAdapter')
+    @mock.patch('collective.cart.shopping.subscriber.IOrderAdapter')
     @mock.patch('collective.cart.shopping.subscriber.IShoppingSite')
-    def test_notify_ordered(self, IShoppingSite, ICartAdapter, getUtility, getToolByName, IStatusMessage):
+    def test_notify_ordered(self, IShoppingSite, IOrderAdapter, getUtility, getToolByName, IStatusMessage):
         context = mock.Mock()
         event = mock.Mock()
         event.action = 'ordered'

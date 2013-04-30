@@ -1,7 +1,6 @@
 from collective.cart.shopping.interfaces import IPriceUtility
 from decimal import Decimal
 from decimal import ROUND_HALF_UP
-from five import grok
 from zope.interface import implements
 
 
@@ -41,6 +40,7 @@ class PriceUtility(object):
             if self.type == "float":
                 return float(price)
 
-grok.global_utility(PriceUtility("float"), IPriceUtility, name="float", direct=True)
-grok.global_utility(PriceUtility("decimal"), IPriceUtility, name="decimal", direct=True)
-grok.global_utility(PriceUtility("string"), IPriceUtility, name="string", direct=True)
+
+float_price = PriceUtility("float")
+decimal_price = PriceUtility("decimal")
+string_price = PriceUtility("string")

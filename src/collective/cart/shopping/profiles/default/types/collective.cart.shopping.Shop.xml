@@ -20,8 +20,8 @@
   </property>
 
   <!-- Schema, class and security -->
-  <property name="schema">collective.cart.shopping.interfaces.IShop</property>
-  <property name="klass">plone.dexterity.content.Container</property>
+  <property name="schema">collective.cart.shopping.schema.ShopSchema</property>
+  <property name="klass">collective.cart.shopping.content.Shop</property>
   <property name="add_permission">collective.cart.shopping.AddShop</property>
 
   <!-- enabled behaviors -->

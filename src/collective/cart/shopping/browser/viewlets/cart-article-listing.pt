@@ -1,0 +1,81 @@
+<section
+  id="cart-articles"
+  i18n:domain="collective.cart.shopping"
+  tal:condition="view/articles">
+  <table>
+    <tbody>
+        <tr tal:repeat="item view/articles">
+          <td class="image">
+            <a
+              tal:condition="item/url"
+              tal:attributes="
+                href item/url;
+                title item/title">
+              <img tal:attributes="src item/image_url" />
+            </a>
+            <img
+                tal:condition="not: item/url"
+                tal:attributes="src item/image_url"
+                />
+          </td>
+          <td class="name">
+            <h3>
+              <a
+                tal:condition="item/url"
+                tal:attributes="href item/url"
+                tal:content="item/title"
+                />
+              <span
+                tal:condition="not: item/url"
+                tal:replace="item/title"
+                />
+            </h3>
+            <p tal:content="item/description" />
+          </td>
+          <td class="price-and-quantity">
+            <section>
+              <input
+                id="quantity"
+                min="0"
+                type="number"
+                tal:attributes="
+                  max item/quantity_max;
+                  maxlength item/quantity_size;
+                  name item/id;
+                  size item/quantity_size;
+                  value item/quantity"
+                />
+                &nbsp;&times;&nbsp;
+              <span class="gross" tal:content="item/gross" />
+            </section>
+            <span class="vat-rate" i18n:translate="">
+              Including VAT: <span i18n:name="vat_rate" tal:replace="item/vat_rate" />
+            </span>
+            <section class="buttons">
+              <button
+                class="shopping-button update"
+                i18n:translate=""
+                name="form.buttons.UpdateArticle"
+                tal:attributes="value item/id"
+                type="submit"
+                >
+                Update
+              </button>
+              <button
+                class="shopping-button remove"
+                i18n:translate=""
+                name="form.buttons.RemoveArticle"
+                tal:attributes="value item/id"
+                type="submit"
+                >
+                Remove
+              </button>
+            </section>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+</section>
+<p i18n:domain="collective.cart.core" i18n:translate="" id="cart-is-empty" tal:condition="not: view/articles">
+  Cart is empty.
+</p>

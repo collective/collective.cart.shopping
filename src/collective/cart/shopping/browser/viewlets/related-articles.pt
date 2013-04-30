@@ -1,9 +1,9 @@
 <section
   i18n:domain="collective.cart.shopping"
   id="related-articles"
-  tal:condition="viewlet/articles">
+  tal:condition="view/articles">
   <p i18n:translate="recommendation-text">We also recommend the following articles.</p>
-  <article tal:repeat="item viewlet/articles">
+  <article tal:repeat="item view/articles">
     <a tal:attributes="href item/url">
       <img tal:attributes="
         src item/image_url;

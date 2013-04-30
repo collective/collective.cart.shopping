@@ -1,7 +1,7 @@
-<section i18n:domain="collective.cart.shopping" id="articles-in-article" tal:condition="viewlet/articles">
+<section i18n:domain="collective.cart.shopping" id="articles-in-article" tal:condition="view/articles">
   <table>
     <tbody>
-      <tr tal:attributes="id item/id" tal:repeat="item viewlet/articles">
+      <tr tal:attributes="id item/id" tal:repeat="item view/articles">
         <td class="image">
           <a
             tal:condition="item/url"
@@ -25,15 +25,10 @@
           <p tal:content="item/description" />
         </td>
 
-        <td class="price-and-quantity">
-          <section
-            id="add-to-cart"
-            tal:condition="item/addable_to_cart">
-            <form
-              method="post"
-              tal:attributes="action context/@@plone_context_state/current_base_url"
-              tal:condition="not: item/soldout">
-              <span tal:replace="structure context/@@authenticator/authenticator" />
+        <td class="price-and-quantity" tal:define="soldout item/soldout; subarticles item/subarticles;">
+          <section id="add-to-cart" tal:attributes="class item/id">
+            <tal:block
+              tal:condition="python: not soldout and not subarticles">
               <input
                 id="quantity"
                 min="1"
@@ -47,9 +42,9 @@
                   size item/quantity_size"
                 />
                 &nbsp;&times;&nbsp;
-              <span class="gross" tal:content="item/locale_gross" />
-              <section id="vat" i18n:translate="">
-                Including VAT: <span i18n:name="vat" tal:replace="item/vat" />
+              <span class="gross" tal:content="item/gross" />
+              <section id="vat-rate" i18n:translate="">
+                Including VAT: <span i18n:name="vat_rate" tal:replace="item/vat_rate" />
               </section>
               <section
                 id="discount"
@@ -58,7 +53,7 @@
                   (Discount valid till <span i18n:name="discount_end" tal:replace="item/discount_end" />)
                 </p>
                 <p id="normal-price" i18n:translate="">
-                  Normal Price: <span i18n:name="normal-price" tal:replace="item/locale_money" />
+                  Normal Price: <span i18n:name="normal-price" tal:replace="item/money" />
                 </p>
               </section>
               <section id="stock" i18n:translate="">
@@ -74,32 +69,19 @@
                   type="submit"
                   >Add To Cart</button>
               </section>
-            </form>
-            <p
-              class="sold-out"
-              i18n:translate=""
-              tal:condition="item/soldout">
-              Sold Out
-            </p>
-          </section>
-          <section
-            id="add-subarticle-to-cart"
-            tal:condition="item/subarticle_addable_to_cart">
-            <form
-              method="post"
-              tal:attributes="action context/@@plone_context_state/current_base_url"
-              tal:condition="not: item/soldout">
-              <span tal:replace="structure context/@@authenticator/authenticator" />
+            </tal:block>
+            <tal:block
+              tal:condition="python: not soldout and subarticles">
               <select id="subarticle" name="subarticle">
                 <option
                   tal:attributes="value sub/uuid"
                   tal:repeat="sub item/subarticles">
                   <span tal:replace="sub/title" />
-                  <span tal:replace="sub/locale_gross" />
+                  <span tal:replace="sub/gross" />
                 </option>
               </select>
-              <section id="vat" i18n:translate="">
-                Including VAT: <span i18n:name="vat" tal:replace="item/vat" />
+              <section id="vat-rate" i18n:translate="">
+                Including VAT: <span i18n:name="vat_rate" tal:replace="item/vat_rate" />
               </section>
               <section id="quantity">
                 <input
@@ -124,7 +106,7 @@
                 value="form.buttons.AddToCart"
                 i18n:translate=""
                 >Add To Cart</button>
-            </form>
+            </tal:block>
             <p
               class="sold-out"
               i18n:translate=""

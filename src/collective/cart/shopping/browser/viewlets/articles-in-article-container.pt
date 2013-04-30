@@ -1,0 +1,28 @@
+<section
+  id="collective-cart-shopping-articles-in-article-container"
+  i18n:domain="collective.cart.shopping"
+  tal:condition="view/articles">
+  <article tal:attributes="class item/class" tal:repeat="item view/articles">
+    <a tal:attributes="href item/url">
+      <img tal:attributes="
+        src string:${item/url}/@@images/image;
+        title item/title" />
+    </a>
+    <div tal:condition="python: item['class'] == 'discount'" class="discount" i18n:translate="">Discount</div>
+    <div class="text">
+      <h1>
+        <a
+          tal:attributes="href item/url"
+          tal:content="item/title" />
+      </h1>
+      <p>
+        <a
+          tal:attributes="href item/url"
+          tal:content="item/gross" />
+        <span class="original-money"
+          tal:condition="item/discount-available"
+          tal:content="item/money" />
+      </p>
+    </div>
+  </article>
+</section>

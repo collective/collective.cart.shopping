@@ -1,3 +1,4 @@
+from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from collective.cart.core.tests.base import IntegrationTestCase as BaseIntegrationTestCase
 from decimal import Decimal
@@ -12,7 +13,6 @@ from zope.component import getMultiAdapter
 from zope.interface import directlyProvides
 from zope.publisher.browser import TestRequest
 
-import mock
 import unittest
 
 
@@ -65,14 +65,6 @@ class IntegrationTestCase(BaseIntegrationTestCase):
 
     layer = INTEGRATION_TESTING
 
-    def create_viewlet(self, viewlet, context=None, view=None, manager=None):
-        if context is None:
-            context = self.portal
-        request = TestRequest()
-        directlyProvides(request, IAttributeAnnotatable)
-        request.set = mock.Mock()
-        return viewlet(context, request, view, manager)
-
     def create_multiadapter(self, interface, context=None, obj=None):
         if context is None:
             context = self.portal
@@ -88,9 +80,8 @@ class IntegrationTestCase(BaseIntegrationTestCase):
     def money(self, price, currency='EUR'):
         return Money(Decimal(price), currency)
 
-    @property
-    def ulocalized_time(self):
-        return getToolByName(self.portal, 'translation_service').ulocalized_time
+    def toLocalizedTime(self):
+        return self.portal.restrictedTraverse('@@plone').toLocalizedTime(DateTime())
 
 
 class FunctionalTestCase(unittest.TestCase):

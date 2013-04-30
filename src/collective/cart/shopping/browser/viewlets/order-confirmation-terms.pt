@@ -1,0 +1,15 @@
+<section
+  i18n:domain="collective.cart.shopping"
+  id="terms"
+  tal:condition="view/message"
+  tal:define="message view/message">
+  <h1 tal:content="message/title" />
+  <p tal:content="message/description" />
+  <section id="terms-text" tal:condition="message/text">
+    <div tal:replace="structure message/text" />
+  </section>
+  <input type="checkbox" name="accept-terms" id="accept-terms" value="accept" />
+  <label class="formQuestion"><span:tal i18n:translate="agree_with_terms">I agree with the terms.</span:tal>
+    <span class="formHelp" i18n:translate="">Check this box to process your order.</span>
+  </label>
+</section>

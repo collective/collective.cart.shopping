@@ -1,21 +1,27 @@
+# -*- coding: utf-8 -*-
+from collective.cart.shopping.browser.interfaces import IArticleContainerView
 from collective.cart.shopping.browser.template import ArticleContainerView
+from collective.cart.shopping.tests.base import IntegrationTestCase
 
 import unittest
 
 
-class ArticleContainerViewTestCase(unittest.TestCase):
+class ArticleContainerViewTestCase(IntegrationTestCase):
     """TestCase for ArticleContainerView"""
 
     def test_subclass(self):
-        from collective.cart.shopping.browser.template import BaseView
-        self.assertTrue(issubclass(ArticleContainerView, BaseView))
+        from Products.Five.browser import BrowserView
+        self.assertTrue(issubclass(ArticleContainerView, BrowserView))
+        from plone.app.layout.globals.interfaces import IViewView
+        self.assertTrue(issubclass(IArticleContainerView, IViewView))
 
-    def test_context(self):
-        from collective.cart.shopping.interfaces import IArticleContainer
-        self.assertTrue(getattr(ArticleContainerView, 'grokcore.component.directive.context'), IArticleContainer)
+    def test_verifyObject(self):
+        from zope.interface.verify import verifyObject
+        context = self.create_content('collective.cart.shopping.ArticleContainer')
+        instance = self.create_view(ArticleContainerView, context)
+        self.assertTrue(verifyObject(IArticleContainerView, instance))
 
-    def test_name(self):
-        self.assertTrue(getattr(ArticleContainerView, 'grokcore.component.directive.name'), 'view')
-
-    def test_template(self):
-        self.assertTrue(getattr(ArticleContainerView, 'grokcore.view.directive.template'), 'article-container')
+    def test___call__(self):
+        context = self.create_content('collective.cart.shopping.ArticleContainer')
+        instance = self.create_view(ArticleContainerView, context)
+        self.assertEqual(instance.__call__.filename.split('/')[-1], 'article-container.pt')

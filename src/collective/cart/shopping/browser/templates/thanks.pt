@@ -1,20 +1,22 @@
 <html
   i18n:domain="collective.cart.shopping"
   lang="en"
-  metal:use-macro="context/main_template/macros/master"
+  metal:use-macro="here/main_template/macros/master"
   xmlns:i18n="http://xml.zope.org/namespaces/i18n"
   xmlns:metal="http://xml.zope.org/namespaces/metal"
-  xmlns:tal="http://xml.zope.org/namespaces/tal">
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
   <body>
-    <metal:main fill-slot="main">
-      <section class="collective-cart-shopping">
-        <h1 class="documentFirstHeading" tal:condition="view/message" tal:content="view/message/title" />
-        <h1 class="documentFirstHeading" tal:condition="not: view/message" i18n:translate="">Thank you for the order.</h1>
-        <p class="documentDescription" tal:condition="view/message" tal:content="view/message/description" />
-        <p i18n:translate="">Your order number is <span id="number" i18n:name="number" tal:content="view/cart_id" />.</p>
-        <div  tal:condition="view/message" tal:replace="structure view/message/text" />
-        <div tal:replace="structure provider:collective.cart.shopping.thanks.belowcontent.manager" />
-      </section>
-    </metal:main>
+    <metal:title fill-slot="content-title">
+      <h1 class="documentFirstHeading" tal:condition="view/title" tal:content="view/title" />
+      <h1 class="documentFirstHeading" tal:condition="not: view/title" i18n:translate="">Thank you for the order.</h1>
+    </metal:title>
+    <metal:description fill-slot="content-description">
+      <div class="documentDescription" tal:condition="view/description" tal:content="view/description" />
+    </metal:description>
+    <metal:text fill-slot="content-core">
+      <p i18n:translate="">Your order number is <span id="number" i18n:name="number" tal:content="view/order_id" />.</p>
+      <div  tal:condition="view/message" tal:define="message view/message" tal:replace="structure message/text" />
+    </metal:text>
   </body>
 </html>

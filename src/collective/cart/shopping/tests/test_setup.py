@@ -249,7 +249,7 @@ class TestCase(IntegrationTestCase):
     def test_types__collective_cart_core_Article__schema(self):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.core.Article')
-        self.assertEqual(ctype.schema, 'collective.cart.shopping.interfaces.IArticle')
+        self.assertEqual(ctype.schema, 'collective.cart.shopping.schema.ArticleSchema')
 
     def test_types__collective_cart_core_Article__behaviors(self):
         types = getToolByName(self.portal, 'portal_types')
@@ -315,12 +315,12 @@ class TestCase(IntegrationTestCase):
     def test_types__collective_cart_shopping_Shop__schema(self):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.shopping.Shop')
-        self.assertEqual(ctype.schema, 'collective.cart.shopping.interfaces.IShop')
+        self.assertEqual(ctype.schema, 'collective.cart.shopping.schema.ShopSchema')
 
     def test_types__collective_cart_shopping_Shop__klass(self):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.shopping.Shop')
-        self.assertEqual(ctype.klass, 'plone.dexterity.content.Container')
+        self.assertEqual(ctype.klass, 'collective.cart.shopping.content.Shop')
 
     def test_types__collective_cart_shopping_Shop__add_permission(self):
         types = getToolByName(self.portal, 'portal_types')
@@ -468,12 +468,12 @@ class TestCase(IntegrationTestCase):
     def test_types__collective_cart_shopping_ArticleContainer__schema(self):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
-        self.assertEqual(ctype.schema, 'collective.cart.shopping.interfaces.IArticleContainer')
+        self.assertEqual(ctype.schema, 'collective.cart.shopping.schema.ArticleContainerSchema')
 
     def test_types__collective_cart_shopping_ArticleContainer__klass(self):
         types = getToolByName(self.portal, 'portal_types')
         ctype = types.getTypeInfo('collective.cart.shopping.ArticleContainer')
-        self.assertEqual(ctype.klass, 'plone.dexterity.content.Container')
+        self.assertEqual(ctype.klass, 'collective.cart.shopping.content.ArticleContainer')
 
     def test_types__collective_cart_shopping_ArticleContainer__add_permission(self):
         types = getToolByName(self.portal, 'portal_types')
@@ -572,31 +572,40 @@ class TestCase(IntegrationTestCase):
         action = ctype.getActionObject('object/edit')
         self.assertEqual(action.permissions, (u'Modify portal content',))
 
-    def test_viewlets__order__collective_cart_shopping_billing_shipping_manager(self):
+    def test_viewlets__order__collective_cart_core_viewlet_manager_base_form(self):
         from zope.component import getUtility
         from plone.app.viewletmanager.interfaces import IViewletSettingsStorage
         storage = getUtility(IViewletSettingsStorage)
-        manager = "collective.cart.shopping.billing.shipping.manager"
+        manager = "collective.cart.core.viewlet-manager.base-form"
         skinname = "*"
         for viewlet in (
-            u'collective.cart.shopping.billing-and-shipping-billing-address',
-            u'collective.cart.shopping.billing-and-shipping-shipping-address',
-            u'collective.cart.shopping.billing-and-shipping-shipping-methods',
-            u'collective.cart.shopping.billing-and-shipping-check-out'):
+            u'collective.cart.shopping.viewlet.add-to-cart',
+            u'collective.cart.shopping.viewlet.body-text',
+            u'collective.cart.shopping.viewlet.articles-in-article',
+            u'collective.cart.shopping.viewlet.add-subtract-stock',
+            u'collective.cart.shopping.viewlet.stock-listing',
+            u'collective.cart.core.viewlet.cart-article-listing',
+            u'collective.cart.shopping.viewlet.cart-articles-total',
+            u'collective.cart.shopping.viewlet.cart-check-out-buttons',
+            u'collective.cart.shopping.viewlet.billing-and-shipping-billing-address',
+            u'collective.cart.shopping.viewlet.billing-and-shipping-shipping-address',
+            u'collective.cart.shopping.viewlet.billing-and-shipping-shipping-methods',
+            u'collective.cart.shopping.viewlet.billing-and-shipping-check-out-buttons',
+            u'collective.cart.shopping.viewlet.order-confirmation-cart-article-listing',
+            u'collective.cart.shopping.viewlet.order-confirmation-shipping-method',
+            u'collective.cart.shopping.viewlet.order-confirmation-total',
+            u'collective.cart.shopping.viewlet.order-confirmation-terms',
+            u'collective.cart.shopping.viewlet.order-confirmation-check-out-buttons'):
             self.assertIn(viewlet, storage.getOrder(manager, skinname))
 
-    def test_viewlets__order__collective_cart_shopping_order_confirmation_manager(self):
-        from zope.component import getUtility
-        from plone.app.viewletmanager.interfaces import IViewletSettingsStorage
-        storage = getUtility(IViewletSettingsStorage)
-        manager = "collective.cart.shopping.order.confirmation.manager"
-        skinname = "*"
-        for viewlet in (
-            u'collective.cart.shopping.confirmation-articles',
-            u'collective.cart.shopping.confirmation-shipping-method',
-            u'collective.cart.shopping.confirmation-total',
-            u'collective.cart.shopping.confirmation-checkout'):
-            self.assertIn(viewlet, storage.getOrder(manager, skinname))
+    # def test_viewlets__hidden__plone_belowcontenttitle(self):
+    #     from zope.component import getUtility
+    #     from plone.app.viewletmanager.interfaces import IViewletSettingsStorage
+    #     storage = getUtility(IViewletSettingsStorage)
+    #     manager = "plone.belowcontenttitle"
+    #     skinname = "*"
+    #     for viewlet in (u'collective.cart.core.viewlet.add-to-cart',):
+    #         self.assertIn(viewlet, storage.getHidden(manager, skinname))
 
     def test_viewlets__hidden__plone_abovecontent(self):
         from zope.component import getUtility

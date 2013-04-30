@@ -17,8 +17,8 @@
   <property name="allowed_content_types" />
 
   <!-- Schema, class and security -->
-  <property name="schema">collective.cart.shopping.interfaces.ICustomerInfo</property>
-  <property name="klass">plone.dexterity.content.Container</property>
+  <property name="schema">collective.cart.shopping.schema.CustomerInfoSchema</property>
+  <property name="klass">collective.cart.shopping.content.CustomerInfo</property>
   <property name="add_permission">collective.cart.shopping.AddCustomerInfo</property>
 
   <!-- enabled behaviors -->

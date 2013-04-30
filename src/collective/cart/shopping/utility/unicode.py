@@ -1,14 +1,13 @@
 from Products.CMFPlone.utils import safe_unicode
 from collective.cart.shopping.interfaces import IUnicodeUtility
-from five import grok
 from zope.interface import implements
 
 
-class UnicodeUtility(grok.GlobalUtility):
+class UnicodeUtility(object):
     implements(IUnicodeUtility)
 
     def safe_unicode(self, value, encoding=None):
-        """Returns unicode of value.
+        """Returns unicode of value
 
         :param value: Basestring
         :type value: basestring
@@ -23,7 +22,7 @@ class UnicodeUtility(grok.GlobalUtility):
         return safe_unicode(value)
 
     def fullname(self, address, encoding=None):
-        """Format full name
+        """Returns unicode formated full name
 
         :param address: Address information
         :type address: dictionary
@@ -37,7 +36,7 @@ class UnicodeUtility(grok.GlobalUtility):
             self.safe_unicode(address['last_name'], encoding=encoding))
 
     def address(self, address, encoding=None):
-        """Format address
+        """Returns unicode formated address
 
         :param address: Address information
         :type address: dictionary

@@ -1,29 +1,27 @@
 <section i18n:domain="collective.cart.shopping" id="shipping-methods">
-  <dl class="field shipping-methods" tal:condition="viewlet/shipping_methods">
+  <dl class="field shipping-methods" tal:condition="view/shipping_methods">
     <dt>
       <tal:label i18n:translate="">Shipping Method</tal:label>
       <span
         class="required"
         i18n:domain="plone"
         i18n:attributes="title"
-        tal:condition="not: viewlet/single_shipping_method"
+        tal:condition="not: view/single_shipping_method"
         title="title_required"> </span>
     </dt>
-    <dd>
-      <div tal:repeat="item viewlet/shipping_methods">
-        <label>
-          <input
-            name="shipping-method"
-            type="radio"
-            required="required"
-            tal:attributes="
-              checked item/checked;
-              value item/uuid"
-            tal:condition="not: viewlet/single_shipping_method" />
-          <span tal:replace="item/title" />
-        </label>
-        <p tal:condition="item/description" tal:content="item/description" />
-      </div>
+    <dd tal:repeat="item view/shipping_methods">
+      <label>
+        <input
+          name="shipping-method"
+          type="radio"
+          required="required"
+          tal:attributes="
+            checked item/checked;
+            value item/uuid"
+          tal:condition="not: view/single_shipping_method" />
+        <span tal:replace="item/title" />
+      </label>
+      <p tal:condition="item/description" tal:content="item/description" />
     </dd>
   </dl>
 </section>

@@ -1,0 +1,43 @@
+<section id="add-subtract-stock">
+  <section
+    id="quick-add"
+    tal:define="item view/add"
+    tal:condition="item">
+    <input
+      name="quick-add"
+      type="number"
+      min="1"
+      tal:attributes="
+        max item/max;
+        size item/size" />
+    <button
+      i18n:translate=""
+      name="form.buttons.QuickAdd"
+      value="form.buttons.QuickAdd"
+      type="submit">Quick Add</button>
+  </section>
+  <section
+    id="quick-subtract"
+    tal:define="item view/subtract"
+    tal:condition="item">
+    <input
+      name="quick-subtract"
+      type="number"
+      min="1"
+      tal:attributes="
+        max item/max;
+        size item/size" />
+    <button
+      i18n:translate=""
+      name="form.buttons.QuickSubtract"
+      value="form.buttons.QuickSubtract"
+      type="submit">Quick Subtract</button>
+  </section>
+  <section id="add-new-stock">
+    <button
+      i18n:translate=""
+      name="form.buttons.AddNewStock"
+      value="form.buttons.AddNewStock"
+      type="submit">Add New Stock</button>
+  </section>
+</section>

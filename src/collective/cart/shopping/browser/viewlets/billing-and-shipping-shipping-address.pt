@@ -30,17 +30,17 @@
     <option
       i18n:translate=""
       id="same"
-      tal:attributes="selected viewlet/billing_same_as_shipping"
+      tal:attributes="selected view/billing_same_as_shipping"
       value="same">Same</option>
     <option
       i18n:translate=""
       id="different"
-      tal:attributes="selected not:viewlet/billing_same_as_shipping"
+      tal:attributes="selected not:view/billing_same_as_shipping"
       value="different">Different</option>
   </select>
 </section>
 
-<section id="shipping-address" i18n:domain="collective.cart.shopping" tal:define="info viewlet/shipping_info">
+<section id="shipping-address" i18n:domain="collective.cart.shopping" tal:define="info view/shipping_info">
   <h1 i18n:translate="">Shipping Address</h1>
   <dl class="field">
     <dt>

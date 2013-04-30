@@ -1,0 +1,3 @@
+<section id="article-body-text" tal:condition="context/text">
+  <dev tal:replace="structure context/text/output" />
+</section>

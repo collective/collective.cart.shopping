@@ -2,12 +2,10 @@
   i18n_domain="collective.cart.shopping"
   xmlns:five="http://namespaces.zope.org/five"
   xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-  xmlns:grok="http://namespaces.zope.org/grok"
   xmlns:i18n="http://namespaces.zope.org/i18n"
   xmlns:plone="http://namespaces.plone.org/plone"
   xmlns="http://namespaces.zope.org/zope">
 
-  <include package="five.pt"/>
   <include package="collective.cart.core"/>
   <include package="collective.cart.shipping"/>
   <include package="collective.behavior.discount"/>
@@ -16,10 +14,11 @@
   <include package="collective.behavior.stock"/>
   <include package="collective.behavior.vat"/>
   <include package="plone.app.relationfield"/>
+  <include package=".adapter" />
   <include package=".browser" />
+  <include package=".utility" />
   <include file="upgrades.zcml"/>
 
-  <grok:grok package="." />
   <five:registerPackage package="." initialize=".initialize" />
   <i18n:registerTranslations directory="locales" />
 
@@ -60,5 +59,13 @@
     provides=".interfaces.IStockPrice"
     title="Stock Price"
     />
+
+  <subscriber handler=".subscriber.warn_number_of_images" />
+  <subscriber handler=".subscriber.add_order_container_to_shop" />
+  <subscriber handler=".subscriber.add_shipping_method_container_to_shop" />
+  <subscriber handler=".subscriber.notify_ordered" />
+  <subscriber handler=".subscriber.add_status_message_article_added" />
+  <subscriber handler=".subscriber.return_stock_to_original_article" />
+  <subscriber handler=".subscriber.redirect_to_stock" />
 
 </configure>

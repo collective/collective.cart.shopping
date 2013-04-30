@@ -1,16 +1,17 @@
 <section
   id="add-to-cart"
   i18n:domain="collective.cart.shopping"
-  tal:condition="viewlet/available">
-  <form
-    method="post"
-    tal:attributes="action context/@@plone_context_state/current_base_url"
-    tal:condition="not: viewlet/soldout">
-    <span tal:replace="structure context/@@authenticator/authenticator" />
+  tal:condition="view/available"
+  tal:define="
+    articles view/articles;
+    soldout view/soldout;
+    subarticles view/subarticles;">
+  <tal:block
+    tal:condition="python: not soldout and not subarticles">
     <section id="money">
-      <section id="price" class="gross" tal:content="viewlet/locale_gross" />
-      <section id="vat" i18n:translate="">
-        Including VAT: <span i18n:name="vat" tal:replace="viewlet/vat" />
+      <section id="price" class="gross" tal:content="view/gross" />
+      <section id="vat-rate" i18n:translate="">
+        Including VAT: <span i18n:name="vat_rate" tal:replace="view/vat_rate" />
       </section>
     </section>
     <section id="discount" tal:condition="view/discount_end">
@@ -18,7 +19,7 @@
         (Discount valid till <span i18n:name="discount_end" tal:replace="view/discount_end" />)
       </p>
       <p id="normal-price" i18n:translate="">
-        Normal Price: <span i18n:name="normal-price" tal:replace="viewlet/locale_money" />
+        Normal Price: <span i18n:name="normal-price" tal:replace="view/money" />
       </p>
     </section>
     <section id="quantity">
@@ -28,9 +29,9 @@
         name="quantity"
         required="required"
         tal:attributes="
-          max viewlet/quantity_max;
-          maxlength viewlet/quantity_size;
-          size viewlet/quantity_size"
+          max view/quantity_max;
+          maxlength view/quantity_size;
+          size view/quantity_size"
         type="number"
         value="1"
         />
@@ -39,20 +40,59 @@
         i18n:translate="">pcs</span>
     </section>
     <section id="stock" i18n:translate="">
-      Stock: <span i18n:name="stock" tal:replace="viewlet/quantity_max" /> pcs
+      Stock: <span i18n:name="stock" tal:replace="view/quantity_max" /> pcs
     </section>
     <button
       class="shopping-button update"
       i18n:translate=""
       name="form.buttons.AddToCart"
-      tal:attributes="value viewlet/uuid"
+      tal:attributes="value view/uuid"
       type="submit"
       >Add To Cart</button>
-  </form>
+  </tal:block>
+  <tal:block
+    tal:condition="subarticles">
+    <select id="subarticle" name="subarticle">
+      <option
+        tal:attributes="value item/uuid"
+        tal:repeat="item subarticles">
+        <span tal:replace="item/title" />
+        <span tal:replace="item/gross" />
+      </option>
+    </select>
+    <section id="vat-rate" i18n:translate="">
+      Including VAT: <span i18n:name="vat_rate" tal:replace="view/vat_rate" />
+    </section>
+    <section id="quantity">
+      <label
+        i18n:translate="">Quantity</label>
+      <input
+        min="1"
+        name="quantity"
+        required="required"
+        value="1"
+        type="number"
+        tal:attributes="
+          maxlength view/quantity_size;
+          size view/quantity_size"
+        />
+      <span
+        id="pcs"
+        i18n:translate="">pcs</span>
+    </section>
+    <button
+      class="shopping-button update"
+      type="submit"
+      name="form.buttons.AddToCart"
+      value="form.buttons.AddToCart"
+      i18n:translate=""
+      i18n:domain="collective.cart.core"
+      >Add To Cart</button>
+  </tal:block>
   <p
     class="sold-out"
     i18n:translate=""
-    tal:condition="viewlet/soldout">
+    tal:condition="soldout">
     Sold Out
   </p>
 </section>

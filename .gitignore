@@ -4,5 +4,5 @@
 *.pyc
 .long-description.html
 build
-collective/cart/shopping/docs/_build/*
+src/collective/cart/shopping/docs/_build/*
 dist

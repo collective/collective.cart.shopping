@@ -16,11 +16,14 @@ class UnicodeUtilityTestCase(unittest.TestCase):
     def test_subclass(self):
         from zope.interface import Interface
         self.assertTrue(issubclass(IUnicodeUtility, Interface))
-        from five.grok import GlobalUtility
-        self.assertTrue(issubclass(UnicodeUtility, GlobalUtility))
+        self.assertTrue(issubclass(UnicodeUtility, object))
 
     def test_instance(self):
         self.assertIsInstance(getUtility(IUnicodeUtility), UnicodeUtility)
+
+    def test_verifyObject(self):
+        from zope.interface.verify import verifyObject
+        self.assertTrue(verifyObject(IUnicodeUtility, getUtility(IUnicodeUtility)))
 
     def test_safe_unicode(self):
         utility = getUtility(IUnicodeUtility)

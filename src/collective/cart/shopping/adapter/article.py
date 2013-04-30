@@ -12,87 +12,70 @@ from collective.cart.shopping.interfaces import IShoppingSite
 from datetime import date
 from datetime import datetime
 from datetime import time
-from five import grok
 from plone.uuid.interfaces import IUUID
+from zope.component import adapts
 from zope.component import getUtility
+from zope.interface import implements
 
 
 class ArticleAdapter(BaseArticleAdapter):
-    """Adapter for Article"""
-    grok.context(IArticle)
-    grok.provides(IArticleAdapter)
+    """Adapter for content type: collective.cart.core.Article"""
+    adapts(IArticle)
+    implements(IArticleAdapter)
 
-    @property
-    def addable_to_cart(self):
-        """True if the Article is addable to cart."""
-        return super(self.__class__, self).addable_to_cart and not self.context.use_subarticle and not self.articles_in_article
+    def articles(self, salable=None, use_subarticle=None):
+        """Returns brain of articles located directly under context"""
+        query = {}
+        if salable is not None:
+            query['salable'] = salable
+        if use_subarticle is not None:
+            query['use_subarticle'] = use_subarticle
+        return self.get_brains(IArticle, depth=1, sort_on='getObjPositionInParent', **query)
 
-    @property
-    def articles_in_article(self):
-        """Articles in Article which is not optional subarticle."""
-        brains = self.get_brains(IArticle, depth=1, sort_on='getObjPositionInParent')
-        return not self.context.use_subarticle and brains or []
-
-    @property
-    def subarticles(self):
-        return self.get_brains(IArticle, depth=1, salable=True, sort_on='getObjPositionInParent', use_subarticle=False)
-
-    @property
-    def subarticles_option(self):
-        """Subarticles for form select option."""
-        subarticles = []
-        for brain in self.subarticles:
-            obj = brain.getObject()
-            if not IArticleAdapter(obj).soldout:
-                subarticles.append(obj)
-        res = []
-        for obj in subarticles:
-            article = IArticleAdapter(obj)
-            res.append({
-                'title': safe_unicode(obj.Title()),
-                'locale_gross': article.locale_gross,
-                'uuid': IUUID(obj),
-            })
-        return res
-
-    @property
-    def subarticle_addable_to_cart(self):
-        """True if the SubArticle is addable to cart."""
-        return IShoppingSite(self.context).shop and self.context.use_subarticle
-
-    @property
-    def subarticle_soldout(self):
-        """True or False for subarticle sold out."""
-        if self.subarticles:
-            stocks = [
-                IStock(subarticle.getObject()).stock for subarticle in self.subarticles]
+    def soldout(self):
+        """Returns True if soldout else False."""
+        if self.context.use_subarticle:
+            stocks = [IStock(subarticle.getObject()).stock() for subarticle in self.articles(salable=True, use_subarticle=False)]
             if sum(stocks):
                 return False
-        return True
+            else:
+                return True
 
-    @property
-    def subarticle_quantity_max(self):
-        """Minimum max quantity for all the subarticles."""
-        quantities = [
-            IArticleAdapter(subarticle.getObject()).quantity_max for subarticle in self.subarticles]
-        if quantities:
-            return min(quantities)
-        else:
-            return 0
+        return self.context.salable and not IStock(self.context).stock()
 
-    @property
+    def subarticles(self):
+        """Returns subarticles for form select option
+
+        :rtype: list
+        """
+        res = []
+        if self.context.use_subarticle:
+            subarticles = []
+            shopping_site = IShoppingSite(self.context)
+            for brain in self.articles(salable=True, use_subarticle=False):
+                obj = brain.getObject()
+                if not IArticleAdapter(obj).soldout():
+                    subarticles.append(obj)
+            for obj in subarticles:
+                res.append({
+                    'title': safe_unicode(obj.Title()),
+                    'gross': shopping_site.format_money(IArticleAdapter(obj).gross()),
+                    'uuid': IUUID(obj),
+                })
+        return res
+
     def quantity_max(self):
         """Maximum quantity which could be added to cart."""
-        stock = IStock(self.context).stock
+        stock = IStock(self.context).stock()
         reducible_quantity = IStock(self.context).reducible_quantity
 
         if stock > reducible_quantity:
             stock = reducible_quantity
 
         uuid = IUUID(self.context)
-        cart_article = IShoppingSite(self.context).get_cart_article(uuid)
-        if cart_article:
-            stock -= cart_article['quantity']
+        article = IShoppingSite(self.context).get_cart_article(uuid)
+        if article:
+            stock -= article['quantity']
 
         return stock
 
@@ -101,7 +84,6 @@ class ArticleAdapter(BaseArticleAdapter):
         """
         items['quantity'] += kwargs['quantity']
 
-    @property
     def discount_available(self):
         discount = IDiscount(self.context)
         if discount.discount_enabled:
@@ -119,51 +101,26 @@ class ArticleAdapter(BaseArticleAdapter):
         else:
             return False
 
-    @property
     def discount_end(self):
-        if self.discount_available:
-            if IDiscount(self.context).discount_end:
-                dt = datetime.combine(IDiscount(self.context).discount_end, time())
-                return self.ulocalized_time(dt, context=self.context)
+        if self.discount_available():
+            discount = IDiscount(self.context)
+            if discount.discount_end:
+                dt = datetime.combine(discount.discount_end, time())
+                return self.context.restrictedTraverse('@@plone').toLocalizedTime(dt)
 
-    @property
     def gross(self):
-        if self.discount_available:
-            return self.context.discount_gross
+        if self.discount_available():
+            return self.context.discount_money
         return self.context.money
 
-    @property
-    def vat(self):
-        if self.discount_available:
-            money = self.context.discount_vat
-        else:
-            money = self.context.vat_money
-        return getUtility(IMoneyUtility)(money)
+    def get_net(self, gross):
+        rate = self.context.vat_rate
+        return getUtility(IMoneyUtility)(gross * (1.0 - rate / (100 + rate)))
 
-    @property
-    def net(self):
-        if self.discount_available:
-            money = self.context.discount_net
-        else:
-            money = self.context.net_money
-        return getUtility(IMoneyUtility)(money)
+    def get_vat(self, gross):
+        rate = self.context.vat_rate
+        return getUtility(IMoneyUtility)(gross * rate / (100 + rate))
 
-    @property
-    def locale_money(self):
-        """Localized money"""
-        return IShoppingSite(self.context).format_money(self.context.money)
-
-    @property
-    def locale_gross(self):
-        """Localized gross money"""
-        return IShoppingSite(self.context).format_money(self.gross)
-
-    @property
-    def soldout(self):
-        """Returns True if soldout else False."""
-        return not self.addable_to_cart or not IStock(self.context).stock
-
-    @property
     def image_url(self):
         """Returns image url of the article.
         If the image does not exists then returns from parent or fallback image.
@@ -181,7 +138,6 @@ class ArticleAdapter(BaseArticleAdapter):
         portal_url = getToolByName(self.context, 'portal_url')()
         return '{}/fallback.png'.format(portal_url)
 
-    @property
     def title(self):
         """Title is inherited from parent if parent allow subarticles."""
         title = self.context.Title()

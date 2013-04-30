@@ -22,8 +22,8 @@
   </property>
 
   <!-- Schema, class and security -->
-  <property name="schema">collective.cart.shopping.interfaces.IArticleContainer</property>
-  <property name="klass">plone.dexterity.content.Container</property>
+  <property name="schema">collective.cart.shopping.schema.ArticleContainerSchema</property>
+  <property name="klass">collective.cart.shopping.content.ArticleContainer</property>
   <property name="add_permission">collective.cart.shopping.AddArticleContainer</property>
 
   <!-- enabled behaviors -->

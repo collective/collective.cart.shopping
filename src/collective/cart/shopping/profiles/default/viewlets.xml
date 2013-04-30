@@ -1,17 +1,35 @@
 <?xml version="1.0"?>
 <object>
-  <order manager="collective.cart.shopping.billing.shipping.manager" skinname="*">
-    <viewlet name="collective.cart.shopping.billing-and-shipping-billing-address" />
-    <viewlet name="collective.cart.shopping.billing-and-shipping-shipping-address" />
-    <viewlet name="collective.cart.shopping.billing-and-shipping-shipping-methods" />
-    <viewlet name="collective.cart.shopping.billing-and-shipping-check-out" />
+
+  <order manager="collective.cart.core.viewlet-manager.base-form" skinname="*">
+    <!-- @@view for collective.cart.core.Article -->
+    <viewlet name="collective.cart.shopping.viewlet.add-to-cart" />
+    <viewlet name="collective.cart.shopping.viewlet.body-text" />
+    <viewlet name="collective.cart.shopping.viewlet.articles-in-article" />
+    <!-- @@stock for collective.cart.core.Article -->
+    <viewlet name="collective.cart.shopping.viewlet.add-subtract-stock" />
+    <viewlet name="collective.cart.shopping.viewlet.stock-listing" />
+    <!-- @@cart -->
+    <viewlet name="collective.cart.core.viewlet.cart-article-listing" />
+    <viewlet name="collective.cart.shopping.viewlet.cart-articles-total" />
+    <viewlet name="collective.cart.shopping.viewlet.cart-check-out-buttons" />
+    <!-- @@billing-and-shipping -->
+    <viewlet name="collective.cart.shopping.viewlet.billing-and-shipping-billing-address" />
+    <viewlet name="collective.cart.shopping.viewlet.billing-and-shipping-shipping-address" />
+    <viewlet name="collective.cart.shopping.viewlet.billing-and-shipping-shipping-methods" />
+    <viewlet name="collective.cart.shopping.viewlet.billing-and-shipping-check-out-buttons" />
+    <!-- @@order-confirmation -->
+    <viewlet name="collective.cart.shopping.viewlet.order-confirmation-cart-article-listing" />
+    <viewlet name="collective.cart.shopping.viewlet.order-confirmation-shipping-method" />
+    <viewlet name="collective.cart.shopping.viewlet.order-confirmation-total" />
+    <viewlet name="collective.cart.shopping.viewlet.order-confirmation-terms" />
+    <viewlet name="collective.cart.shopping.viewlet.order-confirmation-check-out-buttons" />
   </order>
-  <order manager="collective.cart.shopping.order.confirmation.manager" skinname="*">
-    <viewlet name="collective.cart.shopping.confirmation-articles" />
-    <viewlet name="collective.cart.shopping.confirmation-shipping-method" />
-    <viewlet name="collective.cart.shopping.confirmation-total" />
-    <viewlet name="collective.cart.shopping.confirmation-checkout" />
-  </order>
+
+  <hidden manager="plone.belowcontenttitle" skinname="*">
+    <viewlet name="collective.cart.core.viewlet.add-to-cart" />
+  </hidden>
+
   <hidden manager="plone.abovecontent" skinname="*">
     <viewlet name="collective.cart.shipping.shipping.method" />
   </hidden>

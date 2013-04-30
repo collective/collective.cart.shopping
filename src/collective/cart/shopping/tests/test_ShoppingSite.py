@@ -4,10 +4,10 @@ from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping.adapter.interface import ShoppingSite
 from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.shopping.tests.base import IntegrationTestCase
-from plone.dexterity.utils import createContentInContainer
 from plone.uuid.interfaces import IUUID
 from zope.interface import alsoProvides
-from zope.lifecycleevent import modified
+
+import mock
 
 
 class ShoppingSiteTestCase(IntegrationTestCase):
@@ -19,192 +19,169 @@ class ShoppingSiteTestCase(IntegrationTestCase):
         from collective.cart.core.interfaces import IShoppingSite as IBaseShoppingSite
         self.assertTrue(issubclass(IShoppingSite, IBaseShoppingSite))
 
-    def test_provides(self):
-        from collective.cart.shopping.adapter.interface import ShoppingSite
-        self.assertEqual(getattr(ShoppingSite, 'grokcore.component.directive.provides'), IShoppingSite)
+    def test_instance(self):
+        self.assertIsInstance(IShoppingSite(self.portal), ShoppingSite)
+
+    def test_verifyObject(self):
+        from zope.interface.verify import verifyObject
+        self.assertTrue(verifyObject(IShoppingSite, IShoppingSite(self.portal)))
+
+    def test_locales(self):
+        adapter = IShoppingSite(self.portal)
+        self.assertEqual(adapter.locale(), 'default')
+
+    def test_format_money(self):
+        adapter = IShoppingSite(self.portal)
+        money = self.money('12.40')
+        self.assertEqual(adapter.format_money(money), u'12.40 €')
+
+    @mock.patch('collective.cart.core.adapter.interface.ShoppingSite.cart_article_listing')
+    def test_cart_article_listing(self, cart_article_listing):
+        cart_article_listing.return_value = [{'vat_rate': 24.0}, {'vat_rate': 10.0}]
+        adapter = IShoppingSite(self.portal)
+        self.assertEqual(adapter.cart_article_listing(), [{'vat_rate': u'24%'}, {'vat_rate': u'10%'}])
+
+    @mock.patch('collective.cart.shopping.adapter.interface.IStock')
+    @mock.patch('collective.cart.shopping.adapter.interface.BaseShoppingSite.clean_articles_in_cart')
+    def test_clean_articles_in_cart(self, clean_articles_in_cart, IStock):
+        article1 = self.create_content('collective.cart.core.Article')
+        uuid1 = IUUID(article1)
+        article2 = self.create_content('collective.cart.core.Article')
+        uuid2 = IUUID(article2)
+        clean_articles_in_cart.return_value = {uuid1: {}, uuid2: {}}
+        IStock().stock = 0
+        instance = IShoppingSite(self.portal)
+        instance.update_cart = mock.Mock()
+        self.assertEqual(instance.clean_articles_in_cart(), {})
+        instance.update_cart.assert_called_with('articles', {})
 
     def test_articles_total(self):
         adapter = IShoppingSite(self.portal)
-        self.assertEqual(adapter.articles_total, self.money('0.00'))
+        adapter.cart_article_listing = mock.MagicMock()
+        self.assertEqual(adapter.articles_total(), self.money('0.00'))
 
-        session = adapter.getSessionData(create=True)
-        session.set('collective.cart.core', {'articles': {
-            '1': {'gross': self.money('10.00'), 'quantity': 2, 'vat_rate': 24.0}
-        }})
-        self.assertEqual(adapter.articles_total, self.money('20.00'))
-        session.set('collective.cart.core', {'articles': {
-            '1': {'gross': self.money('10.00'), 'quantity': 2, 'vat_rate': 24.0},
-            '2': {'gross': self.money('5.00'), 'quantity': 4, 'vat_rate': 24.0},
-        }})
-        self.assertEqual(adapter.articles_total, self.money('40.00'))
+        adapter.cart_article_listing.return_value = [
+            {'gross': self.money('10.00'), 'quantity': 2}, {'gross': self.money('5.00'), 'quantity': 4}]
+        self.assertEqual(adapter.articles_total(), self.money('40.00'))
+
+    def test_locale_articles_total(self):
+        adapter = IShoppingSite(self.portal)
+        articles_total = mock.Mock()
+        adapter.articles_total = articles_total
+        adapter.articles_total = mock.Mock(return_value=self.money('40.00'))
+        self.assertEqual(adapter.locale_articles_total(), u'40.00 €')
 
     def test_shipping_methods(self):
         adapter = IShoppingSite(self.portal)
-        self.assertIsNone(adapter.shipping_methods)
-
-        container = self.create_content('collective.cart.shipping.ShippingMethodContainer', id='shipping-method-container')
-        self.create_atcontent('ShippingMethod', container, id='shippingmethod1')
-        self.assertIsNone(adapter.shipping_methods)
+        self.assertEqual(len(adapter.shipping_methods()), 0)
 
         alsoProvides(self.portal, IShoppingSiteRoot)
-        self.assertEqual(len(adapter.shipping_methods), 1)
+        container = self.create_content('collective.cart.shipping.ShippingMethodContainer')
+        self.create_atcontent('ShippingMethod', container, id='shippingmethod1')
+        self.assertEqual(len(adapter.shipping_methods()), 1)
 
     def test_shipping_method(self):
         adapter = IShoppingSite(self.portal)
-        self.assertIsNone(adapter.shipping_method)
+        self.assertIsNone(adapter.shipping_method())
 
-        session = adapter.getSessionData(create=True)
-        session.set('collective.cart.core', {'shipping_method': 'SHIPPINIG_METHOD'})
-        self.assertEqual(adapter.shipping_method, 'SHIPPINIG_METHOD')
+        adapter.cart = mock.MagicMock(return_value={'shipping_method': 'SHIPPINIG_METHOD'})
+        self.assertEqual(adapter.shipping_method(), 'SHIPPINIG_METHOD')
 
     def test__calculated_weight(self):
         adapter = IShoppingSite(self.portal)
         self.assertEqual(adapter._calculated_weight(), 0.0)
 
-        session = adapter.getSessionData(create=True)
-        session.set('collective.cart.core', {'shipping_method': 'SHIPPINIG_METHOD'})
+        adapter.shipping_method = mock.Mock()
         self.assertEqual(adapter._calculated_weight(), 0.0)
-
         self.assertEqual(adapter._calculated_weight('RATE'), 0.0)
-
         self.assertEqual(adapter._calculated_weight(10.0), 0.0)
 
-        cart = session.get('collective.cart.core')
-        cart.update({'articles': {
-            '1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1, 'vat_rate': 24.0}
-        }})
-        session.set('collective.cart.core', cart)
+        adapter.cart_article_listing = mock.MagicMock(return_value=[{'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1}])
         self.assertEqual(adapter._calculated_weight(10.0), 0.1)
 
-        cart.update({'articles': {
-            '1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1, 'vat_rate': 24.0},
-            '2': {'weight': 10.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1, 'vat_rate': 24.0},
-        }})
+        adapter.cart_article_listing = mock.MagicMock(return_value=[
+            {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1},
+            {'weight': 10.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1}])
         self.assertEqual(adapter._calculated_weight(10.0), 0.16)
 
-        cart.update({'articles': {
-            '1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 2, 'vat_rate': 24.0}
-        }})
+        adapter.cart_article_listing = mock.MagicMock(return_value=[
+            {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 2, 'vat_rate': 24.0}])
         self.assertEqual(adapter._calculated_weight(10.0), 0.2)
 
     def test_get_shipping_gross_money(self):
+        alsoProvides(self.portal, IShoppingSiteRoot)
         adapter = IShoppingSite(self.portal)
         self.assertIsNone(adapter.get_shipping_gross_money('UUID'))
 
-        container = self.create_content('collective.cart.shipping.ShippingMethodContainer', id='shipping-method-container')
+        container = self.create_content('collective.cart.shipping.ShippingMethodContainer')
         shippingmethod1 = self.create_atcontent('ShippingMethod', container, id='shippingmethod1')
         uuid1 = IUUID(shippingmethod1)
-        session = adapter.getSessionData(create=True)
-
-        session.set('collective.cart.core', {'shipping_method': {'uuid': uuid1}})
-        self.assertIsNone(adapter.get_shipping_gross_money(uuid1))
-
-        alsoProvides(self.portal, IShoppingSiteRoot)
         self.assertEqual(adapter.get_shipping_gross_money(uuid1), self.money('0.00'))
-        cart = session.get('collective.cart.core')
-        cart.update({'articles': {
-            '1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1, 'vat_rate': 24.0}
-        }})
-        session.set('collective.cart.core', cart)
-        self.assertEqual(adapter.get_shipping_gross_money(uuid1), self.money('1.50'))
 
     def test_shipping_gross_money(self):
         adapter = IShoppingSite(self.portal)
-        self.assertIsNone(adapter.shipping_gross_money)
+        adapter.shipping_method = mock.Mock(return_value=None)
+        self.assertIsNone(adapter.shipping_gross_money())
 
-        container = self.create_content('collective.cart.shipping.ShippingMethodContainer', id='shipping-method-container')
-        shippingmethod1 = self.create_atcontent('ShippingMethod', container, id='shippingmethod1')
-        uuid1 = IUUID(shippingmethod1)
-        session = adapter.getSessionData(create=True)
-        session.set('collective.cart.core', {'shipping_method': {'uuid': 'UUID'}})
-        self.assertIsNone(adapter.shipping_gross_money)
+        adapter.get_shipping_gross_money = mock.Mock()
+        adapter.shipping_method = mock.Mock(return_value={'uuid': 'UUID'})
+        adapter.shipping_gross_money()
+        adapter.get_shipping_gross_money.assert_called_with('UUID')
 
-        session.set('collective.cart.core', {'shipping_method': {'uuid': uuid1}})
-        self.assertIsNone(adapter.shipping_gross_money)
-
-        alsoProvides(self.portal, IShoppingSiteRoot)
-        self.assertEqual(adapter.shipping_gross_money, self.money('0.00'))
-
-        cart = session.get('collective.cart.core')
-        cart.update({'articles': {
-            '1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1, 'vat_rate': 24.0}
-        }})
-        session.set('collective.cart.core', cart)
-        self.assertEqual(adapter.shipping_gross_money, self.money('1.50'))
-
-        shippingmethod1.setShipping_fee('return 2.0')
-        self.assertEqual(adapter.shipping_gross_money, self.money('2.00'))
+    def test_locale_shipping_gross(self):
+        adapter = IShoppingSite(self.portal)
+        adapter.shipping_gross_money = mock.Mock(return_value=self.money('10.00'))
+        self.assertEqual(adapter.locale_shipping_gross(), u'10.00 €')
 
     def test_shipping_vat_money(self):
         adapter = IShoppingSite(self.portal)
-        self.assertIsNone(adapter.shipping_vat_money)
+        self.assertIsNone(adapter.shipping_vat_money())
 
-        alsoProvides(self.portal, IShoppingSiteRoot)
-        container = self.create_content('collective.cart.shipping.ShippingMethodContainer', id='shipping-method-container')
-        shippingmethod1 = self.create_atcontent('ShippingMethod', container, id='shippingmethod1')
-        uuid1 = IUUID(shippingmethod1)
-        session = adapter.getSessionData(create=True)
-        session.set('collective.cart.core', {
-            'shipping_method': {'uuid': uuid1, 'vat_rate': self.decimal('24.00')},
-            'articles': {'1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1, 'vat_rate': 24.0}},
-        })
-        self.assertEqual(adapter.shipping_vat_money, self.money('0.36'))
+        adapter.shipping_gross_money = mock.Mock(return_value=self.money('10.00'))
+        adapter.shipping_method = mock.Mock(return_value={'vat_rate': 24.0})
+        self.assertEqual(adapter.shipping_vat_money(), self.money('2.40'))
 
     def test_shipping_net_money(self):
         adapter = IShoppingSite(self.portal)
-        self.assertIsNone(adapter.shipping_net_money)
+        self.assertIsNone(adapter.shipping_net_money())
 
-        alsoProvides(self.portal, IShoppingSiteRoot)
-        container = self.create_content('collective.cart.shipping.ShippingMethodContainer', id='shipping-method-container')
-        shippingmethod1 = self.create_atcontent('ShippingMethod', container, id='shippingmethod1')
-        uuid1 = IUUID(shippingmethod1)
-        session = adapter.getSessionData(create=True)
-        session.set('collective.cart.core', {
-            'shipping_method': {'uuid': uuid1, 'vat_rate': self.decimal('24.00')},
-            'articles': {'1': {'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'quantity': 1, 'vat_rate': 24.0}},
-        })
-        self.assertEqual(adapter.shipping_net_money, self.money('1.14'))
+        adapter.shipping_gross_money = mock.Mock(return_value=self.money('10.00'))
+        adapter.shipping_vat_money = mock.Mock(return_value=self.money('2.40'))
+        self.assertEqual(adapter.shipping_net_money(), self.money('7.60'))
 
     def test_total(self):
         adapter = IShoppingSite(self.portal)
-        self.assertEqual(adapter.total, self.money('0.00'))
+        adapter.articles_total = mock.Mock(return_value=self.money('2.00'))
+        self.assertEqual(adapter.total(), self.money('2.00'))
 
-        session = adapter.getSessionData(create=True)
-        session.set('collective.cart.core', {'articles': {
-            '1': {'gross': self.money('10.00'), 'quantity': 2, 'vat_rate': 24.0}
-        }})
-        self.assertEqual(adapter.total, self.money('20.00'))
+        adapter.shipping_gross_money = mock.Mock(return_value=self.money('10.00'))
+        self.assertEqual(adapter.total(), self.money('12.00'))
 
-        alsoProvides(self.portal, IShoppingSiteRoot)
-        container = self.create_content('collective.cart.shipping.ShippingMethodContainer', id='shipping-method-container')
-        shippingmethod1 = self.create_atcontent('ShippingMethod', container, id='shippingmethod1')
-        uuid1 = IUUID(shippingmethod1)
-        session.set('collective.cart.core', {
-            'shipping_method': {'uuid': uuid1},
-            'articles': {'1': {'gross': self.money('10.00'), 'quantity': 2, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'vat_rate': 24.0}},
-        })
-        self.assertEqual(adapter.total, self.money('23.00'))
+    def test_locale_total(self):
+        adapter = IShoppingSite(self.portal)
+        adapter.total = mock.Mock(return_value=self.money('10.00'))
+        self.assertEqual(adapter.locale_total(), u'10.00 €')
 
     def test_update_shipping_method(self):
         adapter = IShoppingSite(self.portal)
-        self.assertIsNone(adapter.shipping_method)
+        self.assertIsNone(adapter.shipping_method())
 
         adapter.update_shipping_method()
-        self.assertIsNone(adapter.shipping_method)
+        self.assertIsNone(adapter.shipping_method())
 
         session = adapter.getSessionData(create=True)
         session.set('collective.cart.core', {'articles': {
             '1': {'gross': self.money('10.00'), 'quantity': 2, 'vat_rate': 24.0}
         }})
         adapter.update_shipping_method()
-        self.assertIsNone(adapter.shipping_method)
+        self.assertIsNone(adapter.shipping_method())
 
         alsoProvides(self.portal, IShoppingSiteRoot)
-        container = self.create_content('collective.cart.shipping.ShippingMethodContainer', id='shipping-method-container')
+        container = self.create_content('collective.cart.shipping.ShippingMethodContainer')
         shippingmethod1 = self.create_atcontent('ShippingMethod', container, id='shippingmethod1', vat=self.decimal('24.00'))
         uuid1 = IUUID(shippingmethod1)
         adapter.update_shipping_method()
-        self.assertEqual(adapter.shipping_method, {
+        self.assertEqual(adapter.shipping_method(), {
             'gross': None,
             'max_delivery_days': None,
             'uuid': uuid1,
@@ -220,7 +197,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
         adapter.update_cart('articles', articles)
         adapter.update_shipping_method()
 
-        self.assertEqual(adapter.shipping_method, {
+        self.assertEqual(adapter.shipping_method(), {
             'gross': self.money('3.00'),
             'max_delivery_days': None,
             'uuid': uuid1,
@@ -235,7 +212,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
         articles = {'1': {'gross': self.money('10.00'), 'quantity': 4, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'vat_rate': 24.0}}
         adapter.update_cart('articles', articles)
         adapter.update_shipping_method(uuid1)
-        self.assertEqual(adapter.shipping_method, {
+        self.assertEqual(adapter.shipping_method(), {
             'gross': self.money('6.00'),
             'max_delivery_days': None,
             'uuid': uuid1,
@@ -250,7 +227,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
         articles = {'1': {'gross': self.money('10.00'), 'quantity': 2, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'vat_rate': 24.0}}
         adapter.update_cart('articles', articles)
         adapter.update_shipping_method('UUID')
-        self.assertEqual(adapter.shipping_method, {
+        self.assertEqual(adapter.shipping_method(), {
             'gross': self.money('3.00'),
             'max_delivery_days': None,
             'uuid': uuid1,
@@ -265,7 +242,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
         articles = {'1': {'gross': self.money('10.00'), 'quantity': 4, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'vat_rate': 24.0}}
         adapter.update_cart('articles', articles)
         adapter.update_shipping_method(uuid1)
-        self.assertEqual(adapter.shipping_method, {
+        self.assertEqual(adapter.shipping_method(), {
             'gross': self.money('6.00'),
             'max_delivery_days': None,
             'uuid': uuid1,
@@ -282,7 +259,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
         articles = {'1': {'gross': self.money('10.00'), 'quantity': 2, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'vat_rate': 24.0}}
         adapter.update_cart('articles', articles)
         adapter.update_shipping_method(uuid2)
-        self.assertEqual(adapter.shipping_method, {
+        self.assertEqual(adapter.shipping_method(), {
             'gross': self.money('0.20'),
             'max_delivery_days': None,
             'uuid': uuid2,
@@ -297,7 +274,7 @@ class ShoppingSiteTestCase(IntegrationTestCase):
         articles = {'1': {'gross': self.money('10.00'), 'quantity': 4, 'weight': 100.0, 'depth': 10.0, 'height': 20.0, 'width': 30.0, 'vat_rate': 24.0}}
         adapter.update_cart('articles', articles)
         adapter.update_shipping_method(uuid1)
-        self.assertEqual(adapter.shipping_method, {
+        self.assertEqual(adapter.shipping_method(), {
             'gross': self.money('6.00'),
             'max_delivery_days': None,
             'uuid': uuid1,
@@ -310,9 +287,9 @@ class ShoppingSiteTestCase(IntegrationTestCase):
         })
 
         adapter.remove_from_cart('shipping_method')
-        self.assertIsNone(adapter.shipping_method)
+        self.assertIsNone(adapter.shipping_method())
         adapter.update_shipping_method(uuid1)
-        self.assertEqual(adapter.shipping_method, {
+        self.assertEqual(adapter.shipping_method(), {
             'gross': self.money('6.00'),
             'max_delivery_days': None,
             'uuid': uuid1,
@@ -328,61 +305,48 @@ class ShoppingSiteTestCase(IntegrationTestCase):
         adapter = IShoppingSite(self.portal)
         self.assertIsNone(adapter.get_address('billing'))
 
-        session = adapter.getSessionData(create=True)
-        session.set('collective.cart.core', {'billing': 'BILLING'})
+        adapter.cart = mock.Mock(return_value={'billing': 'BILLING'})
         self.assertEqual(adapter.get_address('billing'), 'BILLING')
-
-    def fill_address(self, key):
-        adapter = IShoppingSite(self.portal)
-        session = adapter.getSessionData(create=True)
-        names = ['city', 'last_name', 'first_name', 'email', 'phone', 'post', 'street']
-        address = {}
-        for name in names:
-            address[name] = name.upper()
-        session.set('collective.cart.core', {key: address})
 
     def test_is_address_filled(self):
         adapter = IShoppingSite(self.portal)
         self.assertFalse(adapter.is_address_filled('billing'))
 
-        session = adapter.getSessionData(create=True)
-        session.set('collective.cart.core', {'billing': {}})
+        adapter.get_address = mock.Mock(return_value={})
         self.assertFalse(adapter.is_address_filled('billing'))
 
-        self.fill_address('billing')
+        names = ['city', 'last_name', 'first_name', 'email', 'phone', 'post', 'street']
+        address = {}
+        for name in names:
+            address[name] = name.upper()
+
+        adapter.get_address = mock.Mock(return_value=address)
         self.assertTrue(adapter.is_address_filled('billing'))
 
-        billing = adapter.get_address('billing')
-        del billing['email']
-        adapter.update_cart('billing', billing)
+        del address['email']
         self.assertFalse(adapter.is_address_filled('billing'))
 
     def test_billing_same_as_shipping(self):
         adapter = IShoppingSite(self.portal)
-        self.assertIsNone(adapter.billing_same_as_shipping)
+        self.assertIsNone(adapter.billing_same_as_shipping())
 
-        session = adapter.getSessionData(create=True)
-        session.set('collective.cart.core', {'billing_same_as_shipping': False})
-        self.assertFalse(adapter.billing_same_as_shipping)
+        adapter.cart = mock.Mock(return_value={'billing_same_as_shipping': False})
+        self.assertFalse(adapter.billing_same_as_shipping())
 
-        adapter.update_cart('billing_same_as_shipping', True)
-        self.assertTrue(adapter.billing_same_as_shipping)
+        adapter.cart = mock.Mock(return_value={'billing_same_as_shipping': True})
+        self.assertTrue(adapter.billing_same_as_shipping())
 
     def test_is_addresses_filled(self):
         adapter = IShoppingSite(self.portal)
-        self.assertIsNone(adapter.is_addresses_filled)
+        self.assertIsNone(adapter.is_addresses_filled())
 
-        self.fill_address('billing')
-        self.assertFalse(adapter.is_addresses_filled)
+        adapter.is_address_filled = mock.Mock(return_value=True)
+        self.assertTrue(adapter.is_addresses_filled())
+        self.assertEqual(adapter.is_address_filled.call_args_list, [(('billing',),), (('shipping',),)])
 
-        adapter.update_cart('billing_same_as_shipping', True)
-        self.assertTrue(adapter.is_addresses_filled)
-
-        adapter.update_cart('billing_same_as_shipping', False)
-        self.assertFalse(adapter.is_addresses_filled)
-
-        self.fill_address('shipping')
-        adapter.update_cart('billing_same_as_shipping', True)
+        adapter.billing_same_as_shipping = mock.Mock(return_value=True)
+        self.assertTrue(adapter.is_addresses_filled())
+        self.assertEqual(adapter.is_address_filled.call_args_list, [(('billing',),), (('shipping',),), (('billing',),)])
 
     def test_get_info(self):
         adapter = IShoppingSite(self.portal)
@@ -439,7 +403,12 @@ class ShoppingSiteTestCase(IntegrationTestCase):
             'phone': '',
         })
 
-        self.fill_address('billing')
+        names = ['city', 'last_name', 'first_name', 'email', 'phone', 'post', 'street']
+        address = {}
+        for name in names:
+            address[name] = name.upper()
+        adapter.get_address = mock.Mock(return_value=address)
+
         self.assertEqual(adapter.get_info('billing'), {
             'city': 'CITY',
             'email': 'EMAIL',
@@ -452,120 +421,64 @@ class ShoppingSiteTestCase(IntegrationTestCase):
             'vat': '',
         })
 
-    def create_cart_container(self):
-        container = createContentInContainer(self.portal, 'collective.cart.core.CartContainer',
-            id='cart-container', checkConstraints=False)
-        modified(container)
-        return container
-
-    def test_create_cart(self):
+    @mock.patch('collective.cart.core.adapter.interface.ShoppingSite.create_order')
+    def test_create_cart(self, create_order):
         adapter = IShoppingSite(self.portal)
-        adapter.create_cart()
-        self.assertIsNone(adapter.get_cart('1'))
 
-        alsoProvides(self.portal, IShoppingSiteRoot)
-        self.create_cart_container()
-        adapter.create_cart()
-        self.assertIsNone(adapter.get_cart('1'))
+        create_order.return_value = None
+        self.assertIsNone(adapter.create_order())
 
-        items = {
-            'id': '1',
-            'title': 'Ärticle1',
-            'description': 'Description of Ärticle1',
-        }
-        session = adapter.getSessionData(create=True)
-        session.set('collective.cart.core', {'articles': {'1': items}})
-        adapter.create_cart()
-        cart = adapter.get_cart('1')
-        carticle = cart.get('1')
-        self.assertEqual(carticle.title, items['title'])
-        self.assertEqual(carticle.description, items['description'])
+        order1 = self.create_content('collective.cart.core.Order', id='1')
+        create_order.return_value = order1
+        self.assertEqual(adapter.create_order(), order1)
+        with self.assertRaises(KeyError):
+            order1['shipping_method']
+        with self.assertRaises(KeyError):
+            order1['billing']
+        with self.assertRaises(KeyError):
+            order1['shipping']
 
-        adapter.update_cart('shipping_method', {'uuid': 'UUID', 'title': 'Shipping Methös 1'})
-        adapter.create_cart()
-        cart = adapter.get_cart('2')
-        carticle = cart.get('1')
-        self.assertEqual(carticle.title, items['title'])
-        self.assertEqual(carticle.description, items['description'])
-        shipping_method = cart.get('shipping_method')
-        self.assertEqual(shipping_method.title, 'Shipping Methös 1')
+        adapter.shipping_method = mock.Mock(return_value={'gross': self.money('10.00')})
+        order2 = self.create_content('collective.cart.core.Order', id='2')
+        create_order.return_value = order2
+        self.assertEqual(adapter.create_order(), order2)
+        self.assertIsNotNone(order2['shipping_method'])
+        with self.assertRaises(KeyError):
+            order2['billing']
+        with self.assertRaises(KeyError):
+            order2['shipping']
 
-        adapter.update_cart('billing', {'first_name': 'FIRST_NAME'})
-        adapter.create_cart()
-        cart = adapter.get_cart('3')
-        carticle = cart.get('1')
-        self.assertEqual(carticle.title, items['title'])
-        self.assertEqual(carticle.description, items['description'])
-        shipping_method = cart.get('shipping_method')
-        self.assertEqual(shipping_method.title, 'Shipping Methös 1')
-        billing = cart.get('billing')
-        self.assertEqual(billing.first_name, 'FIRST_NAME')
-        shipping = cart.get('shipping')
-        self.assertIsNone(shipping)
+        names = ['city', 'last_name', 'first_name', 'email', 'phone', 'post', 'street']
+        address = {}
+        for name in names:
+            address[name] = name.upper()
+        adapter.get_address = mock.Mock(return_value=address)
+        adapter.billing_same_as_shipping = mock.Mock(return_value=True)
+        order3 = self.create_content('collective.cart.core.Order', id='3')
+        create_order.return_value = order3
+        self.assertEqual(adapter.create_order(), order3)
+        self.assertIsNotNone(order3['shipping_method'])
+        self.assertIsNotNone(order3['billing'])
+        with self.assertRaises(KeyError):
+            order3['shipping']
 
-        adapter.update_cart('shipping', {'first_name': 'FIRST_NAME'})
-        adapter.create_cart()
-        cart = adapter.get_cart('4')
-        carticle = cart.get('1')
-        self.assertEqual(carticle.title, items['title'])
-        self.assertEqual(carticle.description, items['description'])
-        shipping_method = cart.get('shipping_method')
-        self.assertEqual(shipping_method.title, 'Shipping Methös 1')
-        billing = cart.get('billing')
-        self.assertEqual(billing.first_name, 'FIRST_NAME')
-        shipping = cart.get('shipping')
-        self.assertEqual(shipping.first_name, 'FIRST_NAME')
-
-        adapter.update_cart('billing_same_as_shipping', True)
-        adapter.create_cart()
-        cart = adapter.get_cart('5')
-        carticle = cart.get('1')
-        self.assertEqual(carticle.title, items['title'])
-        self.assertEqual(carticle.description, items['description'])
-        shipping_method = cart.get('shipping_method')
-        self.assertEqual(shipping_method.title, 'Shipping Methös 1')
-        billing = cart.get('billing')
-        self.assertEqual(billing.first_name, 'FIRST_NAME')
-        shipping = cart.get('shipping')
-        self.assertIsNone(shipping)
-
-        adapter.create_cart('7')
-        cart = adapter.get_cart('6')
-        self.assertIsNone(cart)
-        cart = adapter.get_cart('7')
-        carticle = cart.get('1')
-        self.assertEqual(carticle.title, items['title'])
-        self.assertEqual(carticle.description, items['description'])
-        shipping_method = cart.get('shipping_method')
-        self.assertEqual(shipping_method.title, 'Shipping Methös 1')
-        billing = cart.get('billing')
-        self.assertEqual(billing.first_name, 'FIRST_NAME')
-        shipping = cart.get('shipping')
-        self.assertIsNone(shipping)
-
-    def create_folder(self, parent=None, **kwargs):
-        if parent is None:
-            parent = self.portal
-        folder = parent[parent.invokeFactory('Folder', **kwargs)]
-        folder.reindexObject()
-        return folder
-
-    def create_doc(self, parent, **kwargs):
-        doc = parent[parent.invokeFactory('Document', **kwargs)]
-        doc.reindexObject()
-        return doc
+        adapter.billing_same_as_shipping = mock.Mock(return_value=False)
+        order4 = self.create_content('collective.cart.core.Order', id='4')
+        create_order.return_value = order4
+        self.assertEqual(adapter.create_order(), order4)
+        self.assertIsNotNone(order4['shipping_method'])
+        self.assertIsNotNone(order4['billing'])
+        self.assertIsNotNone(order4['shipping'])
 
     def test_get_brain_for_text(self):
+        alsoProvides(self.portal, IShoppingSiteRoot)
         adapter = IShoppingSite(self.portal)
         self.assertIsNone(adapter.get_brain_for_text('name'))
 
-        alsoProvides(self.portal, IShoppingSiteRoot)
+        folder = self.create_atcontent('Folder', id='name')
         self.assertIsNone(adapter.get_brain_for_text('name'))
 
-        folder = self.create_folder(id='name')
-        self.assertIsNone(adapter.get_brain_for_text('name'))
-
-        doc = self.create_doc(folder, id='doc')
+        doc = self.create_atcontent('Document', folder, id='doc')
         self.assertEqual(adapter.get_brain_for_text('name').getObject(), doc)
 
     def test_update_address(self):
@@ -600,14 +513,49 @@ class ShoppingSiteTestCase(IntegrationTestCase):
             'address_city': 'C|TY', 'address_post': 'PÖST', 'address_phone': 'PHÖNE'}
         self.assertIsNone(adapter.update_address('address', data))
 
-        session = adapter.getSessionData(create=True)
-        session.set('collective.cart.core', {})
+        adapter.get_address = mock.Mock(return_value=None)
+        adapter.update_cart = mock.Mock()
         self.assertIsNone(adapter.update_address('address', data))
-        self.assertEqual(adapter.get_address('address'), {'first_name': 'F|RST', 'last_name': 'LÄST',
-            'email': 'first.last@email.com', 'street': 'STR€€T', 'post': 'PÖST', 'city': 'C|TY', 'phone': 'PHÖNE'})
+        adapter.update_cart.assert_called_with('address', {
+            'city': 'C|TY',
+            'email': 'first.last@email.com',
+            'first_name': 'F|RST',
+            'last_name': 'LÄST',
+            'phone': 'PHÖNE',
+            'post': 'PÖST',
+            'street': 'STR€€T',
+        })
 
-        data = {'address_first_name': 'FIRST', 'address_last_name': 'LAST', 'address_email': 'first.last@email.com', 'address_street': 'STR€€T',
-            'address_post': 'PÖST', 'address_city': 'C|TY', 'address_phone': 'PHÖNE'}
+        names = ['city', 'last_name', 'first_name', 'email', 'phone', 'post', 'street']
+        address = {}
+        for name in names:
+            address[name] = name.upper()
+        adapter.get_address = mock.Mock(return_value=address)
         self.assertIsNone(adapter.update_address('address', data))
-        self.assertEqual(adapter.get_address('address'), {'first_name': 'FIRST', 'last_name': 'LAST',
-            'email': 'first.last@email.com', 'street': 'STR€€T', 'post': 'PÖST', 'city': 'C|TY', 'phone': 'PHÖNE'})
+        adapter.update_cart.assert_called_with('address', {
+            'city': 'C|TY',
+            'email': 'first.last@email.com',
+            'first_name': 'F|RST',
+            'last_name': 'LÄST',
+            'phone': 'PHÖNE',
+            'post': 'PÖST',
+            'street': 'STR€€T',
+        })
+
+    @mock.patch('collective.cart.shopping.adapter.interface.IStock')
+    def test_reduce_stocks(self, IStock):
+        adapter = IShoppingSite(self.portal)
+        article1 = self.create_content('collective.cart.core.Article')
+        uuid1 = IUUID(article1)
+        article2 = self.create_content('collective.cart.core.Article')
+        uuid2 = IUUID(article2)
+        adapter.cart_article_listing = mock.Mock(return_value=[{'id': uuid1, 'quantity': 1}, {'id': uuid2, 'quantity': 2}])
+        adapter.reduce_stocks()
+        self.assertEqual(IStock().sub_stock.call_args_list, [((1,),), ((2,),)])
+
+    def test_link_to_order(self):
+        adapter = IShoppingSite(self.portal)
+        adapter.get_order = mock.Mock()
+        adapter.link_to_order('ORDER_ID')
+        adapter.get_order.assert_called_with('ORDER_ID')
+        self.assertTrue(adapter.get_order().absolute_url.called)

@@ -1,6 +1,0 @@
-<section
-  id="confirmation-total"
-  i18n:domain="collective.cart.shopping">
-  <span i18n:translate="">Total</span>&nbsp;&nbsp;
-  <span id="total" tal:content="viewlet/total" />
-</section>

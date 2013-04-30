@@ -161,8 +161,8 @@ msgstr "Kirjoita tuotteen lisätiedot tähän."
 #: ./browser/viewlets/add-subarticle-to-cart.pt:19
 #: ./browser/viewlets/add-to-cart.pt:13
 #: ./browser/viewlets/articles-in-article.pt:52
-msgid "Including VAT: ${vat}"
-msgstr "sis alv.${vat} "
+msgid "Including VAT: ${vat_rate}"
+msgstr "sis alv.${vat_rate} "
 
 #: ./browser/templates/stock.pt:79
 msgid "Initial Stock"

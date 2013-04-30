@@ -6,14 +6,8 @@
   xmlns:metal="http://xml.zope.org/namespaces/metal"
   xmlns:tal="http://xml.zope.org/namespaces/tal">
   <body>
-    <metal:main fill-slot="main">
-      <section id="collective-cart-shopping">
-        <div tal:replace="structure provider:plone.abovecontenttitle" />
-        <h1 class="documentFirstHeading" tal:content="context/title" />
-        <div tal:replace="structure provider:plone.belowcontenttitle" />
-        <p class="documentDescription description" tal:content="context/Description" />
-        <div tal:replace="structure provider:collective.cart.shopping.articlecontainer" />
-      </section>
-    </metal:main>
+    <metal:text fill-slot="content-core">
+      <div tal:replace="structure provider:collective.cart.shopping.viewlet-manager.article-container" />
+    </metal:text>
   </body>
 </html>

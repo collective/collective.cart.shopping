@@ -6,7 +6,7 @@ Add some Shipping Methods::
 
     >>> browser.open('shipping-methods/createObject?type_name=ShippingMethod')
     >>> browser.getControl(name="title").value = 'ShippingMethöd1'
-    >>> browser.getControl(name="description").value = 'Descriptiön of ShippingMethöd1'
+    >>> browser.getControl(name="description").value = 'Description of ShippingMethöd1'
     >>> browser.getControl(name="min_delivery_days").value = '3'
     >>> browser.getControl(name="max_delivery_days").value = '5'
     >>> browser.getControl(name="form.button.save").click()
@@ -15,9 +15,9 @@ Add Article1::
 
     >>> browser.open('/++add++collective.cart.core.Article')
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
-    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Ärticle1'
-    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU1'
-    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '24.60'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Description of Ärticle1'
+    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKÖ1'
+    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '24.80'
     >>> browser.getControl(name="form.widgets.ISize.weight").value = '100.0'
     >>> browser.getControl(name="form.buttons.save").click()
 
@@ -25,7 +25,7 @@ Add Stock to Ärticle1::
 
     >>> browser.open('/article1/++add++collective.cart.stock.Stock')
     >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck1'
-    >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Descriptiön of Stöck1'
+    >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Stöck1'
     >>> browser.getControl(name="form.widgets.stock").value = '100'
     >>> browser.getControl( name="form.widgets.IStockPrice.price").value = '4.00'
     >>> browser.getControl(name="form.buttons.save").click()
@@ -38,29 +38,38 @@ Add Ärticle1 to cart::
 Go to cart and then to billing-and-shipping page::
 
     >>> browser.open('/@@cart')
-    >>> browser.getControl(name="form.checkout").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
 
-Check the shipping method::
-
-    >>> print browser.bycss('.shipping-methods')
+    >>> print browser.bycss('#check-out-flow')
     --- 1 ---
-    <dl class="field shipping-methods"><dt>
+    <section id="check-out-flow"><ol><li class="cart">Cart</li>
+    <li class="billing-and-shipping current-step">Addresses</li>
+    <li class="order-confirmation">Confirmation</li>
+    </ol></section>
+
+    >>> print browser.bycss('#shipping-methods')
+    --- 1 ---
+    <section id="shipping-methods"><dl class="field shipping-methods"><dt>
     Shipping Method
     </dt>
     <dd>
-    <div>
     <label>
     ShippingMeth&#246;d1  0.10 &#8364;
     </label>
-    <p>Descripti&#246;n of ShippingMeth&#246;d1</p>
-    </div>
+    <p>Description of ShippingMeth&#246;d1</p>
     </dd>
-    </dl>
+    </dl></section>
+
+    >>> print browser.bycss('#check-out-buttons')
+    --- 1 ---
+    <section id="check-out-buttons"><button type="submit" class="back" value="form.buttons.Back" name="form.buttons.Back">Back</button>
+    <button type="submit" class="next" value="form.buttons.CheckOut" name="form.buttons.CheckOut">Next</button>
+    </section>
 
 Input first name::
 
     >>> browser.getControl(name="billing_first_name").value = 'Billing First Näme'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
     <dl class="portalMessage warn"><dt>Warn</dt>
@@ -71,7 +80,7 @@ Input first and last name::
 
     >>> browser.getControl(name="billing_first_name").value = 'Billing First Näme'
     >>> browser.getControl(name="billing_last_name").value = 'Billing Last Näme'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
     <dl class="portalMessage warn"><dt>Warn</dt>
@@ -83,7 +92,7 @@ Input first, last name and invalid email::
     >>> browser.getControl(name="billing_first_name").value = 'Billing First Näme'
     >>> browser.getControl(name="billing_last_name").value = 'Billing Last Näme'
     >>> browser.getControl(name="billing_email").value = 'email'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
     <dl class="portalMessage warn"><dt>Warn</dt>
@@ -95,7 +104,7 @@ Input first, last name and email::
     >>> browser.getControl(name="billing_first_name").value = 'Billing First Näme'
     >>> browser.getControl(name="billing_last_name").value = 'Billing Last Näme'
     >>> browser.getControl(name="billing_email").value = 'billing@email.email'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
     <dl class="portalMessage warn"><dt>Warn</dt>
@@ -108,7 +117,7 @@ Input first, last name, email and street::
     >>> browser.getControl(name="billing_last_name").value = 'Billing Last Näme'
     >>> browser.getControl(name="billing_email").value = 'billing@email.email'
     >>> browser.getControl(name="billing_street").value = 'Billing Str€€t'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
     <dl class="portalMessage warn"><dt>Warn</dt>
@@ -122,7 +131,7 @@ Input first, last name, email, street, and post::
     >>> browser.getControl(name="billing_email").value = 'billing@email.email'
     >>> browser.getControl(name="billing_street").value = 'Billing Str€€t'
     >>> browser.getControl(name="billing_post").value = 'Billing Pöst'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
     <dl class="portalMessage warn"><dt>Warn</dt>
@@ -137,7 +146,7 @@ Input first, last name, email, street, post and city::
     >>> browser.getControl(name="billing_street").value = 'Billing Str€€t'
     >>> browser.getControl(name="billing_post").value = 'Billing Pöst'
     >>> browser.getControl(name="billing_city").value = 'Billing Cıty'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
     <dl class="portalMessage warn"><dt>Warn</dt>
@@ -153,14 +162,14 @@ Input first, last name, email, street, post, city and phone::
     >>> browser.getControl(name="billing_post").value = 'Billing Pöst'
     >>> browser.getControl(name="billing_city").value = 'Billing Cıty'
     >>> browser.getControl(name="billing_phone").value = 'Billing Phöne Number'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
 
     >>> browser.url
     'http://nohost/plone/@@order-confirmation'
 
 Back to billing-and-shipping::
 
-    >>> browser.getControl(name="form.buttons.back").click()
+    >>> browser.getControl(name="form.buttons.Back").click()
 
     >>> 'value="Billing First Näme"' in browser.contents
     True
@@ -182,11 +191,11 @@ Input also organization, vat and post code::
     >>> browser.getControl(name="billing_organization").value = 'Billing Örgänizätiön'
     >>> browser.getControl(name="billing_vat").value = 'Billing VÄT'
     >>> browser.getControl(name="billing_post").value = 'Billing Pöst'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
 
 Back to billing-and-shipping::
 
-    >>> browser.getControl(name="form.buttons.back").click()
+    >>> browser.getControl(name="form.buttons.Back").click()
 
     >>> 'value="Billing First Näme"' in browser.contents
     True
@@ -212,15 +221,14 @@ Back to billing-and-shipping::
 Billing info not same as shipping info::
 
     >>> browser.getControl(name="billing-and-shipping-same-or-different").value = ['different']
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> browser.url
     'http://nohost/plone/@@billing-and-shipping'
-
 
 Input shipping first name::
 
     >>> browser.getControl(name="shipping_first_name").value = 'Shipping First Näme'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
     <dl class="portalMessage warn"><dt>Warn</dt>
@@ -231,7 +239,7 @@ Input shipping first and last name::
 
     >>> browser.getControl(name="shipping_first_name").value = 'Shipping First Näme'
     >>> browser.getControl(name="shipping_last_name").value = 'Shipping Last Näme'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
     <dl class="portalMessage warn"><dt>Warn</dt>
@@ -243,7 +251,7 @@ Input shipping first, last name and invalid email::
     >>> browser.getControl(name="shipping_first_name").value = 'Shipping First Näme'
     >>> browser.getControl(name="shipping_last_name").value = 'Shipping Last Näme'
     >>> browser.getControl(name="shipping_email").value = 'email'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
     <dl class="portalMessage warn"><dt>Warn</dt>
@@ -255,7 +263,7 @@ Input shipping first, last name and email::
     >>> browser.getControl(name="shipping_first_name").value = 'Shipping First Näme'
     >>> browser.getControl(name="shipping_last_name").value = 'Shipping Last Näme'
     >>> browser.getControl(name="shipping_email").value = 'billing@email.email'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
     <dl class="portalMessage warn"><dt>Warn</dt>
@@ -268,7 +276,7 @@ Input shipping first, last name, email and street::
     >>> browser.getControl(name="shipping_last_name").value = 'Shipping Last Näme'
     >>> browser.getControl(name="shipping_email").value = 'billing@email.email'
     >>> browser.getControl(name="shipping_street").value = 'Shipping Str€€t'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
     <dl class="portalMessage warn"><dt>Warn</dt>
@@ -282,7 +290,7 @@ Input shipping first, last name, email, street and post::
     >>> browser.getControl(name="shipping_email").value = 'billing@email.email'
     >>> browser.getControl(name="shipping_street").value = 'Shipping Str€€t'
     >>> browser.getControl(name="shipping_post").value = 'Shipping Pöst'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
     <dl class="portalMessage warn"><dt>Warn</dt>
@@ -297,7 +305,7 @@ Input shipping first, last name, email, street, post and city::
     >>> browser.getControl(name="shipping_street").value = 'Shipping Str€€t'
     >>> browser.getControl(name="shipping_post").value = 'Shipping Pöst'
     >>> browser.getControl(name="shipping_city").value = 'Shipping Cıty'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> print browser.bycss('.warn')
     --- 1 ---
     <dl class="portalMessage warn"><dt>Warn</dt>
@@ -313,14 +321,14 @@ Input first, last name, email, street, city and phone::
     >>> browser.getControl(name="shipping_city").value = 'Shipping Cıty'
     >>> browser.getControl(name="shipping_post").value = 'Shipping Pöst'
     >>> browser.getControl(name="shipping_phone").value = 'Shipping Phöne Number'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
 
     >>> browser.url
     'http://nohost/plone/@@order-confirmation'
 
 Back to billing-and-shipping::
 
-    >>> browser.getControl(name="form.buttons.back").click()
+    >>> browser.getControl(name="form.buttons.Back").click()
 
     >>> 'value="Shipping First Näme"' in browser.contents
     True
@@ -341,14 +349,14 @@ Input also organization, vat and post code::
 
     >>> browser.getControl(name="shipping_organization").value = 'Shipping Örgänizätiön'
     >>> browser.getControl(name="shipping_vat").value = 'Shipping VÄT'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
 
     >>> browser.url
     'http://nohost/plone/@@order-confirmation'
 
 Back to billing-and-shipping::
 
-    >>> browser.getControl(name="form.buttons.back").click()
+    >>> browser.getControl(name="form.buttons.Back").click()
 
     >>> 'value="Shipping First Näme"' in browser.contents
     True

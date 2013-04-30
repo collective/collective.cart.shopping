@@ -1,18 +1,19 @@
+# -*- coding: utf-8 -*-
+from collective.cart.shopping.browser.interfaces import IBillingAndShippingView
 from collective.cart.shopping.browser.template import BillingAndShippingView
+from collective.cart.shopping.tests.base import IntegrationTestCase
 
-import unittest
 
-
-class BillingAndShippingViewTestCase(unittest.TestCase):
+class BillingAndShippingViewTestCase(IntegrationTestCase):
     """TestCase for BillingAndShippingView"""
 
-    def test_name(self):
-        self.assertTrue(getattr(BillingAndShippingView, 'grokcore.component.directive.name'), 'billing-and-shipping')
-
-    def test_template(self):
-        self.assertTrue(getattr(BillingAndShippingView, 'grokcore.view.directive.template'), 'billing-and-shipping')
-
     def test_issubclass(self):
-        from collective.cart.shopping.browser.template import BaseCheckOutView
-        from collective.cart.shopping.browser.base import Message
-        self.assertTrue(issubclass(BillingAndShippingView, (BaseCheckOutView, Message)))
+        from collective.cart.shopping.browser.template import CheckOutView
+        self.assertTrue(issubclass(BillingAndShippingView, CheckOutView))
+        from collective.cart.shopping.browser.interfaces import ICheckOutView
+        self.assertTrue(issubclass(IBillingAndShippingView, ICheckOutView))
+
+    def test_verifyObject(self):
+        from zope.interface.verify import verifyObject
+        instance = self.create_view(BillingAndShippingView)
+        self.assertTrue(verifyObject(IBillingAndShippingView, instance))

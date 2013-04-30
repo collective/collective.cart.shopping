@@ -10,7 +10,7 @@ Create Shop::
 
 Add some Shipping Methods::
 
-    >>> browser.open('/shop/shipping-methods/createObject?type_name=ShippingMethod')
+    >>> browser.open('/shop/shipping-method-container/createObject?type_name=ShippingMethod')
     >>> browser.getControl(name="title").value = 'ShippingMethöd1'
     >>> browser.getControl(name="description").value = 'Descriptiön of ShippingMethöd1'
     >>> browser.getControl(name="min_delivery_days").value = '3'
@@ -21,9 +21,9 @@ Add some Shipping Methods::
     >>> '1.0' in browser.contents
     True
 
-    >>> shippingmethod1_uuid = portal['shop']['shipping-methods']['shippingmethod1'].UID()
+    >>> shippingmethod1_uuid = portal['shop']['shipping-method-container']['shippingmethod1'].UID()
 
-    >>> browser.open('/shop/shipping-methods/createObject?type_name=ShippingMethod')
+    >>> browser.open('/shop/shipping-method-container/createObject?type_name=ShippingMethod')
     >>> browser.getControl(name="title").value = 'ShippingMethöd2'
     >>> browser.getControl(name="description").value = 'Descriptiön of ShippingMethöd2'
     >>> browser.getControl(name="min_delivery_days").value = '5'
@@ -33,7 +33,7 @@ Add some Shipping Methods::
     >>> '2.0' in browser.contents
     True
 
-    >>> shippingmethod2_uuid = portal['shop']['shipping-methods']['shippingmethod2'].UID()
+    >>> shippingmethod2_uuid = portal['shop']['shipping-method-container']['shippingmethod2'].UID()
 
 Add ArticleContainer::
 
@@ -71,7 +71,9 @@ Should not be able to visit /@@billing-and-shipping::
     'http://nohost/plone/shop/@@cart'
     >>> print browser.bycss('#cart-is-empty')
     --- 1 ---
-    <p id="cart-is-empty">Cart is empty.</p>
+    <p id="cart-is-empty">
+    Cart is empty.
+    </p>
 
 Should not be able to visit /@@order-confirmation::
 
@@ -80,7 +82,9 @@ Should not be able to visit /@@order-confirmation::
     'http://nohost/plone/shop/@@cart'
     >>> print browser.bycss('#cart-is-empty')
     --- 1 ---
-    <p id="cart-is-empty">Cart is empty.</p>
+    <p id="cart-is-empty">
+    Cart is empty.
+    </p>
 
 Add Ärticle1 to Cart::
 
@@ -113,7 +117,7 @@ Fill billing info::
     >>> browser.getControl(name="billing_post").value = 'Billing Pöst Cöde'
     >>> browser.getControl(name="billing_city").value = 'Billing €ity'
     >>> browser.getControl(name="billing_phone").value = 'Billing Phöne Number'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> browser.url
     'http://nohost/plone/shop/@@order-confirmation'
     >>> 'ShippingMethöd1' in browser.contents
@@ -121,7 +125,7 @@ Fill billing info::
 
 Back to billing-and-shipping::
 
-    >>> browser.getControl(name="form.buttons.back").click()
+    >>> browser.getControl(name="form.buttons.Back").click()
     >>> browser.url
     'http://nohost/plone/shop/@@billing-and-shipping'
 
@@ -132,31 +136,29 @@ Back to billing-and-shipping::
     <span class="required" title="title_required"> </span>
     </dt>
     <dd>
-    <div>
     <label>
     <input name="shipping-method" type="radio" required="required" checked value="...">
     ShippingMeth&#246;d1  0.10 &#8364;
     </label>
     <p>Descripti&#246;n of ShippingMeth&#246;d1</p>
-    </div>
-    <div>
+    </dd>
+    <dd>
     <label>
     <input name="shipping-method" type="radio" required="required" value="...">
     ShippingMeth&#246;d2  0.20 &#8364;
     </label>
     <p>Descripti&#246;n of ShippingMeth&#246;d2</p>
-    </div>
     </dd>
     </dl>
 
 Check the different shipping method::
 
     >>> browser.getControl(name="shipping-method").value = [shippingmethod2_uuid]
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
 
 Back to billing-and-shipping::
 
-    >>> browser.getControl(name="form.buttons.back").click()
+    >>> browser.getControl(name="form.buttons.Back").click()
     >>> print browser.bycss('.shipping-methods')
     --- 1 ---
     <dl class="field shipping-methods"><dt>
@@ -164,19 +166,17 @@ Back to billing-and-shipping::
     <span class="required" title="title_required"> </span>
     </dt>
     <dd>
-    <div>
     <label>
     <input name="shipping-method" type="radio" required="required" value="...">
     ShippingMeth&#246;d1  0.10 &#8364;
     </label>
     <p>Descripti&#246;n of ShippingMeth&#246;d1</p>
-    </div>
-    <div>
+    </dd>
+    <dd>
     <label>
     <input name="shipping-method" type="radio" required="required" checked value="...">
     ShippingMeth&#246;d2  0.20 &#8364;
     </label>
     <p>Descripti&#246;n of ShippingMeth&#246;d2</p>
-    </div>
     </dd>
     </dl>

@@ -1,11 +1,10 @@
 from collective.cart.shopping.config import LOCALES
 from collective.cart.shopping.interfaces import ILocaleUtility
-from five import grok
 from plone.memoize.instance import memoize
 from zope.interface import implements
 
 
-class LocaleUtility(grok.GlobalUtility):
+class LocaleUtility(object):
     """Utility for Locale"""
     implements(ILocaleUtility)
 

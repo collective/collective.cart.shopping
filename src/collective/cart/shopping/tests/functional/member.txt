@@ -29,7 +29,7 @@ Go to cart::
 
 Check out::
 
-    >>> browser.getControl(name="form.checkout").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
 
 Fill Billing Info and select Shipping Methöd 2::
 
@@ -43,11 +43,11 @@ Fill Billing Info and select Shipping Methöd 2::
     >>> browser.getControl(name="billing_city").value = 'Bılling City'
     >>> browser.getControl(name="billing_phone").value = 'Bılling Phone'
     >>> browser.getControl(name="shipping-method").value = [shippingmethod2_uuid]
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
 
 Confirm order::
 
-    >>> browser.getControl(name="form.buttons.ConfirmOrder").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
 
 Check the newest message sent::
 
@@ -106,7 +106,7 @@ Check the newest message sent::
     Total: 12.40 =E2=82=AC
     <BLANKLINE>
     <BLANKLINE>
-    Link to the order: http://nohost/plone/shop/cart-container/1
+    Link to the order: http://nohost/plone/shop/order-container/1
     <BLANKLINE>
     <BLANKLINE>
     <BLANKLINE>
@@ -163,7 +163,7 @@ Check the newest message sent::
     Total: 12.40 =E2=82=AC
     <BLANKLINE>
     <BLANKLINE>
-    Link to the order: http://nohost/plone/shop/cart-container/1
+    Link to the order: http://nohost/plone/shop/order-container/1
     <BLANKLINE>
     <BLANKLINE>
     <BLANKLINE>
@@ -187,7 +187,7 @@ Go to cart::
 
 Check out and there should be billing info filled::
 
-    >>> browser.getControl(name="form.checkout").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
 
     >>> 'value="Bılling First"' in browser.contents
     True
@@ -217,7 +217,7 @@ Check out and there should be billing info filled::
 With different shipping address::
 
     >>> browser.getControl(name="billing-and-shipping-same-or-different").value = ['different']
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
 
 Input shipping info::
 
@@ -230,11 +230,11 @@ Input shipping info::
     >>> browser.getControl(name="shipping_post").value = 'Shıpping Post'
     >>> browser.getControl(name="shipping_city").value = 'Shıpping City'
     >>> browser.getControl(name="shipping_phone").value = 'Shıpping Phone'
-    >>> browser.getControl(name="form.to.confirmation").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
 
 Confirm order::
 
-    >>> browser.getControl(name="form.buttons.ConfirmOrder").click()
+    >>> browser.getControl(name="form.buttons.CheckOut").click()
 
 Thanks page::
 
@@ -298,7 +298,7 @@ Check the newest message sent::
     Total: 12.40 =E2=82=AC
     <BLANKLINE>
     <BLANKLINE>
-    Link to the order: http://nohost/plone/shop/cart-container/2
+    Link to the order: http://nohost/plone/shop/order-container/2
     <BLANKLINE>
     <BLANKLINE>
     <BLANKLINE>
@@ -355,7 +355,7 @@ Check the newest message sent::
     Total: 12.40 =E2=82=AC
     <BLANKLINE>
     <BLANKLINE>
-    Link to the order: http://nohost/plone/shop/cart-container/2
+    Link to the order: http://nohost/plone/shop/order-container/2
     <BLANKLINE>
     <BLANKLINE>
     <BLANKLINE>
@@ -371,63 +371,93 @@ Check the stock of article1::
     --- 1 ---
     <h1 class="documentFirstHeading">&#196;rticle1: 8 pcs</h1>
 
-Go to Cart Container::
+Go to Order Container::
 
-    >>> browser.open('/shop/cart-container')
-    >>> print browser.bycss('#order-list')
+    >>> browser.open('/shop/order-container')
+    >>> print browser.bycss('#order-listing')
     --- 1 ---
-    ...
-    <td class="cart-updated">...</td>
-    <td class="cart-owner">member1</td>
-    <td class="cart-state">Ordered</td>
-    <td>
-    <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
-    <input name="cart-id" type="hidden" value="..."><button name="form.buttons.ChangeState" type="submit" value="canceled">Canceled</button>
-    <button name="form.buttons.ChangeState" type="submit" value="paid">Paid</button>
-    <button name="form.buttons.ChangeState" type="submit" value="charged">Charged</button>
-    </form>
+    <section id="order-listing"><table class="listing"><thead><tr><th>No.</th>
+    <th>Updated</th>
+    <th>Owner</th>
+    <th>State</th>
+    <th>Change State</th>
+    </tr></thead><tbody><tr><td>
+    <a href="http://nohost/plone/shop/order-container/...">...</a>
     </td>
-    ...
-    <td class="cart-updated">...</td>
-    <td class="cart-owner">member1</td>
-    <td class="cart-state">Ordered</td>
+    <td>...</td>
+    <td>member1</td>
+    <td>Ordered</td>
     <td>
-    <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
-    <input name="cart-id" type="hidden" value="..."><button name="form.buttons.ChangeState" type="submit" value="canceled">Canceled</button>
-    <button name="form.buttons.ChangeState" type="submit" value="paid">Paid</button>
-    <button name="form.buttons.ChangeState" type="submit" value="charged">Charged</button>
-    ...
+    <button name="form.buttons.ChangeState" type="submit" value="...:canceled">Canceled</button>
+    <button name="form.buttons.ChangeState" type="submit" value="...:paid">Paid</button>
+    <button name="form.buttons.ChangeState" type="submit" value="...:charged">Charged</button>
+    </td>
+    </tr><tr><td>
+    <a href="http://nohost/plone/shop/order-container/...">...</a>
+    </td>
+    <td>...</td>
+    <td>member1</td>
+    <td>Ordered</td>
+    <td>
+    <button name="form.buttons.ChangeState" type="submit" value="...:canceled">Canceled</button>
+    <button name="form.buttons.ChangeState" type="submit" value="...:paid">Paid</button>
+    <button name="form.buttons.ChangeState" type="submit" value="...:charged">Charged</button>
+    </td>
+    </tr></tbody></table></section>
 
 Cancel the order::
 
     >>> browser.getControl(name="form.buttons.ChangeState", index=0).click()
+
     >>> browser.open('/shop/article1/@@stock')
     >>> print browser.bycss('.documentFirstHeading')
     --- 1 ---
     <h1 class="documentFirstHeading">&#196;rticle1: 9 pcs</h1>
 
-    >>> browser.open('/shop/cart-container')
-    >>> print browser.bycss('#order-list')
+    >>> browser.open('/shop/order-container')
+    >>> print browser.bycss('#order-listing')
     --- 1 ---
+    <section id="order-listing"><table class="listing"><thead><tr><th>No.</th>
     ...
-    <td class="cart-updated">...</td>
-    <td class="cart-owner">member1</td>
-    <td class="cart-state">Canceled</td>
+    <td>member1</td>
+    <td>Canceled</td>
     <td>
-    <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
-    <input name="cart-id" type="hidden" value="..."><button name="form.buttons.RemoveCart" value="form.buttons.RemoveCart" type="submit">Remove</button>
-    </form>
+    <button name="form.buttons.RemoveOrder" type="submit" value="...">Remove</button>
     </td>
+    </tr><tr><td>
     ...
-    <td class="cart-updated">...</td>
-    <td class="cart-owner">member1</td>
-    <td class="cart-state">Ordered</td>
+    </tr></tbody></table></section>
+
+    >>> print browser.bycss('#order-listing')
+    --- 1 ---
+    <section id="order-listing"><table class="listing"><thead><tr><th>No.</th>
+    ...
+    <td>member1</td>
+    <td>Ordered</td>
     <td>
-    <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
-    <input name="cart-id" type="hidden" value="..."><button name="form.buttons.ChangeState" type="submit" value="canceled">Canceled</button>
-    <button name="form.buttons.ChangeState" type="submit" value="paid">Paid</button>
-    <button name="form.buttons.ChangeState" type="submit" value="charged">Charged</button>
+    <button name="form.buttons.ChangeState" type="submit" value="...:canceled">Canceled</button>
+    <button name="form.buttons.ChangeState" type="submit" value="...:paid">Paid</button>
+    <button name="form.buttons.ChangeState" type="submit" value="...:charged">Charged</button>
     ...
+    </tr></tbody></table></section>
+
+Remove order::
+
+    >>> browser.getControl(name="form.buttons.RemoveOrder").click()
+    >>> print browser.bycss('#order-listing')
+    --- 1 ---
+    <section id="order-listing"><table class="listing"><thead><tr><th>No.</th>
+    ...
+    <td>member1</td>
+    <td>Ordered</td>
+    <td>
+    <button name="form.buttons.ChangeState" type="submit" value="...:canceled">Canceled</button>
+    <button name="form.buttons.ChangeState" type="submit" value="...:paid">Paid</button>
+    <button name="form.buttons.ChangeState" type="submit" value="...:charged">Charged</button>
+    </td>
+    </tr></tbody></table></section>
+
+Change state::
 
     >>> browser.getControl(name="form.buttons.ChangeState", index=0).click()
     >>> browser.open('/shop/article1/@@stock')
@@ -435,40 +465,13 @@ Cancel the order::
     --- 1 ---
     <h1 class="documentFirstHeading">&#196;rticle1: 10 pcs</h1>
 
-Remove carts::
+Remove order::
 
-    >>> browser.open('/shop/cart-container')
-    >>> print browser.bycss('#order-list')
+    >>> browser.open('/shop/order-container')
+    >>> browser.getControl(name="form.buttons.RemoveOrder").click()
+    >>> print browser.bycss('#order-listing')
     --- 1 ---
-    ...
-    <td class="cart-updated">...</td>
-    <td class="cart-owner">member1</td>
-    <td class="cart-state">Canceled</td>
-    <td>
-    <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
-    <input name="cart-id" type="hidden" value="..."><button name="form.buttons.RemoveCart" value="form.buttons.RemoveCart" type="submit">Remove</button>
-    </form>
-    </td>
-    ...
-    <td class="cart-updated">...</td>
-    <td class="cart-owner">member1</td>
-    <td class="cart-state">Canceled</td>
-    <td>
-    <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
-    <input name="cart-id" type="hidden" value="..."><button name="form.buttons.RemoveCart" value="form.buttons.RemoveCart" type="submit">Remove</button>
-    ...
-
-    >>> browser.getControl(name="form.buttons.RemoveCart", index=0).click()
-    >>> print browser.bycss('#order-list')
-    --- 1 ---
-    ...
-    <td class="cart-updated">...</td>
-    <td class="cart-owner">member1</td>
-    <td class="cart-state">Canceled</td>
-    <td>
-    <form id="transition" method="post" action="http://nohost/plone/shop/cart-container">
-    <input name="cart-id" type="hidden" value="..."><button name="form.buttons.RemoveCart" value="form.buttons.RemoveCart" type="submit">Remove</button>
-    ...
-
-    >>> browser.getControl(name="form.buttons.RemoveCart", index=0).click()
-    >>> print browser.bycss('#order-list')
+    <section id="order-listing"><p id="no-orders">
+    There are no orders.
+    </p>
+    </section>

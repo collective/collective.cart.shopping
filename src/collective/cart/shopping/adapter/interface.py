@@ -6,30 +6,30 @@ from Products.validation import validation
 from collective.behavior.price.interfaces import ICurrency
 from collective.behavior.size.interfaces import ISize
 from collective.behavior.stock.interfaces import IStock
-from collective.behavior.vat.interfaces import IAdapter
+from collective.behavior.vat.interfaces import IAdapter as IVATAdapter
 from collective.cart.core.adapter.interface import ShoppingSite as BaseShoppingSite
 from collective.cart.shipping.interfaces import IShippingMethod
 from collective.cart.shopping import _
 from collective.cart.shopping.event import ArticleAddedToCartEvent
 from collective.cart.shopping.interfaces import IArticleAdapter
-from collective.cart.shopping.interfaces import IBaseCustomerInfo
 from collective.cart.shopping.interfaces import ICartArticleMultiAdapter
 from collective.cart.shopping.interfaces import ILocaleUtility
 from collective.cart.shopping.interfaces import IPriceUtility
 from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.shopping.interfaces import IShoppingSiteMultiAdapter
+from collective.cart.shopping.schema import CustomerInfoSchema
 from decimal import Decimal
-from five import grok
 from moneyed import Money
 from moneyed.localization import DEFAULT
 from moneyed.localization import format_money
 from plone.dexterity.utils import createContentInContainer
 from plone.registry.interfaces import IRegistry
 from zExceptions import Forbidden
-from zope.component import getMultiAdapter
+from zope.component import adapts
 from zope.component import getUtility
 from zope.event import notify
 from zope.interface import Interface
+from zope.interface import implements
 from zope.lifecycleevent import modified
 from zope.publisher.interfaces.browser import IBrowserRequest
 
@@ -38,10 +38,13 @@ import types
 
 class ShoppingSite(BaseShoppingSite):
     """Adapter for shopping site"""
-    grok.provides(IShoppingSite)
+    implements(IShoppingSite)
 
     def locale(self):
-        """Returns locale for localizing money"""
+        """Returns locale for localizing money
+
+        :rtype: str
+        """
         code = self.context.restrictedTraverse('@@plone_portal_state').locale().getLocaleID()
         return getUtility(ILocaleUtility)(code) or DEFAULT
 
@@ -51,50 +54,84 @@ class ShoppingSite(BaseShoppingSite):
         :param money: Money
         :type money: moneyed.Money
 
-        :rtype: unicode"""
+        :rtype: unicode
+        """
         return format_money(money, locale=self.locale())
 
-    @property
     def cart_article_listing(self):
-        """List of cart articles in session for views."""
+        """Returns list of cart articles in session for view
+
+        :rtype: list
+        """
         res = []
-        vat_adapter = IAdapter(self.context)
-        for article in super(ShoppingSite, self).cart_article_listing:
+        adapter = IVATAdapter(self.context)
+        for article in super(ShoppingSite, self).cart_article_listing():
             article = article.copy()
-            article['vat_rate'] = vat_adapter.percent(article['vat_rate'])
+            article['vat_rate'] = adapter.percent(article['vat_rate'])
             res.append(article)
         return res
 
-    @property
+    def clean_articles_in_cart(self):
+        """Clean articles in cart like:
+
+        Remove article from cart if article no longer exist in shop or the stock is zero.
+
+        :rtype: list
+        """
+        cart_articles = super(ShoppingSite, self).clean_articles_in_cart()
+        if cart_articles:
+            articles = cart_articles.copy()
+            number_of_articles = len(articles)
+            for key in cart_articles:
+                obj = self.get_object(UID=key)
+                if IStock(obj).stock == 0:
+                    del articles[key]
+
+            if len(articles) != number_of_articles:
+                self.update_cart('articles', articles)
+
+            return articles
+
     def articles_total(self):
-        """Total money of articles"""
+        """Returns total money of articles in cart
+
+        :rtype: moneyed.Money
+        """
         registry = getUtility(IRegistry)
         currency = registry.forInterface(ICurrency).default_currency
         res = Money(0.00, currency=currency)
-        for item in self.cart_article_listing:
+        for item in self.cart_article_listing():
             res += item['gross'] * item['quantity']
         return res
 
     def locale_articles_total(self):
-        """Localized total money amount and currency of articles"""
-        return self.format_money(self.articles_total)
+        """Returns localized total money amount and currency of articles in cart
 
-    @property
+        :rtype: str
+        """
+        return self.format_money(self.articles_total())
+
     def shipping_methods(self):
-        if self.shop:
-            return self.get_brains(IShippingMethod, path=self.shop_path)
+        """Returns list of shipping methods
 
-    @property
+        :rtype: list
+        """
+        methods = []
+        if self.shop():
+            methods = self.get_brains(IShippingMethod, path=self.shop_path(), sort_on='getObjPositionInParent')
+        return methods
+
     def shipping_method(self):
-        if self.cart:
-            return self.cart.get('shipping_method')
+        """Returns shipping method in cart"""
+        if self.cart():
+            return self.cart().get('shipping_method')
 
     def _calculated_weight(self, rate=None):
         weight = 0.0
 
-        if self.shipping_method and rate and isinstance(rate, float) and rate > 0.0:
+        if self.shipping_method() and rate and isinstance(rate, float) and rate > 0.0:
 
-            for article in self.cart_article_listing:
+            for article in self.cart_article_listing():
                 weight_in_kg = article['weight'] / 1000.0
                 dimension_weight = (article['depth'] * article['height'] * article['width'] / 10.0 ** 6) * rate
                 if dimension_weight > weight_in_kg:
@@ -107,9 +144,13 @@ class ShoppingSite(BaseShoppingSite):
         return weight
 
     def get_shipping_gross_money(self, uuid):
-        """Get shipping gross money by uuid."""
-        if self.shipping_methods:
-            shipping_methods = [sm for sm in self.shipping_methods if sm.UID == uuid]
+        """Get shipping gross money by uuid.
+
+        :rtype: moneyed.Money
+        """
+        shipping_methods = self.shipping_methods()
+        if shipping_methods:
+            shipping_methods = [sm for sm in shipping_methods if sm.UID == uuid]
             if shipping_methods:
                 shipping_method = shipping_methods[0]
                 obj = shipping_method.getObject()
@@ -122,48 +163,67 @@ class ShoppingSite(BaseShoppingSite):
                 currency = registry.forInterface(ICurrency).default_currency
                 return Money(price, currency=currency)
 
-    @property
     def shipping_gross_money(self):
-        if self.shipping_method:
-            return self.get_shipping_gross_money(self.shipping_method['uuid'])
+        """Returns shipping gross money
+
+        :rtype: moneyed.Money
+        """
+        shipping_method = self.shipping_method()
+        if shipping_method:
+            return self.get_shipping_gross_money(shipping_method['uuid'])
 
     def locale_shipping_gross(self):
-        """Localized money amount and currency for shipping gross cost
+        """Returns localized money amount and currency for shipping gross cost
 
         :rtype: unicode
         """
-        return self.format_money(self.shipping_gross_money)
+        return self.format_money(self.shipping_gross_money())
 
-    @property
     def shipping_vat_money(self):
-        if self.shipping_gross_money:
-            currency = self.shipping_gross_money.currency
-            money = Decimal(self.shipping_method['vat_rate']) / 100 * self.shipping_gross_money
+        """Returns shipping vat money
+
+        :rtype: moneyed.Money
+        """
+        shipping_gross_money = self.shipping_gross_money()
+        if shipping_gross_money:
+            currency = shipping_gross_money.currency
+            money = Decimal(self.shipping_method()['vat_rate']) / 100 * shipping_gross_money
             price = getUtility(IPriceUtility, name="string")(money.amount)
             return Money(Decimal(price), currency)
 
-    @property
     def shipping_net_money(self):
-        if self.shipping_gross_money:
-            return self.shipping_gross_money - self.shipping_vat_money
+        """Returns shipping net money
 
-    @property
+        :rtype: moneyed.Money
+        """
+        shipping_gross_money = self.shipping_gross_money()
+        if shipping_gross_money:
+            return shipping_gross_money - self.shipping_vat_money()
+
     def total(self):
-        total = self.articles_total
-        if self.shipping_gross_money:
-            total += self.shipping_gross_money
+        """Returns total money in cart
+
+        :rtype: moneyed.Money
+        """
+        total = self.articles_total()
+        shipping_gross_money = self.shipping_gross_money()
+        if shipping_gross_money:
+            total += shipping_gross_money
         return total
 
     def locale_total(self):
-        """Localized total amount and currency"""
-        return self.format_money(self.total)
+        """Returns localized total amount and currency
+
+        :rtype: unicode
+        """
+        return self.format_money(self.total())
 
     def update_shipping_method(self, uuid=None):
-        if self.cart_articles:
-            if self.shipping_methods:
+        if self.cart_articles():
+            if self.shipping_methods():
                 if uuid is None:
-                    if not self.shipping_method:
-                        shipping_method = self.shipping_methods[0]
+                    if not self.shipping_method():
+                        shipping_method = self.shipping_methods()[0]
                         items = {
                             'title': shipping_method.Title,
                             'uuid': shipping_method.UID,
@@ -173,10 +233,10 @@ class ShoppingSite(BaseShoppingSite):
                             'weight_dimension_rate': shipping_method.weight_dimension_rate,
                         }
                     else:
-                        items = self.shipping_method
+                        items = self.shipping_method()
 
                 else:
-                    smethods = [smethod for smethod in self.shipping_methods if smethod.UID == uuid]
+                    smethods = [smethod for smethod in self.shipping_methods() if smethod.UID == uuid]
                     if smethods:
                         shipping_method = smethods[0]
                         items = {
@@ -189,11 +249,11 @@ class ShoppingSite(BaseShoppingSite):
                         }
                         self.update_cart('shipping_method', items)
 
-                    items = self.shipping_method
+                    items = self.shipping_method()
 
-                items['gross'] = self.shipping_gross_money
-                items['net'] = self.shipping_net_money
-                items['vat'] = self.shipping_vat_money
+                items['gross'] = self.shipping_gross_money()
+                items['net'] = self.shipping_net_money()
+                items['vat'] = self.shipping_vat_money()
 
                 self.update_cart('shipping_method', items)
 
@@ -201,38 +261,57 @@ class ShoppingSite(BaseShoppingSite):
                 self.remove_from_cart('shipping_method')
 
     def get_address(self, name):
-        """Get address by name."""
-        if self.cart:
-            return self.cart.get(name)
+        """Returns address by name
 
-    def is_address_filled(self, value):
-        """Return true if the address of the value is filled."""
-        info = self.get_address(value)
+        :param name: 'billing' or 'shipping'
+        :type name: str
+
+        :rtype: dict
+        """
+        cart = self.cart()
+        if cart:
+            return cart.get(name)
+
+    def is_address_filled(self, name):
+        """Returns True if the address of name is filled else False
+
+        :rtype: bool
+        """
+        info = self.get_address(name)
         if info:
-            names = [name for name in IBaseCustomerInfo.names() if IBaseCustomerInfo.get(name).required]
-            for name in names:
-                if info.get(name) is None:
+            keyss = [keys for keys in CustomerInfoSchema.names() if CustomerInfoSchema.get(keys).required]
+            for keys in keyss:
+                if info.get(keys) is None:
                     return False
             return True
         else:
             return False
 
-    @property
     def billing_same_as_shipping(self):
-        if self.cart:
-            return self.cart.get('billing_same_as_shipping')
+        """Returns True if billing cart is same as shipping
 
-    @property
+        :rtype: bool
+        """
+        cart = self.cart()
+        if cart:
+            return cart.get('billing_same_as_shipping')
+
     def is_addresses_filled(self):
-        """True if billing addresses is filled and billing_same_as_shipping is True or
-        both billing and shipping addresses are filled."""
-        if self.cart:
-            billing_filled = self.is_address_filled('billing')
-            return (self.billing_same_as_shipping and billing_filled) or (
-                self.is_address_filled('shipping') and billing_filled)
+        """Returns True if addresses in cart are filled else False
+
+        :rtype: bool
+        """
+        if self.is_address_filled('billing'):
+            return self.billing_same_as_shipping() or self.is_address_filled('shipping')
 
     def get_info(self, name):
-        """Return dictonary of address info by name."""
+        """Returns dictionary of address info by name
+
+        :param name: 'billing' or 'shipping'
+        :param type: str
+
+        :rtype: dict
+        """
         info = self.get_address(name)
         if info:
             return {
@@ -269,33 +348,43 @@ class ShoppingSite(BaseShoppingSite):
 
             return data
 
-    def create_cart(self, cart_id=None):
-        """Create cart"""
-        cart = super(ShoppingSite, self).create_cart(cart_id=cart_id)
-        if cart is not None:
-            if self.shipping_method:
-                shipping_method = createContentInContainer(cart, 'collective.cart.shipping.CartShippingMethod',
-                        checkConstraints=False, id="shipping_method", **self.shipping_method)
+    def create_order(self, order_id=None):
+        """Create order into order container from cart
+
+        :rtype: collective.cart.core.Order
+        """
+        order = super(ShoppingSite, self).create_order(order_id=order_id)
+        if order is not None:
+            if self.shipping_method():
+                shipping_method = createContentInContainer(order, 'collective.cart.shipping.OrderShippingMethod',
+                        checkConstraints=False, id="shipping_method", **self.shipping_method())
                 modified(shipping_method)
-            cart.billing_same_as_shipping = self.billing_same_as_shipping
+            order.billing_same_as_shipping = self.billing_same_as_shipping()
             if self.get_address('billing'):
-                billing = createContentInContainer(cart, 'collective.cart.shopping.CustomerInfo',
+                billing = createContentInContainer(order, 'collective.cart.shopping.CustomerInfo',
                         checkConstraints=False, id="billing", **self.get_address('billing'))
                 modified(billing)
-            if not cart.billing_same_as_shipping and self.get_address('shipping'):
-                shipping = createContentInContainer(cart, 'collective.cart.shopping.CustomerInfo',
+            if not order.billing_same_as_shipping and self.get_address('shipping'):
+                shipping = createContentInContainer(order, 'collective.cart.shopping.CustomerInfo',
                         checkConstraints=False, id="shipping", **self.get_address('shipping'))
                 modified(shipping)
 
-        return cart
+        return order
 
     def get_brain_for_text(self, name):
-        brain = self.get_brain(IATFolder, path=self.shop_path, depth=1, id=name)
+        """Returns brain for displaying texts based on context name
+
+        :param name: ID of context
+        :type name: str
+
+        :rtype: brain or None
+        """
+        brain = self.get_brain(IATFolder, path=self.shop_path(), depth=1, id=name)
         if brain:
             return self.get_brain(IATDocument, path=brain.getPath(), depth=1)
 
     def update_address(self, name, data):
-        """Update address of cart in session.
+        """Update address of cart and return message if there are one
 
         :param name: Name of address, such as billing and shipping.
         :type name: str
@@ -349,36 +438,39 @@ class ShoppingSite(BaseShoppingSite):
         return message
 
     def reduce_stocks(self):
-        for item in self.cart_article_listing:
+        """Reduce stocks from articles"""
+        for item in self.cart_article_listing():
             uuid = item['id']
             quantity = item['quantity']
             obj = self.get_object(UID=uuid)
             IStock(obj).sub_stock(quantity)
             modified(obj)
 
-    def link_to_order_for_customer(self, number):
-        """Link to order for customer
+    def link_to_order(self, order_id):
+        """Returns link to order
 
-        :param number: Cart ID
-        :type number: int
+        :param order_id: Order ID
+        :type order_id: str
 
         :rtype: str
         """
-        return self.get_cart(number).absolute_url()
+        return self.get_order(order_id).absolute_url()
 
 
-class ShoppingSiteMultiAdapter(grok.MultiAdapter):
+class ShoppingSiteMultiAdapter(object):
+    """Multi adapter for shopping site"""
 
-    grok.adapts(Interface, IBrowserRequest)
-    grok.provides(IShoppingSiteMultiAdapter)
+    adapts(Interface, IBrowserRequest)
+    implements(IShoppingSiteMultiAdapter)
 
     def __init__(self, context, request):
         self.context = context
         self.request = request
 
     def add_to_cart(self):
+        """Add article to cart"""
         form = self.request.form
-        uuid = form.get('subarticle') or form.get('form.buttons.AddToCart')
+        uuid = form.pop('subarticle', None) or form.pop('form.buttons.AddToCart', None)
 
         if uuid is not None:
 
@@ -388,8 +480,7 @@ class ShoppingSiteMultiAdapter(grok.MultiAdapter):
 
             quantity = form.get('quantity')
             validate = validation.validatorFor('isInt')
-            url = getMultiAdapter(
-                (self.context, self.request), name='plone_context_state').current_base_url()
+            url = self.context.restrictedTraverse('@@plone_context_state').current_base_url()
             message = None
             if quantity is not None and validate(quantity) == 1:
                 quantity = int(quantity)
@@ -398,27 +489,27 @@ class ShoppingSiteMultiAdapter(grok.MultiAdapter):
                     obj = shopping_site.get_object(UID=uuid)
                     if obj:
                         item = IArticleAdapter(obj)
-                        if item.addable_to_cart:
-                            if quantity > item.quantity_max:
-                                quantity = item.quantity_max
-                            if quantity > 0:
-                                size = ISize(obj)
-                                kwargs = {
-                                    'depth': size.depth,
-                                    'gross': item.gross,
-                                    'height': size.height,
-                                    'net': item.net,
-                                    'quantity': quantity,
-                                    'title': item.title,
-                                    'sku': obj.sku,
-                                    'vat': item.vat,
-                                    'vat_rate': item.context.vat_rate,
-                                    'weight': size.weight,
-                                    'width': size.width,
-                                }
-                                item.add_to_cart(**kwargs)
-                                notify(ArticleAddedToCartEvent(item, self.request))
-                                return self.request.response.redirect(url)
+                        if quantity > item.quantity_max():
+                            quantity = item.quantity_max()
+                        if quantity > 0:
+                            size = ISize(obj)
+                            gross = item.gross()
+                            kwargs = {
+                                'depth': size.depth,
+                                'gross': gross,
+                                'height': size.height,
+                                'net': item.get_net(gross),
+                                'quantity': quantity,
+                                'title': item.title(),
+                                'sku': obj.sku,
+                                'vat': item.get_vat(gross),
+                                'vat_rate': item.context.vat_rate,
+                                'weight': size.weight,
+                                'width': size.width,
+                            }
+                            item.add_to_cart(**kwargs)
+                            notify(ArticleAddedToCartEvent(item, self.request))
+                            return self.request.response.redirect(url)
                     message = _(u'Not available to add to cart.')
                 else:
                     message = _(u"Input positive integer value to add to cart.")
@@ -431,48 +522,47 @@ class ShoppingSiteMultiAdapter(grok.MultiAdapter):
             return self.request.response.redirect(url)
 
 
-class CartArticleMultiAdapter(grok.MultiAdapter):
+class CartArticleMultiAdapter(object):
 
-    grok.adapts(Interface, Interface)
-    grok.provides(ICartArticleMultiAdapter)
+    adapts(Interface, Interface)
+    implements(ICartArticleMultiAdapter)
 
     def __init__(self, context, article):
         self.context = context
         self.article = article
 
-    @property
     def orig_article(self):
-        """Returns original Article object."""
+        """Returns original article
+
+        :rtype: collective.cart.core.Article
+        """
         uuid = self.article['id']
         return IShoppingSite(self.context).get_object(UID=uuid)
 
-    @property
     def image_url(self):
-        """Returns image url of the article.
-        If the image does not exists then return from parent or fallback image.
+        """Returns image url of article
+
+        :rtype: str
         """
-        return IArticleAdapter(self.orig_article).image_url
+        return IArticleAdapter(self.orig_article()).image_url()
 
-    @property
-    def locale_gross(self):
-        code = self.context.restrictedTraverse('@@plone_portal_state').locale().getLocaleID()
-        locale = getUtility(ILocaleUtility)(code) or DEFAULT
-        return format_money(self.article['gross'], locale=locale)
-
-    @property
-    def locale_gross_subtotal(self):
-        code = self.context.restrictedTraverse('@@plone_portal_state').locale().getLocaleID()
-        locale = getUtility(ILocaleUtility)(code) or DEFAULT
-        return format_money((self.article['gross'] * self.article['quantity']), locale=locale)
-
-    @property
     def gross_subtotal(self):
+        """Returns money of article subtotal
+
+        :rtype: moneyed.Money
+        """
         return self.article['gross'] * self.article['quantity']
 
-    @property
     def quantity_max(self):
-        return IStock(self.orig_article).stock
+        """Returns maximum size to be added to cart
 
-    @property
+        :rtype: int
+        """
+        return IStock(self.orig_article()).stock()
+
     def quantity_size(self):
-        return len(str(self.quantity_max))
+        """Returns size of quantity for input size
+
+        :rtype: int
+        """
+        return len(str(self.quantity_max()))

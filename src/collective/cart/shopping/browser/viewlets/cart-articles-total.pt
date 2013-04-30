@@ -1,0 +1,7 @@
+<section
+  id="cart-articles-total"
+  i18n:domain="collective.cart.shopping"
+  tal:condition="view/available">
+  <span i18n:translate="">Total</span>&nbsp;&nbsp;
+  <span id="total" tal:content="view/articles_total" />
+</section>

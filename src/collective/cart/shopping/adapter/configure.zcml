@@ -1,0 +1,37 @@
+<configure
+  i18n_domain="collective.cart.shopping"
+  xmlns:i18n="http://namespaces.zope.org/i18n"
+  xmlns="http://namespaces.zope.org/zope">
+
+  <adapter
+    factory=".interface.ShoppingSite"
+    for="*"
+    provides="collective.cart.shopping.interfaces.IShoppingSite"
+    />
+
+  <adapter
+    factory=".article.ArticleAdapter"
+    for="collective.cart.shopping.interfaces.IArticle"
+    provides="collective.cart.shopping.interfaces.IArticleAdapter"
+    />
+
+  <adapter
+    factory=".order.OrderAdapter"
+    for="collective.cart.shopping.interfaces.IOrder"
+    provides="collective.cart.shopping.interfaces.IOrderAdapter"
+    />
+
+  <adapter
+    factory=".order_article.OrderArticleAdapter"
+    for="collective.cart.shopping.interfaces.IOrderArticle"
+    provides="collective.cart.shopping.interfaces.IOrderArticleAdapter"
+    />
+
+  <adapter
+    factory=".interface.ShoppingSiteMultiAdapter"
+    />
+  <adapter
+    factory=".interface.CartArticleMultiAdapter"
+    />
+
+</configure>

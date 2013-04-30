@@ -25,6 +25,12 @@ class PriceUtilityTestCase(unittest.TestCase):
         self.assertIsInstance(getUtility(IPriceUtility, name="decimal"), PriceUtility)
         self.assertIsInstance(getUtility(IPriceUtility, name="string"), PriceUtility)
 
+    def test_verifyObject(self):
+        from zope.interface.verify import verifyObject
+        self.assertTrue(verifyObject(IPriceUtility, getUtility(IPriceUtility, name="float")))
+        self.assertTrue(verifyObject(IPriceUtility, getUtility(IPriceUtility, name="decimal")))
+        self.assertTrue(verifyObject(IPriceUtility, getUtility(IPriceUtility, name="string")))
+
     def test___call__(self):
         float_utility = getUtility(IPriceUtility, name="float")
         decimal_utility = getUtility(IPriceUtility, name="decimal")

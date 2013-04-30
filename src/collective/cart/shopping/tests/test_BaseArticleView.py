@@ -1,34 +1,25 @@
+# -*- coding: utf-8 -*-
+from collective.cart.shopping.browser.interfaces import IBaseArticleView
 from collective.cart.shopping.browser.template import BaseArticleView
 from collective.cart.shopping.tests.base import IntegrationTestCase
-from zope.publisher.browser import TestRequest
-from zope.annotation.interfaces import IAttributeAnnotatable
-from zope.interface import directlyProvides
-
-import mock
 
 
 class BaseArticleViewTestCase(IntegrationTestCase):
     """TestCase for BaseArticleView"""
 
     def test_subclass(self):
-        from collective.cart.shopping.browser.template import BaseView
-        self.assertTrue(issubclass(BaseArticleView, BaseView))
+        from collective.cart.core.browser.template import BaseFormView
+        self.assertTrue(issubclass(BaseArticleView, BaseFormView))
+        from collective.cart.core.browser.interfaces import IBaseFormView
+        self.assertTrue(issubclass(IBaseArticleView, IBaseFormView))
 
-    def test_baseclass(self):
-        self.assertTrue(getattr(BaseArticleView, 'martian.martiandirective.baseclass'))
+    def test_verifyObject(self):
+        from zope.interface.verify import verifyObject
+        context = self.create_content('collective.cart.core.Article', title="Ärticle")
+        instance = self.create_view(BaseArticleView, context)
+        self.assertTrue(verifyObject(IBaseArticleView, instance))
 
-    def test_context(self):
-        from collective.cart.shopping.interfaces import IArticle
-        self.assertTrue(getattr(BaseArticleView, 'grokcore.component.directive.context'), IArticle)
-
-    def create_view(self, context):
-        request = TestRequest()
-        directlyProvides(request, IAttributeAnnotatable)
-        return BaseArticleView(context, request)
-
-    @mock.patch('collective.cart.shopping.browser.template.IArticleAdapter')
-    def test_title(self, IArticleAdapter):
-        context = mock.Mock()
-        instance = self.create_view(context)
-        IArticleAdapter().title = 'TITLE'
-        self.assertEqual(instance.title, 'TITLE')
+    def test_title(self):
+        context = self.create_content('collective.cart.core.Article', title="Ärticle")
+        instance = self.create_view(BaseArticleView, context)
+        self.assertEqual(instance.title(), 'Ärticle')

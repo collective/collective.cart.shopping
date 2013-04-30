@@ -1,41 +1,69 @@
+from collective.base.interfaces import IAdapter
 from collective.behavior.price.interfaces import IPrice
 from collective.cart import core
+from collective.cart.core.interfaces import IArticle as IBaseArticle
 from collective.cart.core.interfaces import IArticleAdapter as IBaseArticleAdapter
-from collective.cart.core.interfaces import ICartAdapter as IBaseCartAdapter
-from collective.cart.core.interfaces import ICartArticle as IBaseCartArticle
-from collective.cart.core.interfaces import ICartArticleAdapter as IBaseCartArticleAdapter
+from collective.cart.core.interfaces import IOrder as IBaseOrder
+from collective.cart.core.interfaces import IOrderAdapter as IBaseOrderAdapter
+from collective.cart.core.interfaces import IOrderArticle as IBaseOrderArticle
 from collective.cart.core.interfaces import IShoppingSite as IBaseShoppingSite
+from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping import _
-from plone.app.textfield import RichText
-from plone.directives import form
-from plone.namedfile.field import NamedBlobImage
+from collective.cart.shopping.schema import ArticleContainerSchema
+from collective.cart.shopping.schema import ArticleSchema
+from collective.cart.shopping.schema import CustomerInfoSchema
+from collective.cart.shopping.schema import OrderArticleSchema
+from collective.cart.shopping.schema import OrderSchema
+from collective.cart.shopping.schema import ShopSchema
+from plone.autoform.interfaces import IFormFieldProvider
 from plone.namedfile.interfaces import IImageScaleTraversable
 from zope.interface import Attribute
 from zope.interface import Interface
 from zope.interface import alsoProvides
-from zope.schema import Bool
-from zope.schema import Choice
 from zope.schema import Decimal
-from zope.schema import TextLine
-from zope.schema.vocabulary import SimpleTerm
-from zope.schema.vocabulary import SimpleVocabulary
 
+
+# Content type
+
+class IArticleContainer(ArticleContainerSchema, IImageScaleTraversable):
+    """Interface for content type: collective.cart.shopping.ArticleContainer"""
+
+
+class IArticle(ArticleSchema, IBaseArticle, IImageScaleTraversable):
+    """Interface for content type: collective.cart.core.Article"""
+
+
+class IOrder(OrderSchema, IBaseOrder):
+    """Interface for content type: collective.cart.core.Order"""
+
+
+class IOrderArticle(OrderArticleSchema, IBaseOrderArticle):
+    """Interface for content type: collective.cart.core.OrderArticle"""
+
+    gross = Attribute('Gross money of CartArticle')
+    net = Attribute('Net money of CartArticle')
+    vat = Attribute('VAT money of CartArticle')
+    quantity = Attribute('Quantity of CartArticle')
+
+
+class ICustomerInfo(CustomerInfoSchema):
+    """Interface for content type: collective.cart.shopping.CustomerInfo"""
+
+
+class IShop(ShopSchema, IShoppingSiteRoot):
+    """Interface for content type: collective.cart.shopping.Shop"""
+
+
+# Adapter
 
 class IShoppingSite(IBaseShoppingSite):
-    """Adapter Interface for Shopping Site."""
-
-    articles_total = Attribute('Total of articles in session')
-    shipping_methods = Attribute('List of shipping methods')
-    shipping_method = Attribute('Shipping method from cart')
-    shipping_gross_money = Attribute('Gross money of shipping method in the session')
-    shipping_vat_money = Attribute('VAT money of shipping method in the session')
-    shipping_net_money = Attribute('Net money of shipping method in the session')
-    total = Attribute('Total money')
-    billing_same_as_shipping = Attribute('True if billing info in session cart is same as shipping info')
-    is_addresses_filled = Attribute('True if addresses are filled')
+    """Adapter Interface for shopping site"""
 
     def locale():  # pragma: no cover
-        """Returns locale for localizing money"""
+        """Returns locale for localizing money
+
+        :rtype: unicode
+        """
 
     def format_money(money):  # pragma: no cover
         """Returns locale formated money
@@ -43,40 +71,122 @@ class IShoppingSite(IBaseShoppingSite):
         :param money: Money
         :type money: moneyed.Money
 
-        :rtype: unicode"""
+        :rtype: unicode
+        """
+
+    def articles_total():  # pragma: no cover
+        """Returns total money of articles in cart
+
+        :rtype: moneyed.Money
+        """
 
     def locale_articles_total():  # pragma: no cover
-        """Localized total money amount and currency of articles"""
-
-    def get_shipping_gross_money(uuid):  # pragma: no cover
-        """Get shipping gross money by uuid."""
-
-    def locale_shipping_gross():  # pragma: no cover
-        """Localized money amount and currency for shipping gross cost
+        """Returns localized total money amount and currency of articles in cart
 
         :rtype: unicode
         """
 
+    def shipping_methods():  # pragma: no cover
+        """Returns list of shipping methods
+
+        :rtype: list
+        """
+
+    def shipping_method():  # pragma: no cover
+        """Returns shipping method in cart"""
+
+    def get_shipping_gross_money(uuid):  # pragma: no cover
+        """Returns shipping gross money by uuid
+
+        :rtype: moneyed.Money
+        """
+
+    def shipping_gross_money():  # pragma: no cover
+        """Returns shipping gross money
+
+        :rtype: moneyed.Money
+        """
+
+    def locale_shipping_gross():  # pragma: no cover
+        """Returns localized money amount and currency for shipping gross cost
+
+        :rtype: unicode
+        """
+
+    def shipping_vat_money():  # pragma: no cover
+        """Returns shipping vat money
+
+        :rtype: moneyed.Money
+        """
+
+    def shipping_net_money():  # pragma: no cover
+        """Returns shipping net money
+
+        :rtype: moneyed.Money
+        """
+
+    def total():  # pragma: no cover
+        """Returns total money in cart
+
+        :rtype: moneyed.Money
+        """
+
     def locale_total():  # pragma: no cover
-        """Localized total amount and currency"""
+        """Returns localized total amount and currency
+
+        :rtype: unicode
+        """
 
     def update_shipping_method(uuid=None):  # pragma: no cover
-        """Update shipping method of cart in session."""
+        """Update shipping method of cart"""
 
-    def get_address(self, name):  # pragma: no cover
-        """Get address from cart in session."""
+    def get_address(name):  # pragma: no cover
+        """Returns address by name
 
-    def is_address_filled(value):  # pragma: no cover
-        """Returns true if the address of the value is filled."""
+        :param name: 'billing' or 'shipping'
+        :type name: str
 
-    def get_info(self, name):
-        """Get address info which could be used directy in form."""
+        :rtype: dict
+        """
+
+    def is_address_filled(name):  # pragma: no cover
+        """Returns True if the address of name is filled else False
+
+        :rtype: bool
+        """
+
+    def billing_same_as_shipping():  # pragma: no cover
+        """Returns True if billing cart is same as shipping
+
+        :rtype: bool
+        """
+
+    def is_addresses_filled():  # pragma: no cover
+        """Returns True if addresses in cart are filled else False
+
+        :rtype: bool
+        """
+
+    def get_info(name):  # pragma: no cover
+        """Returns dictionary of address info by name
+
+        :param name: 'billing' or 'shipping'
+        :param type: str
+
+        :rtype: dict
+        """
 
     def get_brain_for_text(name):  # pragma: no cover
-        """Get brain for displaying texts based on view name."""
+        """Returns brain for displaying texts based on context name
+
+        :param name: ID of context
+        :type name: str
+
+        :rtype: brain or None
+        """
 
     def update_address(name, data):  # pragma: no cover
-        """Update address of cart in session.
+        """Update address of cart and return message if there are one
 
         :param name: Name of address, such as billing and shipping.
         :type name: str
@@ -90,169 +200,130 @@ class IShoppingSite(IBaseShoppingSite):
     def reduce_stocks():  # pragma: no cover
         """Reduce stocks from articles"""
 
-    def link_to_order_for_customer(number):  # pragma: no cover
-        """Link to order for customer
+    def link_to_order(order_id):  # pragma: no cover
+        """Returns link to order
 
-        :param number: Cart ID
-        :type number: int
+        :param order_id: Order ID
+        :type order_id: str
 
         :rtype: str
         """
 
 
 class IShoppingSiteMultiAdapter(Interface):
-    """Multi adapter interface for updating cart."""
+    """Multi adapter interface for shopping site"""
 
     def add_to_cart():  # pragma: no cover
-        """Add to cart."""
+        """Add article to cart"""
 
 
 class ICartArticleMultiAdapter(Interface):
-    """Multi adapter interface for plone object and dictionary of cart article in session."""
+    """Multi adapter interface for plone object and dictionary of cart article"""
 
-    orig_article = Attribute('Original Article object')
-    image_url = Attribute('Image url of the article')
-    gross_subtotal = Attribute('Gross subtotal of the article')
-    quantity_max = Attribute('Maximum quantity of the article in cart')
-    quantity_size = Attribute('Size of quantity for input tag')
+    def orig_article():  # pragma: no cover
+        """Returns original article
 
+        :rtype: collective.cart.core.Article
+        """
 
-class IArticleContainer(form.Schema, IImageScaleTraversable):
-    """Container for Articles."""
+    def image_url():  # pragma: no cover
+        """Returns image url of article
 
+        :rtype: str
+        """
 
-class IArticle(core.interfaces.IArticle, IImageScaleTraversable):
+    def gross_subtotal():  # pragma: no cover
+        """Returns money of article subtotal
 
-    use_subarticle = Bool(
-        title=_(u'Use Subarticle'),
-        description=_(u'Check if this article has options such as sizes and colors.'),
-        required=False)
+        :rtype: moneyed.Money
+        """
 
-    image = NamedBlobImage(
-        title=_(u'Representative Image'),
-        description=_(u'The representative image of this article.'),
-        required=False)
+    def quantity_max():  # pragma: no cover
+        """Returns maximum size to be added to cart
 
-    text = RichText(
-        title=_(u'Detailed information'),
-        description=_(u'Further detailed information comes here.'),
-        required=False)
+        :rtype: int
+        """
 
-    image_url = Attribute('URL of Image.')
-    title = Attribute('Title of article could be inherited from parent...')
+    def quantity_size():  # pragma: no cover
+        """Returns size of quantity for input size
+
+        :rtype: int
+        """
 
 
 class IArticleAdapter(IBaseArticleAdapter):
+    """Adapter interface for content type: collective.cart.core.Article"""
 
-    articles_in_article = Attribute('Articles in Article which is not optional subarticle.')
-    subarticles = Attribute('Subarticles of the article.')
-    subarticles_option = Attribute('Subarticles for form select option.')
-    subarticle_addable_to_cart = Attribute('True if subarticles are addable to cart.')
-    subarticle_soldout = Attribute('True or False for subarticle sold out.')
-    subarticle_quantity_max = Attribute('Minimum max quantity for all the subarticles.')
-    quantity_max = Attribute('Maximum quantity which could be added to cart')
-    discount_available = Attribute('True if discount is available, else False.')
-    discount_end = Attribute('End day of discount.')
-    gross = Attribute('Gross money for the article.')
-    vat = Attribute('VAT money for the article.')
-    net = Attribute('Net money for the article.')
-    soldout = Attribute('True or False for sold out.')
-    image_url = Attribute('Image url of the article')
-    title = Attribute('Title is inherited from parent if parent allow subarticles')
+    def articles(salable=None, use_subarticle=None):
+        """Returns brain of articles located directly under context"""
+
+    def soldout():  # pragma: no cover
+        """Returns True if sold out else False
+
+        :rtype: bool
+        """
+
+    def subarticles():  # pragma: no cover
+        """Returns subarticles for form select option
+
+        :rtype: list
+        """
+
+    def quantity_max():  # pragma: no cover
+        """"""
+
+    def discount_available():  # pragma: no cover
+        """"""
+
+    def gross():  # pragma: no cover
+        """"""
+
+    def get_net(gross):  # pragma: no cover
+        """"""
+
+    def get_vat(gross):  # pragma: no cover
+        """"""
+
+    def image_url():  # pragma: no cover
+        """"""
+
+    def title():  # pragma: no cover
+        """"""
 
 
-class ICart(core.interfaces.ICart):
-    """Interface for Cart."""
+class IOrderAdapter(IBaseOrderAdapter):
+    """Adapter interface for content type: collective.cart.core.Order"""
 
-    billing_same_as_shipping = Bool(
-        title=_(u'Billing info same as shipping info'),
-        required=False,
-        default=True)
+    def articles_total():  # pragma: no cover
+        """Returns total money of articles
 
+        :rtype: moneyed.Money
+        """
 
-class ICartAdapter(IBaseCartAdapter):
-    """Adapter interface for Cart"""
+    def shipping_method():  # pragma: no cover
+        """Returns brain of shipping method"""
 
-    articles_total = Attribute('Total money of the articles')
-    shipping_method = Attribute('Brain of shipping method')
-    shipping_gross_money = Attribute('Gross money of shipping method')
-    shipping_net_money = Attribute('Net money of shipping method')
-    shipping_vat_money = Attribute('VAT money of shipping method')
-    articles_total = Attribute('Total money of articles')
-    total = Attribute('Overall total money')
+    def locale_shipping_method():  # pragma: no cover
+        """Returns dictionary of shipping method containing localized cost of it"""
+
+    def total():  # pragma: no cover
+        """Returns total money of order
+
+        :rtype: moneyed.Money
+        """
 
     def get_address(name):  # pragma: no cover
-        """Get address by name."""
+        """Return brain of address by name
+
+        :param name: 'billing' or 'shipping'
+        :type name: str
+        """
 
 
-class ICartArticle(IBaseCartArticle):
-    """Interface for CartArticle"""
+class IOrderArticleAdapter(IAdapter):
+    """Adapter interface for content type: collective.cart.core.OrderArticle"""
 
-    gross = Attribute('Gross money of CartArticle')
-    net = Attribute('Net money of CartArticle')
-    vat = Attribute('VAT money of CartArticle')
-    quantity = Attribute('Quantity of CartArticle')
-
-
-class ICartArticleAdapter(IBaseCartArticleAdapter):
-    """Adapter interface for CartArticle"""
-
-    gross_subtotal = Attribute('Gross subtotal')
-
-
-class IBaseCustomerInfo(form.Schema):
-    """Base Schema for all customer info."""
-
-    first_name = TextLine(
-        title=_(u'First Name'))
-
-    last_name = TextLine(
-        title=_(u'Last Name'))
-
-    organization = TextLine(
-        title=_(u'Organization'),
-        required=False)
-
-    vat = TextLine(
-        title=_('VAT Number'),
-        description=_(u'International VAT Number, for Finland it starts with FI.'),
-        default=u'FI',
-        required=False)
-
-    email = TextLine(
-        title=_(u'E-mail'))
-
-    street = TextLine(
-        title=_(u'Street Address'))
-
-    post = TextLine(
-        title=_(u'Post Code'))
-
-    city = TextLine(
-        title=_(u'City'))
-
-    phone = TextLine(
-        title=_(u'Phone Number'))
-
-
-info_types = SimpleVocabulary([
-    SimpleTerm(value=u'billing', title=_(u'Billing')), SimpleTerm(value=u'shipping', title=_(u'Shipping'))])
-
-
-class ICustomerInfo(IBaseCustomerInfo):
-    """Schema for collective.cart.shipping.CustomerInfo dexterity type."""
-
-    orig_uuid = Attribute('Original UUID.')
-
-    info_type = Choice(
-        title=_(u'Type'),
-        description=_(u'Select one if this information is used only for billing or shipping.'),
-        vocabulary=info_types,
-        required=False)
-
-
-class IShop(core.interfaces.IShoppingSiteRoot):
-    """Schema interface for shop."""
+    # gross_subtotal = Attribute('Gross subtotal')
 
 
 class IStockPrice(IPrice):
@@ -262,7 +333,7 @@ class IStockPrice(IPrice):
         required=True)
 
 
-alsoProvides(IStockPrice, form.IFormFieldProvider)
+alsoProvides(IStockPrice, IFormFieldProvider)
 
 
 class ISubArticle(core.interfaces.IArticle):
@@ -312,8 +383,8 @@ class IMoneyUtility(Interface):
 class IUnicodeUtility(Interface):
     """Utility interface for unicode."""
 
-    def safe_unicode():  # pragma: no cover
-        """Returns unicode of value.
+    def safe_unicode(value, encoding=None):  # pragma: no cover
+        """Returns unicode of value
 
         :param value: Basestring
         :type value: basestring
@@ -324,8 +395,20 @@ class IUnicodeUtility(Interface):
         :rtype: unicode
         """
 
+    def fullname(address, encoding=None):
+        """Returns unicode formated full name
+
+        :param address: Address information
+        :type address: dictionary
+
+        :param encoding: Character set
+        :type encoding: str
+
+        :rtype: unicode
+        """
+
     def address(address, encoding):  # pragma: no cover
-        """Format address
+        """Returns unicode formated address
 
         :param address: Address information
         :type address: dictionary

@@ -1,21 +1,19 @@
+# -*- coding: utf-8 -*-
+from collective.cart.shopping.browser.interfaces import IArticlesInArticleViewlet
 from collective.cart.shopping.browser.viewlet import ArticlesInArticleViewlet
+from collective.cart.shopping.tests.base import IntegrationTestCase
 
-import unittest
 
-
-class ArticlesInArticleViewletTestCase(unittest.TestCase):
+class ArticlesInArticleViewletTestCase(IntegrationTestCase):
     """TestCase for ArticlesInArticleViewlet"""
 
     def test_subclass(self):
-        from collective.cart.shopping.browser.viewlet import BaseArticleViewlet
-        self.assertTrue(issubclass(ArticlesInArticleViewlet, BaseArticleViewlet))
+        from collective.cart.shopping.browser.viewlet import AddToCartViewlet
+        self.assertTrue(issubclass(ArticlesInArticleViewlet, AddToCartViewlet))
+        from collective.cart.shopping.browser.interfaces import IAddToCartViewlet
+        self.assertTrue(issubclass(IArticlesInArticleViewlet, IAddToCartViewlet))
 
-    def test_name(self):
-        self.assertEqual(getattr(ArticlesInArticleViewlet, 'grokcore.component.directive.name'), 'collective.cart.shopping.articles.in.article')
-
-    def test_template(self):
-        self.assertEqual(getattr(ArticlesInArticleViewlet, 'grokcore.view.directive.template'), 'articles-in-article')
-
-    def test_viewletmanager(self):
-        from collective.cart.shopping.browser.viewlet import BelowArticleViewletManager
-        self.assertEqual(getattr(ArticlesInArticleViewlet, 'grokcore.viewlet.directive.viewletmanager'), BelowArticleViewletManager)
+    def test_verifyObject(self):
+        from zope.interface.verify import verifyObject
+        instance = self.create_viewlet(ArticlesInArticleViewlet)
+        self.assertTrue(verifyObject(IArticlesInArticleViewlet, instance))

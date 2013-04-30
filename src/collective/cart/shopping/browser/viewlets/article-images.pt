@@ -1,0 +1,49 @@
+<section id="article-images">
+  <script>
+    jq(function() {
+    jq(".scrollable").scrollable();
+    jq(".items img").click(function() {
+    // see if same thumb is being clicked
+    if (jq(this).hasClass("active")) { return; }
+    // calclulate large image's URL based on the thumbnail URL
+    var url = jq(this).attr("src").replace("_t", "");
+    // get handle to element that wraps the image and make it semi-transparent
+    var wrap = jq("#image_wrap").fadeTo("medium", 0.5);
+    // the large image
+    var img = new Image();
+    // call this function after it's loaded
+    img.onload = function() {
+    // make wrapper fully visible
+    wrap.fadeTo("fast", 1);
+    // change the image
+    wrap.find("img").attr("src", url);
+    };
+    // begin loading the image
+    img.src = url;
+    // activate item
+    jq(".items img").removeClass("active");
+    jq(this).addClass("active");
+    // when page loads simulate a "click" on the first image
+    }).filter(":first").click();
+    });
+  </script>
+  <section id="image_wrap">
+    <img tal:attributes="src string: ${context/@@plone_portal_state/portal_url}/++resource++collective.cart.shopping/transparent.gif">
+  </section>
+  <section id="scrollable" class="scrollable">
+    <div class="items">
+      <div>
+        <img tal:attributes="
+          alt context/Description;
+          src view/image_url;
+          title view/title" />
+        <img
+          tal:repeat="item view/images"
+          tal:attributes="
+            alt item/description;
+            src string:${item/url}/@@images/image;
+            title item/title" />
+      </div>
+    </div>
+  </section>
+</section>

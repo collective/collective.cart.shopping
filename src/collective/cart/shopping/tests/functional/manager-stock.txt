@@ -6,21 +6,21 @@ Add Shop::
 
     >>> browser.open('/++add++collective.cart.shopping.Shop')
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Shöp'
-    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Shöp.'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Description of Shöp.'
     >>> browser.getControl(name="form.buttons.save").click()
 
 Add Article Container::
 
     >>> browser.open('/shop/++add++collective.cart.shopping.ArticleContainer')
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle Cöntäiner'
-    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Äarticle Cöntäiner.'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Description of Äarticle Cöntäiner.'
     >>> browser.getControl(name="form.buttons.save").click()
 
 Add Article1::
 
     >>> browser.open('/shop/article-container/++add++collective.cart.core.Article')
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
-    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Ärticle1'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Description of Ärticle1'
     >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU1'
     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '24.60'
     >>> browser.getControl(name="form.widgets.ISize.weight").value = '100.0'
@@ -40,20 +40,18 @@ Check stock::
     --- 1 ---
     <div class="documentDescription">There are no stocks available.</div>
 
-    >>> print browser.bycss('#add-and-subtract-stock')
+    >>> print browser.bycss('#add-subtract-stock')
     --- 1 ---
-    <section id="add-and-subtract-stock"><form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
-    </form>
-    </section>
+    <section id="add-subtract-stock"><section id="add-new-stock"><button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    </section></section>
 
-    >>> print browser.bycss('#collective-cart-shopping-stock-list')
+    >>> print browser.bycss('#stock-listing')
 
 Add stock::
 
     >>> browser.getControl(name="form.buttons.AddNewStock").click()
     >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck1'
-    >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Descriptiön of Stöck1'
+    >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Stöck1'
     >>> browser.getControl(name="form.widgets.stock").value = '100'
     >>> browser.getControl( name="form.widgets.IStockPrice.price").value = '4.00'
     >>> browser.getControl(name="form.buttons.save").click()
@@ -61,35 +59,28 @@ Add stock::
     >>> browser.url
     'http://nohost/plone/shop/article-container/article1/@@stock'
 
-    # >>> import time
-    # >>> time.sleep(11)
-
     >>> print browser.bycss('.documentFirstHeading')
     --- 1 ---
     <h1 class="documentFirstHeading">&#196;rticle1: 100 pcs</h1>
 
     >>> print browser.bycss('.documentDescription')
 
-    >>> print browser.bycss('#add-and-subtract-stock')
+    >>> print browser.bycss('#add-subtract-stock')
     --- 1 ---
-    <section id="add-and-subtract-stock"><form id="quick-subtract" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-subtract" type="number" min="1" max="100" size="3"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
-    </form>
-    <form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
-    </form>
-    </section>
+    <section id="add-subtract-stock"><section id="quick-subtract"><input name="quick-subtract" type="number" min="1" max="100" size="3"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
+    </section><section id="add-new-stock"><button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    </section></section>
 
-    >>> print browser.bycss('#collective-cart-shopping-stock-list')
+    >>> print browser.bycss('#stock-listing')
     --- 1 ---
-    <section id="collective-cart-shopping-stock-list"><table class="listing"><thead><tr><th>Title</th>
+    <section id="stock-listing"><table class="listing"><thead><tr><th>Title</th>
     <th>Created</th>
     <th>Initial Stock</th>
     <th>Current Stock</th>
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
     </tr></thead><tbody><tr><td>
-    <a title="Descripti&#246;n of St&#246;ck1" href="http://nohost/plone/shop/article-container/article1/stock1">St&#246;ck1</a>
+    <a href="http://nohost/plone/shop/article-container/article1/stock1" title="Description of St&#246;ck1">St&#246;ck1</a>
     </td>
     <td>
     ...
@@ -104,9 +95,7 @@ Add stock::
     4.00 &#8364;
     </td>
     <td>
-    <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
     <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
-    </form>
     </td>
     </tr></tbody></table></section>
 
@@ -114,7 +103,7 @@ Add another stock::
 
     >>> browser.getControl(name="form.buttons.AddNewStock").click()
     >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck2'
-    >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Descriptiön of Stöck2'
+    >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Stöck2'
     >>> browser.getControl(name="form.widgets.stock").value = '50'
     >>> browser.getControl( name="form.widgets.IStockPrice.price").value = '5.00'
     >>> browser.getControl(name="form.buttons.save").click()
@@ -125,26 +114,55 @@ Add another stock::
 
     >>> print browser.bycss('.documentDescription')
 
-    >>> print browser.bycss('#add-and-subtract-stock')
+    >>> print browser.bycss('#add-subtract-stock')
     --- 1 ---
-    <section id="add-and-subtract-stock"><form id="quick-subtract" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-subtract" type="number" min="1" max="150" size="3"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
-    </form>
-    <form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
-    </form>
-    </section>
+    <section id="add-subtract-stock"><section id="quick-subtract"><input name="quick-subtract" type="number" min="1" max="150" size="3"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
+    </section><section id="add-new-stock"><button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    </section></section>
 
-    >>> print browser.bycss('#collective-cart-shopping-stock-list')
+    >>> print browser.bycss('#stock-listing')
     --- 1 ---
-    <section id="collective-cart-shopping-stock-list"><table class="listing"><thead><tr><th>Title</th>
+    <section id="stock-listing"><table class="listing"><thead><tr><th>Title</th>
     <th>Created</th>
     <th>Initial Stock</th>
     <th>Current Stock</th>
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
     </tr></thead><tbody><tr><td>
+    <a href="http://nohost/plone/shop/article-container/article1/stock2" title="Description of St&#246;ck2">St&#246;ck2</a>
+    </td>
+    <td>
     ...
+    </td>
+    <td>
+    50
+    </td>
+    <td>
+    50
+    </td>
+    <td>
+    5.00 &#8364;
+    </td>
+    <td>
+    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
+    </td>
+    </tr><tr><td>
+    <a href="http://nohost/plone/shop/article-container/article1/stock1" title="Description of St&#246;ck1">St&#246;ck1</a>
+    </td>
+    <td>
+    ...
+    </td>
+    <td>
+    100
+    </td>
+    <td>
+    100
+    </td>
+    <td>
+    4.00 &#8364;
+    </td>
+    <td>
+    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
     </td>
     </tr></tbody></table></section>
 
@@ -169,29 +187,45 @@ Subtract stock::
 
     >>> print browser.bycss('.documentDescription')
 
-    >>> print browser.bycss('#add-and-subtract-stock')
+    >>> print browser.bycss('#add-subtract-stock')
     --- 1 ---
-    <section id="add-and-subtract-stock"><form id="quick-add" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-add" type="number" min="1" max="70" size="2"><button name="form.buttons.QuickAdd" value="form.buttons.QuickAdd" type="submit">Quick Add</button>
-    </form>
-    <form id="quick-subtract" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-subtract" type="number" min="1" max="80" size="2"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
-    </form>
-    <form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
-    </form>
-    </section>
+    <section id="add-subtract-stock"><section id="quick-add"><input name="quick-add" type="number" min="1" max="70" size="2"><button name="form.buttons.QuickAdd" value="form.buttons.QuickAdd" type="submit">Quick Add</button>
+    </section><section id="quick-subtract"><input name="quick-subtract" type="number" min="1" max="80" size="2"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
+    </section><section id="add-new-stock"><button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    </section></section>
 
-    >>> print browser.bycss('#collective-cart-shopping-stock-list')
+    >>> print browser.bycss('#stock-listing')
     --- 1 ---
-    <section id="collective-cart-shopping-stock-list"><table class="listing"><thead><tr><th>Title</th>
+    <section id="stock-listing"><table class="listing"><thead><tr><th>Title</th>
     <th>Created</th>
     <th>Initial Stock</th>
     <th>Current Stock</th>
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
     </tr></thead><tbody><tr><td>
+    <a href="http://nohost/plone/shop/article-container/article1/stock2" title="Description of St&#246;ck2">St&#246;ck2</a>
+    </td>
+    <td>
     ...
+    </td>
+    <td>
+    50
+    </td>
+    <td>
+    50
+    </td>
+    <td>
+    5.00 &#8364;
+    </td>
+    <td>
+    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
+    </td>
+    </tr><tr><td>
+    <a href="http://nohost/plone/shop/article-container/article1/stock1" title="Description of St&#246;ck1">St&#246;ck1</a>
+    </td>
+    <td>
+    ...
+    </td>
     <td>
     100
     </td>
@@ -201,7 +235,9 @@ Subtract stock::
     <td>
     4.00 &#8364;
     </td>
-    ...
+    <td>
+    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
+    </td>
     </tr></tbody></table></section>
 
 Add stock::
@@ -225,29 +261,45 @@ Add stock::
 
     >>> print browser.bycss('.documentDescription')
 
-    >>> print browser.bycss('#add-and-subtract-stock')
+    >>> print browser.bycss('#add-subtract-stock')
     --- 1 ---
-    <section id="add-and-subtract-stock"><form id="quick-add" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-add" type="number" min="1" max="20" size="2"><button name="form.buttons.QuickAdd" value="form.buttons.QuickAdd" type="submit">Quick Add</button>
-    </form>
-    <form id="quick-subtract" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-subtract" type="number" min="1" max="130" size="3"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
-    </form>
-    <form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
-    </form>
-    </section>
+    <section id="add-subtract-stock"><section id="quick-add"><input name="quick-add" type="number" min="1" max="20" size="2"><button name="form.buttons.QuickAdd" value="form.buttons.QuickAdd" type="submit">Quick Add</button>
+    </section><section id="quick-subtract"><input name="quick-subtract" type="number" min="1" max="130" size="3"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
+    </section><section id="add-new-stock"><button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    </section></section>
 
-    >>> print browser.bycss('#collective-cart-shopping-stock-list')
+    >>> print browser.bycss('#stock-listing')
     --- 1 ---
-    <section id="collective-cart-shopping-stock-list"><table class="listing"><thead><tr><th>Title</th>
+    <section id="stock-listing"><table class="listing"><thead><tr><th>Title</th>
     <th>Created</th>
     <th>Initial Stock</th>
     <th>Current Stock</th>
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
     </tr></thead><tbody><tr><td>
+    <a href="http://nohost/plone/shop/article-container/article1/stock2" title="Description of St&#246;ck2">St&#246;ck2</a>
+    </td>
+    <td>
     ...
+    </td>
+    <td>
+    50
+    </td>
+    <td>
+    50
+    </td>
+    <td>
+    5.00 &#8364;
+    </td>
+    <td>
+    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
+    </td>
+    </tr><tr><td>
+    <a href="http://nohost/plone/shop/article-container/article1/stock1" title="Description of St&#246;ck1">St&#246;ck1</a>
+    </td>
+    <td>
+    ...
+    </td>
     <td>
     100
     </td>
@@ -257,8 +309,11 @@ Add stock::
     <td>
     4.00 &#8364;
     </td>
-    ...
+    <td>
+    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
+    </td>
     </tr></tbody></table></section>
+
 
 Add too many pcs::
 
@@ -281,26 +336,44 @@ Add too many pcs::
 
     >>> print browser.bycss('.documentDescription')
 
-    >>> print browser.bycss('#add-and-subtract-stock')
+    >>> print browser.bycss('#add-subtract-stock')
     --- 1 ---
-    <section id="add-and-subtract-stock"><form id="quick-subtract" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-subtract" type="number" min="1" max="150" size="3"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
-    </form>
-    <form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
-    </form>
-    </section>
+    <section id="add-subtract-stock"><section id="quick-subtract"><input name="quick-subtract" type="number" min="1" max="150" size="3"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
+    </section><section id="add-new-stock"><button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    </section></section>
 
-    >>> print browser.bycss('#collective-cart-shopping-stock-list')
+    >>> print browser.bycss('#stock-listing')
     --- 1 ---
-    <section id="collective-cart-shopping-stock-list"><table class="listing"><thead><tr><th>Title</th>
+    <section id="stock-listing"><table class="listing"><thead><tr><th>Title</th>
     <th>Created</th>
     <th>Initial Stock</th>
     <th>Current Stock</th>
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
     </tr></thead><tbody><tr><td>
+    <a href="http://nohost/plone/shop/article-container/article1/stock2" title="Description of St&#246;ck2">St&#246;ck2</a>
+    </td>
+    <td>
     ...
+    </td>
+    <td>
+    50
+    </td>
+    <td>
+    50
+    </td>
+    <td>
+    5.00 &#8364;
+    </td>
+    <td>
+    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
+    </td>
+    </tr><tr><td>
+    <a href="http://nohost/plone/shop/article-container/article1/stock1" title="Description of St&#246;ck1">St&#246;ck1</a>
+    </td>
+    <td>
+    ...
+    </td>
     <td>
     100
     </td>
@@ -310,8 +383,11 @@ Add too many pcs::
     <td>
     4.00 &#8364;
     </td>
-    ...
+    <td>
+    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
+    </td>
     </tr></tbody></table></section>
+
 
 Subtract too many pcs::
 
@@ -334,26 +410,26 @@ Subtract too many pcs::
 
     >>> print browser.bycss('.documentDescription')
 
-    >>> print browser.bycss('#add-and-subtract-stock')
+    >>> print browser.bycss('#add-subtract-stock')
     --- 1 ---
-    <section id="add-and-subtract-stock"><form id="quick-add" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-add" type="number" min="1" max="150" size="3"><button name="form.buttons.QuickAdd" value="form.buttons.QuickAdd" type="submit">Quick Add</button>
-    </form>
-    <form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
-    </form>
-    </section>
+    <section id="add-subtract-stock"><section id="quick-add"><input name="quick-add" type="number" min="1" max="150" size="3"><button name="form.buttons.QuickAdd" value="form.buttons.QuickAdd" type="submit">Quick Add</button>
+    </section><section id="add-new-stock"><button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    </section></section>
 
-    >>> print browser.bycss('#collective-cart-shopping-stock-list')
+    >>> print browser.bycss('#stock-listing')
     --- 1 ---
-    <section id="collective-cart-shopping-stock-list"><table class="listing"><thead><tr><th>Title</th>
+    <section id="stock-listing"><table class="listing"><thead><tr><th>Title</th>
     <th>Created</th>
     <th>Initial Stock</th>
     <th>Current Stock</th>
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
     </tr></thead><tbody><tr><td>
+    <a href="http://nohost/plone/shop/article-container/article1/stock2" title="Description of St&#246;ck2">St&#246;ck2</a>
+    </td>
+    <td>
     ...
+    </td>
     <td>
     50
     </td>
@@ -363,19 +439,15 @@ Subtract too many pcs::
     <td>
     5.00 &#8364;
     </td>
+    <td>
+    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
+    </td>
+    </tr><tr><td>
+    <a href="http://nohost/plone/shop/article-container/article1/stock1" title="Description of St&#246;ck1">St&#246;ck1</a>
+    </td>
+    <td>
     ...
-    </tr></tbody></table></section>
-
-    >>> print browser.bycss('#collective-cart-shopping-stock-list')
-    --- 1 ---
-    <section id="collective-cart-shopping-stock-list"><table class="listing"><thead><tr><th>Title</th>
-    <th>Created</th>
-    <th>Initial Stock</th>
-    <th>Current Stock</th>
-    <th>Purchase Price VAT 0%</th>
-    <th>Remove</th>
-    </tr></thead><tbody><tr><td>
-    ...
+    </td>
     <td>
     100
     </td>
@@ -385,8 +457,11 @@ Subtract too many pcs::
     <td>
     4.00 &#8364;
     </td>
-    ...
+    <td>
+    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
+    </td>
     </tr></tbody></table></section>
+
 
 Add stock again::
 
@@ -409,29 +484,27 @@ Add stock again::
 
     >>> print browser.bycss('.documentDescription')
 
-    >>> print browser.bycss('#add-and-subtract-stock')
+    >>> print browser.bycss('#add-subtract-stock')
     --- 1 ---
-    <section id="add-and-subtract-stock"><form id="quick-add" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-add" type="number" min="1" max="20" size="2"><button name="form.buttons.QuickAdd" value="form.buttons.QuickAdd" type="submit">Quick Add</button>
-    </form>
-    <form id="quick-subtract" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-subtract" type="number" min="1" max="130" size="3"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
-    </form>
-    <form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
-    </form>
-    </section>
+    <section id="add-subtract-stock"><section id="quick-add"><input name="quick-add" type="number" min="1" max="20" size="2"><button name="form.buttons.QuickAdd" value="form.buttons.QuickAdd" type="submit">Quick Add</button>
+    </section><section id="quick-subtract"><input name="quick-subtract" type="number" min="1" max="130" size="3"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
+    </section><section id="add-new-stock"><button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    </section></section>
 
-    >>> print browser.bycss('#collective-cart-shopping-stock-list')
+    >>> print browser.bycss('#stock-listing')
     --- 1 ---
-    <section id="collective-cart-shopping-stock-list"><table class="listing"><thead><tr><th>Title</th>
+    <section id="stock-listing"><table class="listing"><thead><tr><th>Title</th>
     <th>Created</th>
     <th>Initial Stock</th>
     <th>Current Stock</th>
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
     </tr></thead><tbody><tr><td>
+    <a href="http://nohost/plone/shop/article-container/article1/stock2" title="Description of St&#246;ck2">St&#246;ck2</a>
+    </td>
+    <td>
     ...
+    </td>
     <td>
     50
     </td>
@@ -441,19 +514,15 @@ Add stock again::
     <td>
     5.00 &#8364;
     </td>
+    <td>
+    <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
+    </td>
+    </tr><tr><td>
+    <a href="http://nohost/plone/shop/article-container/article1/stock1" title="Description of St&#246;ck1">St&#246;ck1</a>
+    </td>
+    <td>
     ...
-    </tr></tbody></table></section>
-
-    >>> print browser.bycss('#collective-cart-shopping-stock-list')
-    --- 1 ---
-    <section id="collective-cart-shopping-stock-list"><table class="listing"><thead><tr><th>Title</th>
-    <th>Created</th>
-    <th>Initial Stock</th>
-    <th>Current Stock</th>
-    <th>Purchase Price VAT 0%</th>
-    <th>Remove</th>
-    </tr></thead><tbody><tr><td>
-    ...
+    </td>
     <td>
     100
     </td>
@@ -463,7 +532,9 @@ Add stock again::
     <td>
     4.00 &#8364;
     </td>
-    ...
+    <td>
+    <button name="form.buttons.Remove" type="submit" value="stock1">Remove</button>
+    </td>
     </tr></tbody></table></section>
 
 Remove stocks::
@@ -472,8 +543,10 @@ Remove stocks::
 
     >>> print browser.bycss('.portalMessage')
     --- 1 ---
-    <dl class="portalMessage info" id="kssPortalMessage" style="display:none"><dt>Info</dt>
-    <dd></dd>
+    ...
+    --- 2 ---
+    <dl class="portalMessage info"><dt>Info</dt>
+    <dd>Successfully removed 80 pc(s) of stock.</dd>
     </dl>
 
     >>> print browser.bycss('.documentFirstHeading')
@@ -482,26 +555,22 @@ Remove stocks::
 
     >>> print browser.bycss('.documentDescription')
 
-    >>> print browser.bycss('#add-and-subtract-stock')
+    >>> print browser.bycss('#add-subtract-stock')
     --- 1 ---
-    <section id="add-and-subtract-stock"><form id="quick-subtract" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <input name="quick-subtract" type="number" min="1" max="50" size="2"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
-    </form>
-    <form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
-    </form>
-    </section>
+    <section id="add-subtract-stock"><section id="quick-subtract"><input name="quick-subtract" type="number" min="1" max="50" size="2"><button name="form.buttons.QuickSubtract" value="form.buttons.QuickSubtract" type="submit">Quick Subtract</button>
+    </section><section id="add-new-stock"><button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    </section></section>
 
-    >>> print browser.bycss('#collective-cart-shopping-stock-list')
+    >>> print browser.bycss('#stock-listing')
     --- 1 ---
-    <section id="collective-cart-shopping-stock-list"><table class="listing"><thead><tr><th>Title</th>
+    <section id="stock-listing"><table class="listing"><thead><tr><th>Title</th>
     <th>Created</th>
     <th>Initial Stock</th>
     <th>Current Stock</th>
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
     </tr></thead><tbody><tr><td>
-    <a title="Descripti&#246;n of St&#246;ck2" href="http://nohost/plone/shop/article-container/article1/stock2">St&#246;ck2</a>
+    <a href="http://nohost/plone/shop/article-container/article1/stock2" title="Description of St&#246;ck2">St&#246;ck2</a>
     </td>
     <td>
     ...
@@ -516,13 +585,20 @@ Remove stocks::
     5.00 &#8364;
     </td>
     <td>
-    <form id="remove-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
     <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
-    </form>
     </td>
     </tr></tbody></table></section>
 
     >>> browser.getControl(name="form.buttons.Remove").click()
+
+    >>> print browser.bycss('.portalMessage')
+    --- 1 ---
+    ...
+    --- 2 ---
+    <dl class="portalMessage info"><dt>Info</dt>
+    <dd>Successfully removed 50 pc(s) of stock.</dd>
+    </dl>
+
     >>> print browser.bycss('.documentFirstHeading')
     --- 1 ---
     <h1 class="documentFirstHeading">&#196;rticle1: 0 pcs</h1>
@@ -531,9 +607,7 @@ Remove stocks::
     --- 1 ---
     <div class="documentDescription">There are no stocks available.</div>
 
-    >>> print browser.bycss('#add-and-subtract-stock')
+    >>> print browser.bycss('#add-subtract-stock')
     --- 1 ---
-    <section id="add-and-subtract-stock"><form id="add-new-stock" method="post" action="http://nohost/plone/shop/article-container/article1/@@stock">
-    <button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
-    </form>
-    </section>
+    <section id="add-subtract-stock"><section id="add-new-stock"><button name="form.buttons.AddNewStock" value="form.buttons.AddNewStock" type="submit">Add New Stock</button>
+    </section></section>

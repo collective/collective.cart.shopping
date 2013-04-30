@@ -1,0 +1,9 @@
+<section id="check-out-flow" i18n:domain="collective.cart.shopping">
+  <ol>
+    <li
+      tal:attributes="class item/class"
+      tal:content="item/title"
+      tal:repeat="item view/items"
+      />
+  </ol>
+</section>

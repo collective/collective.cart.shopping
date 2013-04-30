@@ -1,25 +1,15 @@
+from collective.cart.shopping.tests.base import IntegrationTestCase
 from collective.cart.shopping.browser.viewlet import RelatedArticlesViewlet
 
-import unittest
 
-
-class RelatedArticlesViewletTestCase(unittest.TestCase):
+class RelatedArticlesViewletTestCase(IntegrationTestCase):
     """TestCase for RelatedArticlesViewlet"""
 
     def test_subclass(self):
-        from collective.cart.shopping.browser.viewlet import BaseArticleViewlet
-        self.assertTrue(issubclass(RelatedArticlesViewlet, BaseArticleViewlet))
+        from plone.app.layout.viewlets.common import ViewletBase
+        self.assertTrue(issubclass(RelatedArticlesViewlet, ViewletBase))
 
-    def test_name(self):
-        self.assertEqual(getattr(RelatedArticlesViewlet, 'grokcore.component.directive.name'), 'collective.cart.shopping.related.articles')
-
-    def test_template(self):
-        self.assertEqual(getattr(RelatedArticlesViewlet, 'grokcore.view.directive.template'), 'related-articles')
-
-    def test_view(self):
-        from plone.app.layout.globals.interfaces import IViewView
-        self.assertEqual(getattr(RelatedArticlesViewlet, 'grokcore.viewlet.directive.view'), IViewView)
-
-    def test_viewletmanager(self):
-        from plone.app.layout.viewlets.interfaces import IBelowContent
-        self.assertEqual(getattr(RelatedArticlesViewlet, 'grokcore.viewlet.directive.viewletmanager'), IBelowContent)
+    def test_index(self):
+        context = self.create_content('collective.cart.core.Article')
+        instance = self.create_viewlet(RelatedArticlesViewlet, context)
+        self.assertEqual(instance.index.filename.split('/')[-1], 'related-articles.pt')

@@ -11,21 +11,23 @@ Add Shop::
 
 There should be Cart Container created::
 
-    >>> browser.open('/shop/cart-container')
+    >>> browser.open('/shop/order-container')
     >>> print browser.bycss('.documentDescription')
     --- 1 ---
-    <div class="documentDescription" id="next-cart-id">The next cart ID: 1</div>
+    <div class="documentDescription">The next order ID: 1</div>
 
     >>> print browser.bycss('#no-orders')
     --- 1 ---
-    <p id="no-orders">There are no orders.</p>
+    <p id="no-orders">
+    There are no orders.
+    </p>
 
-There should be Shippig Methods folder created::
+There should be Shippig Method Container created::
 
-    >>> browser.open('/shop/shipping-methods')
+    >>> browser.open('/shop/shipping-method-container')
     >>> print browser.bycss('.documentFirstHeading')
     --- 1 ---
-    <h1 class="documentFirstHeading">Shipping Methods</h1>
+    <h1 class="documentFirstHeading"></h1>
 
 Go to Shop::
 

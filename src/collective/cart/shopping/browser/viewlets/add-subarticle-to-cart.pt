@@ -1,22 +1,22 @@
 <section
   i18n:domain="collective.cart.shopping"
   id="add-subarticle-to-cart"
-  tal:condition="viewlet/available">
+  tal:condition="view/available">
   <form
     method="post"
     tal:attributes="action context/@@plone_context_state/current_base_url"
-    tal:condition="not: viewlet/soldout">
+    tal:condition="not: view/soldout">
     <span tal:replace="structure context/@@authenticator/authenticator" />
     <select id="subarticle" name="subarticle">
       <option
         tal:attributes="value item/uuid"
-        tal:repeat="item viewlet/subarticles">
+        tal:repeat="item view/subarticles">
         <span tal:replace="item/title" />
         <span tal:replace="item/locale_gross" />
       </option>
     </select>
     <section id="vat" i18n:translate="">
-      Including VAT: <span i18n:name="vat" tal:replace="viewlet/vat" />
+      Including VAT: <span i18n:name="vat" tal:replace="view/vat" />
     </section>
     <section id="quantity">
       <label
@@ -28,8 +28,8 @@
         value="1"
         type="number"
         tal:attributes="
-          maxlength viewlet/quantity_size;
-          size viewlet/quantity_size"
+          maxlength view/quantity_size;
+          size view/quantity_size"
         />
       <span
         id="pcs"
@@ -47,7 +47,7 @@
   <p
     class="sold-out"
     i18n:translate=""
-    tal:condition="viewlet/soldout">
+    tal:condition="view/soldout">
     Sold Out
   </p>
 </section>
