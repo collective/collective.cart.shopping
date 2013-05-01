@@ -4,8 +4,8 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from StringIO import StringIO
+from collective.base.view import BaseFormView
 from collective.behavior.stock.interfaces import IStock as IStockBehavior
-from collective.cart.core.browser.template import BaseFormView
 from collective.cart.shopping import _
 from collective.cart.shopping.browser.base import Message
 from collective.cart.shopping.browser.interfaces import IArticleContainerView

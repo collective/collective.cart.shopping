@@ -572,11 +572,11 @@ class TestCase(IntegrationTestCase):
         action = ctype.getActionObject('object/edit')
         self.assertEqual(action.permissions, (u'Modify portal content',))
 
-    def test_viewlets__order__collective_cart_core_viewlet_manager_base_form(self):
+    def test_viewlets__order__collective_base_viewlet_manager_base_form(self):
         from zope.component import getUtility
         from plone.app.viewletmanager.interfaces import IViewletSettingsStorage
         storage = getUtility(IViewletSettingsStorage)
-        manager = "collective.cart.core.viewlet-manager.base-form"
+        manager = "collective.base.viewlet-manager.base-form"
         skinname = "*"
         for viewlet in (
             u'collective.cart.shopping.viewlet.add-to-cart',

@@ -28,11 +28,11 @@ class AddSubtractStockViewletTestCase(IntegrationTestCase):
         instance = self.create_viewlet(AddSubtractStockViewlet, context, view)
         self.assertEqual(instance.stocks(), [])
 
-        stock1 = self.create_content('collective.cart.stock.Stock', context, title="Stock1",
+        self.create_content('collective.cart.stock.Stock', context, title="Stock1",
             stock=1, money=self.money('1.00'), description="Description of Stock1")
-        stock3 = self.create_content('collective.cart.stock.Stock', context, title="Stock3",
+        self.create_content('collective.cart.stock.Stock', context, title="Stock3",
             stock=3, money=self.money('3.00'), description="Description of Stock3")
-        stock2 = self.create_content('collective.cart.stock.Stock', context, title="Stock2",
+        self.create_content('collective.cart.stock.Stock', context, title="Stock2",
             stock=2, money=self.money('2.00'), description="Description of Stock2")
 
         self.assertEqual(instance.stocks(), [{
@@ -44,8 +44,7 @@ class AddSubtractStockViewletTestCase(IntegrationTestCase):
             'title': 'Stock2',
             'initial_stock': 2,
             'description': 'Description of Stock2'
-        },
-        {
+        }, {
             'oid': 'stock3',
             'current_stock': 3,
             'created': self.toLocalizedTime(),
@@ -54,8 +53,7 @@ class AddSubtractStockViewletTestCase(IntegrationTestCase):
             'title': 'Stock3',
             'initial_stock': 3,
             'description': 'Description of Stock3'
-        },
-        {
+        }, {
             'oid': 'stock1',
             'current_stock': 1,
             'created': self.toLocalizedTime(),

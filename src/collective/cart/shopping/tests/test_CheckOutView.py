@@ -26,5 +26,5 @@ class CheckOutViewTestCase(IntegrationTestCase):
         instance.message = mock.Mock(return_value={})
         self.assertIsNone(instance.description())
 
-        instance.message= mock.Mock(return_value={'description': 'DESCRIPTION'})
+        instance.message = mock.Mock(return_value={'description': 'DESCRIPTION'})
         self.assertEqual(instance.description(), 'DESCRIPTION')

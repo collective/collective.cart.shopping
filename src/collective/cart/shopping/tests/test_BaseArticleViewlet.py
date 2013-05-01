@@ -3,8 +3,6 @@ from collective.cart.shopping.browser.interfaces import IBaseArticleViewlet
 from collective.cart.shopping.browser.viewlet import BaseArticleViewlet
 from collective.cart.shopping.tests.base import IntegrationTestCase
 
-import mock
-
 
 class BaseArticleViewletTestCase(IntegrationTestCase):
     """TestCase for BaseArticleViewlet"""

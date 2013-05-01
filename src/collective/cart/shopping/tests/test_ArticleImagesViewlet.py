@@ -3,8 +3,6 @@ from collective.cart.shopping.browser.interfaces import IArticleImagesViewlet
 from collective.cart.shopping.browser.viewlet import ArticleImagesViewlet
 from collective.cart.shopping.tests.base import IntegrationTestCase
 
-import mock
-
 
 class ArticleImagesViewletTestCase(IntegrationTestCase):
     """TestCase for ArticleImagesViewlet"""
@@ -24,22 +22,20 @@ class ArticleImagesViewletTestCase(IntegrationTestCase):
     def test_images(self):
         from collective.cart.shopping.browser.template import ArticleView
         article = self.create_content('collective.cart.core.Article')
-        image1 = self.create_atcontent('Image', article, id='image1', title='Image1', description="Description of Image1")
-        image3 = self.create_atcontent('Image', article, id='image3', title='Image3', description="Description of Image3")
-        image2 = self.create_atcontent('Image', article, id='image2', title='Image2', description="Description of Image2")
+        self.create_atcontent('Image', article, id='image1', title='Image1', description="Description of Image1")
+        self.create_atcontent('Image', article, id='image3', title='Image3', description="Description of Image3")
+        self.create_atcontent('Image', article, id='image2', title='Image2', description="Description of Image2")
         view = self.create_view(ArticleView, article)
         instance = self.create_viewlet(ArticleImagesViewlet, article, view=view)
         self.assertEqual(instance.images(), [{
             'description': 'Description of Image1',
             'title': 'Image1',
             'url': 'http://nohost/plone/collective-cart-core-article/image1'
-        },
-        {
+        }, {
             'description': 'Description of Image3',
             'title': 'Image3',
             'url': 'http://nohost/plone/collective-cart-core-article/image3'
-        },
-        {
+        }, {
             'description': 'Description of Image2',
             'title': 'Image2',
             'url': 'http://nohost/plone/collective-cart-core-article/image2'

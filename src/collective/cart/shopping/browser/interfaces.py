@@ -1,6 +1,6 @@
+from collective.base.interfaces import IBaseFormView
 from collective.base.interfaces import IViewlet
 from collective.cart.core.browser.interfaces import IAddToCartViewlet as IBaseBaseAddToCartViewlet
-from collective.cart.core.browser.interfaces import IBaseFormView
 from collective.cart.core.browser.interfaces import ICartArticleListingViewlet
 from collective.cart.core.browser.interfaces import ICheckOutView as IBaseCheckOutView
 from collective.cart.core.browser.interfaces import ICollectiveCartCoreLayer
@@ -19,6 +19,7 @@ class ICollectiveCartShoppingLayer(ICollectiveCartCoreLayer):
 
 class IArticleContainerViewletManager(IViewletManager):
     """Viewlet manager interface for content type: collective.cart.shopping.ArticleContainer"""
+
 
 # View
 
@@ -64,6 +65,7 @@ class ICheckOutView(IBaseCheckOutView):
 
         :rtype: dict
         """
+
 
 class ICartView(ICheckOutView):
     """View interface for cart"""
@@ -118,6 +120,7 @@ class IBaseOrderMailTemplateView(IViewView):
         :rtype: str
         """
 
+
 class IToCustomerOrderMailTemplateView(IBaseOrderMailTemplateView):
     """View interface for ToCustomerOrderMailTemplateView"""
 
@@ -130,7 +133,6 @@ class IToShopOrderMailTemplateView(IBaseOrderMailTemplateView):
 
 class IArticlesInArticleContainerViewlet(IViewlet):
     """Viewlet interface for ArticlesInArticleContainerViewlet"""
-
 
 
 class IBaseArticleViewlet(IViewlet):
@@ -362,7 +364,6 @@ class IBillingAndShippingShippingMethodsViewlet(IViewlet):
 
         :rtype: list
         """
-
 
     def single_shipping_method():
         """Returns True if there is only one shipping method else False

@@ -3,8 +3,6 @@ from collective.cart.shopping.browser.interfaces import IArticleContainerView
 from collective.cart.shopping.browser.template import ArticleContainerView
 from collective.cart.shopping.tests.base import IntegrationTestCase
 
-import unittest
-
 
 class ArticleContainerViewTestCase(IntegrationTestCase):
     """TestCase for ArticleContainerView"""

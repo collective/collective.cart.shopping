@@ -1,5 +1,4 @@
 from DateTime import DateTime
-from Products.CMFCore.utils import getToolByName
 from collective.cart.core.tests.base import IntegrationTestCase as BaseIntegrationTestCase
 from decimal import Decimal
 from moneyed import Money

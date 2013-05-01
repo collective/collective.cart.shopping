@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
-from Products.CMFPlone.utils import getToolByName
-from collective.cart.core.interfaces import IShoppingSiteRoot
 from collective.cart.shopping.adapter.article import ArticleAdapter
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.tests.base import IntegrationTestCase
-from zope.interface import alsoProvides
-from zope.lifecycleevent import modified
 
 import mock
 
@@ -77,4 +73,3 @@ class ArticleAdapterTestCase(IntegrationTestCase):
 
         adapter.context.image = mock.Mock()
         self.assertEqual(adapter.image_url(), 'http://nohost/plone/article1/article2/@@images/image')
-

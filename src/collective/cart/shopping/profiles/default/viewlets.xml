@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <object>
 
-  <order manager="collective.cart.core.viewlet-manager.base-form" skinname="*">
+  <order manager="collective.base.viewlet-manager.base-form" skinname="*">
     <!-- @@view for collective.cart.core.Article -->
     <viewlet name="collective.cart.shopping.viewlet.add-to-cart" />
     <viewlet name="collective.cart.shopping.viewlet.body-text" />

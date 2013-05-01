@@ -823,6 +823,7 @@ class OrderConfirmationTermsViewlet(ViewletBase, Message):
 class OrderConfirmationCheckOutButtonsViewlet(BaseCheckOutButtonsViewlet):
     """Viewlet for check out buttons for @@order-confirmation"""
     implements(IOrderConfirmationCheckOutButtonsViewlet)
+
     def update(self):
         url = super(OrderConfirmationCheckOutButtonsViewlet, self).update()
 
