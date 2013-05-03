@@ -25,7 +25,6 @@
     <element value="collective.behavior.stock.interfaces.IStock" />
     <element value="collective.behavior.vat.interfaces.IVAT" />
     <element value="collective.behavior.size.interfaces.ISize" />
-    <element value="plone.app.relationfield.behavior.IRelatedItems"/>
   </property>
 
 </object>

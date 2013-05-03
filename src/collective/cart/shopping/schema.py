@@ -1,12 +1,13 @@
 from collective.cart.core.schema import ArticleSchema as BaseArticleSchema
-from collective.cart.core.schema import OrderSchema as BaseOrderSchema
 from collective.cart.core.schema import OrderArticleSchema as BaseOrderArticleSchema
+from collective.cart.core.schema import OrderSchema as BaseOrderSchema
 from collective.cart.shopping import _
-from collective.cart.shopping.vocabulary import info_types
 from plone.app.textfield import RichText
 from plone.namedfile.field import NamedBlobImage
 from plone.supermodel.model import Schema
 from zope import schema
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 
 class ShopSchema(Schema):
@@ -35,6 +36,12 @@ class ArticleSchema(BaseArticleSchema):
         description=_(u'Further detailed information comes here.'),
         required=False)
 
+    related_articles = schema.List(
+        title=_(u'Related articles'),
+        value_type=schema.Choice(
+            source="collective.cart.shopping.vocabulary.related-articles"),
+        required=False)
+
 
 class OrderSchema(BaseOrderSchema):
     """Schema for content type: collective.cart.core.Order"""
@@ -47,6 +54,10 @@ class OrderSchema(BaseOrderSchema):
 
 class OrderArticleSchema(BaseOrderArticleSchema):
     """Schema for content type: collective.cart.core.OrderArticle"""
+
+
+info_types = SimpleVocabulary([
+    SimpleTerm(value=u'billing', title=_(u'Billing')), SimpleTerm(value=u'shipping', title=_(u'Shipping'))])
 
 
 class CustomerInfoSchema(Schema):

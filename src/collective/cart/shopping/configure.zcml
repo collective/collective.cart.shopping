@@ -13,7 +13,6 @@
   <include package="collective.behavior.sku"/>
   <include package="collective.behavior.stock"/>
   <include package="collective.behavior.vat"/>
-  <include package="plone.app.relationfield"/>
   <include package=".adapter" />
   <include package=".browser" />
   <include package=".utility" />
@@ -67,5 +66,10 @@
   <subscriber handler=".subscriber.add_status_message_article_added" />
   <subscriber handler=".subscriber.return_stock_to_original_article" />
   <subscriber handler=".subscriber.redirect_to_stock" />
+
+  <utility
+    component=".vocabulary.RelatedArticlesVocabularyFactory"
+    name="collective.cart.shopping.vocabulary.related-articles"
+    />
 
 </configure>

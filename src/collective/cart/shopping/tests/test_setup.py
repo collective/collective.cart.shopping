@@ -129,7 +129,7 @@ class TestCase(IntegrationTestCase):
     def test_metadata__version(self):
         setup = getToolByName(self.portal, 'portal_setup')
         self.assertEqual(
-            setup.getVersionForProfile('profile-collective.cart.shopping:default'), u'16')
+            setup.getVersionForProfile('profile-collective.cart.shopping:default'), u'17')
 
     def get_record(self, name):
         """Get record by name.
@@ -262,8 +262,7 @@ class TestCase(IntegrationTestCase):
             'collective.behavior.discount.interfaces.IDiscount',
             'collective.behavior.stock.interfaces.IStock',
             'collective.behavior.vat.interfaces.IVAT',
-            'collective.behavior.size.interfaces.ISize',
-            'plone.app.relationfield.behavior.IRelatedItems'))
+            'collective.behavior.size.interfaces.ISize'))
 
     def test_types__collective_cart_shopping_Shop__i18n_domain(self):
         types = getToolByName(self.portal, 'portal_types')
@@ -579,7 +578,7 @@ class TestCase(IntegrationTestCase):
         manager = "collective.base.viewlet-manager.base-form"
         skinname = "*"
         for viewlet in (
-            u'collective.cart.shopping.viewlet.add-to-cart',
+            u'collective.cart.core.viewlet.add-to-cart',
             u'collective.cart.shopping.viewlet.body-text',
             u'collective.cart.shopping.viewlet.articles-in-article',
             u'collective.cart.shopping.viewlet.add-subtract-stock',

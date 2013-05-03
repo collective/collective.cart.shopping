@@ -54,6 +54,12 @@ class IShop(ShopSchema, IShoppingSiteRoot):
     """Interface for content type: collective.cart.shopping.Shop"""
 
 
+# Deprecated
+
+ICart = IOrder
+ICartArticle = IOrderArticle
+
+
 # Adapter
 
 class IShoppingSite(IBaseShoppingSite):

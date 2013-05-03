@@ -3,7 +3,7 @@
 
   <order manager="collective.base.viewlet-manager.base-form" skinname="*">
     <!-- @@view for collective.cart.core.Article -->
-    <viewlet name="collective.cart.shopping.viewlet.add-to-cart" />
+    <viewlet name="collective.cart.core.viewlet.add-to-cart" />
     <viewlet name="collective.cart.shopping.viewlet.body-text" />
     <viewlet name="collective.cart.shopping.viewlet.articles-in-article" />
     <!-- @@stock for collective.cart.core.Article -->

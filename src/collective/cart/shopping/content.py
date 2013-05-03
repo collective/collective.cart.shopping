@@ -23,6 +23,7 @@ class Article(BaseArticle):
     use_subarticle = False
     image = None
     text = None
+    related_articles = []
 
 
 class Order(BaseOrder):

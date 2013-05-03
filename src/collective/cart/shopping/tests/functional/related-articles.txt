@@ -27,9 +27,18 @@ Add Article1::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> browser.getLink('Publish').click()
 
+    >>> article1 = portal['shop']['article-container']['article1']
+    >>> from plone.uuid.interfaces import IUUID
+    >>> uuid1 = IUUID(article1)
+
 Add Article2::
 
     >>> browser.open('/shop/article-container/++add++collective.cart.core.Article')
+
+    >>> print browser.bycss('#form-widgets-related_articles-from')
+    --- 1 ---
+    <select id="form-widgets-related_articles-from" name="form.widgets.related_articles.from" class="list-field" multiple size="5"><option value="...">&#196;rticle1</option></select>
+
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle2'
     >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Ärticle2'
     >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU2'
@@ -38,98 +47,3 @@ Add Article2::
     >>> browser.getControl(name="form.buttons.save").click()
 
     >>> print browser.bycss('#related-articles')
-
-Relate Article1 to Article2::
-
-    >>> browser.open('/shop/article-container/article2/edit')
-    >>> browser.getControl(name="form.widgets.IRelatedItems.relatedItems.widgets.query").value = 'Ärticle1'
-    >>> browser.getControl(name="form.widgets.IRelatedItems.relatedItems.buttons.search").click()
-    >>> browser.getControl(name="form.widgets.IRelatedItems.relatedItems:list").value = ['/plone/shop/article-container/article1']
-    >>> browser.getControl(name="form.buttons.save").click()
-
-    >>> print browser.bycss('#related-articles')
-    --- 1 ---
-    <section id="related-articles"><p>We also recommend the following articles.</p>
-    <article><a href="http://nohost/plone/shop/article-container/article1">
-    <img src="http://nohost/plone/fallback.png" title="&#196;rticle1"></a>
-    <h1>
-    <a href="http://nohost/plone/shop/article-container/article1">&#196;rticle1</a>
-    </h1>
-    <p>24.60 &#8364;</p>
-    </article></section>
-
-
-Relate Article Container to Article2::
-
-    >>> browser.open('/shop/article-container/article2/edit')
-    >>> browser.getControl(name="form.widgets.IRelatedItems.relatedItems.widgets.query").value = 'Ärticle Cöntäiner'
-    >>> browser.getControl(name="form.widgets.IRelatedItems.relatedItems.buttons.search").click()
-    >>> browser.getControl(name="form.widgets.IRelatedItems.relatedItems:list").value = ['/plone/shop/article-container/article1', '/plone/shop/article-container']
-    >>> browser.getControl(name="form.buttons.save").click()
-
-    >>> print browser.bycss('#related-articles')
-    --- 1 ---
-    <section id="related-articles"><p>We also recommend the following articles.</p>
-    <article><a href="http://nohost/plone/shop/article-container/article1">
-    <img src="http://nohost/plone/fallback.png" title="&#196;rticle1"></a>
-    <h1>
-    <a href="http://nohost/plone/shop/article-container/article1">&#196;rticle1</a>
-    </h1>
-    <p>24.60 &#8364;</p>
-    </article></section>
-
-Add four more articles and relate it to Article1
-
-    >>> browser.open('/shop/article-container/++add++collective.cart.core.Article')
-    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle3'
-    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Ärticle3'
-    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU3'
-    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '30.00'
-    >>> browser.getControl(name="form.widgets.ISize.weight").value = '300.0'
-    >>> browser.getControl(name="form.buttons.save").click()
-    >>> browser.getLink('Publish').click()
-
-    >>> browser.open('/shop/article-container/++add++collective.cart.core.Article')
-    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle4'
-    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Ärticle4'
-    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU4'
-    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '40.00'
-    >>> browser.getControl(name="form.widgets.ISize.weight").value = '400.0'
-    >>> browser.getControl(name="form.buttons.save").click()
-    >>> browser.getLink('Publish').click()
-
-    >>> browser.open('/shop/article-container/++add++collective.cart.core.Article')
-    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle5'
-    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Ärticle5'
-    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU5'
-    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '50.00'
-    >>> browser.getControl(name="form.widgets.ISize.weight").value = '500.0'
-    >>> browser.getControl(name="form.buttons.save").click()
-    >>> browser.getLink('Publish').click()
-
-    >>> browser.open('/shop/article-container/++add++collective.cart.core.Article')
-    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle6'
-    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Descriptiön of Ärticle6'
-    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKU6'
-    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '60.00'
-    >>> browser.getControl(name="form.widgets.ISize.weight").value = '600.0'
-    >>> browser.getControl(name="form.buttons.save").click()
-    >>> browser.getLink('Publish').click()
-
-Relate all the Articles to Article2::
-
-    >>> browser.open('/shop/article-container/article2/edit')
-    >>> browser.getControl(name="form.widgets.IRelatedItems.relatedItems.widgets.query").value = 'Ärticle'
-    >>> browser.getControl(name="form.widgets.IRelatedItems.relatedItems.buttons.search").click()
-
-    >>> browser.getControl(name="form.widgets.IRelatedItems.relatedItems:list").value = ['/plone/shop/article-container/article1', '/plone/shop/article-container/article3', '/plone/shop/article-container/article4', '/plone/shop/article-container/article5', '/plone/shop/article-container/article6',]
-    >>> browser.getControl(name="form.buttons.save").click()
-
-    >>> print browser.bycss('#related-articles')
-    --- 1 ---
-    <section id="related-articles"><p>We also recommend the following articles.</p>
-    <article>...
-    </article><article>...
-    </article><article>...
-    </article><article>...
-    </article></section>

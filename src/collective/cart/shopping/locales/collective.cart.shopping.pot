@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-05-01 17:42+0000\n"
+"POT-Creation-Date: 2013-05-03 17:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,13 +38,13 @@ msgstr ""
 msgid "Article List"
 msgstr ""
 
-#: ./browser/viewlet.py:503
+#: ./browser/viewlet.py:504
 #: ./browser/viewlets/billing-and-shipping-check-out.pt:2
 #: ./browser/viewlets/confirmation-checkout.pt:25
 msgid "Back"
 msgstr ""
 
-#: ./vocabulary.py:7
+#: ./schema.py:60
 msgid "Billing"
 msgstr ""
 
@@ -58,7 +58,7 @@ msgstr ""
 msgid "Billing Info"
 msgstr ""
 
-#: ./schema.py:43
+#: ./schema.py:50
 msgid "Billing info same as shipping info"
 msgstr ""
 
@@ -66,7 +66,7 @@ msgstr ""
 msgid "Cart"
 msgstr ""
 
-#: ./schema.py:25
+#: ./schema.py:26
 msgid "Check if this article has options such as sizes and colors."
 msgstr ""
 
@@ -84,7 +84,7 @@ msgstr ""
 msgid "City is missing."
 msgstr ""
 
-#: ./browser/viewlet.py:643
+#: ./browser/viewlet.py:644
 msgid "Clear"
 msgstr ""
 
@@ -100,7 +100,7 @@ msgstr ""
 msgid "Customer Info"
 msgstr ""
 
-#: ./schema.py:34
+#: ./schema.py:35
 msgid "Detailed information"
 msgstr ""
 
@@ -132,7 +132,7 @@ msgstr ""
 msgid "First name is missing."
 msgstr ""
 
-#: ./schema.py:35
+#: ./schema.py:36
 msgid "Further detailed information comes here."
 msgstr ""
 
@@ -155,7 +155,7 @@ msgstr ""
 msgid "Input positive integer value to add to cart."
 msgstr ""
 
-#: ./schema.py:67
+#: ./schema.py:78
 msgid "International VAT Number, for Finland it starts with FI."
 msgstr ""
 
@@ -163,7 +163,7 @@ msgstr ""
 msgid "Invalid e-mail address."
 msgstr ""
 
-#: ./browser/viewlet.py:570
+#: ./browser/viewlet.py:571
 msgid "Invalid quantity."
 msgstr ""
 
@@ -181,7 +181,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: ./browser/viewlet.py:509
+#: ./browser/viewlet.py:510
 #: ./browser/viewlets/billing-and-shipping-check-out.pt:11
 msgid "Next"
 msgstr ""
@@ -234,7 +234,7 @@ msgstr ""
 msgid "Price"
 msgstr ""
 
-#: ./interfaces.py:332
+#: ./interfaces.py:338
 msgid "Price excluding VAT"
 msgstr ""
 
@@ -243,11 +243,15 @@ msgstr ""
 msgid "Quantity"
 msgstr ""
 
+#: ./schema.py:40
+msgid "Related articles"
+msgstr ""
+
 #: ./browser/viewlets/cart-article-listing.pt:64
 msgid "Remove"
 msgstr ""
 
-#: ./schema.py:29
+#: ./schema.py:30
 msgid "Representative Image"
 msgstr ""
 
@@ -259,15 +263,15 @@ msgstr ""
 msgid "Same"
 msgstr ""
 
-#: ./schema.py:88
+#: ./schema.py:99
 msgid "Select one if this information is used only for billing or shipping."
 msgstr ""
 
-#: ./browser/viewlet.py:768
+#: ./browser/viewlet.py:769
 msgid "Select one shipping method."
 msgstr ""
 
-#: ./vocabulary.py:7
+#: ./schema.py:60
 msgid "Shipping"
 msgstr ""
 
@@ -336,7 +340,7 @@ msgstr ""
 msgid "Thank you for the order."
 msgstr ""
 
-#: ./schema.py:30
+#: ./schema.py:31
 msgid "The representative image of this article."
 msgstr ""
 
@@ -346,7 +350,7 @@ msgstr ""
 msgid "Total"
 msgstr ""
 
-#: ./schema.py:87
+#: ./schema.py:98
 msgid "Type"
 msgstr ""
 
@@ -354,7 +358,7 @@ msgstr ""
 msgid "Update"
 msgstr ""
 
-#: ./schema.py:24
+#: ./schema.py:25
 msgid "Use Subarticle"
 msgstr ""
 
@@ -377,7 +381,7 @@ msgid "Your order number is ${number}."
 msgstr ""
 
 #. Default: "Add less than ${number}."
-#: ./browser/viewlet.py:361
+#: ./browser/viewlet.py:362
 msgid "add_less_than_number"
 msgstr ""
 
@@ -413,12 +417,12 @@ msgid "link-to-order"
 msgstr ""
 
 #. Default: "You need to accept the terms to process the order."
-#: ./browser/viewlet.py:834
+#: ./browser/viewlet.py:835
 msgid "need_to_accept_terms"
 msgstr ""
 
 #. Default: "No more than ${quantity} can be added to cart for ${title}"
-#: ./browser/viewlet.py:561
+#: ./browser/viewlet.py:562
 msgid "no_more_than_quantity"
 msgstr ""
 
@@ -492,22 +496,22 @@ msgid "stock_of_article"
 msgstr ""
 
 #. Default: "Subtract less than ${number}."
-#: ./browser/viewlet.py:375
+#: ./browser/viewlet.py:376
 msgid "subtract_less_than_number"
 msgstr ""
 
 #. Default: "Successfully added ${number} pc(s)."
-#: ./browser/viewlet.py:365
+#: ./browser/viewlet.py:366
 msgid "successfully_added_number"
 msgstr ""
 
 #. Default: "Successfully removed ${number} pc(s) of stock."
-#: ./browser/viewlet.py:423
+#: ./browser/viewlet.py:424
 msgid "successfully_removed_stock"
 msgstr ""
 
 #. Default: "Successfully subtracted ${number} pc(s)."
-#: ./browser/viewlet.py:379
+#: ./browser/viewlet.py:380
 msgid "successfully_subtracted_number"
 msgstr ""
 

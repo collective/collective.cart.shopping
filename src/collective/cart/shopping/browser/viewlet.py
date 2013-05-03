@@ -271,12 +271,13 @@ class RelatedArticlesViewlet(ViewletBase):
 
         :rtype: list
         """
-        if hasattr(self.context, 'relatedItems'):
-            res = []
-            workflow = getToolByName(self.context, 'portal_workflow')
-            for article in self.context.relatedItems:
-                obj = article.to_object
-                if IArticle.providedBy(obj) and workflow.getInfoFor(obj, 'review_state') == 'published':
+        res = []
+        if hasattr(self.context, 'related_articles'):
+            shopping_site = IShoppingSite(self.context)
+            path = shopping_site.shop_path()
+            for uuid in self.context.related_articles:
+                obj = shopping_site.get_object(IArticle, UID=uuid, path=path, review_state='published')
+                if obj is not None:
                     art = IArticleAdapter(obj)
                     res.append({
                         'gross': art.gross(),
@@ -284,7 +285,7 @@ class RelatedArticlesViewlet(ViewletBase):
                         'title': art.title(),
                         'url': obj.absolute_url(),
                     })
-            return res[:4]
+        return res[:4]
 
 
 class AddSubtractStockViewlet(BaseArticleViewlet):

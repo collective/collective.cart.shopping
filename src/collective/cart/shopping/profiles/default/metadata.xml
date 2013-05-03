@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>16</version>
+  <version>17</version>
   <dependencies>
     <dependency>profile-collective.cart.core:default</dependency>
     <dependency>profile-collective.cart.shipping:default</dependency>
@@ -9,6 +9,5 @@
     <dependency>profile-collective.behavior.sku:default</dependency>
     <dependency>profile-collective.behavior.stock:default</dependency>
     <dependency>profile-collective.behavior.vat:default</dependency>
-    <dependency>profile-plone.app.relationfield:default</dependency>
   </dependencies>
 </metadata>

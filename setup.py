@@ -38,7 +38,6 @@ setup(
         'collective.behavior.vat',
         'collective.cart.core',
         'collective.cart.shipping',
-        'plone.app.relationfield',
         'plone.app.textfield',
         'plone.namedfile [blobs]',
         'setuptools'],

@@ -110,7 +110,7 @@
     profile="collective.cart.shopping:default"
     sortkey="1"
     source="13"
-    title="Reimport actions"
+    title="Reimport typeinfo"
     />
 
   <genericsetup:upgradeStep
@@ -140,6 +140,26 @@
     profile="collective.cart.shopping:default"
     sortkey="1"
     source="15"
+    title="Reimport viewlets"
+    />
+
+  <genericsetup:upgradeStep
+    description=""
+    destination="17"
+    handler="collective.cart.shopping.upgrades.reimport_typeinfo"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="16"
+    title="Reimport typeinfo"
+    />
+
+  <genericsetup:upgradeStep
+    description=""
+    destination="17"
+    handler="collective.cart.shopping.upgrades.reimport_viewlets"
+    profile="collective.cart.shopping:default"
+    sortkey="2"
+    source="16"
     title="Reimport viewlets"
     />
 
