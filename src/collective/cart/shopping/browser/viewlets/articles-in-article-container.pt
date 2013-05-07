@@ -1,5 +1,5 @@
 <section
-  id="collective-cart-shopping-articles-in-article-container"
+  id="articles-in-article-container"
   i18n:domain="collective.cart.shopping"
   tal:condition="view/articles">
   <article tal:attributes="class item/class" tal:repeat="item view/articles">

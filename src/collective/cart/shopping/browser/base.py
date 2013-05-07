@@ -5,7 +5,11 @@ class Message(object):
     """Messages for shopping site root"""
 
     def message(self, name=None):
-        name = name or getattr(self, '__name__', None)
+        if getattr(self, 'view', None):
+            name = name or getattr(self.view, '__name__', None)
+        else:
+            name = name or getattr(self, '__name__', None)
+
         if name is not None:
             name = '{}-message'.format(name)
             brain = IShoppingSite(self.context).get_brain_for_text(name)

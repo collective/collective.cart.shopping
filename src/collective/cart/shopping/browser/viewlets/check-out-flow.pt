@@ -1,9 +1,17 @@
-<section id="check-out-flow" i18n:domain="collective.cart.shopping">
-  <ol>
+<section id="check-out-flow" i18n:domain="collective.cart.shopping" tal:condition="view/available">
+  <ul>
     <li
       tal:attributes="class item/class"
-      tal:content="item/title"
-      tal:repeat="item view/items"
-      />
-  </ol>
+      tal:repeat="item view/items">
+      <a
+        tal:attributes="href item/url"
+        tal:condition="item/url"
+        tal:content="item/title"
+        />
+      <span
+        tal:condition="not: item/url"
+        tal:replace="item/title"
+        />
+    </li>
+  </ul>
 </section>

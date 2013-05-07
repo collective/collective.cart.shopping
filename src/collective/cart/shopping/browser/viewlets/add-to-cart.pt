@@ -26,11 +26,11 @@
       <label i18n:translate="">Quantity</label>
       <input
         min="1"
-        name="quantity"
         required="required"
         tal:attributes="
           max view/quantity_max;
           maxlength view/quantity_size;
+          name view/uuid;
           size view/quantity_size"
         type="number"
         value="1"
@@ -68,13 +68,13 @@
         i18n:translate="">Quantity</label>
       <input
         min="1"
-        name="quantity"
         required="required"
-        value="1"
-        type="number"
         tal:attributes="
           maxlength view/quantity_size;
+          name view/uuid;
           size view/quantity_size"
+        type="number"
+        value="1"
         />
       <span
         id="pcs"
@@ -82,11 +82,10 @@
     </section>
     <button
       class="shopping-button update"
-      type="submit"
-      name="form.buttons.AddToCart"
-      value="form.buttons.AddToCart"
       i18n:translate=""
-      i18n:domain="collective.cart.core"
+      name="form.buttons.AddToCart"
+      tal:attributes="value view/uuid"
+      type="submit"
       >Add To Cart</button>
   </tal:block>
   <p

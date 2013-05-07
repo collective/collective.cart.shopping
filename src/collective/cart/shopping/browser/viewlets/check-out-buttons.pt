@@ -2,14 +2,27 @@
   id="check-out-buttons"
   i18n:domain="collective.cart.shopping"
   tal:condition="view/available">
-  <button
-    tal:attributes="
-      class button/class;
-      name button/name;
-      value button/value;
-    "
-    tal:content="button/title"
-    tal:repeat="button view/buttons"
-    type="submit"
-    />
+  <tal:block tal:repeat="button view/buttons">
+    <button
+      formnovalidate
+      tal:attributes="
+        class button/class;
+        name button/name;
+        value button/value;
+      "
+      tal:condition="button/formnovalidate"
+      tal:content="button/title"
+      type="submit"
+      />
+    <button
+      tal:attributes="
+        class button/class;
+        name button/name;
+        value button/value;
+      "
+      tal:condition="not: button/formnovalidate"
+      tal:content="button/title"
+      type="submit"
+      />
+  </tal:block>
 </section>

@@ -42,10 +42,16 @@ Go to cart and then to billing-and-shipping page::
 
     >>> print browser.bycss('#check-out-flow')
     --- 1 ---
-    <section id="check-out-flow"><ol><li class="cart">Cart</li>
-    <li class="billing-and-shipping current-step">Addresses</li>
-    <li class="order-confirmation">Confirmation</li>
-    </ol></section>
+    <section id="check-out-flow"><ul><li class="cart">
+    <a href="http://nohost/plone/@@cart">Cart</a>
+    </li>
+    <li class="billing-and-shipping current-step">
+    Addresses
+    </li>
+    <li class="order-confirmation">
+    Confirmation
+    </li>
+    </ul></section>
 
     >>> print browser.bycss('#shipping-methods')
     --- 1 ---
@@ -62,8 +68,8 @@ Go to cart and then to billing-and-shipping page::
 
     >>> print browser.bycss('#check-out-buttons')
     --- 1 ---
-    <section id="check-out-buttons"><button type="submit" class="back" value="form.buttons.Back" name="form.buttons.Back">Back</button>
-    <button type="submit" class="next" value="form.buttons.CheckOut" name="form.buttons.CheckOut">Next</button>
+    <section id="check-out-buttons"><button formnovalidate type="submit" class="back" name="form.buttons.Back" value="form.buttons.Back">Back</button>
+    <button type="submit" class="next" name="form.buttons.CheckOut" value="form.buttons.CheckOut">Next</button>
     </section>
 
 Input first name::
@@ -220,7 +226,7 @@ Back to billing-and-shipping::
 
 Billing info not same as shipping info::
 
-    >>> browser.getControl(name="billing-and-shipping-same-or-different").value = ['different']
+    >>> browser.getControl(name="billing-same-as-shipping").value = ['different']
     >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> browser.url
     'http://nohost/plone/@@billing-and-shipping'

@@ -1,23 +1,20 @@
 <script type="text/javascript">
   (function($) {
     $(document).ready(function() {
-      $('#billing-and-shipping-same-or-different > select').change(function(){
-        var value = $('#billing-and-shipping-same-or-different > select').val();
-        if (value == 'different') {
-          $('#shipping-address').css('display', 'block');
-          $('#shipping-address span').css('display', 'inline');
-          $('#shipping-address input.required').attr('required', 'required');
-        }
-        if (value == 'same') {
-          $('#shipping-address').css('display', 'none');
-          $('#shipping-address span').css('display', 'none');
-          $('#shipping-address input.required').removeAttr('required');
-        }
+      $('#different').click(function() {
+        $('#shipping-address').css('display', 'block');
+        $('#shipping-address span').css('display', 'inline');
+        $('#shipping-address input.required').attr('required', 'required');
       });
-      if($('#different').attr('selected')) {
+      $('#same').click(function() {
+        $('#shipping-address').css('display', 'none');
+        $('#shipping-address span').css('display', 'none');
+        $('#shipping-address input.required').removeAttr('required');
+      });
+      if($('#different').attr('checked')) {
         $('#shipping-address').css('display', 'block');
       };
-    })
+    });
   })(jQuery);
 </script>
 
@@ -25,19 +22,18 @@
   <span i18n:translate="billing-and-shipping-same-or-different">
     Are billing and shipping addresses same or different?
   </span>
-  <select
-    name="billing-and-shipping-same-or-different">
-    <option
-      i18n:translate=""
-      id="same"
-      tal:attributes="selected view/billing_same_as_shipping"
-      value="same">Same</option>
-    <option
-      i18n:translate=""
-      id="different"
-      tal:attributes="selected not:view/billing_same_as_shipping"
-      value="different">Different</option>
-  </select>
+  <input
+    id="same"
+    name="billing-same-as-shipping"
+    tal:attributes="checked view/billing_same_as_shipping"
+    type="radio"
+    value="same" /><span i18n:translate="">Same</span>
+  <input
+    id="different"
+    name="billing-same-as-shipping"
+    tal:attributes="checked not:view/billing_same_as_shipping"
+    type="radio"
+    value="different" /><span i18n:translate="">Different</span>
 </section>
 
 <section id="shipping-address" i18n:domain="collective.cart.shopping" tal:define="info view/shipping_info">

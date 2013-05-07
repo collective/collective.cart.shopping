@@ -229,6 +229,12 @@ class IAddToCartViewlet(IBaseAddToCartViewlet):
 class IArticlesInArticleViewlet(IAddToCartViewlet):
     """Viewlet interface for ArticlesInArticleViewlet"""
 
+    def available():
+        """Returns True if available else False
+
+        :rtype: bool
+        """
+
     def articles():
         """Returns list of dictionary of articles
 

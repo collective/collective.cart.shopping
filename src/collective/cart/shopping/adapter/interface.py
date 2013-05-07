@@ -1,3 +1,5 @@
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from Products.ATContentTypes.interfaces import IATDocument
 from Products.ATContentTypes.interfaces import IATFolder
 from Products.CMFCore.utils import getToolByName
@@ -24,7 +26,7 @@ from moneyed.localization import DEFAULT
 from moneyed.localization import format_money
 from plone.dexterity.utils import createContentInContainer
 from plone.registry.interfaces import IRegistry
-from zExceptions import Forbidden
+from plone.uuid.interfaces import IUUID
 from zope.component import adapts
 from zope.component import getUtility
 from zope.event import notify
@@ -469,50 +471,64 @@ class ShoppingSiteMultiAdapter(object):
 
     def add_to_cart(self):
         """Add article to cart"""
+        shopping_site = IShoppingSite(self.context)
         form = self.request.form
-        uuid = form.pop('subarticle', None) or form.pop('form.buttons.AddToCart', None)
+        add_to_cart = form.pop('form.buttons.AddToCart', None)
+        subarticle = form.pop('subarticle', None)
+
+        uuid = None
+        quantity = '1'
+
+        if subarticle is not None:
+
+            parent_uuid = add_to_cart
+            if not isinstance(subarticle, list):
+                uuids = [subarticle]
+                for subarticle_uuid in uuids:
+                    parent = aq_parent(aq_inner(shopping_site.get_object(UID=subarticle_uuid)))
+                    if parent_uuid == IUUID(parent):
+                        uuid = subarticle_uuid
+
+                quantity = form.get(parent_uuid)
+
+        uuid = uuid or add_to_cart
 
         if uuid is not None:
 
-            authenticator = self.context.restrictedTraverse('@@authenticator')
-            if not authenticator.verify():
-                raise Forbidden()
-
-            quantity = form.get('quantity')
+            quantity = form.get('quantity') or form.get(uuid) or quantity
             validate = validation.validatorFor('isInt')
             url = self.context.restrictedTraverse('@@plone_context_state').current_base_url()
             message = None
+
             if quantity is not None and validate(quantity) == 1:
                 quantity = int(quantity)
-                if quantity >= 0:
-                    shopping_site = IShoppingSite(self.context)
-                    obj = shopping_site.get_object(UID=uuid)
-                    if obj:
-                        item = IArticleAdapter(obj)
-                        if quantity > item.quantity_max():
-                            quantity = item.quantity_max()
-                        if quantity > 0:
-                            size = ISize(obj)
-                            gross = item.gross()
-                            kwargs = {
-                                'depth': size.depth,
-                                'gross': gross,
-                                'height': size.height,
-                                'net': item.get_net(gross),
-                                'quantity': quantity,
-                                'title': item.title(),
-                                'sku': obj.sku,
-                                'vat': item.get_vat(gross),
-                                'vat_rate': item.context.vat_rate,
-                                'weight': size.weight,
-                                'width': size.width,
-                            }
-                            item.add_to_cart(**kwargs)
-                            notify(ArticleAddedToCartEvent(item, self.request))
-                            return self.request.response.redirect(url)
-                    message = _(u'Not available to add to cart.')
+                obj = shopping_site.get_object(UID=uuid)
+                if obj:
+                    item = IArticleAdapter(obj)
+                    if quantity > item.quantity_max():
+                        quantity = item.quantity_max()
+                    if quantity > 0:
+                        size = ISize(obj)
+                        gross = item.gross()
+                        kwargs = {
+                            'depth': size.depth,
+                            'gross': gross,
+                            'height': size.height,
+                            'net': item.get_net(gross),
+                            'quantity': quantity,
+                            'title': item.title(),
+                            'sku': obj.sku,
+                            'vat': item.get_vat(gross),
+                            'vat_rate': item.context.vat_rate,
+                            'weight': size.weight,
+                            'width': size.width,
+                        }
+                        item.add_to_cart(**kwargs)
+                        notify(ArticleAddedToCartEvent(item, self.request))
+                    else:
+                        message = _(u'Input positive integer value to add to cart.')
                 else:
-                    message = _(u"Input positive integer value to add to cart.")
+                    message = _(u"Not available to add to cart.")
             else:
                 message = _(u"Input integer value to add to cart.")
 

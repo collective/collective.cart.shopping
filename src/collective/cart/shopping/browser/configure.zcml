@@ -347,4 +347,14 @@
     view=".interfaces.IOrderConfirmationView"
     />
 
+  <browser:viewlet
+    class=".viewlet.MessageTextViewlet"
+    for="collective.cart.core.interfaces.IShoppingSiteRoot"
+    layer=".interfaces.ICollectiveCartShoppingLayer"
+    manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+    name="collective.cart.shopping.viewlet.message-text"
+    permission="zope2.View"
+    view="collective.cart.shopping.browser.interfaces.ICheckOutView"
+    />
+
 </configure>

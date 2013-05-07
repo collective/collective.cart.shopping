@@ -216,7 +216,7 @@ Check out and there should be billing info filled::
 
 With different shipping address::
 
-    >>> browser.getControl(name="billing-and-shipping-same-or-different").value = ['different']
+    >>> browser.getControl(name="billing-same-as-shipping").value = ['different']
     >>> browser.getControl(name="form.buttons.CheckOut").click()
 
 Input shipping info::
@@ -471,7 +471,5 @@ Remove order::
     >>> browser.getControl(name="form.buttons.RemoveOrder").click()
     >>> print browser.bycss('#order-listing')
     --- 1 ---
-    <section id="order-listing"><p id="no-orders">
-    There are no orders.
-    </p>
+    <section id="order-listing"><p id="no-orders">There are no orders.</p>
     </section>

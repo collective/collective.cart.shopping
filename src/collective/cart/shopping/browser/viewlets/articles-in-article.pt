@@ -32,13 +32,13 @@
               <input
                 id="quantity"
                 min="1"
-                name="quantity"
                 required="required"
                 value="1"
                 type="number"
                 tal:attributes="
                   max item/quantity_max;
                   maxlength item/quantity_size;
+                  name item/uuid;
                   size item/quantity_size"
                 />
                 &nbsp;&times;&nbsp;
@@ -62,7 +62,6 @@
               <section class="buttons">
                 <button
                   class="shopping-button update"
-                  i18n:domain="collective.cart.core"
                   i18n:translate=""
                   name="form.buttons.AddToCart"
                   tal:attributes="value item/uuid"
@@ -86,13 +85,13 @@
               <section id="quantity">
                 <input
                   min="1"
-                  name="quantity"
                   required="required"
-                  value="1"
-                  type="number"
                   tal:attributes="
                     maxlength item/quantity_size;
+                    name item/uuid;
                     size item/quantity_size"
+                  type="number"
+                  value="1"
                   />
                 <span
                   id="pcs"
@@ -100,11 +99,10 @@
               </section>
               <button
                 class="shopping-button update"
-                i18n:domain="collective.cart.core"
-                type="submit"
-                name="form.buttons.AddToCart"
-                value="form.buttons.AddToCart"
                 i18n:translate=""
+                name="form.buttons.AddToCart"
+                tal:attributes="value item/uuid"
+                type="submit"
                 >Add To Cart</button>
             </tal:block>
             <p

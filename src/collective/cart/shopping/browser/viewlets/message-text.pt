@@ -1,0 +1,3 @@
+<section id="message-text" tal:condition="view/message" tal:define="message view/message">
+  <div tal:replace="structure message/text" />
+</section>

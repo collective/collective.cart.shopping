@@ -90,23 +90,17 @@ Fill Billing Info::
     </td>
     <td class="price-and-quantity">
     <span class="gross">12.40 &#8364;</span>
-    <br><span class="vat_rate">
-    Including VAT: 24%
-    </span>
+    <br><span class="vat_rate">Including VAT: 24%</span>
     </td>
     </tr></tbody></table></section>
 
     >>> print browser.bycss('#shipping-method')
     --- 1 ---
-    <section id="shipping-method"><table><tbody><tr><td class="shipping-method-title">
-    Shipping Method:
-    </td>
+    <section id="shipping-method"><table><tbody><tr><td class="shipping-method-title">Shipping Method:</td>
     <td>ShippingMeth&#246;d1</td>
     <td class="price-and-quantity">
     <span class="gross">0.10 &#8364;</span>
-    <br><span class="vat_rate">
-    Including VAT: 24%
-    </span>
+    <br><span class="vat_rate">Including VAT: 24%</span>
     </td>
     </tr></tbody></table></section>
 
@@ -118,8 +112,8 @@ Fill Billing Info::
 
     >>> print browser.bycss('#check-out-buttons')
     --- 1 ---
-    <section id="check-out-buttons"><button type="submit" class="back" value="form.buttons.Back" name="form.buttons.Back">Back</button>
-    <button type="submit" class="next" value="form.buttons.CheckOut" name="form.buttons.CheckOut">Next</button>
+    <section id="check-out-buttons"><button formnovalidate type="submit" class="back" name="form.buttons.Back" value="form.buttons.Back">Back</button>
+    <button type="submit" class="next" name="form.buttons.CheckOut" value="form.buttons.CheckOut">Next</button>
     </section>
 
 Go back::
@@ -134,28 +128,6 @@ Proceed::
     >>> browser.getControl(name="form.buttons.CheckOut").click()
     >>> browser.url
     'http://nohost/plone/shop/@@order-confirmation'
-
-
-    # >>> print browser.bycss('#confirmation-checkout')
-    # --- 1 ---
-    # <section id="confirmation-checkout"><script type="text/javascript">
-    # (function($) {
-    # $(document).ready(function() {
-    # $('.checkout').click(wait_processing);
-    # });
-    # function wait_processing(){
-    # if($('#accept-terms').attr('checked')) {
-    # $('#processing_message').css('display', 'block');
-    # $('.checkout').attr("disabled");
-    # }
-    # }
-    # })(jQuery);
-    # </script><form method="post" action="http://nohost/plone/shop/@@thanks">
-    # <input type="hidden" name="_authenticator" value="..."><p id="processing_message">Please wait while processing your order...</p>
-    # <button class="buttons shopping-button back" name="form.buttons.back" value="form.buttons.back" type="submit">Back</button>
-    # <button class="buttons shopping-button checkout" name="form.buttons.ConfirmOrder" value="form.buttons.ConfirmOrder" type="submit">Confirm Order</button>
-    # </form>
-    # </section>
 
 Confirm the order::
 
@@ -313,7 +285,7 @@ Fill Billing Info with different info for shipping address::
     >>> browser.getControl(name="billing_post").value = 'Billing Pöst Cöde'
     >>> browser.getControl(name="billing_city").value = 'Billing €ity'
     >>> browser.getControl(name="billing_phone").value = 'Billing Phöne Number'
-    >>> browser.getControl(name="billing-and-shipping-same-or-different").value = ['different']
+    >>> browser.getControl(name="billing-same-as-shipping").value = ['different']
     >>> browser.getControl(name="form.buttons.CheckOut").click()
 
 Update Shipping Info::

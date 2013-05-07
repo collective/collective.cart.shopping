@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-05-03 17:39+0000\n"
+"POT-Creation-Date: 2013-05-04 07:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,6 +20,7 @@ msgid "(Discount valid till ${discount_end})"
 msgstr ""
 
 #: ./browser/viewlets/add-to-cart.pt:45
+#: ./browser/viewlets/articles-in-article.pt:63
 msgid "Add To Cart"
 msgstr ""
 
@@ -35,7 +36,7 @@ msgstr ""
 msgid "Article List"
 msgstr ""
 
-#: ./browser/viewlet.py:504
+#: ./browser/viewlet.py:513
 #: ./browser/viewlets/billing-and-shipping-check-out.pt:2
 #: ./browser/viewlets/confirmation-checkout.pt:25
 msgid "Back"
@@ -63,6 +64,10 @@ msgstr ""
 msgid "Cart"
 msgstr ""
 
+#: ./browser/viewlets/cart-article-listing.pt:79
+msgid "Cart is empty."
+msgstr ""
+
 #: ./schema.py:26
 msgid "Check if this article has options such as sizes and colors."
 msgstr ""
@@ -81,7 +86,7 @@ msgstr ""
 msgid "City is missing."
 msgstr ""
 
-#: ./browser/viewlet.py:644
+#: ./browser/viewlet.py:653
 msgid "Clear"
 msgstr ""
 
@@ -160,7 +165,7 @@ msgstr ""
 msgid "Invalid e-mail address."
 msgstr ""
 
-#: ./browser/viewlet.py:571
+#: ./browser/viewlet.py:580
 msgid "Invalid quantity."
 msgstr ""
 
@@ -178,7 +183,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: ./browser/viewlet.py:510
+#: ./browser/viewlet.py:519
 #: ./browser/viewlets/billing-and-shipping-check-out.pt:11
 msgid "Next"
 msgstr ""
@@ -264,7 +269,7 @@ msgstr ""
 msgid "Select one if this information is used only for billing or shipping."
 msgstr ""
 
-#: ./browser/viewlet.py:769
+#: ./browser/viewlet.py:778
 msgid "Select one shipping method."
 msgstr ""
 
@@ -300,8 +305,8 @@ msgid "Show list of articles."
 msgstr ""
 
 #: ./browser/viewlets/add-subarticle-to-cart.pt:47
-#: ./browser/viewlets/add-to-cart.pt:92
-#: ./browser/viewlets/articles-in-article.pt:110
+#: ./browser/viewlets/add-to-cart.pt:91
+#: ./browser/viewlets/articles-in-article.pt:108
 msgid "Sold Out"
 msgstr ""
 
@@ -378,7 +383,7 @@ msgid "Your order number is ${number}."
 msgstr ""
 
 #. Default: "Add less than ${number}."
-#: ./browser/viewlet.py:362
+#: ./browser/viewlet.py:371
 msgid "add_less_than_number"
 msgstr ""
 
@@ -414,12 +419,12 @@ msgid "link-to-order"
 msgstr ""
 
 #. Default: "You need to accept the terms to process the order."
-#: ./browser/viewlet.py:835
+#: ./browser/viewlet.py:844
 msgid "need_to_accept_terms"
 msgstr ""
 
 #. Default: "No more than ${quantity} can be added to cart for ${title}"
-#: ./browser/viewlet.py:562
+#: ./browser/viewlet.py:571
 msgid "no_more_than_quantity"
 msgstr ""
 
@@ -472,7 +477,7 @@ msgstr ""
 
 #: ./browser/viewlets/add-subarticle-to-cart.pt:34
 #: ./browser/viewlets/add-to-cart.pt:38
-#: ./browser/viewlets/articles-in-article.pt:97
+#: ./browser/viewlets/articles-in-article.pt:96
 msgid "pcs"
 msgstr ""
 
@@ -493,22 +498,22 @@ msgid "stock_of_article"
 msgstr ""
 
 #. Default: "Subtract less than ${number}."
-#: ./browser/viewlet.py:376
+#: ./browser/viewlet.py:385
 msgid "subtract_less_than_number"
 msgstr ""
 
 #. Default: "Successfully added ${number} pc(s)."
-#: ./browser/viewlet.py:366
+#: ./browser/viewlet.py:375
 msgid "successfully_added_number"
 msgstr ""
 
 #. Default: "Successfully removed ${number} pc(s) of stock."
-#: ./browser/viewlet.py:424
+#: ./browser/viewlet.py:433
 msgid "successfully_removed_stock"
 msgstr ""
 
 #. Default: "Successfully subtracted ${number} pc(s)."
-#: ./browser/viewlet.py:380
+#: ./browser/viewlet.py:389
 msgid "successfully_subtracted_number"
 msgstr ""
 

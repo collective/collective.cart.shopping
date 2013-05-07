@@ -76,6 +76,6 @@
     </tbody>
   </table>
 </section>
-<p i18n:domain="collective.cart.core" i18n:translate="" id="cart-is-empty" tal:condition="not: view/articles">
+<p i18n:domain="collective.cart.shopping" i18n:translate="" id="cart-is-empty" tal:condition="not: view/articles">
   Cart is empty.
 </p>

@@ -80,7 +80,7 @@ Add stock::
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
     </tr></thead><tbody><tr><td>
-    <a href="http://nohost/plone/shop/article-container/article1/stock1" title="Description of St&#246;ck1">St&#246;ck1</a>
+    <a title="Description of St&#246;ck1" href="http://nohost/plone/shop/article-container/article1/stock1">St&#246;ck1</a>
     </td>
     <td>
     ...
@@ -129,7 +129,7 @@ Add another stock::
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
     </tr></thead><tbody><tr><td>
-    <a href="http://nohost/plone/shop/article-container/article1/stock2" title="Description of St&#246;ck2">St&#246;ck2</a>
+    <a title="Description of St&#246;ck2" href="http://nohost/plone/shop/article-container/article1/stock2">St&#246;ck2</a>
     </td>
     <td>
     ...
@@ -147,7 +147,7 @@ Add another stock::
     <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
     </td>
     </tr><tr><td>
-    <a href="http://nohost/plone/shop/article-container/article1/stock1" title="Description of St&#246;ck1">St&#246;ck1</a>
+    <a title="Description of St&#246;ck1" href="http://nohost/plone/shop/article-container/article1/stock1">St&#246;ck1</a>
     </td>
     <td>
     ...
@@ -203,7 +203,7 @@ Subtract stock::
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
     </tr></thead><tbody><tr><td>
-    <a href="http://nohost/plone/shop/article-container/article1/stock2" title="Description of St&#246;ck2">St&#246;ck2</a>
+    <a title="Description of St&#246;ck2" href="http://nohost/plone/shop/article-container/article1/stock2">St&#246;ck2</a>
     </td>
     <td>
     ...
@@ -221,7 +221,7 @@ Subtract stock::
     <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
     </td>
     </tr><tr><td>
-    <a href="http://nohost/plone/shop/article-container/article1/stock1" title="Description of St&#246;ck1">St&#246;ck1</a>
+    <a title="Description of St&#246;ck1" href="http://nohost/plone/shop/article-container/article1/stock1">St&#246;ck1</a>
     </td>
     <td>
     ...
@@ -277,7 +277,7 @@ Add stock::
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
     </tr></thead><tbody><tr><td>
-    <a href="http://nohost/plone/shop/article-container/article1/stock2" title="Description of St&#246;ck2">St&#246;ck2</a>
+    <a title="Description of St&#246;ck2" href="http://nohost/plone/shop/article-container/article1/stock2">St&#246;ck2</a>
     </td>
     <td>
     ...
@@ -295,7 +295,7 @@ Add stock::
     <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
     </td>
     </tr><tr><td>
-    <a href="http://nohost/plone/shop/article-container/article1/stock1" title="Description of St&#246;ck1">St&#246;ck1</a>
+    <a title="Description of St&#246;ck1" href="http://nohost/plone/shop/article-container/article1/stock1">St&#246;ck1</a>
     </td>
     <td>
     ...
@@ -351,7 +351,7 @@ Add too many pcs::
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
     </tr></thead><tbody><tr><td>
-    <a href="http://nohost/plone/shop/article-container/article1/stock2" title="Description of St&#246;ck2">St&#246;ck2</a>
+    <a title="Description of St&#246;ck2" href="http://nohost/plone/shop/article-container/article1/stock2">St&#246;ck2</a>
     </td>
     <td>
     ...
@@ -369,7 +369,7 @@ Add too many pcs::
     <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
     </td>
     </tr><tr><td>
-    <a href="http://nohost/plone/shop/article-container/article1/stock1" title="Description of St&#246;ck1">St&#246;ck1</a>
+    <a title="Description of St&#246;ck1" href="http://nohost/plone/shop/article-container/article1/stock1">St&#246;ck1</a>
     </td>
     <td>
     ...
@@ -425,7 +425,7 @@ Subtract too many pcs::
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
     </tr></thead><tbody><tr><td>
-    <a href="http://nohost/plone/shop/article-container/article1/stock2" title="Description of St&#246;ck2">St&#246;ck2</a>
+    <a title="Description of St&#246;ck2" href="http://nohost/plone/shop/article-container/article1/stock2">St&#246;ck2</a>
     </td>
     <td>
     ...
@@ -443,7 +443,7 @@ Subtract too many pcs::
     <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
     </td>
     </tr><tr><td>
-    <a href="http://nohost/plone/shop/article-container/article1/stock1" title="Description of St&#246;ck1">St&#246;ck1</a>
+    <a title="Description of St&#246;ck1" href="http://nohost/plone/shop/article-container/article1/stock1">St&#246;ck1</a>
     </td>
     <td>
     ...
@@ -500,7 +500,7 @@ Add stock again::
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
     </tr></thead><tbody><tr><td>
-    <a href="http://nohost/plone/shop/article-container/article1/stock2" title="Description of St&#246;ck2">St&#246;ck2</a>
+    <a title="Description of St&#246;ck2" href="http://nohost/plone/shop/article-container/article1/stock2">St&#246;ck2</a>
     </td>
     <td>
     ...
@@ -518,7 +518,7 @@ Add stock again::
     <button name="form.buttons.Remove" type="submit" value="stock2">Remove</button>
     </td>
     </tr><tr><td>
-    <a href="http://nohost/plone/shop/article-container/article1/stock1" title="Description of St&#246;ck1">St&#246;ck1</a>
+    <a title="Description of St&#246;ck1" href="http://nohost/plone/shop/article-container/article1/stock1">St&#246;ck1</a>
     </td>
     <td>
     ...
@@ -570,7 +570,7 @@ Remove stocks::
     <th>Purchase Price VAT 0%</th>
     <th>Remove</th>
     </tr></thead><tbody><tr><td>
-    <a href="http://nohost/plone/shop/article-container/article1/stock2" title="Description of St&#246;ck2">St&#246;ck2</a>
+    <a title="Description of St&#246;ck2" href="http://nohost/plone/shop/article-container/article1/stock2">St&#246;ck2</a>
     </td>
     <td>
     ...

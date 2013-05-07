@@ -1,3 +1,5 @@
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from Products.ATContentTypes.interfaces.image import IATImage
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
@@ -137,7 +139,8 @@ class AddToCartViewlet(BaseAddToCartViewlet):
     index = ViewPageTemplateFile('viewlets/add-to-cart.pt')
 
     def update(self):
-        getMultiAdapter((self.context, self.request), IShoppingSiteMultiAdapter).add_to_cart()
+        if self.available():
+            getMultiAdapter((self.context, self.request), IShoppingSiteMultiAdapter).add_to_cart()
 
     def quantity_max(self):
         """Max quantity
@@ -219,6 +222,15 @@ class ArticlesInArticleViewlet(AddToCartViewlet):
     implements(IArticlesInArticleViewlet)
     index = ViewPageTemplateFile('viewlets/articles-in-article.pt')
 
+    def available(self):
+        """Returns True if available else False
+
+        :rtype: bool
+        """
+        if self.articles():
+            return True
+        return False
+
     def articles(self):
         """Returns list of dictionary of articles
 
@@ -272,10 +284,17 @@ class RelatedArticlesViewlet(ViewletBase):
         :rtype: list
         """
         res = []
-        if hasattr(self.context, 'related_articles'):
+
+        context = aq_inner(self.context)
+        if not getattr(context, 'related_articles', None):
+            context = aq_parent(context)
+            if not getattr(context, 'related_articles', None):
+                context = aq_parent(context)
+
+        if getattr(context, 'related_articles', None):
             shopping_site = IShoppingSite(self.context)
             path = shopping_site.shop_path()
-            for uuid in self.context.related_articles:
+            for uuid in context.related_articles:
                 obj = shopping_site.get_object(IArticle, UID=uuid, path=path, review_state='published')
                 if obj is not None:
                     art = IArticleAdapter(obj)
@@ -432,6 +451,8 @@ class CheckOutFlowViewlet(ViewletBase):
     implements(ICheckOutFlowViewlet)
     index = ViewPageTemplateFile('viewlets/check-out-flow.pt')
 
+    views = ['cart', 'billing-and-shipping', 'order-confirmation']
+
     def _get_title(self, view):
         """Returns title of view based on view name
 
@@ -445,20 +466,28 @@ class CheckOutFlowViewlet(ViewletBase):
         else:
             return self.context.restrictedTraverse(view).title
 
+    def available(self):
+        return self.view.__name__ in self.views
+
     def items(self):
         """Returns list of dictionary of check out component
 
         :rtype: list
         """
         res = []
-        views = ['cart', 'billing-and-shipping', 'order-confirmation']
-        for view in views:
+        view_name = self.view.__name__
+        younger_views = self.views[:self.views.index(view_name)]
+        for view in self.views:
             klass = view
-            if view == self.view.__name__:
+            url = None
+            if view == view_name:
                 klass = u'{} current-step'.format(view)
+            if view in younger_views:
+                url = '{}/@@{}'.format(self.context.absolute_url(), view)
             res.append({
                 'class': klass,
                 'title': self._get_title(view),
+                'url': url,
             })
         return res
 
@@ -500,12 +529,14 @@ class BaseCheckOutButtonsViewlet(ViewletBase):
         return [
             {
                 'class': 'back',
+                'formnovalidate': True,
                 'name': 'form.buttons.Back',
                 'title': _(u'Back'),
                 'value': 'form.buttons.Back',
             },
             {
                 'class': 'next',
+                'formnovalidate': False,
                 'name': 'form.buttons.CheckOut',
                 'title': _(u'Next'),
                 'value': 'form.buttons.CheckOut',
@@ -640,6 +671,7 @@ class CartCheckOutButtonsViewlet(BaseCheckOutButtonsViewlet):
         buttons = super(CartCheckOutButtonsViewlet, self).buttons()[1:]
         buttons.insert(0, {
             'class': 'clear',
+            'formnovalidate': True,
             'name': 'form.buttons.ClearCart',
             'title': _(u'Clear'),
             'value': 'form.buttons.ClearCart',
@@ -752,7 +784,7 @@ class BillingAndShippingCheckOutButtonsViewlet(BaseCheckOutButtonsViewlet):
 
             notify(BillingAddressConfirmedEvent(self.context))
 
-            if form.get('billing-and-shipping-same-or-different', 'different') == 'same':
+            if form.get('billing-same-as-shipping', 'different') == 'same':
                 shopping_site.update_cart('billing_same_as_shipping', True)
             else:
                 shopping_site.update_cart('billing_same_as_shipping', False)
@@ -877,3 +909,9 @@ class OrderConfirmationCheckOutButtonsViewlet(BaseCheckOutButtonsViewlet):
 #     """Viewlet manager for ArticleContainer."""
 #     grok.context(IArticleContainer)
 #     grok.name('collective.cart.shopping.articlecontainer')
+
+
+class MessageTextViewlet(ViewletBase, Message):
+    """Viewlet to show message text for check out flow"""
+
+    index = ViewPageTemplateFile('viewlets/message-text.pt')

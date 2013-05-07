@@ -26,6 +26,10 @@
     <viewlet name="collective.cart.shopping.viewlet.order-confirmation-check-out-buttons" />
   </order>
 
+  <order manager="plone.belowcontentbody" skinname="*">
+    <viewlet name="collective.cart.shopping.viewlet.message-text" />
+  </order>
+
   <hidden manager="plone.belowcontenttitle" skinname="*">
     <viewlet name="collective.cart.core.viewlet.add-to-cart" />
   </hidden>
