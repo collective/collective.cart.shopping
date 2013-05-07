@@ -241,6 +241,10 @@ Thanks page::
     >>> browser.url
     'http://nohost/plone/shop/@@thanks'
 
+    >>> browser.reload()
+    >>> browser.url
+    'http://nohost/plone/shop/@@cart'
+
 Check the newest message sent::
 
     >>> len(mailhost.messages)

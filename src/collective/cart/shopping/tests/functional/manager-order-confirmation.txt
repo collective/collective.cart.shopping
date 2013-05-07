@@ -478,3 +478,7 @@ Accept terms::
     <div id="content-core">
     <p>Your order number is <span id="number">3</span>.</p>
     </div>
+
+    >>> browser.reload()
+    >>> browser.url
+    'http://nohost/plone/shop/@@cart'

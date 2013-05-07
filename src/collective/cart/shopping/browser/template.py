@@ -182,6 +182,11 @@ class ThanksView(CheckOutView):
         shopping_site = self.shopping_site()
         # Create cart to cart container from session.
         order = shopping_site.create_order()
+
+        if order is None:
+            url = self.context.absolute_url()
+            return self.request.response.redirect(url)
+
         self.order_id = order.id
         # Change state of cart from created to ordered.
         workflow = getToolByName(self.context, 'portal_workflow')

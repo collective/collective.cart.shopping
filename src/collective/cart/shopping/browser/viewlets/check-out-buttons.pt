@@ -1,7 +1,27 @@
+<script type="text/javascript">
+  (function($) {
+    $(document).ready(function() {
+      $('.next').click(wait_processing);
+    });
+    function wait_processing(){
+      {
+        $('#processing_message').css('display', 'block');
+        $('button').attr("disabled");
+      }
+    }
+  })(jQuery);
+</script>
+
+<p
+  i18n:domain="collective.cart.shopping"
+  i18n:translate="processing_message"
+  id="processing_message">Check out processing...</p>
+
 <section
   id="check-out-buttons"
   i18n:domain="collective.cart.shopping"
   tal:condition="view/available">
+
   <tal:block tal:repeat="button view/buttons">
     <button
       formnovalidate

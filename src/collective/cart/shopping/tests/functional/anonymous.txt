@@ -51,6 +51,10 @@ Thanks page::
     >>> 'Check the order' not in browser.contents
     True
 
+    >>> browser.reload()
+    >>> browser.url
+    'http://nohost/plone/shop/@@cart'
+
 Check the newest message sent::
 
     >>> len(mailhost.messages)

@@ -16,7 +16,6 @@
     </metal:description>
     <metal:text fill-slot="content-core">
       <p i18n:translate="">Your order number is <span id="number" i18n:name="number" tal:content="view/order_id" />.</p>
-      <div  tal:condition="view/message" tal:define="message view/message" tal:replace="structure message/text" />
     </metal:text>
   </body>
 </html>
