@@ -18,7 +18,9 @@ There should be Cart Container created::
 
     >>> print browser.bycss('#no-orders')
     --- 1 ---
-    <p id="no-orders">There are no orders.</p>
+    <p id="no-orders">
+    There are no orders.
+    </p>
 
 There should be Shippig Method Container created::
 

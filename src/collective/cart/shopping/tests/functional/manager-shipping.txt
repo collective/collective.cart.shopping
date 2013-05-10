@@ -71,7 +71,9 @@ Should not be able to visit /@@billing-and-shipping::
     'http://nohost/plone/shop/@@cart'
     >>> print browser.bycss('#cart-is-empty')
     --- 1 ---
-    <p id="cart-is-empty">Cart is empty.</p>
+    <p id="cart-is-empty">
+    Cart is empty.
+    </p>
 
 Should not be able to visit /@@order-confirmation::
 
@@ -80,7 +82,9 @@ Should not be able to visit /@@order-confirmation::
     'http://nohost/plone/shop/@@cart'
     >>> print browser.bycss('#cart-is-empty')
     --- 1 ---
-    <p id="cart-is-empty">Cart is empty.</p>
+    <p id="cart-is-empty">
+    Cart is empty.
+    </p>
 
 Add Ärticle1 to Cart::
 

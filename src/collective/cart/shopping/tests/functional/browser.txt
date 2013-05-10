@@ -54,7 +54,9 @@ Add Article::
 
     >>> print browser.bycss('.sold-out')
     --- 1 ---
-    <p class="sold-out">Sold Out</p>
+    <p class="sold-out">
+    Sold Out
+    </p>
 
 Add Stock to Ärticle1::
 
@@ -71,9 +73,13 @@ Go to Ärticle1::
 
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">Including VAT: 24%</section></section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" max="100" maxlength="3" name="..." size="3"><span id="pcs">pcs</span>
-    </section><section id="stock">Stock: 100 pcs</section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
+    <section id="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
+    Including VAT: 24%
+    </section></section><section id="quantity"><label>Quantity</label>
+    <input min="1" required="required" type="number" value="1" max="100" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
+    </section><section id="stock">
+    Stock: 100 pcs
+    </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
     >>> print browser.bycss('.sold-out')
@@ -83,7 +89,9 @@ Go to cart::
     >>> browser.open('/shop/@@cart')
     >>> print browser.bycss('#cart-is-empty')
     --- 1 ---
-    <p id="cart-is-empty">Cart is empty.</p>
+    <p id="cart-is-empty">
+    Cart is empty.
+    </p>
 
 Go to Ärticle1 and add to cart::
 
@@ -92,9 +100,13 @@ Go to Ärticle1 and add to cart::
 
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">Including VAT: 24%</section></section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" max="99" maxlength="2" name="..." size="2"><span id="pcs">pcs</span>
-    </section><section id="stock">Stock: 99 pcs</section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
+    <section id="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
+    Including VAT: 24%
+    </section></section><section id="quantity"><label>Quantity</label>
+    <input min="1" required="required" type="number" value="1" max="99" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
+    </section><section id="stock">
+    Stock: 99 pcs
+    </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
 Check Stöck1::
@@ -120,12 +132,18 @@ Check Cart::
     <p>Description of &#196;rticle1</p>
     </td>
     <td class="price-and-quantity">
-    <section><input id="quantity" min="0" type="number" max="100" maxlength="3" name="..." size="3" value="1">
+    <section><input id="quantity" min="0" type="number" max="100" size="3" name="..." value="1" maxlength="3">
     &#160;&#215;&#160;
     <span class="gross">12.40 &#8364;</span>
-    </section><span class="vat-rate">Including VAT: 24%</span>
-    <section class="buttons"><button class="shopping-button update" name="form.buttons.UpdateArticle" type="submit" value="...">Update</button>
-    <button class="shopping-button remove" name="form.buttons.RemoveArticle" type="submit" value="...">Remove</button>
+    </section><span class="vat-rate">
+    Including VAT: 24%
+    </span>
+    <section class="buttons"><button class="shopping-button update" name="form.buttons.UpdateArticle" type="submit" value="...">
+    Update
+    </button>
+    <button class="shopping-button remove" name="form.buttons.RemoveArticle" type="submit" value="...">
+    Remove
+    </button>
     </section></td>
     </tr></tbody></table></section>
 
@@ -136,9 +154,13 @@ Go to Ärticle1 and add more to cart::
     >>> browser.getControl(name="form.buttons.AddToCart").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">Including VAT: 24%</section></section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" max="90" maxlength="2" name="..." size="2"><span id="pcs">pcs</span>
-    </section><section id="stock">Stock: 90 pcs</section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
+    <section id="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
+    Including VAT: 24%
+    </section></section><section id="quantity"><label>Quantity</label>
+    <input min="1" required="required" type="number" value="1" max="90" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
+    </section><section id="stock">
+    Stock: 90 pcs
+    </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
 Check Stöck1::
@@ -153,7 +175,7 @@ Check Cart::
     >>> browser.open('/shop/@@cart')
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" min="0" type="number" max="100" maxlength="3" name="..." size="3" value="10">
+    <input id="quantity" min="0" type="number" max="100" size="3" name="..." value="10" maxlength="3">
     &#160;&#215;&#160;
 
 Add another Article::
@@ -194,9 +216,13 @@ Go to Ärtile2:
     >>> browser.open(article2_url)
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">24.60 &#8364;</section><section id="vat-rate">Including VAT: 24%</section></section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" max="30" maxlength="2" name="..." size="2"><span id="pcs">pcs</span>
-    </section><section id="stock">Stock: 30 pcs</section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
+    <section id="add-to-cart"><section id="money"><section id="price" class="gross">24.60 &#8364;</section><section id="vat-rate">
+    Including VAT: 24%
+    </section></section><section id="quantity"><label>Quantity</label>
+    <input min="1" required="required" type="number" value="1" max="30" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
+    </section><section id="stock">
+    Stock: 30 pcs
+    </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
 Add to Cart::
@@ -205,9 +231,13 @@ Add to Cart::
     >>> browser.getControl(name="form.buttons.AddToCart").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">24.60 &#8364;</section><section id="vat-rate">Including VAT: 24%</section></section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" max="25" maxlength="2" name="..." size="2"><span id="pcs">pcs</span>
-    </section><section id="stock">Stock: 25 pcs</section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
+    <section id="add-to-cart"><section id="money"><section id="price" class="gross">24.60 &#8364;</section><section id="vat-rate">
+    Including VAT: 24%
+    </section></section><section id="quantity"><label>Quantity</label>
+    <input min="1" required="required" type="number" value="1" max="25" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
+    </section><section id="stock">
+    Stock: 25 pcs
+    </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
 Check Stöck2::
@@ -250,16 +280,20 @@ Check Cart::
     <span class="gross">24.60 &#8364;</span>
     >>> print browser.bycss('.vat-rate')
     --- 1 ---
-    <span class="vat-rate">Including VAT: 24%</span>
+    <span class="vat-rate">
+    Including VAT: 24%
+    </span>
     --- 2 ---
-    <span class="vat-rate">Including VAT: 24%</span>
+    <span class="vat-rate">
+    Including VAT: 24%
+    </span>
 
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" min="0" type="number" max="100" maxlength="3" name="..." size="3" value="10">
+    <input id="quantity" min="0" type="number" max="100" size="3" name="..." value="10" maxlength="3">
     &#160;&#215;&#160;
     --- 2 ---
-    <input id="quantity" min="0" type="number" max="30" maxlength="2" name="..." size="2" value="5">
+    <input id="quantity" min="0" type="number" max="30" size="2" name="..." value="5" maxlength="2">
     &#160;&#215;&#160;
 
 Go to Ärticle2 and add more to cart::
@@ -288,10 +322,10 @@ Check Cart::
     >>> browser.open('/shop/@@cart')
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" min="0" type="number" max="100" maxlength="3" name="..." size="3" value="10">
+    <input id="quantity" min="0" type="number" max="100" size="3" name="..." value="10" maxlength="3">
     &#160;&#215;&#160;
     --- 2 ---
-    <input id="quantity" min="0" type="number" max="30" maxlength="2" name="..." size="2" value="30">
+    <input id="quantity" min="0" type="number" max="30" size="2" name="..." value="30" maxlength="2">
     &#160;&#215;&#160;
 
 Remove Ärticle1::
@@ -319,9 +353,13 @@ Go to Ärticle1::
 
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">Including VAT: 24%</section></section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" max="100" maxlength="3" name="..." size="3"><span id="pcs">pcs</span>
-    </section><section id="stock">Stock: 100 pcs</section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
+    <section id="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
+    Including VAT: 24%
+    </section></section><section id="quantity"><label>Quantity</label>
+    <input min="1" required="required" type="number" value="1" max="100" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
+    </section><section id="stock">
+    Stock: 100 pcs
+    </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
 Go to Cart::
@@ -334,14 +372,14 @@ Update Ärticle2 in Cart::
     >>> browser.getControl(name="form.buttons.UpdateArticle").click()
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" min="0" type="number" max="30" maxlength="2" name="..." size="2" value="2">
+    <input id="quantity" min="0" type="number" max="30" size="2" name="..." value="2" maxlength="2">
     &#160;&#215;&#160;
 
     >>> browser.getControl(name=uuid2).value = '20'
     >>> browser.getControl(name="form.buttons.UpdateArticle").click()
     >>> print browser.bycss('#quantity')
     --- 1 ---
-    <input id="quantity" min="0" type="number" max="30" maxlength="2" name="..." size="2" value="20">
+    <input id="quantity" min="0" type="number" max="30" size="2" name="..." value="20" maxlength="2">
     &#160;&#215;&#160;
 
 Check Stöck2::
@@ -367,4 +405,6 @@ Remove Ärticle2 from cart by updating cart with value zero::
 
     >>> print browser.bycss('#cart-is-empty')
     --- 1 ---
-    <p id="cart-is-empty">Cart is empty.</p>
+    <p id="cart-is-empty">
+    Cart is empty.
+    </p>

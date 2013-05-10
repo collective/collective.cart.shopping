@@ -90,17 +90,23 @@ Fill Billing Info::
     </td>
     <td class="price-and-quantity">
     <span class="gross">12.40 &#8364;</span>
-    <br><span class="vat_rate">Including VAT: 24%</span>
+    <br><span class="vat_rate">
+    Including VAT: 24%
+    </span>
     </td>
     </tr></tbody></table></section>
 
     >>> print browser.bycss('#shipping-method')
     --- 1 ---
-    <section id="shipping-method"><table><tbody><tr><td class="shipping-method-title">Shipping Method:</td>
+    <section id="shipping-method"><table><tbody><tr><td class="shipping-method-title">
+    Shipping Method:
+    </td>
     <td>ShippingMeth&#246;d1</td>
     <td class="price-and-quantity">
     <span class="gross">0.10 &#8364;</span>
-    <br><span class="vat_rate">Including VAT: 24%</span>
+    <br><span class="vat_rate">
+    Including VAT: 24%
+    </span>
     </td>
     </tr></tbody></table></section>
 
@@ -112,8 +118,8 @@ Fill Billing Info::
 
     >>> print browser.bycss('#check-out-buttons')
     --- 1 ---
-    <section id="check-out-buttons"><button formnovalidate type="submit" class="back" name="form.buttons.Back" value="form.buttons.Back">Back</button>
-    <button type="submit" class="next" name="form.buttons.CheckOut" value="form.buttons.CheckOut">Next</button>
+    <section id="check-out-buttons"><button formnovalidate type="submit" class="back" value="form.buttons.Back" name="form.buttons.Back">Back</button>
+    <button type="submit" class="next" value="form.buttons.CheckOut" name="form.buttons.CheckOut">Next</button>
     </section>
 
 Go back::

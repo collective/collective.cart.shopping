@@ -461,5 +461,7 @@ Remove orders::
     >>> browser.getControl(name="form.buttons.RemoveOrder", index=0).click()
     >>> print browser.bycss('#order-listing')
     --- 1 ---
-    <section id="order-listing"><p id="no-orders">There are no orders.</p>
+    <section id="order-listing"><p id="no-orders">
+    There are no orders.
+    </p>
     </section>

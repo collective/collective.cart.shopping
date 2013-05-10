@@ -53,7 +53,9 @@ Add Article1::
 
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><p class="sold-out">Sold Out</p>
+    <section id="add-to-cart"><p class="sold-out">
+    Sold Out
+    </p>
     </section>
 
     >>> print browser.bycss('#article-body-text')
@@ -75,9 +77,13 @@ Go to Ärticle1::
     >>> browser.open('/shop/article-container/article1')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">24.80 &#8364;</section><section id="vat-rate">Including VAT: 24%</section></section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" max="100" maxlength="3" name="..." size="3"><span id="pcs">pcs</span>
-    </section><section id="stock">Stock: 100 pcs</section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
+    <section id="add-to-cart"><section id="money"><section id="price" class="gross">24.80 &#8364;</section><section id="vat-rate">
+    Including VAT: 24%
+    </section></section><section id="quantity"><label>Quantity</label>
+    <input min="1" required="required" type="number" value="1" max="100" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
+    </section><section id="stock">
+    Stock: 100 pcs
+    </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
 Edit Ärtilce1 and enable discount::
@@ -91,11 +97,19 @@ Edit Ärtilce1 and enable discount::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">Including VAT: 24%</section></section><section id="discount"><p id="discount-message">(Discount valid till ...)</p>
-    <p id="normal-price">Normal Price: 24.80 &#8364;</p>
+    <section id="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
+    Including VAT: 24%
+    </section></section><section id="discount"><p id="discount-message">
+    (Discount valid till ...)
+    </p>
+    <p id="normal-price">
+    Normal Price: 24.80 &#8364;
+    </p>
     </section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" max="100" maxlength="3" name="..." size="3"><span id="pcs">pcs</span>
-    </section><section id="stock">Stock: 100 pcs</section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
+    <input min="1" required="required" type="number" value="1" max="100" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
+    </section><section id="stock">
+    Stock: 100 pcs
+    </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
 Edit Ärticle1 to use subarticle::
@@ -105,7 +119,9 @@ Edit Ärticle1 to use subarticle::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><p class="sold-out">Sold Out</p>
+    <section id="add-to-cart"><p class="sold-out">
+    Sold Out
+    </p>
     </section>
 
 Add Ärticle11 under Ärticle1::
@@ -119,7 +135,9 @@ Add Ärticle11 under Ärticle1::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><p class="sold-out">Sold Out</p>
+    <section id="add-to-cart"><p class="sold-out">
+    Sold Out
+    </p>
     </section>
 
 Go to Ärticle1::
@@ -127,7 +145,9 @@ Go to Ärticle1::
     >>> browser.open('/shop/article-container/article1')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><p class="sold-out">Sold Out</p>
+    <section id="add-to-cart"><p class="sold-out">
+    Sold Out
+    </p>
     </section>
 
 Edit Ärticle1 not to use subarticle::
@@ -137,7 +157,9 @@ Edit Ärticle1 not to use subarticle::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><p class="sold-out">Sold Out</p>
+    <section id="add-to-cart" class="article11"><p class="sold-out">
+    Sold Out
+    </p>
     </section>
 
 Add Stöck11 to Ärticle11::
@@ -154,10 +176,14 @@ Go to Ärticle1::
     >>> browser.open('/shop/article-container/article1')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><input id="quantity" min="1" required="required" value="1" type="number" max="100" maxlength="3" name="..." size="3">
+    <section id="add-to-cart" class="article11"><input id="quantity" min="1" required="required" value="1" type="number" max="100" size="3" name="..." maxlength="3">
     &#160;&#215;&#160;
     <span class="gross">24.80 &#8364;</span>
-    <section id="vat-rate">Including VAT: 24%</section><section id="stock">Stock: 100 pcs</section><section class="buttons"><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
+    <section id="vat-rate">
+    Including VAT: 24%
+    </section><section id="stock">
+    Stock: 100 pcs
+    </section><section class="buttons"><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section></section>
 
 Edit Ärticle1 to use subarticle::
@@ -170,8 +196,10 @@ Edit Ärticle1 to use subarticle::
     <section id="add-to-cart"><select id="subarticle" name="subarticle"><option value="...">
     &#196;rticle11
     24.80 &#8364;
-    </option></select><section id="vat-rate">Including VAT: 24%</section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" maxlength="3" name="..." size="3"><span id="pcs">pcs</span>
+    </option></select><section id="vat-rate">
+    Including VAT: 24%
+    </section><section id="quantity"><label>Quantity</label>
+    <input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -193,8 +221,10 @@ Go to Ärticle1::
     <section id="add-to-cart"><select id="subarticle" name="subarticle"><option value="...">
     &#196;rticle11
     6.15 &#8364;
-    </option></select><section id="vat-rate">Including VAT: 24%</section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" maxlength="3" name="..." size="3"><span id="pcs">pcs</span>
+    </option></select><section id="vat-rate">
+    Including VAT: 24%
+    </section><section id="quantity"><label>Quantity</label>
+    <input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -205,12 +235,20 @@ Edit Ärticle1 not to use subarticle::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><input id="quantity" min="1" required="required" value="1" type="number" max="100" maxlength="3" name="..." size="3">
+    <section id="add-to-cart" class="article11"><input id="quantity" min="1" required="required" value="1" type="number" max="100" size="3" name="..." maxlength="3">
     &#160;&#215;&#160;
     <span class="gross">6.15 &#8364;</span>
-    <section id="vat-rate">Including VAT: 24%</section><section id="discount"><p id="discount-message">(Discount valid till ...)</p>
-    <p id="normal-price">Normal Price: 24.80 &#8364;</p>
-    </section><section id="stock">Stock: 100 pcs</section><section class="buttons"><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
+    <section id="vat-rate">
+    Including VAT: 24%
+    </section><section id="discount"><p id="discount-message">
+    (Discount valid till ...)
+    </p>
+    <p id="normal-price">
+    Normal Price: 24.80 &#8364;
+    </p>
+    </section><section id="stock">
+    Stock: 100 pcs
+    </section><section class="buttons"><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section></section>
 
 Add Ärticle111 to Ärticle11::
@@ -224,7 +262,9 @@ Add Ärticle111 to Ärticle11::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><p class="sold-out">Sold Out</p>
+    <section id="add-to-cart"><p class="sold-out">
+    Sold Out
+    </p>
     </section>
 
 Go to Ärticle11::
@@ -232,7 +272,9 @@ Go to Ärticle11::
     >>> browser.open('/shop/article-container/article1/article11')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article111"><p class="sold-out">Sold Out</p>
+    <section id="add-to-cart" class="article111"><p class="sold-out">
+    Sold Out
+    </p>
     </section>
 
 Go to Ärticle1::
@@ -240,12 +282,20 @@ Go to Ärticle1::
     >>> browser.open('/shop/article-container/article1')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><input id="quantity" min="1" required="required" value="1" type="number" max="100" maxlength="3" name="..." size="3">
+    <section id="add-to-cart" class="article11"><input id="quantity" min="1" required="required" value="1" type="number" max="100" size="3" name="..." maxlength="3">
     &#160;&#215;&#160;
     <span class="gross">6.15 &#8364;</span>
-    <section id="vat-rate">Including VAT: 24%</section><section id="discount"><p id="discount-message">(Discount valid till ...)</p>
-    <p id="normal-price">Normal Price: 24.80 &#8364;</p>
-    </section><section id="stock">Stock: 100 pcs</section><section class="buttons"><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
+    <section id="vat-rate">
+    Including VAT: 24%
+    </section><section id="discount"><p id="discount-message">
+    (Discount valid till ...)
+    </p>
+    <p id="normal-price">
+    Normal Price: 24.80 &#8364;
+    </p>
+    </section><section id="stock">
+    Stock: 100 pcs
+    </section><section class="buttons"><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section></section>
 
 Edit Ärticle11 to use subarticle::
@@ -255,7 +305,9 @@ Edit Ärticle11 to use subarticle::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><p class="sold-out">Sold Out</p>
+    <section id="add-to-cart"><p class="sold-out">
+    Sold Out
+    </p>
     </section>
 
 Go to Ärticle1::
@@ -263,7 +315,9 @@ Go to Ärticle1::
     >>> browser.open('/shop/article-container/article1')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><p class="sold-out">Sold Out</p>
+    <section id="add-to-cart" class="article11"><p class="sold-out">
+    Sold Out
+    </p>
     </section>
 
 Add Stock to Ärticle111::
@@ -283,8 +337,10 @@ Go to Ärticle11::
     <section id="add-to-cart"><select id="subarticle" name="subarticle"><option value="...">
     &#196;rticle111
     36.90 &#8364;
-    </option></select><section id="vat-rate">Including VAT: 24%</section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" maxlength="3" name="..." size="3"><span id="pcs">pcs</span>
+    </option></select><section id="vat-rate">
+    Including VAT: 24%
+    </section><section id="quantity"><label>Quantity</label>
+    <input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -296,7 +352,9 @@ Go to Ärticle1::
     <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle"><option value="...">
     &#196;rticle111
     36.90 &#8364;
-    </option></select><section id="vat-rate">Including VAT: 24%</section><section id="quantity"><input min="1" required="required" type="number" value="1" maxlength="3" name="..." size="3"><span id="pcs">pcs</span>
+    </option></select><section id="vat-rate">
+    Including VAT: 24%
+    </section><section id="quantity"><input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart"  type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -311,12 +369,20 @@ Go to Ärticle1::
     >>> browser.open('/shop/article-container/article1')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><input id="quantity" min="1" required="required" value="1" type="number" max="100" maxlength="3" name="..." size="3">
+    <section id="add-to-cart" class="article11"><input id="quantity" min="1" required="required" value="1" type="number" max="100" size="3" name="..." maxlength="3">
     &#160;&#215;&#160;
     <span class="gross">6.15 &#8364;</span>
-    <section id="vat-rate">Including VAT: 24%</section><section id="discount"><p id="discount-message">(Discount valid till ...)</p>
-    <p id="normal-price">Normal Price: 24.80 &#8364;</p>
-    </section><section id="stock">Stock: 100 pcs</section><section class="buttons"><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
+    <section id="vat-rate">
+    Including VAT: 24%
+    </section><section id="discount"><p id="discount-message">
+    (Discount valid till ...)
+    </p>
+    <p id="normal-price">
+    Normal Price: 24.80 &#8364;
+    </p>
+    </section><section id="stock">
+    Stock: 100 pcs
+    </section><section class="buttons"><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section></section>
 
 Edit Ärticle11 not to use subarticle::
@@ -336,11 +402,19 @@ Go to Ärticle111 and enable discount::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">5.00 &#8364;</section><section id="vat-rate">Including VAT: 24%</section></section><section id="discount"><p id="discount-message">(Discount valid till ...)</p>
-    <p id="normal-price">Normal Price: 36.90 &#8364;</p>
+    <section id="add-to-cart"><section id="money"><section id="price" class="gross">5.00 &#8364;</section><section id="vat-rate">
+    Including VAT: 24%
+    </section></section><section id="discount"><p id="discount-message">
+    (Discount valid till ...)
+    </p>
+    <p id="normal-price">
+    Normal Price: 36.90 &#8364;
+    </p>
     </section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" max="50" maxlength="2" name="..." size="2"><span id="pcs">pcs</span>
-    </section><section id="stock">Stock: 50 pcs</section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
+    <input min="1" required="required" type="number" value="1" max="50" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
+    </section><section id="stock">
+    Stock: 50 pcs
+    </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
 Go to Ärticle11::
@@ -351,8 +425,10 @@ Go to Ärticle11::
     <section id="add-to-cart"><select id="subarticle" name="subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
-    </option></select><section id="vat-rate">Including VAT: 24%</section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" maxlength="3" name="..." size="3"><span id="pcs">pcs</span>
+    </option></select><section id="vat-rate">
+    Including VAT: 24%
+    </section><section id="quantity"><label>Quantity</label>
+    <input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -364,7 +440,9 @@ Go to Ärticle1::
     <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
-    </option></select><section id="vat-rate">Including VAT: 24%</section><section id="quantity"><input min="1" required="required" type="number" value="1" maxlength="3" name="..." size="3"><span id="pcs">pcs</span>
+    </option></select><section id="vat-rate">
+    Including VAT: 24%
+    </section><section id="quantity"><input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -381,7 +459,9 @@ Go to Ärticle11::
     >>> browser.open('/shop/article-container/article1/article11')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><p class="sold-out">Sold Out</p>
+    <section id="add-to-cart"><p class="sold-out">
+    Sold Out
+    </p>
     </section>
 
 Make Ärticle11 not salable::
@@ -396,7 +476,9 @@ Go to Ärticle1::
     >>> browser.open('/shop/article-container/article1')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><p class="sold-out">Sold Out</p>
+    <section id="add-to-cart" class="article11"><p class="sold-out">
+    Sold Out
+    </p>
     </section>
 
 Make Ärticle1 not salable::
@@ -406,7 +488,9 @@ Make Ärticle1 not salable::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><p class="sold-out">Sold Out</p>
+    <section id="add-to-cart" class="article11"><p class="sold-out">
+    Sold Out
+    </p>
     </section>
 
 Go to Ärticle111 and make salable::
@@ -416,11 +500,19 @@ Go to Ärticle111 and make salable::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">5.00 &#8364;</section><section id="vat-rate">Including VAT: 24%</section></section><section id="discount"><p id="discount-message">(Discount valid till ...)</p>
-    <p id="normal-price">Normal Price: 36.90 &#8364;</p>
+    <section id="add-to-cart"><section id="money"><section id="price" class="gross">5.00 &#8364;</section><section id="vat-rate">
+    Including VAT: 24%
+    </section></section><section id="discount"><p id="discount-message">
+    (Discount valid till ...)
+    </p>
+    <p id="normal-price">
+    Normal Price: 36.90 &#8364;
+    </p>
     </section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" max="50" maxlength="2" name="..." size="2"><span id="pcs">pcs</span>
-    </section><section id="stock">Stock: 50 pcs</section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
+    <input min="1" required="required" type="number" value="1" max="50" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
+    </section><section id="stock">
+    Stock: 50 pcs
+    </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
 Got to Ärticle11::
@@ -431,8 +523,10 @@ Got to Ärticle11::
     <section id="add-to-cart"><select id="subarticle" name="subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
-    </option></select><section id="vat-rate">Including VAT: 24%</section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" maxlength="3" name="..." size="3"><span id="pcs">pcs</span>
+    </option></select><section id="vat-rate">
+    Including VAT: 24%
+    </section><section id="quantity"><label>Quantity</label>
+    <input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -444,7 +538,9 @@ Go to Ärticle1::
     <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
-    </option></select><section id="vat-rate">Including VAT: 24%</section><section id="quantity"><input min="1" required="required" type="number" value="1" maxlength="3" name="..." size="3"><span id="pcs">pcs</span>
+    </option></select><section id="vat-rate">
+    Including VAT: 24%
+    </section><section id="quantity"><input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -458,8 +554,10 @@ Make Ärticle11 salable::
     <section id="add-to-cart"><select id="subarticle" name="subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
-    </option></select><section id="vat-rate">Including VAT: 24%</section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" maxlength="3" name="..." size="3"><span id="pcs">pcs</span>
+    </option></select><section id="vat-rate">
+    Including VAT: 24%
+    </section><section id="quantity"><label>Quantity</label>
+    <input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -471,7 +569,9 @@ Go to Ärticle1::
     <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
-    </option></select><section id="vat-rate">Including VAT: 24%</section><section id="quantity"><input min="1" required="required" type="number" value="1" maxlength="3" name="..." size="3"><span id="pcs">pcs</span>
+    </option></select><section id="vat-rate">
+    Including VAT: 24%
+    </section><section id="quantity"><input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -485,6 +585,8 @@ Make Ärticle1 salable::
     <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
-    </option></select><section id="vat-rate">Including VAT: 24%</section><section id="quantity"><input min="1" required="required" type="number" value="1" maxlength="3" name="..." size="3"><span id="pcs">pcs</span>
+    </option></select><section id="vat-rate">
+    Including VAT: 24%
+    </section><section id="quantity"><input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
