@@ -26,6 +26,13 @@
     <viewlet name="collective.cart.shopping.viewlet.order-confirmation-check-out-buttons" />
   </order>
 
+  <order manager="collective.cart.shopping.viewlet-manager.order-listing" skinname="*">
+    <viewlet name="collective.cart.shopping.viewlet.order-listing-article-listing" />
+    <viewlet name="collective.cart.shopping.viewlet.order-listing-shipping-method" />
+    <viewlet name="collective.cart.shopping.viewlet.order-listing-total" />
+    <viewlet name="collective.cart.shopping.viewlet.order-listing-addresses" />
+  </order>
+
   <order manager="plone.belowcontentbody" skinname="*">
     <viewlet name="collective.cart.shopping.viewlet.message-text" />
   </order>

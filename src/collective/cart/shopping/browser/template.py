@@ -203,6 +203,8 @@ class ArticleListingView(BaseFormView):
     """View for listing all the articles"""
     implements(IArticleListingView)
 
+    title = _(u'Article Listing')
+
     @memoize_contextless
     def table_headers(self):
         """Returns headers for table
@@ -246,9 +248,9 @@ class ArticleListingView(BaseFormView):
         return res
 
     def __call__(self):
-        super(ArticleListingView, self).__call__()
         self.request.set('disable_plone.leftcolumn', True)
         self.request.set('disable_plone.rightcolumn', True)
+
         if self.request.form.get('form.buttons.Export', None) is not None:
             out = StringIO()
             writer = csv.writer(out, delimiter='|', quoting=csv.QUOTE_MINIMAL)

@@ -1,0 +1,6 @@
+<section
+  i18n:domain="collective.cart.shopping"
+  id="total">
+  <span i18n:translate="" class="title">Total</span>&nbsp;&nbsp;
+  <span class="total" tal:content="view/total" />
+</section>

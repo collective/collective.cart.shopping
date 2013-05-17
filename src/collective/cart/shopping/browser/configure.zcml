@@ -136,6 +136,15 @@
     provides="collective.base.interfaces.IBaseFormViewletManager"
     />
 
+  <browser:viewletManager
+    class=".viewletmanager.OrderListingViewletManager"
+    for="*"
+    layer=".interfaces.ICollectiveCartShoppingLayer"
+    name="collective.cart.shopping.viewlet-manager.order-listing"
+    permission="collective.cart.core.ViewOrderContent"
+    provides=".interfaces.IOrderListingViewletManager"
+    />
+
   <!-- Viewlet -->
 
   <browser:viewlet
@@ -355,6 +364,62 @@
     name="collective.cart.shopping.viewlet.message-text"
     permission="zope2.View"
     view="collective.cart.shopping.browser.interfaces.ICheckOutView"
+    />
+
+  <browser:viewlet
+    class=".viewlet.ArticleListingViewlet"
+    for="*"
+    layer=".interfaces.ICollectiveCartShoppingLayer"
+    manager="collective.base.interfaces.IBaseFormViewletManager"
+    name="collective.cart.shopping.viewlet.article-listing"
+    permission="cmf.ModifyPortalContent"
+    view="collective.cart.shopping.browser.interfaces.IArticleListingView"
+    />
+
+  <browser:viewlet
+    class=".viewlet.OrderListingViewlet"
+    for="collective.cart.shopping.interfaces.IOrder"
+    layer=".interfaces.ICollectiveCartShoppingLayer"
+    manager="collective.base.interfaces.IBaseFormViewletManager"
+    name="collective.cart.shopping.viewlet.order-listing"
+    permission="collective.cart.core.ViewOrderContent"
+    view="collective.cart.core.browser.interfaces.IOrderView"
+    />
+
+  <browser:viewlet
+    class=".viewlet.OrderListingArticleListingViewlet"
+    for="*"
+    layer=".interfaces.ICollectiveCartShoppingLayer"
+    manager=".interfaces.IOrderListingViewletManager"
+    name="collective.cart.shopping.viewlet.order-listing-article-listing"
+    permission="collective.cart.core.ViewOrderContent"
+    />
+
+  <browser:viewlet
+    class=".viewlet.OrderListingShippingMethodViewlet"
+    for="*"
+    layer=".interfaces.ICollectiveCartShoppingLayer"
+    manager=".interfaces.IOrderListingViewletManager"
+    name="collective.cart.shopping.viewlet.order-listing-shipping-method"
+    permission="collective.cart.core.ViewOrderContent"
+    />
+
+  <browser:viewlet
+    class=".viewlet.OrderListingTotalViewlet"
+    for="*"
+    layer=".interfaces.ICollectiveCartShoppingLayer"
+    manager=".interfaces.IOrderListingViewletManager"
+    name="collective.cart.shopping.viewlet.order-listing-total"
+    permission="collective.cart.core.ViewOrderContent"
+    />
+
+  <browser:viewlet
+    class=".viewlet.OrderListingAddressesViewlet"
+    for="*"
+    layer=".interfaces.ICollectiveCartShoppingLayer"
+    manager=".interfaces.IOrderListingViewletManager"
+    name="collective.cart.shopping.viewlet.order-listing-addresses"
+    permission="collective.cart.core.ViewOrderContent"
     />
 
 </configure>

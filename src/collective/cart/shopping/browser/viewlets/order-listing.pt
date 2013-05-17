@@ -1,0 +1,3 @@
+<section id="order-listing">
+  <div tal:replace="structure provider:collective.cart.shopping.viewlet-manager.order-listing" />
+</section>

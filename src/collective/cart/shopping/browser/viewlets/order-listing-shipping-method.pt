@@ -1,0 +1,15 @@
+<section
+  i18n:domain="collective.cart.shopping"
+  id="shipping-method"
+  tal:define="item view/shipping_method">
+  <span class="title" i18n:translate="">Shipping Method</span>
+  <span tal:content="item/title" />
+  <span class="gross-and-vat-rate">
+    <tal:block tal:condition="not: item/is_free">
+      <span class="gross" tal:content="item/gross" />
+      <span class="vat-rate" i18n:translate="including-vat">
+        Including VAT: <span i18n:name="vat-rate" tal:replace="item/vat_rate" />
+      </span>
+    </tal:block>
+  </span>
+</section>

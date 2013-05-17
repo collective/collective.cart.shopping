@@ -163,4 +163,14 @@
     title="Reimport viewlets"
     />
 
+  <genericsetup:upgradeStep
+    description=""
+    destination="17"
+    handler="collective.cart.shopping.upgrades.reimport_actions"
+    profile="collective.cart.shopping:default"
+    sortkey="3"
+    source="16"
+    title="Reimport actions"
+    />
+
 </configure>

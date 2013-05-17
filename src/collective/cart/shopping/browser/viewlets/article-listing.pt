@@ -1,0 +1,46 @@
+<section
+  i18n:domain="collective.cart.shopping"
+  id="collective-cart-shopping-article-list"
+  tal:condition="view/articles">
+  <form
+    id=""
+    method="post"
+    tal:attributes="action context/@@plone_context_state/current_base_url">
+    <button
+      i18n:translate=""
+      name="form.buttons.Export"
+      value="form.buttons.Export"
+      type="submit">Export</button>
+  </form>
+  <table class="listing">
+    <thead>
+      <tr>
+        <th tal:repeat="th view/table_headers" tal:content="th" />
+      </tr>
+    </thead>
+    <tbody>
+      <tal:block tal:repeat="item view/articles">
+        <tr class="even" tal:define="oddrow repeat/item/odd">
+          <td>
+            <span tal:replace="item/sku" />
+          </td>
+          <td>
+            <a
+              tal:attributes="href item/url"
+              tal:content="item/title"
+              />
+          </td>
+          <td>
+            <span tal:replace="item/price" />
+          </td>
+          <td>
+            <span tal:replace="item/stock" />
+          </td>
+          <td>
+            <span tal:replace="item/subtotal" />
+          </td>
+        </tr>
+      </tal:block>
+    </tbody>
+  </table>
+</section>

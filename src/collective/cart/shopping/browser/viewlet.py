@@ -6,6 +6,7 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.validation import validation
+from collective.base.viewlet import Viewlet
 from collective.behavior.stock.interfaces import IStock
 from collective.behavior.vat.interfaces import IAdapter as IVATAdapter
 from collective.cart.core.browser.interfaces import ICartArticleListingViewlet
@@ -16,6 +17,7 @@ from collective.cart.shopping.browser.base import Message
 from collective.cart.shopping.browser.interfaces import IAddSubtractStockViewlet
 from collective.cart.shopping.browser.interfaces import IAddToCartViewlet
 from collective.cart.shopping.browser.interfaces import IArticleImagesViewlet
+from collective.cart.shopping.browser.interfaces import IArticleListingViewlet
 from collective.cart.shopping.browser.interfaces import IArticlesInArticleContainerViewlet
 from collective.cart.shopping.browser.interfaces import IArticlesInArticleViewlet
 from collective.cart.shopping.browser.interfaces import IBaseAddToCartViewlet
@@ -33,6 +35,11 @@ from collective.cart.shopping.browser.interfaces import IOrderConfirmationCheckO
 from collective.cart.shopping.browser.interfaces import IOrderConfirmationShippingMethodViewlet
 from collective.cart.shopping.browser.interfaces import IOrderConfirmationTermsViewlet
 from collective.cart.shopping.browser.interfaces import IOrderConfirmationTotalViewlet
+from collective.cart.shopping.browser.interfaces import IOrderListingAddressesViewlet
+from collective.cart.shopping.browser.interfaces import IOrderListingArticleListingViewlet
+from collective.cart.shopping.browser.interfaces import IOrderListingShippingMethodViewlet
+from collective.cart.shopping.browser.interfaces import IOrderListingTotalViewlet
+from collective.cart.shopping.browser.interfaces import IOrderListingViewlet
 from collective.cart.shopping.browser.interfaces import IRelatedArticlesViewlet
 from collective.cart.shopping.browser.interfaces import IStockListingViewlet
 from collective.cart.shopping.event import BillingAddressConfirmedEvent
@@ -44,7 +51,7 @@ from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.shopping.interfaces import IShoppingSiteMultiAdapter
 from collective.cart.stock.interfaces import IStock as IStockContent
 from plone.app.contentlisting.interfaces import IContentListing
-from plone.app.layout.viewlets.common import ViewletBase
+from plone.memoize.view import memoize_contextless
 from plone.uuid.interfaces import IUUID
 from zExceptions import Forbidden
 from zope.component import getMultiAdapter
@@ -52,7 +59,7 @@ from zope.event import notify
 from zope.interface import implements
 
 
-class ArticlesInArticleContainerViewlet(ViewletBase):
+class ArticlesInArticleContainerViewlet(Viewlet):
     """Viewlet for content type: collective.cart.shopping.ArticleContainer
 
     Shows listing of articles within context
@@ -85,7 +92,7 @@ class ArticlesInArticleContainerViewlet(ViewletBase):
         return res
 
 
-class BaseArticleViewlet(ViewletBase):
+class BaseArticleViewlet(Viewlet):
     """Base viewlet class for content type: collective.cart.core.Article"""
     implements(IBaseArticleViewlet)
 
@@ -270,7 +277,7 @@ class ArticlesInArticleViewlet(AddToCartViewlet):
         return res
 
 
-class RelatedArticlesViewlet(ViewletBase):
+class RelatedArticlesViewlet(Viewlet):
     """Viewlet for content type: collective.cart.core.Article
 
     Shows related articles
@@ -406,7 +413,7 @@ class AddSubtractStockViewlet(BaseArticleViewlet):
             return self.request.response.redirect(url)
 
 
-class StockListingViewlet(ViewletBase):
+class StockListingViewlet(Viewlet):
     """Viewlet for listing stock"""
     implements(IStockListingViewlet)
     index = ViewPageTemplateFile('viewlets/stock-listing.pt')
@@ -446,7 +453,7 @@ class StockListingViewlet(ViewletBase):
             return self.request.response.redirect(url)
 
 
-class CheckOutFlowViewlet(ViewletBase):
+class CheckOutFlowViewlet(Viewlet):
     """Viewlet for check out flow"""
     implements(ICheckOutFlowViewlet)
     index = ViewPageTemplateFile('viewlets/check-out-flow.pt')
@@ -492,7 +499,7 @@ class CheckOutFlowViewlet(ViewletBase):
         return res
 
 
-class BaseCheckOutButtonsViewlet(ViewletBase):
+class BaseCheckOutButtonsViewlet(Viewlet):
     """Base viewlet class for check out buttons"""
     implements(IBaseCheckOutButtonsViewlet)
     index = ViewPageTemplateFile('viewlets/check-out-buttons.pt')
@@ -614,7 +621,7 @@ class CartArticleListingViewlet(BaseCartArticleListingViewlet):
             article.update({
                 'image_url': adapter.image_url(),
                 'gross': shopping_site.format_money(article['gross']),
-                'gross_subtotal': shopping_site.format_money(adapter.gross_subtotal()),
+                'locale_gross_subtotal': shopping_site.format_money(adapter.gross_subtotal()),
                 'quantity_max': adapter.quantity_max(),
                 'quantity_size': adapter.quantity_size(),
             })
@@ -622,7 +629,7 @@ class CartArticleListingViewlet(BaseCartArticleListingViewlet):
         return res
 
 
-class CartArticlesTotalViewlet(ViewletBase):
+class CartArticlesTotalViewlet(Viewlet):
     """Viewlet to display total money of articles."""
     implements(ICartArticlesTotalViewlet)
     index = ViewPageTemplateFile('viewlets/cart-articles-total.pt')
@@ -679,7 +686,7 @@ class CartCheckOutButtonsViewlet(BaseCheckOutButtonsViewlet):
         return buttons
 
 
-class BillingAndShippingBillingAddressViewlet(ViewletBase):
+class BillingAndShippingBillingAddressViewlet(Viewlet):
     """Viewlet class to show form to update billing address"""
     implements(IBillingAndShippingBillingAddressViewlet)
     index = ViewPageTemplateFile('viewlets/billing-and-shipping-billing-address.pt')
@@ -692,7 +699,7 @@ class BillingAndShippingBillingAddressViewlet(ViewletBase):
         return IShoppingSite(self.context).get_info('billing')
 
 
-class BillingAndShippingShippingAddressViewlet(ViewletBase):
+class BillingAndShippingShippingAddressViewlet(Viewlet):
     """Viewlet class to show form component of shipping address"""
     implements(IBillingAndShippingShippingAddressViewlet)
     index = ViewPageTemplateFile('viewlets/billing-and-shipping-shipping-address.pt')
@@ -712,7 +719,7 @@ class BillingAndShippingShippingAddressViewlet(ViewletBase):
         return IShoppingSite(self.context).cart().get('billing_same_as_shipping', True)
 
 
-class BillingAndShippingShippingMethodsViewlet(ViewletBase):
+class BillingAndShippingShippingMethodsViewlet(Viewlet):
     """Viewlet class to show form to update billing address"""
     implements(IBillingAndShippingShippingMethodsViewlet)
     index = ViewPageTemplateFile('viewlets/billing-and-shipping-shipping-methods.pt')
@@ -811,13 +818,13 @@ class BillingAndShippingCheckOutButtonsViewlet(BaseCheckOutButtonsViewlet):
 class OrderConfirmationCartArticleListingViewlet(CartArticleListingViewlet):
     """Viewlet for cart articles for @@order-confirmation"""
     implements(IOrderConfirmationCartArticleListingViewlet)
-    index = ViewPageTemplateFile('viewlets/order-confirmation-cart-article-listing.pt')
+    index = ViewPageTemplateFile('viewlets/order-listing-article-listing.pt')
 
 
-class OrderConfirmationShippingMethodViewlet(ViewletBase):
+class OrderConfirmationShippingMethodViewlet(Viewlet):
     """Viewlet for shipping method for @@order-confirmation"""
     implements(IOrderConfirmationShippingMethodViewlet)
-    index = ViewPageTemplateFile('viewlets/order-confirmation-shipping-method.pt')
+    index = ViewPageTemplateFile('viewlets/order-listing-shipping-method.pt')
 
     def shipping_method(self):
         shopping_site = IShoppingSite(self.context)
@@ -831,10 +838,10 @@ class OrderConfirmationShippingMethodViewlet(ViewletBase):
         return items
 
 
-class OrderConfirmationTotalViewlet(ViewletBase):
+class OrderConfirmationTotalViewlet(Viewlet):
     """Viewlet for total for @@order-confirmation"""
     implements(IOrderConfirmationTotalViewlet)
-    index = ViewPageTemplateFile('viewlets/order-confirmation-total.pt')
+    index = ViewPageTemplateFile('viewlets/order-listing-total.pt')
 
     def total(self):
         """Returns localized total money
@@ -844,7 +851,7 @@ class OrderConfirmationTotalViewlet(ViewletBase):
         return IShoppingSite(self.context).locale_total()
 
 
-class OrderConfirmationTermsViewlet(ViewletBase, Message):
+class OrderConfirmationTermsViewlet(Viewlet, Message):
     """Viewlet for terms for @@order-confirmation"""
     implements(IOrderConfirmationTermsViewlet)
     index = ViewPageTemplateFile('viewlets/order-confirmation-terms.pt')
@@ -871,47 +878,74 @@ class OrderConfirmationCheckOutButtonsViewlet(BaseCheckOutButtonsViewlet):
             return self.request.response.redirect(url)
 
 
-# class ThanksBelowContentViewletManager(BaseViewletManager):
-#     """Viewlet manager for thanks below content."""
-#     grok.name('collective.cart.shopping.thanks.belowcontent.manager')
-
-
-# class CartContentViewlet(BaseCartContentViewlet):
-#     """Viewlet to show customer info in cart."""
-#     grok.layer(ICollectiveCartShoppingLayer)
-
-#     @property
-#     def order(self):
-#         workflow = getToolByName(self.context, 'portal_workflow')
-#         cart = IOrderAdapter(self.context)
-#         return {
-#             'articles': cart.articles,
-#             'id': self.context.id,
-#             'modified': cart.ulocalized_time(self.context.modified()),
-#             'shipping_method': cart.locale_shipping_method(),
-#             'state_title': workflow.getTitleForStateOnType(workflow.getInfoFor(self.context, 'review_state'), self.context.portal_type),
-#             'title': self.context.Title(),
-#             'total': cart.locale_total(),
-#             'url': self.context.absolute_url(),
-#             'billing_info': cart.get_address('billing'),
-#             'shipping_info': cart.get_address('shipping'),
-#             'registration_number': getattr(self.context, 'registration_number', None)
-#         }
-
-
-# class CartContentDescriptionViewlet(BaseCartContentViewlet):
-#     """Viewlet to show description of cart."""
-#     grok.name('collective.cart.shopping.order.description')
-#     grok.template('cart-content-description')
-
-
-# class ArticleContainerViewletManager(BaseViewletManager):
-#     """Viewlet manager for ArticleContainer."""
-#     grok.context(IArticleContainer)
-#     grok.name('collective.cart.shopping.articlecontainer')
-
-
-class MessageTextViewlet(ViewletBase, Message):
+class MessageTextViewlet(Viewlet, Message):
     """Viewlet to show message text for check out flow"""
 
     index = ViewPageTemplateFile('viewlets/message-text.pt')
+
+
+class ArticleListingViewlet(Viewlet):
+    """Viewlet to show article listing at IShoppingSiteRoot"""
+    implements(IArticleListingViewlet)
+
+    index = ViewPageTemplateFile('viewlets/article-listing.pt')
+
+    @memoize_contextless
+    def table_headers(self):
+        """Returns headers for table
+
+        :rtype: tuple
+        """
+        return self.view.table_headers()
+
+    def articles(self):
+        """Returns list of dictionary of articles in shop
+
+        :rtype: list
+        """
+        return self.view.articles()
+
+
+class OrderListingViewlet(Viewlet):
+    """Viewlet for view: @@order-listing
+    Shows order listing"""
+    implements(IOrderListingViewlet)
+    index = ViewPageTemplateFile('viewlets/order-listing.pt')
+
+
+class OrderListingArticleListingViewlet(Viewlet):
+    """Viewlet for order listing to show article listing"""
+    implements(IOrderListingArticleListingViewlet)
+    index = ViewPageTemplateFile('viewlets/order-listing-article-listing.pt')
+
+    def _handle_repeated(self, item):
+        self.articles = item['order'].articles()
+
+
+class OrderListingShippingMethodViewlet(Viewlet):
+    """Viewlet for order listing to show shipping method"""
+    implements(IOrderListingShippingMethodViewlet)
+    index = ViewPageTemplateFile('viewlets/order-listing-shipping-method.pt')
+
+    def _handle_repeated(self, item):
+        self.shipping_method = item['order'].locale_shipping_method()
+
+
+class OrderListingTotalViewlet(Viewlet):
+    """Viewlet for order listing to show total"""
+    implements(IOrderListingTotalViewlet)
+    index = ViewPageTemplateFile('viewlets/order-listing-total.pt')
+
+    def _handle_repeated(self, item):
+        self.total = IShoppingSite(self.context).format_money(item['order'].total())
+
+
+class OrderListingAddressesViewlet(Viewlet):
+    """Viewlet for order listing to show addresses"""
+    implements(IOrderListingAddressesViewlet)
+    index = ViewPageTemplateFile('viewlets/order-listing-addresses.pt')
+
+    def _handle_repeated(self, item):
+        order = item['order']
+        self.shipping = order.get_address('shipping')
+        self.billing = order.get_address('billing')

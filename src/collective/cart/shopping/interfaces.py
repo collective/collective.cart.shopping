@@ -437,3 +437,10 @@ class ILocaleUtility(Interface):
 
         :rtype: str or None
         """
+
+
+class ICollapsedOnLoad(Interface):
+    """Global utility interface for class collapsedOnLoad."""
+
+    def __call__():  # pragma: no cover
+        """Returns class name for style sheet."""

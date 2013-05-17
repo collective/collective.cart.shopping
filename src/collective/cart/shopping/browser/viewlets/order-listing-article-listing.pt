@@ -1,0 +1,41 @@
+<section
+  i18n:domain="collective.cart.shopping"
+  id="article-listing">
+  <article tal:repeat="item view/articles">
+    <section class="image">
+      <a
+        tal:condition="item/url"
+        tal:attributes="
+          href item/url;
+          title item/title">
+        <img tal:attributes="src item/image_url" />
+      </a>
+      <img
+        tal:condition="not: item/url"
+        tal:attributes="src item/image_url"
+        />
+    </section>
+    <section class="title-and-description">
+      <dl>
+        <dt>
+          <a
+            tal:condition="item/url"
+            tal:attributes="href item/url"
+            tal:content="item/title"
+            />
+          <span
+            tal:condition="not: item/url"
+            tal:replace="item/title"
+            />
+        </dt>
+        <dd class="description" tal:content="item/description" />
+      </dl>
+    </section>
+    <section class="gross-and-vat-rate">
+      <section class="gross" tal:content="item/locale_gross_subtotal" />
+      <section class="vat-rate" i18n:translate="including-vat">
+        Including VAT: <span i18n:name="vat-rate" tal:replace="item/vat_rate" />
+      </section>
+    </section>
+  </article>
+</section>

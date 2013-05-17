@@ -481,13 +481,16 @@ class ShoppingSiteMultiAdapter(object):
 
         if subarticle is not None:
 
+            uuids = subarticle
             parent_uuid = add_to_cart
-            if not isinstance(subarticle, list):
+
+            if not isinstance(uuids, list):
                 uuids = [subarticle]
-                for subarticle_uuid in uuids:
-                    parent = aq_parent(aq_inner(shopping_site.get_object(UID=subarticle_uuid)))
-                    if parent_uuid == IUUID(parent):
-                        uuid = subarticle_uuid
+
+            for subarticle_uuid in uuids:
+                parent = aq_parent(aq_inner(shopping_site.get_object(UID=subarticle_uuid)))
+                if parent_uuid == IUUID(parent):
+                    uuid = subarticle_uuid
 
                 quantity = form.get(parent_uuid)
 

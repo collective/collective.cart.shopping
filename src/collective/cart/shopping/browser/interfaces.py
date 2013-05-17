@@ -1,4 +1,5 @@
 from collective.base.interfaces import IBaseFormView
+from collective.base.interfaces import IRepeatedViewletManager
 from collective.base.interfaces import IViewlet
 from collective.cart.core.browser.interfaces import IAddToCartViewlet as IBaseBaseAddToCartViewlet
 from collective.cart.core.browser.interfaces import ICartArticleListingViewlet
@@ -19,6 +20,10 @@ class ICollectiveCartShoppingLayer(ICollectiveCartCoreLayer):
 
 class IArticleContainerViewletManager(IViewletManager):
     """Viewlet manager interface for content type: collective.cart.shopping.ArticleContainer"""
+
+
+class IOrderListingViewletManager(IRepeatedViewletManager):
+    """Viewlet manager interface for order listing"""
 
 
 # View
@@ -424,3 +429,39 @@ class IOrderConfirmationTermsViewlet(IViewlet):
 
 class IOrderConfirmationCheckOutButtonsViewlet(IBaseCheckOutButtonsViewlet):
     """Viewlet interface for OrderConfirmationCheckOutButtonsViewlet"""
+
+
+class IArticleListingViewlet(IViewlet):
+    """Viewlet interface for ArticleListingViewlet"""
+
+
+class IOrderListingViewlet(IViewlet):
+    """Viewlet interface for OrderListingViewlet"""
+
+    def orders():
+        """Returns list of dictionary of orders
+
+        :rtype: list
+        """
+
+    def class_collapsible():
+        """Returns styling values
+
+        :rtype: str
+        """
+
+
+class IOrderListingArticleListingViewlet(IViewlet):
+    """Viewlet interface for OrderListingArticleListingViewlet"""
+
+
+class IOrderListingShippingMethodViewlet(IViewlet):
+    """Viewlet interface for OrderListingShippingMethodViewlet"""
+
+
+class IOrderListingTotalViewlet(IViewlet):
+    """Viewlet interface for OrderListingTotalViewlet"""
+
+
+class IOrderListingAddressesViewlet(IViewlet):
+    """Viewlet interface for OrderListingAddressesViewlet"""

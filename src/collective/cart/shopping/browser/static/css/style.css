@@ -64,23 +64,88 @@ section#collective-cart-shopping-order-list form button {
 }
 
 /* Orders */
-#content section#collective-cart-shopping-order dt span {
+#order-listing dt span {
   background: #E3E3E3;
   border-radius: 0.5em;
   color: #0084A7;
   padding: 0.25em 0.5em;
 }
-#content section#collective-cart-shopping-order dd {
-  margin: 0 2em 1em;
+#order-listing > dl > dd {
+  margin: 1em 2em;
 }
-section#collective-cart-shopping-order section#cart-articles td {
+.template-order-confirmation #content-core section,
+#order-listing > dl > dd > section {
+  padding: 1em 0;
+}
+
+#article-listing {
+  border-bottom: 2px solid #CCCCCC;
+}
+
+#article-listing article {
+  clear: both;
+  display: table;
+  margin-bottom: 0.5em;
+}
+#article-listing article > section {
+  display: table-cell;
   vertical-align: top;
 }
-section#collective-cart-shopping-order section#addresses dl {
-    display: inline-block;
+#article-listing .image {
+  width: 20%;
 }
-section#collective-cart-shopping-order section#addresses dt {
-    color: #0084A7;
+#article-listing .image img {
+  width: 100%;
+}
+#article-listing .title-and-description {
+  width: 60%;
+}
+#article-listing .gross-and-vat-rate {
+  width: 20%;
+}
+#article-listing .title-and-description,
+#article-listing .gross-and-vat-rate {
+  padding: 0.5em 0 0 1em;
+}
+#article-listing .title-and-description dt {
+  font-size: 1.25em;
+  font-weight: normal;
+  margin-bottom: 0.1em;
+}
+
+#article-listing .title-and-description dt,
+#article-listing .title-and-description dt a {
+  color: #575757;
+}
+#article-listing .title-and-description dd {
+  font-size: 1.1em;
+  margin: 0;
+}
+.vat-rate {
+  color: #A7A7A7;
+  font-size: 80%;
+}
+#shipping-method {
+  border-bottom: 4px solid #666666;
+}
+.title {
+  color: #333333;
+  font-weight: bold;
+  margin-right: 1em;
+}
+#total {
+  font-size: 150%;
+  text-align: right;
+}
+#order-listing #addresses dl {
+  display: inline-block;
+  margin-right: 2em;
+}
+#order-listing #addresses .name,
+#order-listing #addresses .location,
+#order-listing #addresses .phone,
+#order-listing #addresses .email {
+  display: block;
 }
 
 /* Check out flow */

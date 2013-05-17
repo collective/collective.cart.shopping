@@ -8,7 +8,7 @@
     <object name="article-list" meta_type="CMF Action" i18n:domain="collective.cart.shopping">
       <property name="title" i18n:translate="">Article List</property>
       <property name="description" i18n:translate="">Show list of articles.</property>
-      <property  name="url_expr">string:${globals_view/getCurrentFolderUrl}/@@article-list</property>
+      <property  name="url_expr">string:${globals_view/getCurrentFolderUrl}/@@article-listing</property>
       <property name="icon_expr"></property>
       <property name="available_expr">python: object.restrictedTraverse("is-shopping-site")()</property>
       <property name="permissions">

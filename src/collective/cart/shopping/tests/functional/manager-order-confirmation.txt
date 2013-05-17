@@ -76,44 +76,34 @@ Fill Billing Info::
     >>> browser.getControl(name="billing_phone").value = 'Billing Phöne Number'
     >>> browser.getControl(name="form.buttons.CheckOut").click()
 
-    >>> print browser.bycss('#cart-articles')
+    >>> print browser.bycss('#article-listing')
     --- 1 ---
-    <section id="cart-articles"><table><tbody><tr><td class="image">
-    <a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
+    <section id="article-listing"><article><section class="image"><a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
     <img src="http://nohost/plone/fallback.png"></a>
-    </td>
-    <td class="name">
-    <h3>
+    </section><section class="title-and-description"><dl><dt>
     <a href="http://nohost/plone/shop/article-container/article1">&#196;rticle1</a>
-    </h3>
-    <p>Description of &#196;rticle1</p>
-    </td>
-    <td class="price-and-quantity">
-    <span class="gross">12.40 &#8364;</span>
-    <br><span class="vat_rate">
+    </dt>
+    <dd class="description">Description of &#196;rticle1</dd>
+    </dl></section><section class="gross-and-vat-rate"><section class="gross">12.40 &#8364;</section><section class="vat-rate">
     Including VAT: 24%
-    </span>
-    </td>
-    </tr></tbody></table></section>
+    </section></section></article></section>
 
     >>> print browser.bycss('#shipping-method')
     --- 1 ---
-    <section id="shipping-method"><table><tbody><tr><td class="shipping-method-title">
-    Shipping Method:
-    </td>
-    <td>ShippingMeth&#246;d1</td>
-    <td class="price-and-quantity">
+    <section id="shipping-method"><span class="title">Shipping Method</span>
+    <span>ShippingMeth&#246;d1</span>
+    <span class="gross-and-vat-rate">
     <span class="gross">0.10 &#8364;</span>
-    <br><span class="vat_rate">
+    <span class="vat-rate">
     Including VAT: 24%
     </span>
-    </td>
-    </tr></tbody></table></section>
+    </span>
+    </section>
 
-    >>> print browser.bycss('#confirmation-total')
+    >>> print browser.bycss('#total')
     --- 1 ---
-    <section id="confirmation-total"><span>Total</span>&#160;&#160;
-    <span id="total">12.50 &#8364;</span>
+    <section id="total"><span class="title">Total</span>&#160;&#160;
+    <span class="total">12.50 &#8364;</span>
     </section>
 
     >>> print browser.bycss('#check-out-buttons')
@@ -488,3 +478,168 @@ Accept terms::
     >>> browser.reload()
     >>> browser.url
     'http://nohost/plone/shop/@@cart'
+
+Go to shop::
+
+    >>> browser.open('/shop')
+
+Go to @@article-listing::
+
+    >>> browser.getLink('Article List').click()
+    >>> browser.url
+    'http://nohost/plone/shop/@@article-listing'
+
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 class="documentFirstHeading">Article Listing</h1>
+
+    >>> print browser.bycss('.documentDescription')
+
+    >>> print browser.bycss('.listing')
+    --- 1 ---
+    <table class="listing"><thead><tr><th>SKU</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Stock</th>
+    <th>Subtotal</th>
+    </tr></thead><tbody><tr class="even"><td>
+    SK&#214;1
+    </td>
+    <td>
+    <a href="http://nohost/plone/shop/article-container/article1">&#196;rticle1</a>
+    </td>
+    <td>
+    0.00
+    </td>
+    <td>
+    97
+    </td>
+    <td>
+    0.00
+    </td>
+    </tr></tbody></table>
+
+Go to @@orders::
+
+    >>> browser.getLink('Orders').click()
+    >>> browser.url
+    'http://nohost/plone/shop/@@orders'
+
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 class="documentFirstHeading">Order Listing</h1>
+
+    >>> print browser.bycss('.documentDescription')
+    --- 1 ---
+    <div class="documentDescription">The next order ID: 4</div>
+
+    >>> print browser.bycss('#order-listing')
+    --- 1 ---
+    <section id="order-listing"><table class="listing"><thead><tr><th>No.</th>
+    <th>Updated</th>
+    <th>Owner</th>
+    <th>State</th>
+    <th>Change State</th>
+    ...
+    <a href="http://nohost/plone/shop/order-container/2">2</a>
+    </td>
+    <td>...</td>
+    <td>test_user_1_</td>
+    <td>Ordered</td>
+    <td>
+    <button name="form.buttons.ChangeState" type="submit" value="2:canceled">Canceled</button>
+    <button name="form.buttons.ChangeState" type="submit" value="2:paid">Paid</button>
+    <button name="form.buttons.ChangeState" type="submit" value="2:charged">Charged</button>
+    ...
+    </tr></tbody></table></section>
+
+Go to order 2::
+
+    >>> browser.getLink('2').click()
+    >>> browser.url
+    'http://nohost/plone/shop/order-container/2'
+
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 class="documentFirstHeading">Order ID: 2</h1>
+
+    >>> print browser.bycss('.documentDescription')
+
+    >>> print browser.bycss('#order-listing')
+    --- 1 ---
+    <section id="order-listing"><dl class="collapsible"><dt class="collapsibleHeader">
+    <span class="order-number">
+    Order Number: 2</span>
+    <span class="order-state">
+    State:
+    Ordered</span>
+    <span class="order-updated">
+    Updated: ...</span>
+    </dt>
+    <dd>
+    ...</dd>
+    </dl></section>
+
+    >>> print browser.bycss('#article-listing')
+    --- 1 ---
+    <section id="article-listing"><article><section class="image"><a href="http://nohost/plone/shop/article-container/article1" title="&#196;rticle1">
+    <img src="http://nohost/plone/fallback.png"></a>
+    </section><section class="title-and-description"><dl><dt>
+    <a href="http://nohost/plone/shop/article-container/article1">&#196;rticle1</a>
+    </dt>
+    <dd class="description">Description of &#196;rticle1</dd>
+    </dl></section><section class="gross-and-vat-rate"><section class="gross">12.40 &#8364;</section><section class="vat-rate">
+    Including VAT: 24%
+    </section></section></article></section>
+
+    >>> print browser.bycss('#shipping-method')
+    --- 1 ---
+    <section id="shipping-method"><span class="title">Shipping Method</span>
+    <span>ShippingMeth&#246;d1</span>
+    <span class="gross-and-vat-rate">
+    <span class="gross">0.10 &#8364;</span>
+    <span class="vat-rate">
+    Including VAT: 24.0
+    </span>
+    </span>
+    </section>
+
+    >>> print browser.bycss('#total')
+    --- 1 ---
+    <section id="total"><span class="title">Total</span>&#160;&#160;
+    <span class="total">12.50 &#8364;</span>
+    </section>
+
+    >>> print browser.bycss('#addresses')
+    --- 1 ---
+    <section id="addresses"><dl><dt>Billing Address</dt>
+    <dd>
+    <span class="name">
+    <span class="first-name">Billing First N&#228;me</span>
+    <span class="last-name">Billing Last N&#228;me</span>
+    <span class="organization">Billing &#214;rganization</span>
+    <span class="vat-number">F&#305;1234567890</span>
+    </span>
+    <span class="location">
+    <span class="post">Billing P&#246;st C&#246;de</span>
+    <span class="city">Billing &#8364;ity</span>
+    </span>
+    <span class="phone">Billing Ph&#246;ne Number</span>
+    <span class="email">first.last@email.bil</span>
+    </dd>
+    </dl><dl><dt>Shipping Address</dt>
+    <dd>
+    <span class="name">
+    <span class="first-name">Shipping First N&#228;me</span>
+    <span class="last-name">Shipping Last N&#228;me</span>
+    <span class="organization">Shipping &#214;rganization</span>
+    <span class="vat-number">SHIPPING1234567890</span>
+    </span>
+    <span class="location">
+    <span class="post">Shipping P&#246;st C&#246;de</span>
+    <span class="city">Shipping &#8364;ity</span>
+    </span>
+    <span class="phone">Shipping Ph&#246;ne Number</span>
+    <span class="email">first.last@email.shi</span>
+    </dd>
+    </dl></section>
