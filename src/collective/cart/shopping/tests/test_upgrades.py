@@ -94,6 +94,12 @@ class TestCase(IntegrationTestCase):
 
         self.assertIsNotNone(css.getResource(rid))
 
+    @mock.patch('collective.cart.shopping.upgrades.getToolByName')
+    def test_reimport_jsregistry(self, getToolByName):
+        from collective.cart.shopping.upgrades import reimport_jsregistry
+        reimport_jsregistry(self.portal)
+        getToolByName().runImportStepFromProfile.assert_called_with(PROFILE_ID, 'jsregistry', run_dependencies=False, purge_old=False)
+
     def test_reimport_actions(self):
         from collective.cart.core.tests.test_setup import get_action
         self.assertIsNotNone(get_action(self.portal, 'object', 'article-list'))

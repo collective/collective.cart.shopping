@@ -173,4 +173,14 @@
     title="Reimport actions"
     />
 
+  <genericsetup:upgradeStep
+    description=""
+    destination="17"
+    handler="collective.cart.shopping.upgrades.reimport_jsregistry"
+    profile="collective.cart.shopping:default"
+    sortkey="4"
+    source="16"
+    title="Reimport jsregistry"
+    />
+
 </configure>

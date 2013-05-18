@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+0.5.0.15 (2013-05-18)
+=====================
+
+- Moved check out buttons javascript from template to its own file. [taito]
+
 0.5.0.14 (2013-05-18)
 =====================
 

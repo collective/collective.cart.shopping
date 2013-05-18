@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<object name="portal_javascripts" meta_type="JavaScripts Registry">
+  <javascript
+    authenticated="False"
+    bundle="default"
+    cacheable="True"
+    compression="safe"
+    conditionalcomment=""
+    cookable="True"
+    enabled="True"
+    expression="python: context.restrictedTraverse('@@is-check-out-view')()"
+    id="++resource++collective.cart.shopping/javascript/check-out-buttons.js"
+    inline="False"
+    />
+</object>

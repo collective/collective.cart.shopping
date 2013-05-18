@@ -9,12 +9,22 @@
     layer=".interfaces.ICollectiveCartShoppingLayer"
     />
 
+  <!-- Miscellaneous -->
+
   <browser:page
     attribute="is_article"
     class=".miscellaneous.Miscellaneous"
     for="*"
     name="is-article"
     permission="cmf.ModifyPortalContent"
+    />
+
+  <browser:page
+    attribute="is_check_out_view"
+    class=".miscellaneous.Miscellaneous"
+    for="*"
+    name="is-check-out-view"
+    permission="zope2.View"
     />
 
   <!-- View -->

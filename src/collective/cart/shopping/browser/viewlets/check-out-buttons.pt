@@ -1,17 +1,3 @@
-<script type="text/javascript">
-  (function($) {
-    $(document).ready(function() {
-      $('.next').click(wait_processing);
-    });
-    function wait_processing(){
-      {
-        $('#processing_message').css('display', 'block');
-        $('button').attr("disabled");
-      }
-    }
-  })(jQuery);
-</script>
-
 <p
   i18n:domain="collective.cart.shopping"
   i18n:translate="processing_message"

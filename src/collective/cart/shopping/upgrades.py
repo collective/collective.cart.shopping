@@ -67,6 +67,16 @@ def reimport_registry(context, logger=None):
         PROFILE_ID, 'plone.app.registry', run_dependencies=False, purge_old=False)
 
 
+def reimport_jsregistry(context, logger=None):
+    """Reimport jsregistry"""
+    if logger is None:
+        logger = logging.getLogger(__name__)
+    setup = getToolByName(context, 'portal_setup')
+    logger.info('Reimporting jsregistry.')
+    setup.runImportStepFromProfile(
+        PROFILE_ID, 'jsregistry', run_dependencies=False, purge_old=False)
+
+
 def reimport_cssregistry(context, logger=None):
     """Reimport cssregistry"""
     if logger is None:

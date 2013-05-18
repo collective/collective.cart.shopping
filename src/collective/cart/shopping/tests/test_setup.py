@@ -98,6 +98,19 @@ class TestCase(IntegrationTestCase):
         catalog = getToolByName(self.portal, 'portal_catalog')
         self.assertIsInstance(catalog.Indexes['use_subarticle'], BooleanIndex)
 
+    def test_jsregistry__check_out_buttons(self):
+        javascripts = getToolByName(self.portal, 'portal_javascripts')
+        resource = javascripts.getResource('++resource++collective.cart.shopping/javascript/check-out-buttons.js')
+        self.assertFalse(resource.getAuthenticated())
+        self.assertEqual(resource.getBundle(), 'default')
+        self.assertTrue(resource.getCacheable())
+        self.assertEqual(resource.getCompression(), 'safe')
+        self.assertEqual(resource.getConditionalcomment(), '')
+        self.assertTrue(resource.getCookable())
+        self.assertTrue(resource.getEnabled())
+        self.assertEqual(resource.getExpression(), "python: context.restrictedTraverse('@@is-check-out-view')()")
+        self.assertFalse(resource.getInline())
+
     def test_metadata_dependency_collective_cart_core(self):
         installer = getToolByName(self.portal, 'portal_quickinstaller')
         self.failUnless(installer.isProductInstalled('collective.cart.core'))
