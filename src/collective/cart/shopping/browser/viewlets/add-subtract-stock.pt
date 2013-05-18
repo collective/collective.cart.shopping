@@ -1,4 +1,6 @@
-<section id="add-subtract-stock">
+<section
+  i18n:domain="collective.cart.shopping"
+  id="add-subtract-stock">
   <section
     id="quick-add"
     tal:define="item view/add"

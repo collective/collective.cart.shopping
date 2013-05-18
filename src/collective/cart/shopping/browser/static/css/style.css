@@ -49,18 +49,9 @@ section#add-to-cart {
   line-height: 1.2em;
 }
 
-
 /* Stock */
-section#add-and-subtract-stock {
-    margin: 0 0 1em;
-}
-section#add-and-subtract-stock form {
-    display: inline-block;
-    margin: 0 1em 0 0;
-}
-section#collective-cart-shopping-stock-list form button,
-section#collective-cart-shopping-order-list form button {
-    font-size: 80%;
+section#add-subtract-stock > section {
+  display: inline-block;
 }
 
 /* Orders */
@@ -76,6 +67,11 @@ section#collective-cart-shopping-order-list form button {
 .template-order-confirmation #content-core section,
 #order-listing > dl > dd > section {
   padding: 1em 0;
+}
+
+.template-order-confirmation #content-core .gross,
+.template-order-confirmation #content-core .vat-rate {
+  padding: 0;
 }
 
 #article-listing {

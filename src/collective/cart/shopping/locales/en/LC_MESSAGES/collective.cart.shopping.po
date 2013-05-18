@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-05-17 14:07+0000\n"
+"POT-Creation-Date: 2013-05-18 08:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,10 @@ msgstr ""
 #: ./browser/viewlets/add-to-cart.pt:19
 #: ./browser/viewlets/articles-in-article.pt:53
 msgid "(Discount valid till ${discount_end})"
+msgstr ""
+
+#: ./browser/viewlets/add-subtract-stock.pt:39
+msgid "Add New Stock"
 msgstr ""
 
 #: ./browser/viewlets/add-to-cart.pt:45
@@ -51,7 +55,7 @@ msgstr ""
 
 #: ./browser/templates/order-mail-template.pt:21
 #: ./browser/viewlets/billing-and-shipping-billing-address.pt:2
-#: ./browser/viewlets/cart-content.pt:97
+#: ./browser/viewlets/order-listing-addresses.pt:3
 msgid "Billing Address"
 msgstr ""
 
@@ -95,6 +99,14 @@ msgstr ""
 
 #: ./browser/template.py:163
 msgid "Confirmation"
+msgstr ""
+
+#: ./browser/viewlets/stock-listing.pt:9
+msgid "Created"
+msgstr ""
+
+#: ./browser/viewlets/stock-listing.pt:11
+msgid "Current Stock"
 msgstr ""
 
 #: ./profiles/default/types/collective.cart.shopping.CustomerInfo.xml
@@ -144,8 +156,11 @@ msgid "Including VAT: ${vat_rate}"
 msgstr ""
 
 #: ./browser/viewlets/add-subarticle-to-cart.pt:19
-#: ./browser/viewlets/cart-content.pt:48
 msgid "Including VAT: ${vat}"
+msgstr ""
+
+#: ./browser/viewlets/stock-listing.pt:10
+msgid "Initial Stock"
 msgstr ""
 
 #: ./adapter/interface.py:536
@@ -239,9 +254,21 @@ msgstr ""
 msgid "Price excluding VAT"
 msgstr ""
 
+#: ./browser/viewlets/stock-listing.pt:12
+msgid "Purchase Price VAT 0%"
+msgstr ""
+
 #: ./browser/viewlets/add-subarticle-to-cart.pt:22
 #: ./browser/viewlets/add-to-cart.pt:26
 msgid "Quantity"
+msgstr ""
+
+#: ./browser/viewlets/add-subtract-stock.pt:15
+msgid "Quick Add"
+msgstr ""
+
+#: ./browser/viewlets/add-subtract-stock.pt:32
+msgid "Quick Subtract"
 msgstr ""
 
 #: ./schema.py:40
@@ -278,7 +305,7 @@ msgstr ""
 
 #: ./browser/templates/order-mail-template.pt:24
 #: ./browser/viewlets/billing-and-shipping-shipping-address.pt:40
-#: ./browser/viewlets/cart-content.pt:106
+#: ./browser/viewlets/order-listing-addresses.pt:20
 msgid "Shipping Address"
 msgstr ""
 
@@ -289,10 +316,6 @@ msgstr ""
 #: ./browser/viewlets/billing-and-shipping-shipping-methods.pt:4
 #: ./browser/viewlets/order-listing-shipping-method.pt:5
 msgid "Shipping Method"
-msgstr ""
-
-#: ./browser/viewlets/cart-content.pt:62
-msgid "Shipping Method:"
 msgstr ""
 
 #: ./profiles/default/types/collective.cart.shopping.Shop.xml
@@ -309,7 +332,7 @@ msgstr ""
 msgid "Sold Out"
 msgstr ""
 
-#: ./browser/viewlets/cart-content.pt:7
+#: ./browser/viewletmanagers/order-listing.pt:6
 msgid "State:"
 msgstr ""
 
@@ -346,7 +369,6 @@ msgid "The representative image of this article."
 msgstr ""
 
 #: ./browser/viewlets/cart-articles-total.pt:5
-#: ./browser/viewlets/cart-content.pt:81
 #: ./browser/viewlets/order-listing-total.pt:4
 msgid "Total"
 msgstr ""
@@ -450,7 +472,7 @@ msgstr ""
 
 #. Default: "Order Number: ${number}"
 #: ./browser/templates/order-mail-template.pt:18
-#: ./browser/viewlets/cart-content.pt:5
+#: ./browser/viewletmanagers/order-listing.pt:4
 #: ./subscriber.py:70
 msgid "order-number"
 msgstr ""
@@ -475,8 +497,8 @@ msgstr ""
 msgid "order-total"
 msgstr ""
 
-#. Default: "Updated: ${date}"
-#: ./browser/viewlets/cart-content.pt:10
+#. Default: "Updated: ${order_updated}"
+#: ./browser/viewletmanagers/order-listing.pt:9
 msgid "order-updated"
 msgstr ""
 

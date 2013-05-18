@@ -1,4 +1,5 @@
 <section
+  i18n:domain="collective.cart.shopping"
   id="stock-listing"
   tal:condition="view/stocks">
   <table class="listing">

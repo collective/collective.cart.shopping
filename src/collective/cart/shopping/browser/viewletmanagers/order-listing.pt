@@ -1,12 +1,12 @@
-<dl tal:attributes="class view/class_collapsible" tal:repeat="item view/items">
+<dl i18n:domain="collective.cart.shopping" tal:attributes="class view/class_collapsible" tal:repeat="item view/items">
   <dt class="collapsibleHeader">
     <span class="order-number" i18n:translate="order-number">
-      Order Number: <tal:name i18n:name="order_number" tal:replace="item/id" /></span>
+      Order Number: <tal:name i18n:name="number" tal:replace="item/id" /></span>
     <span class="order-state">
       <tal:translate i18n:translate="">State:</tal:translate>
       <span i18n:domain="collective.cart.core" i18n:translate="" tal:replace="item/state_title" /></span>
     <span class="order-updated" i18n:translate="order-updated">
-      Updated: <tal:name i18n:name="order_updated" tal:replace="item/modified" /></span>
+      Updated: <tal:name i18n:name="date" tal:replace="item/modified" /></span>
   </dt>
   <dd class="collapsibleContent">
     <tal:viewlet repeat="viewlet view/viewlets" replace="structure python:viewlet.repeated(item)" />
