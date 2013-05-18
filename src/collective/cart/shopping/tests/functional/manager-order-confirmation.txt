@@ -576,7 +576,7 @@ Go to order 2::
     <span class="order-updated">
     Updated: ...</span>
     </dt>
-    <dd>
+    <dd class="collapsibleContent">
     ...</dd>
     </dl></section>
 

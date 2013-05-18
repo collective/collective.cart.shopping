@@ -8,7 +8,7 @@
     <span class="order-updated" i18n:translate="order-updated">
       Updated: <tal:name i18n:name="order_updated" tal:replace="item/modified" /></span>
   </dt>
-  <dd>
+  <dd class="collapsibleContent">
     <tal:viewlet repeat="viewlet view/viewlets" replace="structure python:viewlet.repeated(item)" />
   </dd>
 </dl>
