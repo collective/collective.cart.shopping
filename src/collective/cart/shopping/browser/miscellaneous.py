@@ -19,4 +19,3 @@ class Miscellaneous(BrowserView):
             return ICheckOutView.providedBy(view)
         except NotFound:
             return False
-

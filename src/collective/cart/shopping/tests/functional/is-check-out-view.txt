@@ -1,0 +1,17 @@
+Go to portal::
+
+    >>> browser.open('/')
+    >>> 'javascriptcheck-out-buttons' in browser.contents
+    False
+
+Go to @@cart::
+
+    >>> browser.open('/shop/@@cart')
+    >>> 'javascriptcheck-out-buttons' in browser.contents
+    True
+
+Go to portal_registration/passwordreset/51cac7879c3b6c1de9a7d9747177476e::
+
+    >>> browser.open('/portal_registration/passwordreset/51cac7879c3b6c1de9a7d9747177476e')
+    >>> 'javascriptcheck-out-buttons' in browser.contents
+    False
