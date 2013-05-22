@@ -94,12 +94,6 @@ def setUp(self):
         stock=10)
     modified(stock1)
 
-    # # Create shop folder
-    # shop = portal[portal.invokeFactory('Folder', 'shop', title='Shöp')]
-    # modified(shop)
-    # workflow = getToolByName(portal, 'portal_workflow')
-    # workflow.doActionFor(shop, 'publish')
-
     getUtility(IRegistry)['collective.cart.shopping.notification_cc_email'] = u'info@shop.com'
 
     # ## Setup MockMailHost

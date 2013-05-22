@@ -1,1 +1,10 @@
-See `src/collective/cart/shopping/docs/README.rst <https://github.com/collective/collective.cart.shopping/blob/master/src/collective/cart/shopping/docs/README.rst>`_
+========================
+collective.cart.shopping
+========================
+
+collective.cart.shopping adds shop content type to Plone.
+
+Currently tested with
+---------------------
+
+* Plone-4.3 with Python-2.7.4

@@ -5,7 +5,7 @@ import os
 
 
 long_description = (
-    open(os.path.join("src", "collective", "cart", "shopping", "docs", "README.rst")).read() + "\n" +
+    open(os.path.join("README.rst")).read() + "\n" +
     open(os.path.join("src", "collective", "cart", "shopping", "docs", "HISTORY.rst")).read())
 
 
