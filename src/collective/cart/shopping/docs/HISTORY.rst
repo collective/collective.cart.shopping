@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+0.5.0.16 (2013-05-xx)
+=====================
+
+- Fixed method: is_check_out_view for case where last pass is not view. [taito]
+
 0.5.0.15 (2013-05-18)
 =====================
 
