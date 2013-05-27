@@ -14,8 +14,8 @@
         Including VAT: <span i18n:name="vat_rate" tal:replace="view/vat_rate" />
       </section>
     </section>
-    <section id="discount" tal:condition="view/discount_end">
-      <p id="discount-message" i18n:translate="">
+    <section id="discount" tal:condition="view/discount_available">
+      <p id="discount-message" i18n:translate="" tal:condition="view/discount_end">
         (Discount valid till <span i18n:name="discount_end" tal:replace="view/discount_end" />)
       </p>
       <p id="normal-price" i18n:translate="">
@@ -39,7 +39,7 @@
         id="pcs"
         i18n:translate="">pcs</span>
     </section>
-    <section id="stock" i18n:translate="">
+    <section id="stock" i18n:translate="" tal:condition="view/display_stock">
       Stock: <span i18n:name="stock" tal:replace="view/quantity_max" /> pcs
     </section>
     <button

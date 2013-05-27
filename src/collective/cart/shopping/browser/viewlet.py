@@ -1,3 +1,4 @@
+from AccessControl import getSecurityManager
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from Products.ATContentTypes.interfaces.image import IATImage
@@ -201,6 +202,13 @@ class AddToCartViewlet(BaseAddToCartViewlet):
         """
         return IVATAdapter(self.context).percent(self.context.vat_rate)
 
+    def discount_available(self):
+        """Returns True if discount is available else False
+
+        :rtype: bool
+        """
+        return self.view.adapter().discount_available()
+
     def discount_end(self):
         """Returns end of date for discount
 
@@ -222,6 +230,13 @@ class AddToCartViewlet(BaseAddToCartViewlet):
         """
         if not self.context.use_subarticle:
             return self.view.adapter().articles()
+
+    def display_stock(self):
+        """Returns True if user has permission to displaying stock else False
+
+        :rtype: bool
+        """
+        return getSecurityManager().checkPermission('collective.cart.shopping: View Stock On Add To Cart', self.context)
 
 
 class ArticlesInArticleViewlet(AddToCartViewlet):

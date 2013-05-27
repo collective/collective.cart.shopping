@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+0.5.0.17 (2013-05-27)
+=====================
+
+- Added permission to show stock at add to cart form. [taito]
+
 0.5.0.16 (2013-05-22)
 =====================
 

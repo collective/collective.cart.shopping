@@ -85,6 +85,10 @@ class ArticleAdapter(BaseArticleAdapter):
         items['quantity'] += kwargs['quantity']
 
     def discount_available(self):
+        """Returns True if discount is available else False
+
+        :rtype: bool
+        """
         discount = IDiscount(self.context)
         if discount.discount_enabled:
             today = date.today()
@@ -102,6 +106,7 @@ class ArticleAdapter(BaseArticleAdapter):
             return False
 
     def discount_end(self):
+        """Returns localized date for discount end"""
         if self.discount_available():
             discount = IDiscount(self.context)
             if discount.discount_end:
@@ -109,9 +114,14 @@ class ArticleAdapter(BaseArticleAdapter):
                 return self.context.restrictedTraverse('@@plone').toLocalizedTime(dt)
 
     def gross(self):
+        """Returns gross money
+
+        :rtype: moneyed.Money
+        """
         if self.discount_available():
             return self.context.discount_money
-        return self.context.money
+        # return self.context.money
+        return IDiscount(self.context).money
 
     def get_net(self, gross):
         rate = self.context.vat_rate

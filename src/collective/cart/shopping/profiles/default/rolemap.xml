@@ -16,5 +16,9 @@
       <role name="Owner" />
       <role name="Site Administrator" />
     </permission>
+    <permission name="collective.cart.shopping: View Stock On Add To Cart" acquire="False">
+      <role name="Anonymous" />
+      <role name="Authenticated" />
+    </permission>
   </permissions>
 </rolemap>

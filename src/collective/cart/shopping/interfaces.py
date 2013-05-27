@@ -279,10 +279,19 @@ class IArticleAdapter(IBaseArticleAdapter):
         """"""
 
     def discount_available():  # pragma: no cover
-        """"""
+        """Returns True if discount is available else False
+
+        :rtype: bool
+        """
+
+    def discount_end():
+        """Returns localized date for discount end"""
 
     def gross():  # pragma: no cover
-        """"""
+        """Returns gross money
+
+        :rtype: moneyed.Money
+        """
 
     def get_net(gross):  # pragma: no cover
         """"""

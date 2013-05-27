@@ -212,6 +212,12 @@ class IAddToCartViewlet(IBaseAddToCartViewlet):
         :rtype: unicode
         """
 
+    def discount_available():
+        """Returns True if discount is available else False
+
+        :rtype: bool
+        """
+
     def discount_end():
         """Returns end of date for discount
 
@@ -228,6 +234,12 @@ class IAddToCartViewlet(IBaseAddToCartViewlet):
         """Returns brains of articles
 
         :rtype: brains
+        """
+
+    def display_stock():
+        """Returns True if displaying stock else False
+
+        :rtype: bool
         """
 
 

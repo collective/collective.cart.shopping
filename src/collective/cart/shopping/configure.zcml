@@ -52,6 +52,11 @@
     title="collective.cart.shopping: Add Article Container"
     />
 
+  <permission
+    id="collective.cart.shopping.ViewStockOnAddToCart"
+    title="collective.cart.shopping: View Stock On Add To Cart"
+    />
+
   <plone:behavior
     description="Adds price field for stock."
     factory="collective.behavior.price.behavior.Price"
