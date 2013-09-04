@@ -114,7 +114,7 @@ Check Stöck1::
     >>> browser.open('/shop/article-container/article1/stock1')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
-    <span id="form-widgets-stock" class="text-widget required int-field">100</span>
+    <span id="form-widgets-stock" class="text-widget int-field">100</span>
 
 Check Cart::
 
@@ -168,7 +168,7 @@ Check Stöck1::
     >>> browser.open('/shop/article-container/article1/stock1')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
-    <span id="form-widgets-stock" class="text-widget required int-field">100</span>
+    <span id="form-widgets-stock" class="text-widget int-field">100</span>
 
 Check Cart::
 
@@ -245,14 +245,14 @@ Check Stöck2::
     >>> browser.open('/shop/article-container/article2/stock2')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
-    <span id="form-widgets-stock" class="text-widget required int-field">20</span>
+    <span id="form-widgets-stock" class="text-widget int-field">20</span>
 
 Check Stöck3::
 
     >>> browser.open('/shop/article-container/article2/stock3')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
-    <span id="form-widgets-stock" class="text-widget required int-field">10</span>
+    <span id="form-widgets-stock" class="text-widget int-field">10</span>
 
 Check Cart::
 
@@ -308,14 +308,14 @@ Check Stöck2::
     >>> browser.open('/shop/article-container/article2/stock2')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
-    <span id="form-widgets-stock" class="text-widget required int-field">20</span>
+    <span id="form-widgets-stock" class="text-widget int-field">20</span>
 
 Check Stöck3::
 
     >>> browser.open('/shop/article-container/article2/stock3')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
-    <span id="form-widgets-stock" class="text-widget required int-field">10</span>
+    <span id="form-widgets-stock" class="text-widget int-field">10</span>
 
 Check Cart::
 
@@ -345,7 +345,7 @@ Check Stöck1::
     >>> browser.open('/shop/article-container/article1/stock1')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
-    <span id="form-widgets-stock" class="text-widget required int-field">100</span>
+    <span id="form-widgets-stock" class="text-widget int-field">100</span>
 
 Go to Ärticle1::
 
@@ -387,14 +387,14 @@ Check Stöck2::
     >>> browser.open('/shop/article-container/article2/stock2')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
-    <span id="form-widgets-stock" class="text-widget required int-field">20</span>
+    <span id="form-widgets-stock" class="text-widget int-field">20</span>
 
 Check Stöck3::
 
     >>> browser.open('/shop/article-container/article2/stock3')
     >>> print browser.bycss('#form-widgets-stock')
     --- 1 ---
-    <span id="form-widgets-stock" class="text-widget required int-field">10</span>
+    <span id="form-widgets-stock" class="text-widget int-field">10</span>
 
 Remove Ärticle2 from cart by updating cart with value zero::
 

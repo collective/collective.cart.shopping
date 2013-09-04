@@ -45,8 +45,10 @@ class ArticleListingViewTestCase(IntegrationTestCase):
 
     def test___call__(self):
         instance = self.create_view(ArticleListingView)
-        with self.assertRaises(AttributeError):
-            instance()
+        instance.template = mock.Mock()
+        instance()
+        self.assertTrue(instance.template.called)
+
         instance.request.form = {'form.buttons.Export': True}
         self.assertEqual(instance(), 'SKU|Name|Price|Stock|Subtotal\r\n')
         self.assertEqual(instance.request.response.getHeader('Content-Type'), 'text/csv')
