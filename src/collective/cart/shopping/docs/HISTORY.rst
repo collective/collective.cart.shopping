@@ -1,6 +1,12 @@
 Changelog
 ---------
 
+0.6 (2013-10-xx)
+================
+
+- Test with Plone-4.3.2. [taito]
+- Add javascript to update maxlength and size when selecting subarticle.
+
 0.5.0.18 (2013-09-04)
 =====================
 

@@ -117,6 +117,16 @@
     permission="zope2.View"
     />
 
+  <!-- Ajax View -->
+  <browser:page
+    class=".ajax.SelectSubarticle"
+    for="collective.cart.shopping.interfaces.IArticle"
+    layer=".interfaces.ICollectiveCartShoppingLayer"
+    name="select-subarticle"
+    permission="zope2.View"
+    />
+
+
   <!-- Viewlet Manager -->
 
   <browser:viewletManager

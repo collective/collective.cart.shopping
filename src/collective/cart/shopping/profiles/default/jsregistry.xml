@@ -12,4 +12,7 @@
     id="++resource++collective.cart.shopping/javascript/check-out-buttons.js"
     inline="False"
     />
+
+  <javascript id="++resource++collective.cart.shopping/javascript/select-subarticle.js"/>
+
 </object>

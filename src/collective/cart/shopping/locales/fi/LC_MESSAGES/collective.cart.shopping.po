@@ -265,7 +265,7 @@ msgstr "Määrä"
 
 #: ./browser/viewlets/add-subtract-stock.pt:15
 msgid "Quick Add"
-msgstr "Pikälisäys"
+msgstr "Pikalisäys"
 
 #: ./browser/viewlets/add-subtract-stock.pt:32
 msgid "Quick Subtract"
