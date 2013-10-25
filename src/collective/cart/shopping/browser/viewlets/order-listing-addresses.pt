@@ -9,8 +9,9 @@
         <span class="vat-number" tal:content="item/vat" />
       </span>
       <span class="location">
-        <span class="post" tal:content="item/post" />
+        <span class="street" tal:content="item/street" />
         <span class="city" tal:content="item/city" />
+        <span class="post" tal:content="item/post" />
       </span>
       <span class="phone" tal:content="item/phone" />
       <span class="email" tal:content="item/email" />
@@ -26,8 +27,9 @@
         <span class="vat-number" tal:content="item/vat" />
       </span>
       <span class="location">
-        <span class="post" tal:content="item/post" />
+        <span class="street" tal:content="item/street" />
         <span class="city" tal:content="item/city" />
+        <span class="post" tal:content="item/post" />
       </span>
       <span class="phone" tal:content="item/phone" />
       <span class="email" tal:content="item/email" />

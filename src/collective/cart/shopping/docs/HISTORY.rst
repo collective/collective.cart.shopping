@@ -1,11 +1,12 @@
 Changelog
 ---------
 
-0.6 (2013-10-xx)
-================
+0.5.0.19 (2013-10-25)
+=====================
 
 - Test with Plone-4.3.2. [taito]
-- Add javascript to update maxlength and size when selecting subarticle.
+- Add javascript to update maxlength and size when selecting subarticle. [taito]
+- Add street address to order listing. [taito]
 
 0.5.0.18 (2013-09-04)
 =====================

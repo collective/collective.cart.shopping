@@ -29,6 +29,7 @@
         required="required"
         tal:attributes="
           max view/quantity_max;
+          maxlength view/quantity_size;
           name view/uuid;
           size view/quantity_size"
         type="number"
@@ -72,7 +73,8 @@
         min="1"
         required="required"
         tal:attributes="
-          max view/quantity_size;
+          max view/quantity_max;
+          maxlength view/quantity_size;
           name view/uuid;
           size view/quantity_size"
         type="number"

@@ -71,7 +71,7 @@
             </tal:block>
             <tal:block
               tal:condition="python: not soldout and subarticles">
-              <select id="subarticle" name="subarticle">
+              <select id="subarticle" name="subarticle" tal:attributes="data-ajax-target string:${context/absolute_url}/@@select-subarticle">
                 <option
                   tal:attributes="value sub/uuid"
                   tal:repeat="sub item/subarticles">
@@ -87,6 +87,7 @@
                   min="1"
                   required="required"
                   tal:attributes="
+                    max item/quantity_max;
                     maxlength item/quantity_size;
                     name item/uuid;
                     size item/quantity_size"

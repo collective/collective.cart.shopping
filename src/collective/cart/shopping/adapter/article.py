@@ -66,13 +66,20 @@ class ArticleAdapter(BaseArticleAdapter):
 
     def quantity_max(self):
         """Maximum quantity which could be added to cart."""
-        stock = IStock(self.context).stock()
-        reducible_quantity = IStock(self.context).reducible_quantity
+        obj = self.context
+
+        if self.context.use_subarticle:
+            articles = self.articles(salable=True, use_subarticle=False)
+            if articles:
+                obj = articles[0].getObject()
+
+        stock = IStock(obj).stock()
+        reducible_quantity = IStock(obj).reducible_quantity
 
         if stock > reducible_quantity:
             stock = reducible_quantity
 
-        uuid = IUUID(self.context)
+        uuid = IUUID(obj)
         article = IShoppingSite(self.context).get_cart_article(uuid)
         if article:
             stock -= article['quantity']

@@ -621,8 +621,9 @@ Go to order 2::
     <span class="vat-number">F&#305;1234567890</span>
     </span>
     <span class="location">
-    <span class="post">Billing P&#246;st C&#246;de</span>
+    <span class="street">Billing Street &#196;ddress</span>
     <span class="city">Billing &#8364;ity</span>
+    <span class="post">Billing P&#246;st C&#246;de</span>
     </span>
     <span class="phone">Billing Ph&#246;ne Number</span>
     <span class="email">first.last@email.bil</span>
@@ -636,8 +637,9 @@ Go to order 2::
     <span class="vat-number">SHIPPING1234567890</span>
     </span>
     <span class="location">
-    <span class="post">Shipping P&#246;st C&#246;de</span>
+    <span class="street">Shipping Street &#196;ddress</span>
     <span class="city">Shipping &#8364;ity</span>
+    <span class="post">Shipping P&#246;st C&#246;de</span>
     </span>
     <span class="phone">Shipping Ph&#246;ne Number</span>
     <span class="email">first.last@email.shi</span>

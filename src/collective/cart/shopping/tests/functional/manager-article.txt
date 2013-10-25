@@ -193,13 +193,13 @@ Edit Ärticle1 to use subarticle::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><select id="subarticle" name="subarticle"><option value="...">
+    <section id="add-to-cart"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
     &#196;rticle11
     24.80 &#8364;
     </option></select><section id="vat-rate">
     Including VAT: 24%
     </section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
+    <input min="1" required="required" type="number" value="1" max="100" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -218,13 +218,13 @@ Go to Ärticle1::
     >>> browser.open('/shop/article-container/article1')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><select id="subarticle" name="subarticle"><option value="...">
+    <section id="add-to-cart"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
     &#196;rticle11
     6.15 &#8364;
     </option></select><section id="vat-rate">
     Including VAT: 24%
     </section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
+    <input min="1" required="required" type="number" value="1" max="100" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -334,13 +334,13 @@ Go to Ärticle11::
     >>> browser.open('/shop/article-container/article1/article11')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><select id="subarticle" name="subarticle"><option value="...">
+    <section id="add-to-cart"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/article11/@@select-subarticle"><option value="...">
     &#196;rticle111
     36.90 &#8364;
     </option></select><section id="vat-rate">
     Including VAT: 24%
     </section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
+    <input min="1" required="required" type="number" value="1" max="50" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -349,12 +349,12 @@ Go to Ärticle1::
     >>> browser.open('/shop/article-container/article1')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle"><option value="...">
+    <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
     &#196;rticle111
     36.90 &#8364;
     </option></select><section id="vat-rate">
     Including VAT: 24%
-    </section><section id="quantity"><input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
+    </section><section id="quantity"><input min="1" required="required" type="number" value="1" max="50" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart"  type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -422,13 +422,13 @@ Go to Ärticle11::
     >>> browser.open('/shop/article-container/article1/article11')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><select id="subarticle" name="subarticle"><option value="...">
+    <section id="add-to-cart"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/article11/@@select-subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
     </option></select><section id="vat-rate">
     Including VAT: 24%
     </section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
+    <input min="1" required="required" type="number" value="1" max="50" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -437,12 +437,12 @@ Go to Ärticle1::
     >>> browser.open('/shop/article-container/article1')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle"><option value="...">
+    <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
     </option></select><section id="vat-rate">
     Including VAT: 24%
-    </section><section id="quantity"><input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
+    </section><section id="quantity"><input min="1" required="required" type="number" value="1" max="50" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -520,13 +520,13 @@ Got to Ärticle11::
     >>> browser.open('/shop/article-container/article1/article11')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><select id="subarticle" name="subarticle"><option value="...">
+    <section id="add-to-cart"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/article11/@@select-subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
     </option></select><section id="vat-rate">
     Including VAT: 24%
     </section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
+    <input min="1" required="required" type="number" value="1" max="50" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -535,12 +535,12 @@ Go to Ärticle1::
     >>> browser.open('/shop/article-container/article1')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle"><option value="...">
+    <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
     </option></select><section id="vat-rate">
     Including VAT: 24%
-    </section><section id="quantity"><input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
+    </section><section id="quantity"><input min="1" required="required" type="number" value="1" max="50" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -551,13 +551,13 @@ Make Ärticle11 salable::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><select id="subarticle" name="subarticle"><option value="...">
+    <section id="add-to-cart"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/article11/@@select-subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
     </option></select><section id="vat-rate">
     Including VAT: 24%
     </section><section id="quantity"><label>Quantity</label>
-    <input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
+    <input min="1" required="required" type="number" value="1" max="50" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -566,12 +566,12 @@ Go to Ärticle1::
     >>> browser.open('/shop/article-container/article1')
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle"><option value="...">
+    <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
     </option></select><section id="vat-rate">
     Including VAT: 24%
-    </section><section id="quantity"><input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
+    </section><section id="quantity"><input min="1" required="required" type="number" value="1" max="50" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
 
@@ -582,11 +582,11 @@ Make Ärticle1 salable::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> print browser.bycss('#add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle"><option value="...">
+    <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
     </option></select><section id="vat-rate">
     Including VAT: 24%
-    </section><section id="quantity"><input min="1" required="required" type="number" value="1" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
+    </section><section id="quantity"><input min="1" required="required" type="number" value="1" max="50" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>

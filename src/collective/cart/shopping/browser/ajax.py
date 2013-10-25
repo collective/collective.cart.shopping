@@ -1,7 +1,6 @@
 from Products.Five.browser import BrowserView
 from collective.cart.shopping.interfaces import IArticleAdapter
 from zExceptions import Forbidden
-from zope.interface import implements
 
 import json
 
