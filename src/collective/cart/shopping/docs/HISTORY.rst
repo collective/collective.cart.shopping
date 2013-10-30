@@ -14,7 +14,7 @@ Changelog
 - Removed dependency from five.grok. [taito]
 - Updated translation. [taito]
 - Moved test package to extras_require. [taito]
-- Added SCRF autenticator. [taito]
+- Added SCRF authenticator. [taito]
 - Removed subscriber: update_path_for_intId which was temporary. [taito]
 
 0.5 (2013-03-26)
