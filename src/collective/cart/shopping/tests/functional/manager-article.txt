@@ -51,9 +51,9 @@ Add Article1::
     --- 1 ---
     <div class="documentDescription">Description of &#196;rticle1</div>
 
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><p class="sold-out">
+    <section class="add-to-cart"><p class="sold-out">
     Sold Out
     </p>
     </section>
@@ -75,9 +75,9 @@ Add Stock to Ärticle1::
 Go to Ärticle1::
 
     >>> browser.open('/shop/article-container/article1')
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">24.80 &#8364;</section><section id="vat-rate">
+    <section class="add-to-cart"><section id="money"><section id="price" class="gross">24.80 &#8364;</section><section id="vat-rate">
     Including VAT: 24%
     </section></section><section id="quantity"><label>Quantity</label>
     <input min="1" required="required" type="number" value="1" max="100" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
@@ -95,9 +95,9 @@ Edit Ärtilce1 and enable discount::
     >>> browser.getControl(name="form.widgets.IDiscount.discount_end-month").value = [str(today.month)]
     >>> browser.getControl(name="form.widgets.IDiscount.discount_end-year").value = str(today.year)
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
+    <section class="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
     Including VAT: 24%
     </section></section><section id="discount"><p id="discount-message">
     (Discount valid till ...)
@@ -117,9 +117,9 @@ Edit Ärticle1 to use subarticle::
     >>> browser.open('/shop/article-container/article1/edit')
     >>> browser.getControl(name="form.widgets.use_subarticle:list").value = ['on']
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><p class="sold-out">
+    <section class="add-to-cart"><p class="sold-out">
     Sold Out
     </p>
     </section>
@@ -133,9 +133,9 @@ Add Ärticle11 under Ärticle1::
     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '24.80'
     >>> browser.getControl(name="form.widgets.ISize.weight").value = '200.0'
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><p class="sold-out">
+    <section class="add-to-cart"><p class="sold-out">
     Sold Out
     </p>
     </section>
@@ -143,9 +143,9 @@ Add Ärticle11 under Ärticle1::
 Go to Ärticle1::
 
     >>> browser.open('/shop/article-container/article1')
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><p class="sold-out">
+    <section class="add-to-cart"><p class="sold-out">
     Sold Out
     </p>
     </section>
@@ -155,9 +155,9 @@ Edit Ärticle1 not to use subarticle::
     >>> browser.open('/shop/article-container/article1/edit')
     >>> browser.getControl(name="form.widgets.use_subarticle:list").value = []
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><p class="sold-out">
+    <section class="add-to-cart article11"><p class="sold-out">
     Sold Out
     </p>
     </section>
@@ -174,9 +174,9 @@ Add Stöck11 to Ärticle11::
 Go to Ärticle1::
 
     >>> browser.open('/shop/article-container/article1')
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><input id="quantity" min="1" required="required" value="1" type="number" max="100" size="3" name="..." maxlength="3">
+    <section class="add-to-cart article11"><input id="quantity" min="1" required="required" value="1" type="number" max="100" size="3" name="..." maxlength="3">
     &#160;&#215;&#160;
     <span class="gross">24.80 &#8364;</span>
     <section id="vat-rate">
@@ -191,9 +191,9 @@ Edit Ärticle1 to use subarticle::
     >>> browser.open('/shop/article-container/article1/edit')
     >>> browser.getControl(name="form.widgets.use_subarticle:list").value = ['on']
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
+    <section class="add-to-cart"><select class="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
     &#196;rticle11
     24.80 &#8364;
     </option></select><section id="vat-rate">
@@ -216,9 +216,9 @@ Go to Ärticle11 and enable discount::
 Go to Ärticle1::
 
     >>> browser.open('/shop/article-container/article1')
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
+    <section class="add-to-cart"><select class="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
     &#196;rticle11
     6.15 &#8364;
     </option></select><section id="vat-rate">
@@ -233,9 +233,9 @@ Edit Ärticle1 not to use subarticle::
     >>> browser.open('/shop/article-container/article1/edit')
     >>> browser.getControl(name="form.widgets.use_subarticle:list").value = []
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><input id="quantity" min="1" required="required" value="1" type="number" max="100" size="3" name="..." maxlength="3">
+    <section class="add-to-cart article11"><input id="quantity" min="1" required="required" value="1" type="number" max="100" size="3" name="..." maxlength="3">
     &#160;&#215;&#160;
     <span class="gross">6.15 &#8364;</span>
     <section id="vat-rate">
@@ -260,9 +260,9 @@ Add Ärticle111 to Ärticle11::
     >>> browser.getControl(name="form.widgets.IDiscount.price").value = '36.90'
     >>> browser.getControl(name="form.widgets.ISize.weight").value = '100.0'
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><p class="sold-out">
+    <section class="add-to-cart"><p class="sold-out">
     Sold Out
     </p>
     </section>
@@ -270,9 +270,9 @@ Add Ärticle111 to Ärticle11::
 Go to Ärticle11::
 
     >>> browser.open('/shop/article-container/article1/article11')
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article111"><p class="sold-out">
+    <section class="add-to-cart article111"><p class="sold-out">
     Sold Out
     </p>
     </section>
@@ -280,9 +280,9 @@ Go to Ärticle11::
 Go to Ärticle1::
 
     >>> browser.open('/shop/article-container/article1')
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><input id="quantity" min="1" required="required" value="1" type="number" max="100" size="3" name="..." maxlength="3">
+    <section class="add-to-cart article11"><input id="quantity" min="1" required="required" value="1" type="number" max="100" size="3" name="..." maxlength="3">
     &#160;&#215;&#160;
     <span class="gross">6.15 &#8364;</span>
     <section id="vat-rate">
@@ -303,9 +303,9 @@ Edit Ärticle11 to use subarticle::
     >>> browser.open('/shop/article-container/article1/article11/edit')
     >>> browser.getControl(name="form.widgets.use_subarticle:list").value = ['on']
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><p class="sold-out">
+    <section class="add-to-cart"><p class="sold-out">
     Sold Out
     </p>
     </section>
@@ -313,9 +313,9 @@ Edit Ärticle11 to use subarticle::
 Go to Ärticle1::
 
     >>> browser.open('/shop/article-container/article1')
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><p class="sold-out">
+    <section class="add-to-cart article11"><p class="sold-out">
     Sold Out
     </p>
     </section>
@@ -332,9 +332,9 @@ Add Stock to Ärticle111::
 Go to Ärticle11::
 
     >>> browser.open('/shop/article-container/article1/article11')
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/article11/@@select-subarticle"><option value="...">
+    <section class="add-to-cart"><select class="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/article11/@@select-subarticle"><option value="...">
     &#196;rticle111
     36.90 &#8364;
     </option></select><section id="vat-rate">
@@ -347,9 +347,9 @@ Go to Ärticle11::
 Go to Ärticle1::
 
     >>> browser.open('/shop/article-container/article1')
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
+    <section class="add-to-cart article11"><select class="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
     &#196;rticle111
     36.90 &#8364;
     </option></select><section id="vat-rate">
@@ -367,9 +367,9 @@ Edit Ärticle11 not to use subarticle::
 Go to Ärticle1::
 
     >>> browser.open('/shop/article-container/article1')
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><input id="quantity" min="1" required="required" value="1" type="number" max="100" size="3" name="..." maxlength="3">
+    <section class="add-to-cart article11"><input id="quantity" min="1" required="required" value="1" type="number" max="100" size="3" name="..." maxlength="3">
     &#160;&#215;&#160;
     <span class="gross">6.15 &#8364;</span>
     <section id="vat-rate">
@@ -400,9 +400,9 @@ Go to Ärticle111 and enable discount::
     >>> browser.getControl(name="form.widgets.IDiscount.discount_end-month").value = [str(today.month)]
     >>> browser.getControl(name="form.widgets.IDiscount.discount_end-year").value = str(today.year)
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">5.00 &#8364;</section><section id="vat-rate">
+    <section class="add-to-cart"><section id="money"><section id="price" class="gross">5.00 &#8364;</section><section id="vat-rate">
     Including VAT: 24%
     </section></section><section id="discount"><p id="discount-message">
     (Discount valid till ...)
@@ -420,9 +420,9 @@ Go to Ärticle111 and enable discount::
 Go to Ärticle11::
 
     >>> browser.open('/shop/article-container/article1/article11')
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/article11/@@select-subarticle"><option value="...">
+    <section class="add-to-cart"><select class="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/article11/@@select-subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
     </option></select><section id="vat-rate">
@@ -435,9 +435,9 @@ Go to Ärticle11::
 Go to Ärticle1::
 
     >>> browser.open('/shop/article-container/article1')
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
+    <section class="add-to-cart article11"><select class="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
     </option></select><section id="vat-rate">
@@ -452,14 +452,14 @@ Go to Ärticle111 and make not salable::
     >>> browser.open('/shop/article-container/article1/article11/article111/edit')
     >>> browser.getControl(name="form.widgets.ISalable.salable:list").value = False
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
 
 Go to Ärticle11::
 
     >>> browser.open('/shop/article-container/article1/article11')
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><p class="sold-out">
+    <section class="add-to-cart"><p class="sold-out">
     Sold Out
     </p>
     </section>
@@ -469,14 +469,14 @@ Make Ärticle11 not salable::
     >>> browser.open('/shop/article-container/article1/article11/article11/edit')
     >>> browser.getControl(name="form.widgets.ISalable.salable:list").value = False
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
 
 Go to Ärticle1::
 
     >>> browser.open('/shop/article-container/article1')
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><p class="sold-out">
+    <section class="add-to-cart article11"><p class="sold-out">
     Sold Out
     </p>
     </section>
@@ -486,9 +486,9 @@ Make Ärticle1 not salable::
     >>> browser.open('/shop/article-container/article1/edit')
     >>> browser.getControl(name="form.widgets.ISalable.salable:list").value = False
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><p class="sold-out">
+    <section class="add-to-cart article11"><p class="sold-out">
     Sold Out
     </p>
     </section>
@@ -498,9 +498,9 @@ Go to Ärticle111 and make salable::
     >>> browser.open('/shop/article-container/article1/article11/article111/edit')
     >>> browser.getControl(name="form.widgets.ISalable.salable:list").value = True
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">5.00 &#8364;</section><section id="vat-rate">
+    <section class="add-to-cart"><section id="money"><section id="price" class="gross">5.00 &#8364;</section><section id="vat-rate">
     Including VAT: 24%
     </section></section><section id="discount"><p id="discount-message">
     (Discount valid till ...)
@@ -518,9 +518,9 @@ Go to Ärticle111 and make salable::
 Got to Ärticle11::
 
     >>> browser.open('/shop/article-container/article1/article11')
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/article11/@@select-subarticle"><option value="...">
+    <section class="add-to-cart"><select class="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/article11/@@select-subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
     </option></select><section id="vat-rate">
@@ -533,9 +533,9 @@ Got to Ärticle11::
 Go to Ärticle1::
 
     >>> browser.open('/shop/article-container/article1')
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
+    <section class="add-to-cart article11"><select class="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
     </option></select><section id="vat-rate">
@@ -549,9 +549,9 @@ Make Ärticle11 salable::
     >>> browser.open('/shop/article-container/article1/article11/edit')
     >>> browser.getControl(name="form.widgets.ISalable.salable:list").value = True
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/article11/@@select-subarticle"><option value="...">
+    <section class="add-to-cart"><select class="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/article11/@@select-subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
     </option></select><section id="vat-rate">
@@ -564,9 +564,9 @@ Make Ärticle11 salable::
 Go to Ärticle1::
 
     >>> browser.open('/shop/article-container/article1')
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
+    <section class="add-to-cart article11"><select class="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
     </option></select><section id="vat-rate">
@@ -580,9 +580,9 @@ Make Ärticle1 salable::
     >>> browser.open('/shop/article-container/article1/edit')
     >>> browser.getControl(name="form.widgets.ISalable.salable:list").value = True
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart" class="article11"><select id="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
+    <section class="add-to-cart article11"><select class="subarticle" name="subarticle" data-ajax-target="http://nohost/plone/shop/article-container/article1/@@select-subarticle"><option value="...">
     &#196;rticle111
     5.00 &#8364;
     </option></select><section id="vat-rate">

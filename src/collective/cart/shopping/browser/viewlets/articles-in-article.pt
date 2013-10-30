@@ -26,7 +26,7 @@
         </td>
 
         <td class="price-and-quantity" tal:define="soldout item/soldout; subarticles item/subarticles;">
-          <section id="add-to-cart" tal:attributes="class item/id">
+          <section tal:attributes="class item/klass">
             <tal:block
               tal:condition="python: not soldout and not subarticles">
               <input
@@ -71,7 +71,10 @@
             </tal:block>
             <tal:block
               tal:condition="python: not soldout and subarticles">
-              <select id="subarticle" name="subarticle" tal:attributes="data-ajax-target string:${context/absolute_url}/@@select-subarticle">
+              <select
+                class="subarticle"
+                name="subarticle"
+                tal:attributes="data-ajax-target string:${context/absolute_url}/@@select-subarticle">
                 <option
                   tal:attributes="value sub/uuid"
                   tal:repeat="sub item/subarticles">

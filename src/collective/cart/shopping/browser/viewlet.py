@@ -278,6 +278,7 @@ class ArticlesInArticleViewlet(AddToCartViewlet):
                     'gross': shopping_site.format_money(adapter.gross()),
                     'id': item.getId(),
                     'image_url': adapter.image_url(),
+                    'klass': 'add-to-cart {}'.format(item.getId()),
                     'money': shopping_site.format_money(item.money),
                     'numbers': numbers,
                     'quantity_max': quantity_max,

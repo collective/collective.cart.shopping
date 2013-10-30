@@ -71,9 +71,9 @@ Go to Ärticle1::
 
     >>> browser.open(article1_url)
 
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
+    <section class="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
     Including VAT: 24%
     </section></section><section id="quantity"><label>Quantity</label>
     <input min="1" required="required" type="number" value="1" max="100" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
@@ -98,9 +98,9 @@ Go to Ärticle1 and add to cart::
     >>> browser.open(article1_url)
     >>> browser.getControl(name="form.buttons.AddToCart").click()
 
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
+    <section class="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
     Including VAT: 24%
     </section></section><section id="quantity"><label>Quantity</label>
     <input min="1" required="required" type="number" value="1" max="99" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
@@ -152,9 +152,9 @@ Go to Ärticle1 and add more to cart::
     >>> browser.open(article1_url)
     >>> browser.getControl(name=uuid1).value = '9'
     >>> browser.getControl(name="form.buttons.AddToCart").click()
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
+    <section class="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
     Including VAT: 24%
     </section></section><section id="quantity"><label>Quantity</label>
     <input min="1" required="required" type="number" value="1" max="90" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
@@ -214,9 +214,9 @@ Add another stock to Ärticle2
 Go to Ärtile2:
 
     >>> browser.open(article2_url)
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">24.60 &#8364;</section><section id="vat-rate">
+    <section class="add-to-cart"><section id="money"><section id="price" class="gross">24.60 &#8364;</section><section id="vat-rate">
     Including VAT: 24%
     </section></section><section id="quantity"><label>Quantity</label>
     <input min="1" required="required" type="number" value="1" max="30" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
@@ -229,9 +229,9 @@ Add to Cart::
 
     >>> browser.getControl(name=uuid2).value = '5'
     >>> browser.getControl(name="form.buttons.AddToCart").click()
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">24.60 &#8364;</section><section id="vat-rate">
+    <section class="add-to-cart"><section id="money"><section id="price" class="gross">24.60 &#8364;</section><section id="vat-rate">
     Including VAT: 24%
     </section></section><section id="quantity"><label>Quantity</label>
     <input min="1" required="required" type="number" value="1" max="25" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
@@ -351,9 +351,9 @@ Go to Ärticle1::
 
     >>> browser.open(article1_url)
 
-    >>> print browser.bycss('#add-to-cart')
+    >>> print browser.bycss('.add-to-cart')
     --- 1 ---
-    <section id="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
+    <section class="add-to-cart"><section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
     Including VAT: 24%
     </section></section><section id="quantity"><label>Quantity</label>
     <input min="1" required="required" type="number" value="1" max="100" size="3" name="..." maxlength="3"><span id="pcs">pcs</span>
