@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from collective.cart.shopping.browser.interfaces import IArticleListingView
-from collective.cart.shopping.browser.template import ArticleListingView
+from collective.cart.shopping.browser.view import ArticleListingView
 from collective.cart.shopping.tests.base import IntegrationTestCase
 
 import mock
@@ -24,7 +24,7 @@ class ArticleListingViewTestCase(IntegrationTestCase):
         instance = self.create_view(ArticleListingView)
         self.assertEqual(instance.table_headers(), (u'SKU', u'Name', u'Price', u'Stock', u'Subtotal'))
 
-    @mock.patch('collective.cart.shopping.browser.template.IStockBehavior')
+    @mock.patch('collective.cart.shopping.browser.view.IStockBehavior')
     def test_articles(self, IStockBehavior):
         instance = self.create_view(ArticleListingView)
         self.assertEqual(len(instance.articles()), 0)

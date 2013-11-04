@@ -92,7 +92,7 @@ class ArticleContainerView(BrowserView):
     """Default view for content type: collective.cart.core.ArticleContainer"""
     implements(IArticleContainerView)
 
-    __call__ = ViewPageTemplateFile('templates/article-container.pt')
+    __call__ = ViewPageTemplateFile('views/article-container.pt')
 
 
 class CheckOutView(BaseFormView, Message):
@@ -175,7 +175,7 @@ class OrderConfirmationView(CheckOutView):
 class ThanksView(CheckOutView):
     """View for thanks"""
     implements(IThanksView)
-    template = ViewPageTemplateFile('templates/thanks.pt')
+    template = ViewPageTemplateFile('views/thanks.pt')
 
     def __call__(self):
 
@@ -279,13 +279,13 @@ class ArticleListingView(BaseFormView):
 class CustomerInfoView(BrowserView):
     """View for Customer Info."""
     implements(ICustomerInfoView)
-    __call__ = ViewPageTemplateFile('templates/customer-info.pt')
+    __call__ = ViewPageTemplateFile('views/customer-info.pt')
 
 
 class BaseOrderMailTemplateView(BrowserView, Message):
     """Base view for order template used for sending e-mail"""
     implements(IBaseOrderMailTemplateView)
-    template = ViewPageTemplateFile('templates/order-mail-template.pt')
+    template = ViewPageTemplateFile('views/order-mail-template.pt')
 
     is_for_customer = True
 

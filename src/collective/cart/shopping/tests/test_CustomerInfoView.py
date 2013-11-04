@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from collective.cart.shopping.browser.interfaces import ICustomerInfoView
-from collective.cart.shopping.browser.template import CustomerInfoView
+from collective.cart.shopping.browser.view import CustomerInfoView
 from collective.cart.shopping.tests.base import IntegrationTestCase
 
 

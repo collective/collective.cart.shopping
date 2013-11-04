@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from collective.cart.shopping.browser.interfaces import IOrderConfirmationView
-from collective.cart.shopping.browser.template import OrderConfirmationView
+from collective.cart.shopping.browser.view import OrderConfirmationView
 from collective.cart.shopping.tests.base import IntegrationTestCase
 
 import mock
@@ -10,7 +10,7 @@ class OrderConfirmationViewTestCase(IntegrationTestCase):
     """TestCase for OrderConfirmationView"""
 
     def test_subclass(self):
-        from collective.cart.shopping.browser.template import CheckOutView
+        from collective.cart.shopping.browser.view import CheckOutView
         self.assertTrue(issubclass(OrderConfirmationView, CheckOutView))
         from collective.cart.shopping.browser.interfaces import ICheckOutView
         self.assertTrue(issubclass(IOrderConfirmationView, ICheckOutView))
@@ -20,8 +20,8 @@ class OrderConfirmationViewTestCase(IntegrationTestCase):
         instance = self.create_view(OrderConfirmationView)
         self.assertTrue(verifyObject(IOrderConfirmationView, instance))
 
-    @mock.patch('collective.cart.shopping.browser.template.CheckOutView.__call__')
-    @mock.patch('collective.cart.shopping.browser.template.IStatusMessage')
+    @mock.patch('collective.cart.shopping.browser.view.CheckOutView.__call__')
+    @mock.patch('collective.cart.shopping.browser.view.IStatusMessage')
     def test___call__(self, IStatusMessage, __call__):
         instance = self.create_view(OrderConfirmationView)
         instance.context.absolute_url = mock.Mock(return_value='URL')

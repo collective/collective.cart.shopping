@@ -21,7 +21,7 @@ class CartArticleListingViewletTestCase(IntegrationTestCase):
     @mock.patch('collective.cart.shopping.browser.viewlet.IStock')
     @mock.patch('collective.cart.shopping.browser.viewlet.getMultiAdapter')
     def test_update(self, getMultiAdapter, IStock):
-        from collective.cart.shopping.browser.template import CartView
+        from collective.cart.shopping.browser.view import CartView
         from zExceptions import Forbidden
         view = self.create_view(CartView)
         instance = self.create_viewlet(CartArticleListingViewlet, view=view)

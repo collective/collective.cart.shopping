@@ -23,7 +23,7 @@ class BillingAndShippingCheckOutButtonsViewletTestCase(IntegrationTestCase):
     @mock.patch('collective.cart.shopping.browser.viewlet.IStatusMessage')
     @mock.patch('collective.cart.shopping.browser.viewlet.BaseCheckOutButtonsViewlet.update', mock.Mock(return_value='URL'))
     def test_update(self, IStatusMessage):
-        from collective.cart.shopping.browser.template import BillingAndShippingView
+        from collective.cart.shopping.browser.view import BillingAndShippingView
         view = self.create_view(BillingAndShippingView)
         instance = self.create_viewlet(BillingAndShippingCheckOutButtonsViewlet, view=view)
         instance.context.restrictedTraverse = mock.Mock()

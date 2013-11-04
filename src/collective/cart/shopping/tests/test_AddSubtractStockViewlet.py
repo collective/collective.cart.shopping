@@ -23,7 +23,7 @@ class AddSubtractStockViewletTestCase(IntegrationTestCase):
 
     def test_stocks(self):
         context = self.create_content('collective.cart.core.Article')
-        from collective.cart.shopping.browser.template import StockView
+        from collective.cart.shopping.browser.view import StockView
         view = self.create_view(StockView, context)
         instance = self.create_viewlet(AddSubtractStockViewlet, context, view)
         self.assertEqual(instance.stocks(), [])

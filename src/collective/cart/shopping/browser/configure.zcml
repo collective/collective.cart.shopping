@@ -30,7 +30,7 @@
   <!-- View -->
 
   <browser:page
-    class=".template.ArticleView"
+    class=".view.ArticleView"
     for="collective.cart.shopping.interfaces.IArticle"
     layer=".interfaces.ICollectiveCartShoppingLayer"
     name="view"
@@ -38,7 +38,7 @@
     />
 
   <browser:page
-    class=".template.StockView"
+    class=".view.StockView"
     for="collective.cart.shopping.interfaces.IArticle"
     layer=".interfaces.ICollectiveCartShoppingLayer"
     name="stock"
@@ -46,7 +46,7 @@
     />
 
   <browser:page
-    class=".template.ArticleContainerView"
+    class=".view.ArticleContainerView"
     for="collective.cart.shopping.interfaces.IArticleContainer"
     layer=".interfaces.ICollectiveCartShoppingLayer"
     name="view"
@@ -54,7 +54,7 @@
     />
 
   <browser:page
-    class=".template.CartView"
+    class=".view.CartView"
     for="collective.cart.core.interfaces.IShoppingSiteRoot"
     layer=".interfaces.ICollectiveCartShoppingLayer"
     name="cart"
@@ -62,7 +62,7 @@
     />
 
   <browser:page
-    class=".template.BillingAndShippingView"
+    class=".view.BillingAndShippingView"
     for="collective.cart.core.interfaces.IShoppingSiteRoot"
     layer=".interfaces.ICollectiveCartShoppingLayer"
     name="billing-and-shipping"
@@ -70,7 +70,7 @@
     />
 
   <browser:page
-    class=".template.OrderConfirmationView"
+    class=".view.OrderConfirmationView"
     for="collective.cart.core.interfaces.IShoppingSiteRoot"
     layer=".interfaces.ICollectiveCartShoppingLayer"
     name="order-confirmation"
@@ -78,7 +78,7 @@
     />
 
   <browser:page
-    class=".template.ThanksView"
+    class=".view.ThanksView"
     for="collective.cart.core.interfaces.IShoppingSiteRoot"
     layer=".interfaces.ICollectiveCartShoppingLayer"
     name="thanks"
@@ -86,7 +86,7 @@
     />
 
   <browser:page
-    class=".template.ArticleListingView"
+    class=".view.ArticleListingView"
     for="collective.cart.core.interfaces.IShoppingSiteRoot"
     layer=".interfaces.ICollectiveCartShoppingLayer"
     name="article-listing"
@@ -94,7 +94,7 @@
     />
 
   <browser:page
-    class=".template.CustomerInfoView"
+    class=".view.CustomerInfoView"
     for="collective.cart.shopping.interfaces.ICustomerInfo"
     layer=".interfaces.ICollectiveCartShoppingLayer"
     name="view"
@@ -102,7 +102,7 @@
     />
 
   <browser:page
-    class=".template.ToCustomerOrderMailTemplateView"
+    class=".view.ToCustomerOrderMailTemplateView"
     for="collective.cart.shopping.interfaces.IOrder"
     layer=".interfaces.ICollectiveCartShoppingLayer"
     name="to-customer-order-mail-template"
@@ -110,7 +110,7 @@
     />
 
   <browser:page
-    class=".template.ToShopOrderMailTemplateView"
+    class=".view.ToShopOrderMailTemplateView"
     for="collective.cart.shopping.interfaces.IOrder"
     layer=".interfaces.ICollectiveCartShoppingLayer"
     name="to-shop-order-mail-template"

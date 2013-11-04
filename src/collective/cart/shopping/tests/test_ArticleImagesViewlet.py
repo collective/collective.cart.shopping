@@ -20,7 +20,7 @@ class ArticleImagesViewletTestCase(IntegrationTestCase):
         self.assertTrue(verifyObject(IArticleImagesViewlet, instance))
 
     def test_images(self):
-        from collective.cart.shopping.browser.template import ArticleView
+        from collective.cart.shopping.browser.view import ArticleView
         article = self.create_content('collective.cart.core.Article')
         self.create_atcontent('Image', article, id='image1', title='Image1', description="Description of Image1")
         self.create_atcontent('Image', article, id='image3', title='Image3', description="Description of Image3")

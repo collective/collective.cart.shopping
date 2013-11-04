@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from collective.cart.shopping.browser.interfaces import IStockView
-from collective.cart.shopping.browser.template import StockView
+from collective.cart.shopping.browser.view import StockView
 from collective.cart.shopping.tests.base import IntegrationTestCase
 
 import mock
@@ -10,7 +10,7 @@ class StockViewTestCase(IntegrationTestCase):
     """TestCase for StockView"""
 
     def test_subclass(self):
-        from collective.cart.shopping.browser.template import BaseArticleView
+        from collective.cart.shopping.browser.view import BaseArticleView
         self.assertTrue(issubclass(StockView, BaseArticleView))
         from collective.cart.shopping.browser.interfaces import IBaseArticleView
         self.assertTrue(issubclass(IStockView, IBaseArticleView))
@@ -21,7 +21,7 @@ class StockViewTestCase(IntegrationTestCase):
         instance = self.create_view(StockView, context)
         self.assertTrue(verifyObject(IStockView, instance))
 
-    @mock.patch('collective.cart.shopping.browser.template.IStockBehavior')
+    @mock.patch('collective.cart.shopping.browser.view.IStockBehavior')
     def test_stock(self, IStockBehavior):
         IStockBehavior().stock.return_value = 100
         context = mock.Mock()

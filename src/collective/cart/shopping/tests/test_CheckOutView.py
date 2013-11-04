@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from collective.cart.shopping.browser.interfaces import ICheckOutView
-from collective.cart.shopping.browser.template import CheckOutView
+from collective.cart.shopping.browser.view import CheckOutView
 from collective.cart.shopping.tests.base import IntegrationTestCase
 
 import mock
@@ -10,7 +10,7 @@ class CheckOutViewTestCase(IntegrationTestCase):
     """TestCase for CheckOutView"""
 
     def test_subclass(self):
-        from collective.cart.core.browser.template import CheckOutView as BaseCheckOutView
+        from collective.cart.core.browser.view import CheckOutView as BaseCheckOutView
         from collective.cart.shopping.browser.base import Message
         self.assertTrue(issubclass(CheckOutView, (BaseCheckOutView, Message)))
         from collective.cart.core.browser.interfaces import ICheckOutView as IBaseCheckOutView

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from collective.cart.shopping.browser.interfaces import IBaseArticleView
-from collective.cart.shopping.browser.template import BaseArticleView
+from collective.cart.shopping.browser.view import BaseArticleView
 from collective.cart.shopping.tests.base import IntegrationTestCase
 
 
@@ -8,7 +8,7 @@ class BaseArticleViewTestCase(IntegrationTestCase):
     """TestCase for BaseArticleView"""
 
     def test_subclass(self):
-        from collective.cart.core.browser.template import BaseFormView
+        from collective.cart.core.browser.view import BaseFormView
         self.assertTrue(issubclass(BaseArticleView, BaseFormView))
         from collective.cart.core.browser.interfaces import IBaseFormView
         self.assertTrue(issubclass(IBaseArticleView, IBaseFormView))

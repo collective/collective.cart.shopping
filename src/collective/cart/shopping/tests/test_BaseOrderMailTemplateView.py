@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from collective.cart.shopping.browser.interfaces import IBaseOrderMailTemplateView
-from collective.cart.shopping.browser.template import BaseOrderMailTemplateView
+from collective.cart.shopping.browser.view import BaseOrderMailTemplateView
 from collective.cart.shopping.tests.base import IntegrationTestCase
 
 
