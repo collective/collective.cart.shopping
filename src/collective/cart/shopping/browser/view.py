@@ -118,6 +118,7 @@ class CheckOutView(BaseFormView, Message):
             if cart_url != current_base_url:
                 return self.request.response.redirect(cart_url)
 
+    @memoize_contextless
     def shopping_site(self):
         """Returns adapter: ShoppingSite
 

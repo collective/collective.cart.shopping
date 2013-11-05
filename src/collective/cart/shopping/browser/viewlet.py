@@ -519,19 +519,26 @@ class BaseCheckOutButtonsViewlet(Viewlet):
     """Base viewlet class for check out buttons"""
     implements(IBaseCheckOutButtonsViewlet)
     index = ViewPageTemplateFile('viewlets/check-out-buttons.pt')
+    views = ['cart', 'billing-and-shipping', 'order-confirmation', 'thanks']
+
+    def _next_url(self):
+        index = self.views.index(self.view.__name__) + 1
+        url = '{}/@@{}'.format(self.context.absolute_url(), self.views[index])
+        return url
 
     def update(self):
         form = self.request.form
-        views = ['cart', 'billing-and-shipping', 'order-confirmation', 'thanks']
+        # views = ['cart', 'billing-and-shipping', 'order-confirmation', 'thanks']
         if form.get('form.buttons.CheckOut') is not None:
 
             authenticator = self.context.restrictedTraverse('@@authenticator')
             if not authenticator.verify():
                 raise Forbidden()
 
-            index = views.index(self.view.__name__) + 1
-            url = '{}/@@{}'.format(self.context.absolute_url(), views[index])
-            return url
+            # index = views.index(self.view.__name__) + 1
+            # url = '{}/@@{}'.format(self.context.absolute_url(), views[index])
+            # return url
+            return self._next_url()
 
         if form.get('form.buttons.Back') is not None:
 
@@ -539,8 +546,8 @@ class BaseCheckOutButtonsViewlet(Viewlet):
             if not authenticator.verify():
                 raise Forbidden()
 
-            index = views.index(self.view.__name__) - 1
-            url = '{}/@@{}'.format(self.context.absolute_url(), views[index])
+            index = self.views.index(self.view.__name__) - 1
+            url = '{}/@@{}'.format(self.context.absolute_url(), self.views[index])
 
             return self.request.response.redirect(url)
 
