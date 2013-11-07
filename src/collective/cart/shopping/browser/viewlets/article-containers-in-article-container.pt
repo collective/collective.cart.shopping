@@ -1,0 +1,33 @@
+<section
+  id="article-containers-in-article-container"
+  i18n:domain="collective.cart.shopping"
+  tal:condition="view/containers">
+  <article tal:repeat="item view/containers">
+    <a tal:attributes="
+      href item/getURL;
+      title item/Description"
+      tal:define="obj item/getObject">
+      <img
+        tal:attributes="
+          src string:${item/getURL}/@@images/image;
+          title item/Title"
+        tal:condition="python: obj.image is not None" />
+      <img
+        tal:attributes="
+          src string:${view/site_url}/++resource++slt.theme/images/fallback.png;
+          title item/Title"
+        tal:condition="python: obj.image is None" />
+    </a>
+    <div class="text">
+      <div class="text-wrapper">
+        <h1>
+          <a
+            tal:attributes="
+              href item/getURL;
+              title item/Description"
+            tal:content="item/Title" />
+        </h1>
+      </div>
+    </div>
+  </article>
+</section>

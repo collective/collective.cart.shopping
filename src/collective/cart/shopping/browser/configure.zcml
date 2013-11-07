@@ -168,6 +168,15 @@
   <!-- Viewlet -->
 
   <browser:viewlet
+    class=".viewlet.ArticleContainersInArticleContainerViewlet"
+    for="collective.cart.shopping.interfaces.IArticleContainer"
+    layer=".interfaces.ICollectiveCartShoppingLayer"
+    manager=".interfaces.IArticleContainerViewletManager"
+    name="collective.cart.shopping.viewlet.article-containers-in-article-container"
+    permission="zope2.View"
+    />
+
+  <browser:viewlet
     class=".viewlet.ArticlesInArticleContainerViewlet"
     for="collective.cart.shopping.interfaces.IArticleContainer"
     layer=".interfaces.ICollectiveCartShoppingLayer"

@@ -15,6 +15,8 @@ class ArticleContainer(Container):
     """Content type: collective.cart.shopping.ArticleContainer"""
     implements(IArticleContainer)
 
+    image = None
+
 
 class Article(BaseArticle):
     """Content type: collective.cart.core.Article"""

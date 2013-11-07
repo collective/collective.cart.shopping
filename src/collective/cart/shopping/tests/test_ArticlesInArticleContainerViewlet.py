@@ -38,6 +38,7 @@ class ArticlesInArticleContainerViewletTestCase(IntegrationTestCase):
         IArticleAdapter().gross.return_value = money
         self.assertEqual(instance.articles(), [{
             'class': 'normal',
+            'description': '',
             'discount-available': False,
             'gross': u'12.40 €',
             'money': u'12.40 €',
@@ -48,6 +49,7 @@ class ArticlesInArticleContainerViewletTestCase(IntegrationTestCase):
         IArticleAdapter().discount_available.return_value = True
         self.assertEqual(instance.articles(), [{
             'class': 'discount',
+            'description': '',
             'discount-available': True,
             'gross': u'12.40 €',
             'money': u'12.40 €',

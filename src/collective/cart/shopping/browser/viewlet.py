@@ -20,6 +20,7 @@ from collective.cart.shopping.browser.interfaces import IAddToCartViewlet
 from collective.cart.shopping.browser.interfaces import IArticleImagesViewlet
 from collective.cart.shopping.browser.interfaces import IArticleListingViewlet
 from collective.cart.shopping.browser.interfaces import IArticlesInArticleContainerViewlet
+from collective.cart.shopping.browser.interfaces import IArticleContainersInArticleContainerViewlet
 from collective.cart.shopping.browser.interfaces import IArticlesInArticleViewlet
 from collective.cart.shopping.browser.interfaces import IBaseAddToCartViewlet
 from collective.cart.shopping.browser.interfaces import IBaseArticleViewlet
@@ -47,6 +48,7 @@ from collective.cart.shopping.event import BillingAddressConfirmedEvent
 from collective.cart.shopping.event import ShippingAddressConfirmedEvent
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
+from collective.cart.shopping.interfaces import IArticleContainer
 from collective.cart.shopping.interfaces import ICartArticleMultiAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.shopping.interfaces import IShoppingSiteMultiAdapter
@@ -58,6 +60,22 @@ from zExceptions import Forbidden
 from zope.component import getMultiAdapter
 from zope.event import notify
 from zope.interface import implements
+
+
+class ArticleContainersInArticleContainerViewlet(Viewlet):
+    """Viewlet for content type: collective.cart.shopping.ArticleContainer
+
+    Shows listing of article containers within context
+    """
+    implements(IArticleContainersInArticleContainerViewlet)
+    index = ViewPageTemplateFile('viewlets/article-containers-in-article-container.pt')
+
+    def containers(self):
+        """Return listing of article containers
+
+        rtype: instance of plone.app.contentlisting.contentlisting.ContentListing
+        """
+        return IShoppingSite(self.context).get_content_listing(IArticleContainer, depth=1, sort_on='getObjPositionInParent')
 
 
 class ArticlesInArticleContainerViewlet(Viewlet):
@@ -88,6 +106,7 @@ class ArticlesInArticleContainerViewlet(Viewlet):
                 'money': shopping_site.format_money(item.money),
                 'class': style_class,
                 'title': item.Title(),
+                'description': item.Description(),
                 'url': item.getURL(),
             })
         return res

@@ -2,6 +2,9 @@
 <object>
 
   <order manager="collective.base.viewlet-manager.base-form" skinname="*">
+    <!-- @@view for collective.cart.core.ArticleContainer -->
+    <viewlet name="collective.cart.shopping.viewlet.article-containers-in-article-container" />
+    <viewlet name="collective.cart.shopping.viewlet.articles-in-article-container" />
     <!-- @@view for collective.cart.core.Article -->
     <viewlet name="collective.cart.core.viewlet.add-to-cart" />
     <viewlet name="collective.cart.shopping.viewlet.body-text" />

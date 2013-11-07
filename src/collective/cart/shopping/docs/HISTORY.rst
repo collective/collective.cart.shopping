@@ -1,6 +1,12 @@
 Changelog
 ---------
 
+0.8 (2013-11-xx)
+================
+
+- Add field image to content type: collective.cart.shopping.ArticleContainer. [taito]
+- Add viewlet to article containers within it. [taito]
+
 0.7 (2013-11-06)
 ================
 

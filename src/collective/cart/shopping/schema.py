@@ -17,6 +17,10 @@ class ShopSchema(Schema):
 class ArticleContainerSchema(Schema):
     """Schema for content type: collective.cart.shopping.ArticleContainer"""
 
+    image = NamedBlobImage(
+        title=_(u'Image'),
+        required=False)
+
 
 class ArticleSchema(BaseArticleSchema):
     """Schema for content type: collective.cart.core.Article"""

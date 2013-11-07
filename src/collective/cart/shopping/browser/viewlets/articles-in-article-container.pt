@@ -10,19 +10,23 @@
     </a>
     <div tal:condition="python: item['class'] == 'discount'" class="discount" i18n:translate="">Discount</div>
     <div class="text">
-      <h1>
-        <a
-          tal:attributes="href item/url"
-          tal:content="item/title" />
-      </h1>
-      <p>
-        <a
-          tal:attributes="href item/url"
-          tal:content="item/gross" />
-        <span class="original-money"
-          tal:condition="item/discount-available"
-          tal:content="item/money" />
-      </p>
+      <div class="text-wrapper">
+        <h1>
+          <a
+            tal:attributes="
+              href item/url;
+              title item/description"
+            tal:content="item/title" />
+        </h1>
+        <p>
+          <a
+            tal:attributes="href item/url"
+            tal:content="item/gross" />
+          <span class="original-money"
+            tal:condition="item/discount-available"
+            tal:content="item/money" />
+        </p>
+      </div>
     </div>
   </article>
 </section>

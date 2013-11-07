@@ -136,8 +136,23 @@ class IToShopOrderMailTemplateView(IBaseOrderMailTemplateView):
 
 # Viewlet
 
+class IArticleContainersInArticleContainerViewlet(IViewlet):
+
+    def containers():
+        """Return listing of article containers
+
+        rtype: instance of plone.app.contentlisting.contentlisting.ContentListing
+        """
+
+
 class IArticlesInArticleContainerViewlet(IViewlet):
     """Viewlet interface for ArticlesInArticleContainerViewlet"""
+
+    def articles():
+        """Return listing of articles
+
+        :rtype: list
+        """
 
 
 class IBaseArticleViewlet(IViewlet):
