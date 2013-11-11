@@ -6,6 +6,7 @@ Changelog
 
 - Add field image to content type: collective.cart.shopping.ArticleContainer. [taito]
 - Add viewlet to article containers within it. [taito]
+- Cache articles and article containers to list on vielwets. [taito]
 
 0.7 (2013-11-06)
 ================

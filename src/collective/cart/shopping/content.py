@@ -15,6 +15,9 @@ class ArticleContainer(Container):
     """Content type: collective.cart.shopping.ArticleContainer"""
     implements(IArticleContainer)
 
+    _articles_p_mtime = None
+    _article_containers_p_mtime = None
+
     image = None
 
 

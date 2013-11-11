@@ -1,7 +1,7 @@
 <section
   id="article-containers-in-article-container"
   i18n:domain="collective.cart.shopping"
-  tal:condition="view/containers">
+  tal:condition="view/number_of_containers">
   <article tal:repeat="item view/containers">
     <a tal:attributes="
       href item/getURL;

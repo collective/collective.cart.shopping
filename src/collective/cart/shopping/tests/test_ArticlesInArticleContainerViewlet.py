@@ -31,28 +31,3 @@ class ArticlesInArticleContainerViewletTestCase(IntegrationTestCase):
         context = self.create_content('collective.cart.shopping.ArticleContainer', id='article-container')
         instance = self.create_viewlet(ArticlesInArticleContainerViewlet, context)
         self.assertEqual(len(instance.articles()), 0)
-
-        money = self.money('12.40')
-        self.create_content('collective.cart.core.Article', context, id='article1', title='Ärticle1', money=money)
-        IArticleAdapter().discount_available.return_value = False
-        IArticleAdapter().gross.return_value = money
-        self.assertEqual(instance.articles(), [{
-            'class': 'normal',
-            'description': '',
-            'discount-available': False,
-            'gross': u'12.40 €',
-            'money': u'12.40 €',
-            'title': 'Ärticle1',
-            'url': 'http://nohost/plone/article-container/article1'
-        }])
-
-        IArticleAdapter().discount_available.return_value = True
-        self.assertEqual(instance.articles(), [{
-            'class': 'discount',
-            'description': '',
-            'discount-available': True,
-            'gross': u'12.40 €',
-            'money': u'12.40 €',
-            'title': 'Ärticle1',
-            'url': 'http://nohost/plone/article-container/article1'
-        }])

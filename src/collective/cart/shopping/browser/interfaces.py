@@ -154,6 +154,12 @@ class IArticlesInArticleContainerViewlet(IViewlet):
         :rtype: list
         """
 
+    def number_of_articles():
+        """Return number of articles
+
+        :rtype: int
+        """
+
 
 class IBaseArticleViewlet(IViewlet):
     """Viewlet interface for BaseArticleViewlet"""

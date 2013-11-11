@@ -17,10 +17,10 @@ from collective.cart.shopping import _
 from collective.cart.shopping.browser.base import Message
 from collective.cart.shopping.browser.interfaces import IAddSubtractStockViewlet
 from collective.cart.shopping.browser.interfaces import IAddToCartViewlet
+from collective.cart.shopping.browser.interfaces import IArticleContainersInArticleContainerViewlet
 from collective.cart.shopping.browser.interfaces import IArticleImagesViewlet
 from collective.cart.shopping.browser.interfaces import IArticleListingViewlet
 from collective.cart.shopping.browser.interfaces import IArticlesInArticleContainerViewlet
-from collective.cart.shopping.browser.interfaces import IArticleContainersInArticleContainerViewlet
 from collective.cart.shopping.browser.interfaces import IArticlesInArticleViewlet
 from collective.cart.shopping.browser.interfaces import IBaseAddToCartViewlet
 from collective.cart.shopping.browser.interfaces import IBaseArticleViewlet
@@ -54,12 +54,17 @@ from collective.cart.shopping.interfaces import IShoppingSite
 from collective.cart.shopping.interfaces import IShoppingSiteMultiAdapter
 from collective.cart.stock.interfaces import IStock as IStockContent
 from plone.app.contentlisting.interfaces import IContentListing
+from plone.memoize import ram
 from plone.memoize.view import memoize_contextless
 from plone.uuid.interfaces import IUUID
 from zExceptions import Forbidden
 from zope.component import getMultiAdapter
 from zope.event import notify
 from zope.interface import implements
+
+
+def _article_containers_p_mtime_cachekey(method, self):
+    return getattr(self.context, '_article_containers_p_mtime', None)
 
 
 class ArticleContainersInArticleContainerViewlet(Viewlet):
@@ -70,46 +75,78 @@ class ArticleContainersInArticleContainerViewlet(Viewlet):
     implements(IArticleContainersInArticleContainerViewlet)
     index = ViewPageTemplateFile('viewlets/article-containers-in-article-container.pt')
 
+    def update(self):
+        super(ArticleContainersInArticleContainerViewlet, self).update()
+        current_article_containers_p_mtime = getattr(self.context, '_article_containers_p_mtime', None)
+        article_containers_p_mtime = [getattr(obj.image, '_p_mtime', None) for obj in self._objs()]
+        if current_article_containers_p_mtime != article_containers_p_mtime:
+            self.context._article_containers_p_mtime = article_containers_p_mtime
+
+    def _objs(self):
+        """Return list of article container objects
+
+        :rtype: list
+        """
+        return IShoppingSite(self.context).get_objects(IArticleContainer, depth=1, sort_on='getObjPositionInParent')
+
+    @ram.cache(_article_containers_p_mtime_cachekey)
     def containers(self):
-        """Return listing of article containers
+        """Return content listing of article containers
 
         rtype: instance of plone.app.contentlisting.contentlisting.ContentListing
         """
-        return IShoppingSite(self.context).get_content_listing(IArticleContainer, depth=1, sort_on='getObjPositionInParent')
+        return IContentListing(self._objs())
+
+    @ram.cache(_article_containers_p_mtime_cachekey)
+    def number_of_containers(self):
+        """Return number of article containers
+
+        :rtype: int
+        """
+        return len(self.containers())
+
+
+def _articles_p_mtime_cachekey(method, self):
+    return getattr(self.context, '_articles_p_mtime', None)
 
 
 class ArticlesInArticleContainerViewlet(Viewlet):
     """Viewlet for content type: collective.cart.shopping.ArticleContainer
 
-    Shows listing of articles within context
+    Show listing of articles within context
     """
     implements(IArticlesInArticleContainerViewlet)
     index = ViewPageTemplateFile('viewlets/articles-in-article-container.pt')
 
-    def articles(self):
-        """Returns listing of articles
+    def update(self):
+        super(ArticlesInArticleContainerViewlet, self).update()
+        current_articles_p_mtime = getattr(self.context, '_articles_p_mtime', None)
+        articles_p_mtime = [getattr(obj.image, '_p_mtime', None) for obj in self._objs()]
+        if current_articles_p_mtime != articles_p_mtime:
+            self.context._articles_p_mtime = articles_p_mtime
+
+    def _objs(self):
+        """Return list of article objects
 
         :rtype: list
         """
-        res = []
-        shopping_site = IShoppingSite(self.context)
-        for item in shopping_site.get_content_listing(IArticle, depth=1, sort_on='getObjPositionInParent'):
-            style_class = 'normal'
-            obj = item.getObject()
-            adapter = IArticleAdapter(obj)
-            discount_available = adapter.discount_available()
-            if discount_available:
-                style_class = 'discount'
-            res.append({
-                'discount-available': discount_available,
-                'gross': shopping_site.format_money(adapter.gross()),
-                'money': shopping_site.format_money(item.money),
-                'class': style_class,
-                'title': item.Title(),
-                'description': item.Description(),
-                'url': item.getURL(),
-            })
-        return res
+        return IShoppingSite(self.context).get_objects(IArticle, depth=1, sort_on='getObjPositionInParent')
+
+    @ram.cache(_articles_p_mtime_cachekey)
+    def articles(self):
+        """Return content listing
+
+        rtype: instance of plone.app.contentlisting.contentlisting.ContentListing
+        """
+        return IContentListing(self._objs())
+
+    @ram.cache(_articles_p_mtime_cachekey)
+    def number_of_articles(self):
+        """Return number of articles
+
+        :rtype: int
+        """
+        return len(self.articles())
 
 
 class BaseArticleViewlet(Viewlet):

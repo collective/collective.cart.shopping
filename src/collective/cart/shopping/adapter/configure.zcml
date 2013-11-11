@@ -34,4 +34,9 @@
     factory=".interface.CartArticleMultiAdapter"
     />
 
+  <adapter
+    factory=".content_listing_object.ArticleContentListingObject"
+    for="collective.cart.shopping.interfaces.IArticle"
+    />
+
 </configure>
