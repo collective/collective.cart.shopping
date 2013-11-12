@@ -1,7 +1,7 @@
 Changelog
 ---------
 
-0.8 (2013-11-xx)
+0.8 (2013-11-12)
 ================
 
 - Add field image to content type: collective.cart.shopping.ArticleContainer. [taito]
