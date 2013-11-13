@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+0.8.1 (2013-11-13)
+==================
+
+- Remove cache articles and article containers to list on vielwets since it does not work in some circumstances. [taito]
+
 0.8 (2013-11-12)
 ================
 
