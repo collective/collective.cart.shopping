@@ -35,7 +35,7 @@ Bootstraps a buildout-based project.
 Simply run this script in a directory containing a buildout.cfg, using the
 Python that you want bin/buildout to use.
 
-Note that by using --find-links to point to local resources, you can keep 
+Note that by using --find-links to point to local resources, you can keep
 this script from going over the network.
 '''
 
@@ -76,8 +76,7 @@ except ImportError:
         from urllib2 import urlopen
 
     # XXX use a more permanent ez_setup.py URL when available.
-    exec(urlopen('https://bitbucket.org/pypa/setuptools/raw/0.7.2/ez_setup.py'
-                ).read(), ez)
+    exec(urlopen('https://bitbucket.org/pypa/setuptools/raw/0.7.2/ez_setup.py').read(), ez)
     setup_args = dict(to_dir=tmpeggs, download_delay=0)
     ez['use_setuptools'](**setup_args)
 
@@ -103,8 +102,7 @@ find_links = os.environ.get(
     'bootstrap-testing-find-links',
     options.find_links or
     ('http://downloads.buildout.org/'
-     if options.accept_buildout_test_releases else None)
-    )
+     if options.accept_buildout_test_releases else None))
 if find_links:
     cmd.extend(['-f', find_links])
 

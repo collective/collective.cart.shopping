@@ -39,4 +39,8 @@
     for="collective.cart.shopping.interfaces.IArticle"
     />
 
+  <adapter
+    factory=".validator.ValidateSKUUniqueness"
+    />
+
 </configure>

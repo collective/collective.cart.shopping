@@ -590,3 +590,35 @@ Make Ärticle1 salable::
     </section><section id="quantity"><input min="1" required="required" type="number" value="1" max="50" size="2" name="..." maxlength="2"><span id="pcs">pcs</span>
     </section><button class="shopping-button update" name="form.buttons.AddToCart" type="submit" value="...">Add To Cart</button>
     </section>
+
+Add Article12 with existing SKU::
+
+    >>> browser.open('/shop/article-container/++add++collective.cart.core.Article')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle2'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Description of Ärticle2'
+    >>> browser.getControl(name="form.widgets.text").value = '<p>Text of Ärticle2</p>'
+    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKÖ1'
+    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '24.80'
+    >>> browser.getControl(name="form.widgets.ISize.weight").value = '100.0'
+    >>> browser.getControl(name="form.buttons.save").click()
+    >>> browser.url
+    'http://nohost/plone/shop/article-container/++add++collective.cart.core.Article'
+    >>> 'The SKU is already in use.' in browser.contents
+    True
+
+Giving different SKU should be alright::
+
+    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKÖ2'
+    >>> browser.getControl(name="form.buttons.save").click()
+    >>> 'The SKU is already in use.' in browser.contents
+    False
+
+Giving existing SKU should be rejected::
+
+    >>> browser.open('/shop/article-container/article2/edit')
+    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKÖ1'
+    >>> browser.getControl(name="form.buttons.save").click()
+    >>> browser.url
+    'http://nohost/plone/shop/article-container/article2/@@edit'
+    >>> 'The SKU is already in use.' in browser.contents
+    True
