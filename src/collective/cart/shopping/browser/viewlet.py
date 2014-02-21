@@ -306,7 +306,7 @@ class ArticlesInArticleViewlet(AddToCartViewlet):
                     'discount_end': adapter.discount_end(),
                     'gross': shopping_site.format_money(adapter.gross()),
                     'id': item.getId(),
-                    'image_url': adapter.image_url(),
+                    'image_url': adapter.image_url(size='mini'),
                     'klass': 'add-to-cart {}'.format(item.getId()),
                     'money': shopping_site.format_money(item.money),
                     'numbers': numbers,
@@ -352,7 +352,7 @@ class RelatedArticlesViewlet(Viewlet):
                     art = IArticleAdapter(obj)
                     res.append({
                         'gross': art.gross(),
-                        'image_url': art.image_url(),
+                        'image_url': art.image_url(size='preview'),
                         'title': art.title(),
                         'url': obj.absolute_url(),
                     })
@@ -671,7 +671,7 @@ class CartArticleListingViewlet(BaseCartArticleListingViewlet):
         for article in shopping_site.cart_article_listing():
             adapter = getMultiAdapter((self.context, article), ICartArticleMultiAdapter)
             article.update({
-                'image_url': adapter.image_url(),
+                'image_url': adapter.image_url(size='mini'),
                 'gross': shopping_site.format_money(article['gross']),
                 'locale_gross_subtotal': shopping_site.format_money(adapter.gross_subtotal()),
                 'quantity_max': adapter.quantity_max(),

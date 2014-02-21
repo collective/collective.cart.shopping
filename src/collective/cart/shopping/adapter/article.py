@@ -138,11 +138,18 @@ class ArticleAdapter(BaseArticleAdapter):
         rate = self.context.vat_rate
         return getUtility(IMoneyUtility)(gross * rate / (100 + rate))
 
-    def image_url(self):
-        """Returns image url of the article.
+    def image_url(self, size=None):
+        """Return image url of the article.
         If the image does not exists then returns from parent or fallback image.
+
+        :param size: Size of image such as preview and mini.
+        :type size: string
+
+        :rtype: string
         """
         url = '{}/@@images/image'
+        if size:
+            url = '{}/{}'.format(url, size)
 
         if self.context.image:
             return url.format(self.context.absolute_url())

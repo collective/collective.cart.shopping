@@ -9,12 +9,12 @@
       tal:define="obj item/getObject">
       <img
         tal:attributes="
-          src string:${item/getURL}/@@images/image;
+          src string:${item/getURL}/@@images/image/preview;
           title item/Title"
         tal:condition="python: obj.image is not None" />
       <img
         tal:attributes="
-          src string:${view/site_url}/++resource++slt.theme/images/fallback.png;
+          src string:${view/site_url}/fallback.png;
           title item/Title"
         tal:condition="python: obj.image is None" />
     </a>

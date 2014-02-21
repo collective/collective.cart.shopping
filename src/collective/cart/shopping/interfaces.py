@@ -232,8 +232,11 @@ class ICartArticleMultiAdapter(Interface):
         :rtype: collective.cart.core.Article
         """
 
-    def image_url():  # pragma: no cover
+    def image_url(size=None):  # pragma: no cover
         """Returns image url of article
+
+        :param size: Size of image such as preview and mini.
+        :type size: string
 
         :rtype: str
         """
@@ -299,8 +302,15 @@ class IArticleAdapter(IBaseArticleAdapter):
     def get_vat(gross):  # pragma: no cover
         """"""
 
-    def image_url():  # pragma: no cover
-        """"""
+    def image_url(size=None):  # pragma: no cover
+        """Return image url of the article.
+        If the image does not exists then returns from parent or fallback image.
+
+        :param size: Size of image such as preview and mini.
+        :type size: string
+
+        :rtype: string
+        """
 
     def title():  # pragma: no cover
         """"""

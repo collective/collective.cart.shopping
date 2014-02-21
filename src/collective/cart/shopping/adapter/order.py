@@ -54,7 +54,7 @@ class OrderAdapter(BaseOrderAdapter):
             orig_article = shopping_site.get_object(IArticle, path=shopping_site.portal_path(), UID=item.getId())
             if orig_article:
                 items['url'] = orig_article.absolute_url()
-                items['image_url'] = IArticleAdapter(orig_article).image_url()
+                items['image_url'] = IArticleAdapter(orig_article).image_url(size='mini')
             res.append(items)
         return res
 

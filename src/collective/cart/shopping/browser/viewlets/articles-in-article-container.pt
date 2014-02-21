@@ -5,7 +5,7 @@
   <article tal:attributes="class item/klass" tal:repeat="item view/articles">
     <a tal:attributes="href item/getURL">
       <img tal:attributes="
-        src string:${item/getURL}/@@images/image;
+        src string:${item/getURL}/@@images/image/preview;
         title item/Title" />
     </a>
     <div tal:condition="item/discount_available" class="discount" i18n:translate="">Discount</div>

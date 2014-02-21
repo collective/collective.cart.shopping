@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+0.10 (2014-02-21)
+=================
+
+- Add parameter: ``size`` to method: ``image_url``. [taito]
+
 0.9 (2014-02-13)
 ================
 

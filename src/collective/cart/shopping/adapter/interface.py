@@ -558,12 +558,15 @@ class CartArticleMultiAdapter(object):
         uuid = self.article['id']
         return IShoppingSite(self.context).get_object(UID=uuid)
 
-    def image_url(self):
+    def image_url(self, size=None):
         """Returns image url of article
+
+        :param size: Size of image such as preview and mini.
+        :type size: string
 
         :rtype: str
         """
-        return IArticleAdapter(self.orig_article()).image_url()
+        return IArticleAdapter(self.orig_article()).image_url(size)
 
     def gross_subtotal(self):
         """Returns money of article subtotal
