@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+0.11 (2014-09-xx)
+=================
+
+- Update title and description to unicode for creating dexterity content type. [taito]
+
 0.10 (2014-02-21)
 =================
 

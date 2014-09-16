@@ -63,7 +63,7 @@ def setUp(self):
     modified(container)
 
     container = createContentInContainer(portal, 'collective.cart.shipping.ShippingMethodContainer',
-        id='shipping-methods', title='Shipping Methods', checkConstraints=False)
+        id='shipping-methods', title=u'Shipping Methods', checkConstraints=False)
     modified(container)
 
     transaction.commit()

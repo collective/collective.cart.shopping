@@ -84,13 +84,13 @@ def setUp(self):
     self.globs['shippingmethod2_uuid'] = IUUID(shipping_method2)
 
     # Add Article
-    article1 = createContentInContainer(shop, 'collective.cart.core.Article', checkConstraints=False, title='Ärticle1',
+    article1 = createContentInContainer(shop, 'collective.cart.core.Article', checkConstraints=False, title=u'Ärticle1',
         money=Money(Decimal('12.40'), currency='EUR'), vat_rate=24.0, reducible_quantity=100, sku='SKÖ1', salable=True)
     modified(article1)
     workflow.doActionFor(article1, 'publish')
 
     # Add Stock
-    stock1 = createContentInContainer(article1, 'collective.cart.stock.Stock', checkConstraints=False, title='Stöck1',
+    stock1 = createContentInContainer(article1, 'collective.cart.stock.Stock', checkConstraints=False, title=u'Stöck1',
         stock=10)
     modified(stock1)
 

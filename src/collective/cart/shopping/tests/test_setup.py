@@ -590,34 +590,24 @@ class TestCase(IntegrationTestCase):
         storage = getUtility(IViewletSettingsStorage)
         manager = "collective.base.viewlet-manager.base-form"
         skinname = "*"
-        for viewlet in (
-            u'collective.cart.core.viewlet.add-to-cart',
-            u'collective.cart.shopping.viewlet.body-text',
-            u'collective.cart.shopping.viewlet.articles-in-article',
-            u'collective.cart.shopping.viewlet.add-subtract-stock',
-            u'collective.cart.shopping.viewlet.stock-listing',
-            u'collective.cart.core.viewlet.cart-article-listing',
-            u'collective.cart.shopping.viewlet.cart-articles-total',
-            u'collective.cart.shopping.viewlet.cart-check-out-buttons',
-            u'collective.cart.shopping.viewlet.billing-and-shipping-billing-address',
-            u'collective.cart.shopping.viewlet.billing-and-shipping-shipping-address',
-            u'collective.cart.shopping.viewlet.billing-and-shipping-shipping-methods',
-            u'collective.cart.shopping.viewlet.billing-and-shipping-check-out-buttons',
-            u'collective.cart.shopping.viewlet.order-confirmation-cart-article-listing',
-            u'collective.cart.shopping.viewlet.order-confirmation-shipping-method',
-            u'collective.cart.shopping.viewlet.order-confirmation-total',
-            u'collective.cart.shopping.viewlet.order-confirmation-terms',
-            u'collective.cart.shopping.viewlet.order-confirmation-check-out-buttons'):
+        for viewlet in (u'collective.cart.core.viewlet.add-to-cart',
+        u'collective.cart.shopping.viewlet.body-text',
+        u'collective.cart.shopping.viewlet.articles-in-article',
+        u'collective.cart.shopping.viewlet.add-subtract-stock',
+        u'collective.cart.shopping.viewlet.stock-listing',
+        u'collective.cart.core.viewlet.cart-article-listing',
+        u'collective.cart.shopping.viewlet.cart-articles-total',
+        u'collective.cart.shopping.viewlet.cart-check-out-buttons',
+        u'collective.cart.shopping.viewlet.billing-and-shipping-billing-address',
+        u'collective.cart.shopping.viewlet.billing-and-shipping-shipping-address',
+        u'collective.cart.shopping.viewlet.billing-and-shipping-shipping-methods',
+        u'collective.cart.shopping.viewlet.billing-and-shipping-check-out-buttons',
+        u'collective.cart.shopping.viewlet.order-confirmation-cart-article-listing',
+        u'collective.cart.shopping.viewlet.order-confirmation-shipping-method',
+        u'collective.cart.shopping.viewlet.order-confirmation-total',
+        u'collective.cart.shopping.viewlet.order-confirmation-terms',
+        u'collective.cart.shopping.viewlet.order-confirmation-check-out-buttons'):
             self.assertIn(viewlet, storage.getOrder(manager, skinname))
-
-    # def test_viewlets__hidden__plone_belowcontenttitle(self):
-    #     from zope.component import getUtility
-    #     from plone.app.viewletmanager.interfaces import IViewletSettingsStorage
-    #     storage = getUtility(IViewletSettingsStorage)
-    #     manager = "plone.belowcontenttitle"
-    #     skinname = "*"
-    #     for viewlet in (u'collective.cart.core.viewlet.add-to-cart',):
-    #         self.assertIn(viewlet, storage.getHidden(manager, skinname))
 
     def test_viewlets__hidden__plone_abovecontent(self):
         from zope.component import getUtility
