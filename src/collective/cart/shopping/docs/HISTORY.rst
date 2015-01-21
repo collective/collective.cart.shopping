@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+0.12 (2015-01-21)
+=================
+
+- Add event subscriber to make subarticles' state private when the parent article's state becomes private. [taito]
+
 0.11 (2014-09-16)
 =================
 

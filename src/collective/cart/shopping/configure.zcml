@@ -71,6 +71,7 @@
   <subscriber handler=".subscriber.add_status_message_article_added" />
   <subscriber handler=".subscriber.return_stock_to_original_article" />
   <subscriber handler=".subscriber.redirect_to_stock" />
+  <subscriber handler=".subscriber.make_subarticles_private" />
 
   <utility
     component=".vocabulary.RelatedArticlesVocabularyFactory"

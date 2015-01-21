@@ -2,6 +2,7 @@ from Acquisition import aq_chain
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from Products.ATContentTypes.interfaces import IATImage
+from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.interfaces import IActionSucceededEvent
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
@@ -11,6 +12,7 @@ from collective.base.interfaces import IAdapter
 from collective.behavior.stock.interfaces import IStock
 from collective.cart.core.interfaces import IArticle
 from collective.cart.shopping import _
+from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IArticleAddedToCartEvent
 from collective.cart.shopping.interfaces import IOrder
 from collective.cart.shopping.interfaces import IOrderAdapter
@@ -25,6 +27,8 @@ from zope.component import getUtility
 from zope.lifecycleevent import modified
 from zope.lifecycleevent.interfaces import IObjectAddedEvent
 from zope.lifecycleevent.interfaces import IObjectCreatedEvent
+
+import logging
 
 
 @adapter(IATImage, IObjectCreatedEvent)
@@ -145,3 +149,24 @@ def redirect_to_stock(context, event):
         parent = aq_parent(aq_inner(context))
         url = '{}/@@stock'.format(parent.absolute_url())
         return context.REQUEST.RESPONSE.redirect(url)
+
+
+@adapter(IArticle, IActionSucceededEvent)
+def make_subarticles_private(context, event):
+    """When article, which has subarticle(s), becomes private, all the subarticles must become private too."""
+    action = event.action
+    if (action == 'hide' or action == 'retract' or action == 'reject') and context.use_subarticle is True:
+        adapter = IArticleAdapter(context)
+        path = adapter.context_path()
+        articles = adapter.get_objects(IArticle, path=path, review_state="published")
+        wftool = getToolByName(context, 'portal_workflow')
+        logger = logging.getLogger(__name__)
+        for article in articles:
+            article_path = '/'.join(article.getPhysicalPath())
+            try:
+                wftool.doActionFor(article, action)
+                message = 'Also hidden subarticle: {}'.format(article_path)
+                logger.info(message)
+            except WorkflowException:
+                message = 'Already hidden subarticle? {}'.format(article_path)
+                logger.info(message)

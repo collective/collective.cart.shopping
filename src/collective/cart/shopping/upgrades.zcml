@@ -203,4 +203,14 @@
     title="Reimport viewlets"
     />
 
+  <genericsetup:upgradeStep
+    description="Make subarticles private if article with use_subarticle is private"
+    destination="20"
+    handler="collective.cart.shopping.upgrades.make_subarticles_private"
+    profile="collective.cart.shopping:default"
+    sortkey="1"
+    source="19"
+    title="Make subarticles private"
+    />
+
 </configure>

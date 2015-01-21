@@ -115,3 +115,49 @@ def upgrade_14_to_15(context, logger=None):
         obj = brain.getObject()
         setattr(obj, 'vat', obj.vat)
         obj.reindexObject(idxs=['vat'])
+
+
+def make_subarticles_private(context, logger=None):
+    """Make subarticles private if article with use_subarticle is private"""
+    if logger is None:
+        logger = logging.getLogger(__name__)
+    from Products.CMFCore.WorkflowCore import WorkflowException
+    from collective.base.interfaces import IAdapter
+    from collective.cart.shopping.interfaces import IArticle
+    from collective.cart.shopping.interfaces import IArticleAdapter
+    from zope.lifecycleevent import modified
+
+    wftool = getToolByName(context, 'portal_workflow')
+    portal = IAdapter(context).portal()
+    adapter = IAdapter(portal)
+    particles = adapter.get_objects(IArticle, use_subarticle=True, review_state="published")
+    action = 'hide'
+
+    if particles:
+        obj = particles[0]
+        for trans in wftool.getTransitionsFor(obj):
+            tid = trans['id']
+            if tid == 'retract' or tid == 'reject':
+                action = tid
+
+    articles = adapter.get_objects(IArticle, use_subarticle=True, review_state="private")
+    count = 0
+
+    for article in articles:
+        aadapter = IArticleAdapter(article)
+        subarticles = aadapter.get_objects(IArticle, review_state="published")
+        for subarticle in subarticles:
+            subarticle_path = '/'.join(subarticle.getPhysicalPath())
+            try:
+                wftool.doActionFor(subarticle, action)
+                modified(subarticle)
+                message = 'Successfully hid subarticle: {}'.format(subarticle_path)
+                logger.info(message)
+                count += 1
+            except WorkflowException:
+                message = 'Already hidden subarticle? {}'.format(subarticle_path)
+                logger.info(message)
+
+    if count:
+        message = 'There are total of {} subarticles hidden.'.format(count)
+        logger.info(message)
