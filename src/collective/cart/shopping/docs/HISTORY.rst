@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+0.12.1 (2015-01-22)
+===================
+
+- Make subarticle status visible in select option if it is private. [taito]
+
 0.12 (2015-01-21)
 =================
 

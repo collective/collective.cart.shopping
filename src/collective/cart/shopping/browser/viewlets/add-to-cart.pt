@@ -61,6 +61,7 @@
         tal:repeat="item subarticles">
         <span tal:replace="item/title" />
         <span tal:replace="item/gross" />
+        <span tal.condition="item/state" tal:replace="item/state" />
       </option>
     </select>
     <section id="vat-rate" i18n:translate="">

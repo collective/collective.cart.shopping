@@ -15,7 +15,10 @@ from datetime import time
 from plone.uuid.interfaces import IUUID
 from zope.component import adapts
 from zope.component import getUtility
+from zope.i18nmessageid import MessageFactory
 from zope.interface import implements
+
+PMF = MessageFactory("plone")
 
 
 class ArticleAdapter(BaseArticleAdapter):
@@ -56,11 +59,18 @@ class ArticleAdapter(BaseArticleAdapter):
                 obj = brain.getObject()
                 if not IArticleAdapter(obj).soldout():
                     subarticles.append(obj)
+            wftool = getToolByName(self.context, 'portal_workflow')
+            wf = wftool.getChainFor(self.context)[0]
             for obj in subarticles:
+
+                state = wftool.getStatusOf(wf, obj)['review_state']
+                if state != 'private':
+                    state = ''
                 res.append({
                     'title': safe_unicode(obj.Title()),
                     'gross': shopping_site.format_money(IArticleAdapter(obj).gross()),
                     'uuid': IUUID(obj),
+                    'state': PMF(state),
                 })
         return res
 
