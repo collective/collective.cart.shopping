@@ -63,6 +63,32 @@ Add Article1::
     <section id="article-body-text"><p>Text of &#196;rticle1</p>
     </section>
 
+Add Article0::
+
+    >>> browser.open('/++add++collective.cart.core.Article')
+    >>> browser.open('/shop/article-container/++add++collective.cart.core.Article')
+    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle0'
+    >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Description of Ärticle0'
+    >>> browser.getControl(name="form.widgets.text").value = '<p>Text of Ärticle0</p>'
+    >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKÖ0'
+    >>> browser.getControl(name="form.widgets.IDiscount.price").value = '24.80'
+    >>> browser.getControl(name="form.widgets.ISize.weight").value = '100.0'
+    >>> print browser.bycss('#formfield-form-widgets-related_articles')
+    --- 1 ---
+    <div data-fieldname="form.widgets.related_articles" class="field z3cformInlineValidation kssattr-fieldname-form.widgets.related_articles" id="formfield-form-widgets-related_articles">
+    <label for="form-widgets-related_articles" class="horizontal">
+    Related articles
+    </label>
+    <div class="fieldErrorBox"></div>
+    <span class="option" id="form-widgets-related_articles">
+    <input id="form-widgets-related_articles-0" name="form.widgets.related_articles:list" class="checkbox-widget list-field" value="..." type="checkbox"><label for="form-widgets-related_articles-0">
+    <span class="label">&#196;rticle1</span>
+    </label>
+    </span>
+    <input name="form.widgets.related_articles-empty-marker" type="hidden" value="1"></div>
+
+    >>> browser.getControl(name="form.buttons.save").click()
+
 Add Stock to Ärticle1::
 
     >>> browser.open('/shop/article-container/article1/++add++collective.cart.stock.Stock')

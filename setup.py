@@ -41,7 +41,7 @@ setup(
         'plone.app.textfield',
         'plone.namedfile [blobs]',
         'setuptools'],
-    extras_require={'test': ['hexagonit.testing']},
+    extras_require={'test': ['Products.CMFPlacefulWorkflow', 'hexagonit.testing']},
     entry_points="""
     # -*- Entry points: -*-
 

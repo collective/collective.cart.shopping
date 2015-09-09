@@ -12,6 +12,12 @@ input[type="radio"] {
     clear: both;
     padding: 1em 0;
 }
+#form-widgets-related_articles {
+    display: block;
+    max-height: 20em;
+    overflow-y: scroll;
+}
+
 /* Related articles */
 #related-articles {
     border-top: 2px solid #CCCCCC;

@@ -3,8 +3,10 @@ from collective.cart.core.schema import OrderArticleSchema as BaseOrderArticleSc
 from collective.cart.core.schema import OrderSchema as BaseOrderSchema
 from collective.cart.shopping import _
 from plone.app.textfield import RichText
+from plone.autoform.directives import widget
 from plone.namedfile.field import NamedBlobImage
 from plone.supermodel.model import Schema
+from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
@@ -40,6 +42,7 @@ class ArticleSchema(BaseArticleSchema):
         description=_(u'Further detailed information comes here.'),
         required=False)
 
+    widget(related_articles=CheckBoxFieldWidget)
     related_articles = schema.List(
         title=_(u'Related articles'),
         value_type=schema.Choice(

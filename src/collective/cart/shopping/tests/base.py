@@ -27,6 +27,8 @@ class CollectiveCartShoppingLayer(PloneSandboxLayer):
         z2.installProduct(app, 'Products.ATCountryWidget')
 
         # Load ZCML
+        import Products.CMFPlacefulWorkflow
+        self.loadZCML(package=Products.CMFPlacefulWorkflow)
         import collective.cart.shopping
         self.loadZCML(package=collective.cart.shopping)
         z2.installProduct(app, 'collective.cart.shopping')

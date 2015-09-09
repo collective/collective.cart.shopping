@@ -1,3 +1,4 @@
+from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from collective.cart.shopping.interfaces import IArticle
 from collective.cart.shopping.interfaces import IArticleAdapter
 from collective.cart.shopping.interfaces import IShoppingSite
@@ -19,7 +20,7 @@ class RelatedArticlesVocabulary(object):
         for item in adapter.get_content_listing(IArticle, path=path):
             obj = item.getObject()
             uuid = IUUID(obj)
-            if uuid != IUUID(context):
+            if not IPloneSiteRoot.providedBy(context) and uuid != IUUID(context):
                 res.append((IArticleAdapter(obj).title(), uuid))
         res.sort()
         terms = [SimpleTerm(item[1], item[1], item[0]) for item in res]
