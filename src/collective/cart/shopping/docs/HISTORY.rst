@@ -1,8 +1,8 @@
 Changelog
 ---------
 
-0.12.2 ( 2015-09-09)
-====================
+0.12.2 (2015-09-09)
+===================
 
 - Update related article field to use checkboxes. [taito]
 
